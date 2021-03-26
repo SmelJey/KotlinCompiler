@@ -106,6 +106,17 @@ private:
     LexerState& GetNextState(char character) override;
 };
 
+class InMultilineCommentState : public LexerState {
+public:
+    static InMultilineCommentState& Instance();
+private:
+    static std::unique_ptr<InMultilineCommentState> myInstance;
+
+    InMultilineCommentState() = default;
+
+    LexerState& GetNextState(char character) override;
+};
+
 class BadState : public LexerState {
 public:
     static BadState& Instance();

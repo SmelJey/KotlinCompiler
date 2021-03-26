@@ -4,6 +4,8 @@
 #include <fstream>
 #include <unordered_set>
 
+class LexerState;
+
 class Lexeme {
 public:
     enum class LexemeType {
@@ -15,11 +17,12 @@ public:
         String,
         Incomplete,
         Ignored,
-        Error
+        Error,
     };
 
     static std::unordered_set<std::string> LongOperatorsSet;
 
+    Lexeme();
     Lexeme(int col, int row, std::string text, LexemeType type);
 
     friend std::ostream& operator<<(std::ostream& out, const Lexeme& lexeme);
@@ -29,7 +32,7 @@ public:
     const std::string& GetText() const;
     LexemeType GetType() const;
 
-    bool TryToMerge(const Lexeme& src);
+    LexerState& TryToMerge(const Lexeme& src);
 private:
     std::string GetStringType() const;
 

@@ -37,6 +37,7 @@ private:
 
         if (myLastChar != InputBuffer<InputType>::EOF_VAL) {
             newLexemeString.push_back(myLastChar);
+            startCol--;
         }
 
         do {
@@ -52,6 +53,8 @@ private:
             myLexemeType = newLexemeType;
             myLexerState = &newLexerState;
             if (myLexemeType == Lexeme::LexemeType::Ignored) {
+                startCol = myCurCol - 1;
+                startRow = myCurRow;
                 newLexemeString.clear();
             }
 
@@ -63,17 +66,27 @@ private:
     }
 
     Lexeme GetLexemeFromInput() override {
-        Lexeme currentLexeme = myNextLexeme;
-        if (currentLexeme.GetType() == Lexeme::LexemeType::EndOfFile) {
-            currentLexeme = GetSingleLexemeFromInput();
-        }
+        Lexeme currentLexeme;
+        do {
+            currentLexeme = myNextLexeme;
+            if (currentLexeme.GetType() == Lexeme::LexemeType::EndOfFile) {
+                currentLexeme = GetSingleLexemeFromInput();
+            }
 
-        myNextLexeme = GetSingleLexemeFromInput();
-
-        while (currentLexeme.TryToMerge(myNextLexeme)) {
             myNextLexeme = GetSingleLexemeFromInput();
-        }
+            LexerState* newState = &currentLexeme.TryToMerge(myNextLexeme);
 
+            while (newState != &BadState::Instance()) {
+                myLexerState = newState;
+                myNextLexeme = GetSingleLexemeFromInput();
+               
+                newState = &currentLexeme.TryToMerge(myNextLexeme);
+            }
+
+            auto [newLexerState, lexemeType] = myLexerState->ProcessCharacter(myLastChar == InputBuffer<InputType>::EOF_VAL ? ' ' : myLastChar);
+            myLexerState = &newLexerState;
+            myLexemeType = lexemeType;
+        } while (currentLexeme.GetType() == Lexeme::LexemeType::Ignored);
         return currentLexeme;
     }
 

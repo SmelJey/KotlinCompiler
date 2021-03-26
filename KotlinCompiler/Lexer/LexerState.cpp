@@ -8,7 +8,7 @@ const std::unordered_set<char> LexerState::SpacingCharset { ' ', '\t', '\r', '\n
 const std::unordered_set<char> LexerState::NewlineCharset { '\n', '\r'};
 
 LexerState::CharGroup LexerState::GetCharGroup(char character) {
-    if (character >= 0 && character <= 9) {
+    if (character >= '0' && character <= '9') {
         return CharGroup::Digit;
     }
     if (character >= 'a' && character <= 'z'

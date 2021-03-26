@@ -50,9 +50,8 @@ Lexeme::LexemeType InDigitState::GetLexemeType(char character, bool isStateSwitc
 LexerState& InIdentifierState::GetNextState(char character) {
     CharGroup charGroup = GetCharGroup(character);
     LexerState& resultState = GetDefaultState(charGroup, character);
-    switch (charGroup) {
-        case CharGroup::Digit:
-            return *this;
+    if (charGroup == CharGroup::Digit) {
+        return *this;
     }
 
     return resultState;
@@ -121,6 +120,13 @@ LexerState& InCommentState::GetNextState(char character) {
     return *this;
 }
 
+LexerState& InMultilineCommentState::GetNextState(char character) {
+    if (character == '*' || character == '/') {
+        return InOperationState::Instance();
+    }
+    return *this;
+}
+
 LexerState& BadState::GetNextState(char character) {
     CharGroup charGroup = GetCharGroup(character);
     return GetDefaultState(charGroup, character);
@@ -137,4 +143,5 @@ SINGLETONE(InSeparatorState)
 SINGLETONE(InStringState)
 SINGLETONE(StringEndState)
 SINGLETONE(InCommentState)
+SINGLETONE(InMultilineCommentState)
 SINGLETONE(BadState)

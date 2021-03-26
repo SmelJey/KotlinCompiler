@@ -23,6 +23,9 @@
     <None Include="TestSamples\test.kt">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="TestSamples\Comments.kt">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="InputBufferTest.cpp">

@@ -153,6 +153,7 @@
     <ClInclude Include="catch.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="TestSamples\Comments.kt" />
     <None Include="TestSamples\test.kt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

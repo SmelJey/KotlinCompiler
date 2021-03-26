@@ -1,6 +1,9 @@
 #include "Lexeme.h"
+#include "LexerStates.h"
 
 #include <utility>
+
+Lexeme::Lexeme() : Lexeme(0, 0, "", LexemeType::Ignored) {};
 
 Lexeme::Lexeme(int col, int row, std::string text, LexemeType lexemeType) : myColumn(col), myRow(row), myText(std::move(text)), myType(lexemeType) {}
 
@@ -29,26 +32,59 @@ std::unordered_set<std::string> Lexeme::LongOperatorsSet { "++", "--",
     "&&", "||",
     "+=", "-=", "*=", "%=", "/=",
     "..", "...", "::", ";;",
-    ">=", "<=", "==", "!=", "===", "!=="};
+    ">=", "<=", "==", "!=", "===", "!==",
+    "->", "=>",
+    "//", "/*", "*/"};
 
-bool Lexeme::TryToMerge(const Lexeme& src) {
-    if (myRow != src.myRow || myColumn + myText.size() != src.myColumn) {
-        return false;
+LexerState& Lexeme::TryToMerge(const Lexeme& src) {
+    StartState::Instance();
+
+    if (myType == LexemeType::Ignored) {
+        std::string prefix = myText.substr(0, 2);
+        if (prefix == "//") {
+            if (myRow != src.myRow) {
+                return BadState::Instance();
+            }
+
+            myText += src.myText;
+
+            return InCommentState::Instance();
+        }
+
+        if (prefix == "/*") {
+            if (myText.substr(myText.size() - 2) == "*/") {
+                return BadState::Instance();
+            }
+
+            myText += src.myText;
+            if (myText.substr(myText.size() - 2) == "*/") {
+                return StartState::Instance();
+            }
+            return InOperationState::Instance();
+        }
     }
 
-    if (myType == LexemeType::Operation && src.myType == LexemeType::Operation) {
-        if (src.myText.size() > 1) {
-            return false;
+    if (myType == LexemeType::Operation) {
+        if (myRow != src.myRow || myColumn + myText.size() != src.myColumn) {
+            return BadState::Instance();
         }
 
         std::string mergedText = myText + src.myText;
         if (LongOperatorsSet.count(mergedText)) {
             myText = mergedText;
-            return true;
+            if (myText == "//") {
+                myType = LexemeType::Ignored;
+                return InCommentState::Instance();
+            }
+            if (myText == "/*") {
+                myType = LexemeType::Ignored;
+                return InMultilineCommentState::Instance();
+            }
+            return InOperationState::Instance();
         }
     }
 
-    return false;
+    return BadState::Instance();;
 }
 
 std::string Lexeme::GetStringType() const {

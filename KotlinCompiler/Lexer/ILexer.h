@@ -10,8 +10,8 @@ public:
     Lexeme NextLexeme();
 protected:
     ILexer();
-
-    Lexeme myCurrentLexeme;
 private:
+    Lexeme myCurrentLexeme;
+
     virtual Lexeme GetLexemeFromInput() = 0;
 };
