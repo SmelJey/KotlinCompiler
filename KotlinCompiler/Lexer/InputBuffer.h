@@ -1,14 +1,12 @@
 #pragma once
 
 #include <string>
-#include <sstream>
-#include <fstream>
 
 template<typename InputType>
 class InputBuffer {
 public:
     constexpr static int EOF_VAL = std::numeric_limits<int>::max();
-    constexpr static int DEFAULT_CAPACITY = 256;
+    constexpr static int DEFAULT_CAPACITY = 4096;
 
     InputBuffer(const std::string& filepath, int bufferSize = DEFAULT_CAPACITY)
         : myBuffer(bufferSize, 0), myCurrentIdx(), myCurrentEnd(), myBufferSize(bufferSize), myInputStream(filepath) {}

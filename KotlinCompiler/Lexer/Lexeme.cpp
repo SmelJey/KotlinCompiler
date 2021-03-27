@@ -2,13 +2,14 @@
 #include "LexerStates.h"
 
 #include <utility>
+#include <sstream>
 
 Lexeme::Lexeme() : Lexeme(0, 0, "", LexemeType::Ignored) {};
 
 Lexeme::Lexeme(int col, int row, std::string text, LexemeType lexemeType) : myColumn(col), myRow(row), myText(std::move(text)), myType(lexemeType) {}
 
 std::ostream& operator<<(std::ostream& out, const Lexeme& lexeme) {
-    out << lexeme.myRow << "\t" << lexeme.myColumn << "\t" << lexeme.GetStringType() << "\t" << lexeme.myText;
+    out << lexeme.ToString();
     return out;
 }
 
@@ -72,7 +73,7 @@ LexerState& Lexeme::TryToMerge(const Lexeme& src) {
         std::string mergedText = myText + src.myText;
         if (LongOperatorsSet.count(mergedText)) {
             myText = mergedText;
-            if (myText == "//") {
+            if (myText == "//" || myText == "!#") {
                 myType = LexemeType::Ignored;
                 return InCommentState::Instance();
             }
@@ -84,33 +85,23 @@ LexerState& Lexeme::TryToMerge(const Lexeme& src) {
         }
     }
 
-    return BadState::Instance();;
+    return BadState::Instance();
 }
+
+std::string Lexeme::ToString() const {
+    std::stringstream ss;
+    ss << myRow << "\t" << myColumn << "\t" << GetStringType() << "\t" << myText;
+    return ss.str();
+}
+
+std::string Lexeme::LexemeToStr[] { "EOF", "Word", "Num", "Op", "Sep", "Str", "Incomplete", "Ignored", "Error" };
+
+//std::unordered_map<std::string, Lexeme::LexemeType> Lexeme::StrToLexeme {
+//    {"EOF", LexemeType::EndOfFile},
+//    {"Word", LexemeType::Identifier },
+//    {"" }
+//};
 
 std::string Lexeme::GetStringType() const {
-    switch (myType) {
-        case LexemeType::Identifier:
-            return "Word";
-        case LexemeType::Digit:
-            return "Num";
-        case LexemeType::EndOfFile:
-            return "EOF";
-        case LexemeType::Error:
-            return "Err";
-        case LexemeType::Ignored:
-            return "Ignored";
-        case LexemeType::Incomplete:
-            return "Incomplete";
-        case LexemeType::Operation:
-            return "Op";
-        case LexemeType::Separator:
-            return "Sep";
-        case LexemeType::String:
-            return "Str";
-        default:
-            return "Unknown";
-    }
+    return LexemeToStr[(int)myType];
 }
-
-
-

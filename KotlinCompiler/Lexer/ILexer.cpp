@@ -1,4 +1,5 @@
 #include "ILexer.h"
+#include "Lexeme.h"
 
 ILexer::ILexer() : myCurrentLexeme(0, 0, "", Lexeme::LexemeType::Incomplete) {}
 

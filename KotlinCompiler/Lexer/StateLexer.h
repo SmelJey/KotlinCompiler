@@ -1,20 +1,22 @@
 #pragma once
 
-
 #include "ILexer.h"
 #include "Lexeme.h"
 #include "LexerState.h"
 #include "LexerStates.h"
 #include "InputBuffer.h"
+#include <fstream>
 
 template<typename InputType>
 class StateLexer : public ILexer {
 public:
+    constexpr static char EOF_VAL = -1;
+
     StateLexer(const std::string& filepath) : ILexer(), myInput(filepath), myLexerState(&StartState::Instance()) {}
 private:
 
     void SyncCoords(int character) {
-        if (character == InputBuffer<InputType>::EOF_VAL) {
+        if (character == EOF_VAL) {
             return;
         }
 
@@ -31,20 +33,19 @@ private:
         int startRow = myCurRow;
         int startCol = myCurCol;
 
-        if (isEof) {
+        if (myInput.eof()) {
             return Lexeme(startCol, startRow, "", Lexeme::LexemeType::EndOfFile);
         }
 
-        if (myLastChar != InputBuffer<InputType>::EOF_VAL) {
+        if (myLastChar != EOF_VAL) {
             newLexemeString.push_back(myLastChar);
             startCol--;
         }
 
         do {
-            myLastChar = myInput.NextChar();
-            if (myLastChar == InputBuffer<InputType>::EOF_VAL) {
-                isEof = true;
-                myLastChar = ' ';
+            //myLastChar = myInput.NextChar();
+            if (!myInput.get(myLastChar)) {
+                myLastChar = EOF_VAL;
             }
 
             SyncCoords(myLastChar);
@@ -59,7 +60,7 @@ private:
             }
 
             newLexemeString.push_back(myLastChar);
-        } while (!isEof && (myLexemeType == Lexeme::LexemeType::Incomplete || myLexemeType == Lexeme::LexemeType::Ignored));
+        } while (!myInput.eof() && (myLexemeType == Lexeme::LexemeType::Incomplete || myLexemeType == Lexeme::LexemeType::Ignored));
 
         newLexemeString.pop_back();
         return  Lexeme(startCol, startRow, newLexemeString, myLexemeType);
@@ -78,23 +79,24 @@ private:
 
             while (newState != &BadState::Instance()) {
                 myLexerState = newState;
+                auto [newLexerState, lexemeType] = myLexerState->ProcessCharacter(myLastChar);
+                myLexerState = &newLexerState;
+                myLexemeType = lexemeType;
                 myNextLexeme = GetSingleLexemeFromInput();
                
                 newState = &currentLexeme.TryToMerge(myNextLexeme);
             }
 
-            auto [newLexerState, lexemeType] = myLexerState->ProcessCharacter(myLastChar == InputBuffer<InputType>::EOF_VAL ? ' ' : myLastChar);
-            myLexerState = &newLexerState;
-            myLexemeType = lexemeType;
+            
         } while (currentLexeme.GetType() == Lexeme::LexemeType::Ignored);
         return currentLexeme;
     }
 
-    bool isEof = false;
     int myCurRow = 0;
     int myCurCol = 0;
-    int myLastChar = InputBuffer<InputType>::EOF_VAL;
-    InputBuffer<InputType> myInput;
+    char myLastChar = 0;
+    InputType myInput;
+    //InputBuffer<InputType> myInput;
     LexerState* myLexerState;
     Lexeme::LexemeType myLexemeType = Lexeme::LexemeType::Ignored;
     Lexeme myNextLexeme = Lexeme(0, 0, "", Lexeme::LexemeType::EndOfFile);

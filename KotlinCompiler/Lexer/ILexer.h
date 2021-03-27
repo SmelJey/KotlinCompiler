@@ -2,7 +2,6 @@
 
 #include "Lexeme.h"
 
-
 class ILexer {
 public:
     virtual ~ILexer() = default;

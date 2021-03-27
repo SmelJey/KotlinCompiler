@@ -1,8 +1,9 @@
 #pragma once
 
+#include "Configuration.h"
+
 #include <vector>
 #include <string>
-#include "Configuration.h"
 
 class ConfigurationBuilder {
 public:

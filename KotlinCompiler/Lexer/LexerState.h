@@ -1,9 +1,10 @@
 #pragma once
 
+#include "Lexeme.h"
+
+#include <functional>
 #include <utility>
 #include <unordered_set>
-
-#include "Lexeme.h"
 
 class LexerState {
 public:
@@ -21,6 +22,8 @@ public:
     const static std::unordered_set<char> SpacingCharset;
     const static std::unordered_set<char> NewlineCharset;
 
+    static std::function<LexerState& ()> DefaultStateTable[];
+
     static CharGroup GetCharGroup(char character);
 
     std::pair<LexerState&, Lexeme::LexemeType> ProcessCharacter(char character);
@@ -28,6 +31,5 @@ protected:
     LexerState() = default;
 
     virtual Lexeme::LexemeType GetLexemeType(char character, bool isStateSwitching);
-private:
-    virtual LexerState& GetNextState(char character) = 0;
+    virtual LexerState& GetNextState(char character, CharGroup charGroup); 
 };

@@ -1,19 +1,17 @@
+#include "ConfigurationBuilder.h"
+#include "Configuration.h"
+#include "Lexer/StateLexer.h"
+
 #include <iostream>
 #include <vector>
 #include <string>
 #include <boost/program_options/parsers.hpp>
 #include <boost/program_options/variables_map.hpp>
 
-#include "ConfigurationBuilder.h"
-#include "Configuration.h"
-#include "Lexer/StateLexer.h"
-
 namespace prog_opt = boost::program_options;
-
 
 const char* FILES_KEY = "source-files";
 const char* LEXER_DEBUG_KEY = "lexer-debug";
-
 
 Configuration ParseCommandLineArgs(int argc, char** argv) {
     prog_opt::options_description optionsDesc("Allowed options");
