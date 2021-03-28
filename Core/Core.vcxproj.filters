@@ -13,44 +13,45 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Resource Files\LexerTests">
-      <UniqueIdentifier>{90214ed0-a74a-4465-9415-18543587e9c5}</UniqueIdentifier>
+    <Filter Include="Header Files\Lexer">
+      <UniqueIdentifier>{8dcafca0-1f65-4657-a3e2-a5b393f0c076}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Lexer">
+      <UniqueIdentifier>{7bb8ded4-4ed8-4236-939d-9620eb3b8c9a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="catch.hpp">
+    <ClInclude Include="pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="IOTest.h">
+    <ClInclude Include="InputBuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="LexerTest.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Lexer\ILexer.h">
+      <Filter>Header Files\Lexer</Filter>
+    </ClInclude>
+    <ClInclude Include="Lexer\Lexeme.h">
+      <Filter>Header Files\Lexer</Filter>
+    </ClInclude>
+    <ClInclude Include="Lexer\IncrementalLexer.h">
+      <Filter>Header Files\Lexer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="TestSamples\test.kt">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="TestSamples\Comments.kt">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="TestSamples\LexerTests\SimpleTest.kt">
-      <Filter>Resource Files\LexerTests</Filter>
-    </None>
-    <None Include="TestSamples\LexerTests\SinglelineComment.kt">
-      <Filter>Resource Files\LexerTests</Filter>
-    </None>
-    <None Include="TestSamples\LexerTests\MultilineComments.kt">
-      <Filter>Resource Files\LexerTests</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="InputBufferTest.cpp">
+    <ClCompile Include="Core.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="LexerTests.cpp">
+    <ClCompile Include="pch.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Lexer\ILexer.cpp">
+      <Filter>Source Files\Lexer</Filter>
+    </ClCompile>
+    <ClCompile Include="Lexer\Lexeme.cpp">
+      <Filter>Source Files\Lexer</Filter>
+    </ClCompile>
+    <ClCompile Include="Lexer\IncrementalLexer.cpp">
+      <Filter>Source Files\Lexer</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

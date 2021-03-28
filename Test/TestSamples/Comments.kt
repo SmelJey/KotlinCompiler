@@ -3,6 +3,7 @@
 */
 
 fun main(args: Array<String>) {
-    val b = args+++ 5
+    val a:Int = 3
+    val b : Int = a +++ 5
     println("Hello, world!")
 }

@@ -1,6 +1,6 @@
 #include "ConfigurationBuilder.h"
 #include "Configuration.h"
-#include "Lexer/StateLexer.h"
+#include "Lexer/IncrementalLexer.h"
 
 #include <iostream>
 #include <vector>
@@ -46,12 +46,14 @@ int main(int argc, char** argv) {
 
     std::ifstream ifs(configuration.GetPaths()[0]);
 
-    StateLexer<std::ifstream> lexer(configuration.GetPaths()[0]);
+    IncrementalLexer<std::ifstream> lexer(configuration.GetPaths()[0]);
 
-    while (lexer.NextLexeme().GetType() != Lexeme::LexemeType::EndOfFile) {
+    while (lexer.GetLexeme().GetType() != Lexeme::LexemeType::EndOfFile) {
         if (configuration.GetLexerDebug()) {
             std::cout << lexer.GetLexeme() << std::endl;
         }
+
+        lexer.NextLexeme();
     }
     
     return 0;

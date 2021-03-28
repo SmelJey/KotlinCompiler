@@ -3,7 +3,7 @@
 
 #include <sstream>
 
-#include "Lexer/InputBuffer.h"
+#include "../Core/InputBuffer.h"
 
 TEST_CASE("InputBufferTest", "[InputBuffer]") {
     std::stringstream ss;
@@ -16,7 +16,7 @@ TEST_CASE("InputBufferTest", "[InputBuffer]") {
         std::string newString;
 
         int curChar = inputBuffer.NextChar();
-        while (curChar != InputBuffer<std::stringstream>::EOF_VAL) {
+        while (curChar != BUFFER_EOF) {
             newString.push_back(curChar);
             curChar = inputBuffer.NextChar();
         }
@@ -31,7 +31,7 @@ TEST_CASE("InputBufferTest", "[InputBuffer]") {
         std::string newString;
 
         int curChar = inputBuffer.NextChar();
-        while (curChar != InputBuffer<std::stringstream>::EOF_VAL) {
+        while (curChar != BUFFER_EOF) {
             newString.push_back(curChar);
             curChar = inputBuffer.NextChar();
         }
@@ -65,11 +65,12 @@ TEST_CASE("InputBufferTest", "[InputBuffer]") {
 
         curChar = inputBuffer.NextChar();
 
-        while (curChar != InputBuffer<std::stringstream>::EOF_VAL) {
+        while (curChar != BUFFER_EOF) {
             newString.push_back(curChar);
             curChar = inputBuffer.NextChar();
         }
 
         REQUIRE(testString == newString);
+        REQUIRE(inputBuffer.GetChar() == BUFFER_EOF);
     }
 }

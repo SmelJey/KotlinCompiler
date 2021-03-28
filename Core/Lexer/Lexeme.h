@@ -2,10 +2,7 @@
 
 #include <string>
 #include <fstream>
-#include <unordered_set>
 #include <unordered_map>
-
-class LexerState;
 
 class Lexeme {
 public:
@@ -16,25 +13,21 @@ public:
         Operation = 3,
         Separator = 4,
         String = 5,
-        Incomplete = 6,
-        Ignored = 7,
-        Error = 8,
+        RawString = 6,
+        Error = 7,
     };
 
     static std::string LexemeToStr[];
     /*static std::unordered_map<std::string, LexemeType> StrToLexeme;*/
 
-    static std::unordered_set<std::string> LongOperatorsSet;
-
     Lexeme();
-    Lexeme(int col, int row, std::string text, LexemeType type);
+    Lexeme(int col, int row, std::string text, LexemeType type, bool isComplete = true);
 
     int GetColumn() const;
     int GetRow() const;
     const std::string& GetText() const;
     LexemeType GetType() const;
-
-    LexerState& TryToMerge(const Lexeme& src);
+    bool IsComplete() const;
 
     std::string ToString() const;
 private:
@@ -44,6 +37,7 @@ private:
     int myRow;
     std::string myText;
     LexemeType myType;
+    bool isComplete;
 };
 
 std::ostream& operator<<(std::ostream& out, const Lexeme& lexeme);
