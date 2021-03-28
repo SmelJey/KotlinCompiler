@@ -40,6 +40,32 @@ ILexer::CharGroup ILexer::GetCharGroup(int character) {
     return CharGroup::Unknown;
 }
 
+ILexer::CharGroup ILexer::GetCharGroup(int character, int lookAhead1, int lookAhead2) {
+    if (character == '\"') {
+        if (lookAhead1 == '\"' && lookAhead2 == '\"') {
+            return CharGroup::TripleQuote;
+        }
+        return CharGroup::Quote;
+    }
+
+    if (character == '/') {
+        if (lookAhead1 == '/') {
+            return CharGroup::CommentStart;
+        }
+        if (lookAhead1 == '*') {
+            return CharGroup::MultilineCommentStart;
+        }
+    }
+    if (character == '#' && lookAhead1 == '!') {
+        return CharGroup::CommentStart;
+    }
+    if (character == '.' && GetCharGroup(lookAhead1) == CharGroup::Digit) {
+        return CharGroup::Digit;
+    } 
+
+    return GetCharGroup(character);
+}
+
 ILexer::ILexer() : myCurrentLexeme(0, 0, "", Lexeme::LexemeType::EndOfFile) {}
 
 void ILexer::Init() {

@@ -6,14 +6,18 @@
 
 class ILexer {
 public:
-    enum class CharGroup {
-        Digit,
-        Alphabetic,
-        Operation,
-        Brace,
-        Spacing,
-        Unknown,
-        EndOfFile,
+    enum class CharGroup : int {
+        Digit = 0,
+        Alphabetic = 1,
+        Operation = 2,
+        Brace = 3,
+        Quote = 4,
+        TripleQuote = 5,
+        CommentStart = 6,
+        MultilineCommentStart = 7,
+        Spacing = 8,
+        Unknown = 9,
+        EndOfFile = 10,
     };
 
     static const std::unordered_set<char> BraceCharset;
@@ -23,6 +27,7 @@ public:
     static const std::unordered_set<std::string> OperationsSets[3];
 
     static CharGroup GetCharGroup(int character);
+    static CharGroup GetCharGroup(int character, int lookAhead1, int lookAhead2);
 
     ILexer(const ILexer& src) = delete;
     virtual ~ILexer() = default;

@@ -4,6 +4,10 @@
 #include "../InputBuffer.h"
 
 #include <string>
+#include <functional>
+#include <unordered_map>
+
+using LexType = Lexeme::LexemeType;
 
 template<typename InputType>
 class IncrementalLexer : public ILexer {
@@ -12,128 +16,79 @@ public:
 
     IncrementalLexer(const std::string& filepath) : myInputBuffer(filepath) {}
 private:
-    Lexeme GetLexemeFromInput() override {
-        ProcessWhitespaces();
-        CommentStatus commentStatus = IsComment();
-        while (commentStatus != CommentStatus::NotComment) {
-            ProcessComments(commentStatus);
-            ProcessWhitespaces();
-            commentStatus = IsComment();
-        }
-
-        std::string curText;
-        std::size_t startCol = myCol;
-        std::size_t startRow = myRow;
-
-        if (myInputBuffer.GetChar() == '\"') {
-            if (myInputBuffer.LookAhead(1) == '\"' && myInputBuffer.LookAhead(2) == '\"') {
-                bool isComplete = ProcessRawString(curText);
-                // TODO: make error 
-                return Lexeme(startCol, startRow, curText, Lexeme::LexemeType::RawString, isComplete);
-            }
-            // TODO: make error
-            bool isComplete = ProcessString(curText);
-            return Lexeme(startCol, startRow, curText, Lexeme::LexemeType::String, isComplete);
-        }
-
-        CharGroup charGroup = GetCharGroup(myInputBuffer.GetChar());
-        switch (charGroup) {
-            case CharGroup::Operation: {
-                if (myInputBuffer.GetChar() == '.' && GetCharGroup(myInputBuffer.LookAhead(1)) == CharGroup::Digit) {
-                    bool isComplete = ProcessNumber(curText);
-                    return Lexeme(startCol, startRow, curText, Lexeme::LexemeType::Number, isComplete);
-                }
-
-                bool isComplete = ProcessOperation(curText);
-
-                return Lexeme(startCol, startRow, curText, Lexeme::LexemeType::Operation, isComplete);
-            }
-            case CharGroup::Digit: {
-                // TODO: make error;
-                bool isComplete = ProcessNumber(curText);
-                return Lexeme(startCol, startRow, curText, Lexeme::LexemeType::Number, isComplete);
-            }
-            case CharGroup::Alphabetic: {
-                ProcessIdentifier(curText);
-                return Lexeme(startCol, startRow, curText, Lexeme::LexemeType::Identifier);
-            }
-            case CharGroup::Brace: {
-                curText.push_back(GetNextChar());
-                return Lexeme(startCol, startRow, curText, Lexeme::LexemeType::Separator);
-            }
-            case CharGroup::EndOfFile: {
-                return Lexeme(startCol, startRow, "", Lexeme::LexemeType::EndOfFile);
-            }
-        }
-
-        while (GetCharGroup(myInputBuffer.GetChar()) == CharGroup::Unknown) {
-            curText.push_back(GetNextChar());
-        }
-        return Lexeme(startCol, startRow, curText, Lexeme::LexemeType::Error, false);
-    }
-
-    enum class CommentStatus {
-        NotComment,
-        ShebangLine,
-        Comment,
-        MultilineComment
+    std::function<std::pair<bool, Lexeme::LexemeType>(IncrementalLexer*, std::string&)> PatternMap[11] {
+        &IncrementalLexer::ProcessNumber,
+        &IncrementalLexer::ProcessIdentifier,
+        &IncrementalLexer::ProcessOperation,
+        &IncrementalLexer::ProcessBrace,
+        &IncrementalLexer::ProcessString,
+        &IncrementalLexer::ProcessRawString,
+        &IncrementalLexer::ProcessComment,
+        &IncrementalLexer::ProcessMultilineComment,
+        &IncrementalLexer::ProcessWhitespaces,
+        &IncrementalLexer::ProcessUnknown,
+        &IncrementalLexer::ProcessEof,
     };
 
-    CommentStatus IsComment() {
-        if (myInputBuffer.GetChar() == '/') {
-            if (myInputBuffer.LookAhead(1) == '/') {
-                return CommentStatus::Comment;
+    Lexeme GetLexemeFromInput() override {
+        std::string curText;
+        std::size_t startCol;
+        std::size_t startRow;
+
+        LexType lexemeType;
+        bool isGood;
+        while (curText.empty()) {
+            startCol = myCol;
+            startRow = myRow;
+            CharGroup charGroup = GetCharGroup(myInputBuffer.GetChar(), myInputBuffer.LookAhead(1), myInputBuffer.LookAhead(2));
+            std::tie(isGood, lexemeType) = PatternMap[(int)charGroup](this, curText);
+            if (!isGood || lexemeType == LexType::EndOfFile) {
+                return Lexeme(startCol, startRow, curText, lexemeType, isGood);
             }
-            if (myInputBuffer.LookAhead(1) == '*') {
-                return CommentStatus::MultilineComment;
-            }
-        } else if (myInputBuffer.GetChar() == '#' && myInputBuffer.LookAhead(1) == '!') {
-            return CommentStatus::ShebangLine;
         }
-        return CommentStatus::NotComment;
+
+        return Lexeme(startCol, startRow, curText, lexemeType);
     }
 
-    void ProcessWhitespaces() {
+    std::pair<bool, LexType> ProcessWhitespaces(std::string& out) {
         while (myInputBuffer.GetChar() != BUFFER_EOF && SpacingCharset.count(myInputBuffer.GetChar())) {
             GetNextChar();
         }
+        return std::make_pair(true, LexType::Ignored);
     }
 
-    void ProcessComments(CommentStatus commentStatus) {
-        GetNextChar();
-        GetNextChar();
+    std::pair<bool, LexType> ProcessComment(std::string& out) {
+        while (myInputBuffer.GetChar() != BUFFER_EOF && !NewlineCharset.count(GetNextChar())) {}
+        return std::make_pair(true, LexType::Ignored);
+    }
 
-        switch (commentStatus) {
-            case CommentStatus::ShebangLine:
-            case CommentStatus::Comment:
-                while (myInputBuffer.GetChar() != BUFFER_EOF && !NewlineCharset.count(GetNextChar())) {}
-                return;
-            case CommentStatus::MultilineComment:
-                while (myInputBuffer.GetChar() != BUFFER_EOF) {
-                    if (myInputBuffer.GetChar() == '*' && myInputBuffer.LookAhead(1) == '/') {
-                        GetNextChar();
-                        GetNextChar();
-                        return;
-                    }
-                    GetNextChar();
-                }
+    std::pair<bool, LexType> ProcessMultilineComment(std::string& out) {
+        while (myInputBuffer.GetChar() != BUFFER_EOF) {
+            if (myInputBuffer.GetChar() == '*' && myInputBuffer.LookAhead(1) == '/') {
+                GetNextChar();
+                GetNextChar();
+                return std::make_pair(true, LexType::Ignored);
+            }
+            GetNextChar();
         }
+        return std::make_pair(false, LexType::Ignored);;
     }
 
-    void ProcessIdentifier(std::string& out) {
+    std::pair<bool, LexType> ProcessIdentifier(std::string& out) {
         out.push_back(GetNextChar());
         CharGroup charGroup = GetCharGroup(myInputBuffer.GetChar());
         while (charGroup == CharGroup::Alphabetic || charGroup == CharGroup::Digit) {
             out.push_back(GetNextChar());
             charGroup = GetCharGroup(myInputBuffer.GetChar());
         }
+        return std::make_pair(true, LexType::Identifier);
     }
 
-    bool ProcessNumber(std::string& out) {
+    std::pair<bool, LexType> ProcessNumber(std::string& out) {
         if (myInputBuffer.GetChar() != '.') {
             bool isGood = ProcessIntegerNumber(out);
             if (!isGood) {
-                return isGood;
+                return std::make_pair(isGood, LexType::Number);
             }
         }
 
@@ -142,7 +97,7 @@ private:
             if (GetCharGroup(myInputBuffer.GetChar()) == CharGroup::Digit) {
                 bool isGood = ProcessIntegerNumber(out);
                 if (!isGood) {
-                    return isGood;
+                    return std::make_pair(isGood, LexType::Number);
                 }
             }
         }
@@ -155,7 +110,7 @@ private:
             if (GetCharGroup(myInputBuffer.GetChar()) == CharGroup::Digit) {
                 bool isGood = ProcessIntegerNumber(out);
                 if (!isGood) {
-                    return isGood;
+                    return std::make_pair(isGood, LexType::Number);
                 }
             } else {
                 CharGroup charGroup = GetCharGroup(myInputBuffer.GetChar());
@@ -163,7 +118,7 @@ private:
                     out.push_back(myInputBuffer.GetChar());
                     charGroup = GetCharGroup(GetNextChar());
                 }
-                return false;
+                return std::make_pair(false, LexType::Number);
             }
         }
         CharGroup charGroup = GetCharGroup(myInputBuffer.GetChar());
@@ -172,10 +127,10 @@ private:
                 out.push_back(myInputBuffer.GetChar());
                 charGroup = GetCharGroup(GetNextChar());
             }
-            return false;
+            return std::make_pair(false, LexType::Number);
         }
 
-        return true;
+        return std::make_pair(true, LexType::Number);
     }
 
     bool ProcessIntegerNumber(std::string& out) {
@@ -211,7 +166,7 @@ private:
         return len;
     }
 
-    bool ProcessString(std::string& out) {
+    std::pair<bool, LexType> ProcessString(std::string& out) {
         out.push_back(myInputBuffer.GetChar());
         GetNextChar();
         while (myInputBuffer.GetChar() != BUFFER_EOF && !NewlineCharset.count(myInputBuffer.GetChar()) && myInputBuffer.GetChar() != '\"') {
@@ -230,10 +185,10 @@ private:
             GetNextChar();
         }
 
-        return isComplete; 
+        return std::make_pair(isComplete, LexType::String);
     }
 
-    bool ProcessOperation(std::string& out) {
+    std::pair<bool, LexType> ProcessOperation(std::string& out) {
         std::string operation;
         for (int i = 0; i < 3; i++) {
             int curChar = myInputBuffer.LookAhead(i);
@@ -247,16 +202,21 @@ private:
                 for (auto c : operation) {
                     out.push_back(GetNextChar());
                 }
-                return true;
+                return std::make_pair(true, LexType::Operation);
             }
 
             operation.pop_back();
         }
 
-        return false;
+        return std::make_pair(false, LexType::Operation);;
     }
 
-    bool ProcessRawString(std::string& out) {
+    std::pair<bool, LexType> ProcessBrace(std::string& out) {
+        out.push_back(GetNextChar());
+        return std::make_pair(true, LexType::Brace);
+    }
+
+    std::pair<bool, LexType> ProcessRawString(std::string& out) {
         out.push_back(GetNextChar());
         out.push_back(GetNextChar());
         out.push_back(GetNextChar());
@@ -266,13 +226,24 @@ private:
             out.push_back(GetNextChar());
         }
         if (myInputBuffer.GetChar() == BUFFER_EOF) {
-            return false;
+            return std::make_pair(false, LexType::RawString);
         }
 
         out.push_back(GetNextChar());
         out.push_back(GetNextChar());
         out.push_back(GetNextChar());
-        return true;
+        return std::make_pair(true, LexType::RawString);
+    }
+
+    std::pair<bool, LexType> ProcessUnknown(std::string& out) {
+        while (GetCharGroup(myInputBuffer.GetChar()) == CharGroup::Unknown) {
+            out.push_back(GetNextChar());
+        }
+        return std::make_pair(false, LexType::Error);
+    }
+
+    std::pair<bool, LexType> ProcessEof(std::string& out) {
+        return std::make_pair(true, LexType::EndOfFile);
     }
 
     int GetNextChar() {

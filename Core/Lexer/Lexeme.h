@@ -11,10 +11,15 @@ public:
         Identifier = 1,
         Number = 2,
         Operation = 3,
-        Separator = 4,
+        Brace = 4,
         String = 5,
         RawString = 6,
-        Error = 7,
+        StringRef = 7,
+        RawStringRef = 8,
+        StringExpr = 9,
+        RawStringExpr = 10,
+        Error = 11,
+        Ignored = 12,
     };
 
     static std::string LexemeToStr[];
