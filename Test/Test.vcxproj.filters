@@ -38,10 +38,13 @@
     <None Include="TestSamples\LexerTests\SimpleTest.kt">
       <Filter>Resource Files\LexerTests</Filter>
     </None>
-    <None Include="TestSamples\LexerTests\SinglelineComment.kt">
+    <None Include="TestSamples\LexerTests\MultilineComments.kt">
       <Filter>Resource Files\LexerTests</Filter>
     </None>
-    <None Include="TestSamples\LexerTests\MultilineComments.kt">
+    <None Include="TestSamples\LexerTests\SinglelineComments.kt">
+      <Filter>Resource Files\LexerTests</Filter>
+    </None>
+    <None Include="TestSamples\LexerTests\RawStrings.kt">
       <Filter>Resource Files\LexerTests</Filter>
     </None>
   </ItemGroup>
@@ -52,5 +55,10 @@
     <ClCompile Include="LexerTests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="TestSamples\LexerTests\Strings.kt">
+      <Filter>Resource Files\LexerTests</Filter>
+    </Text>
   </ItemGroup>
 </Project>

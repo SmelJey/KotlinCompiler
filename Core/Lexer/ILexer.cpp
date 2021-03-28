@@ -42,11 +42,12 @@ ILexer::CharGroup ILexer::GetCharGroup(int character) {
 
 ILexer::ILexer() : myCurrentLexeme(0, 0, "", Lexeme::LexemeType::EndOfFile) {}
 
-Lexeme ILexer::GetLexeme() {
-    if (myCurrentLexeme.GetType() == Lexeme::LexemeType::EndOfFile) {
-        NextLexeme();
-    }
+void ILexer::Init() {
+    NextLexeme();
+}
 
+//TODO: change get / next lexeme (pre init somehow)
+Lexeme ILexer::GetLexeme() const {
     return myCurrentLexeme;
 }
 

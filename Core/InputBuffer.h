@@ -7,8 +7,8 @@ constexpr int BUFFER_EOF = std::numeric_limits<int>::max();
 template<typename InputType>
 class InputBuffer {
 public:
-    constexpr static int DEFAULT_CAPACITY = 4094;
-    constexpr static int DEFAULT_LOOKAHEAD_BUFFER_SIZE = 2;
+    constexpr static int DEFAULT_CAPACITY = 4093;
+    constexpr static int DEFAULT_LOOKAHEAD_BUFFER_SIZE = 3;
 
     InputBuffer(const std::string& filepath, std::size_t lookAheadBufferSize = DEFAULT_LOOKAHEAD_BUFFER_SIZE, std::size_t bufferSize = DEFAULT_CAPACITY)
         : myBuffer(bufferSize + lookAheadBufferSize, 0), myCurrentIdx(), myCurrentEnd(), myBufferSize(bufferSize + lookAheadBufferSize),

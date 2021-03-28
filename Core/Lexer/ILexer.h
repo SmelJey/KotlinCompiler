@@ -24,8 +24,12 @@ public:
 
     static CharGroup GetCharGroup(int character);
 
+    ILexer(const ILexer& src) = delete;
     virtual ~ILexer() = default;
-    Lexeme GetLexeme();
+
+    void Init();
+
+    Lexeme GetLexeme() const;
     Lexeme NextLexeme();
 protected:
     ILexer();

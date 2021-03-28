@@ -50,8 +50,5 @@
     <ClCompile Include="Lexer\Lexeme.cpp">
       <Filter>Source Files\Lexer</Filter>
     </ClCompile>
-    <ClCompile Include="Lexer\IncrementalLexer.cpp">
-      <Filter>Source Files\Lexer</Filter>
-    </ClCompile>
   </ItemGroup>
 </Project>

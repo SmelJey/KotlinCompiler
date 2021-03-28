@@ -162,7 +162,6 @@
   <ItemGroup>
     <ClCompile Include="Core.cpp" />
     <ClCompile Include="Lexer\ILexer.cpp" />
-    <ClCompile Include="Lexer\IncrementalLexer.cpp" />
     <ClCompile Include="Lexer\Lexeme.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

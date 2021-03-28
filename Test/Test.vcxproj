@@ -174,9 +174,13 @@
   <ItemGroup>
     <None Include="TestSamples\Comments.kt" />
     <None Include="TestSamples\LexerTests\MultilineComments.kt" />
+    <None Include="TestSamples\LexerTests\RawStrings.kt" />
     <None Include="TestSamples\LexerTests\SimpleTest.kt" />
-    <None Include="TestSamples\LexerTests\SinglelineComment.kt" />
+    <None Include="TestSamples\LexerTests\SinglelineComments.kt" />
     <None Include="TestSamples\test.kt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="TestSamples\LexerTests\Strings.kt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

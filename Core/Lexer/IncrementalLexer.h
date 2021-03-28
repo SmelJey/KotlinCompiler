@@ -8,13 +8,9 @@
 template<typename InputType>
 class IncrementalLexer : public ILexer {
 public:
-    IncrementalLexer(InputType& input) : myInputBuffer(input.rdbuf()) {
-        
-    }
+    IncrementalLexer(InputType& input) : myInputBuffer(input.rdbuf()) {}
 
-    IncrementalLexer(const std::string& filepath) : myInputBuffer(filepath) {
-        
-    }
+    IncrementalLexer(const std::string& filepath) : myInputBuffer(filepath) {}
 private:
     Lexeme GetLexemeFromInput() override {
         ProcessWhitespaces();
@@ -265,7 +261,8 @@ private:
         out.push_back(GetNextChar());
         out.push_back(GetNextChar());
 
-        while (!(myInputBuffer.GetChar() == BUFFER_EOF || myInputBuffer.GetChar() == '\"' && myInputBuffer.LookAhead(1) == '\"' && myInputBuffer.LookAhead(2) == '\"')) {
+        while (!(myInputBuffer.GetChar() == BUFFER_EOF || myInputBuffer.GetChar() == '\"' && myInputBuffer.LookAhead(1) == '\"'
+                 && myInputBuffer.LookAhead(2) == '\"' && myInputBuffer.LookAhead(3) != '\"')) {
             out.push_back(GetNextChar());
         }
         if (myInputBuffer.GetChar() == BUFFER_EOF) {

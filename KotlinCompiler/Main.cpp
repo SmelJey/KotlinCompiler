@@ -47,6 +47,7 @@ int main(int argc, char** argv) {
     std::ifstream ifs(configuration.GetPaths()[0]);
 
     IncrementalLexer<std::ifstream> lexer(configuration.GetPaths()[0]);
+    lexer.Init();
 
     while (lexer.GetLexeme().GetType() != Lexeme::LexemeType::EndOfFile) {
         if (configuration.GetLexerDebug()) {

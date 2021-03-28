@@ -1,6 +1,7 @@
 #include "Lexeme.h"
 #include <utility>
 #include <sstream>
+#include <regex>
 
 Lexeme::Lexeme() : Lexeme(0, 0, "", LexemeType::Error, false) {};
 
@@ -30,11 +31,13 @@ Lexeme::LexemeType Lexeme::GetType() const {
 
 std::string Lexeme::ToString() const {
     std::stringstream ss;
-    ss << myRow << "\t" << myColumn << "\t" << GetStringType() + (isComplete ? "" : "!") << "\t" << myText;
+    std::string textWithoutNewlines = std::regex_replace(myText, std::regex("\n"), "\\n");
+    textWithoutNewlines = std::regex_replace(textWithoutNewlines, std::regex("\t"), "\\t");
+    ss << myRow << "\t" << myColumn << "\t" << GetStringType() + (isComplete ? "" : "!") << "\t" << textWithoutNewlines;
     return ss.str();
 }
 
-std::string Lexeme::LexemeToStr[]{ "EOF", "Word", "Num", "Op", "Sep", "Str", "Error" };
+std::string Lexeme::LexemeToStr[]{ "EOF", "Word", "Num", "Op", "Sep", "Str", "RawStr", "Error" };
 
 //std::unordered_map<std::string, Lexeme::LexemeType> Lexeme::StrToLexeme {
 //    {"EOF", LexemeType::EndOfFile},
