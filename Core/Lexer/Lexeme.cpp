@@ -41,7 +41,7 @@ std::string Lexeme::ToString() const {
     return ss.str();
 }
 
-std::string Lexeme::LexemeToStr[]{ "EOF", "Word", "Key", "Num", "Op", "Br", "Str", "RStr", "StrRf", "RStrRf", "StrExp", "RStrExp", "Error", "Ignored" };
+std::string Lexeme::LexemeToStr[]{ "EOF", "Word", "Key", "Num", "Op", "Br", "Str", "RStr", "StrRf", "RStrRf", "StrExp", "RStrExp", "Char", "Error", "Ignored" };
 
 //std::unordered_map<std::string, Lexeme::LexemeType> Lexeme::StrToLexeme {
 //    {"EOF", LexemeType::EndOfFile},

@@ -10,6 +10,7 @@ TEST_CASE("Lexer Correct Syntax", "[Lexer]") {
     LEXER_TEST(IncrementalLexer<std::ifstream>, "SimpleTest.kt")
     LEXER_TEST(IncrementalLexer<std::ifstream>, "SinglelineComments.kt")
     LEXER_TEST(IncrementalLexer<std::ifstream>, "MultilineComments.kt")
+    LEXER_TEST(IncrementalLexer<std::ifstream>, "CharLiterals.kt")
     LEXER_TEST(IncrementalLexer<std::ifstream>, "Strings.kt")
     LEXER_TEST(IncrementalLexer<std::ifstream>, "RawStrings.kt")
     LEXER_TEST(IncrementalLexer<std::ifstream>, "Integers.kt")
@@ -26,5 +27,5 @@ TEST_CASE("Lexer Incorrect Syntax", "[Lexer]") {
     LEXER_TEST(IncrementalLexer<std::ifstream>, "BinIntsErrors.kt");
     LEXER_TEST(IncrementalLexer<std::ifstream>, "HexIntsErrors.kt");
     LEXER_TEST(IncrementalLexer<std::ifstream>, "DoubleErrors.kt");
-    LEXER_TEST(IncrementalLexer<std::ifstream>, "StringsErrors.kt");
+    LEXER_TEST(IncrementalLexer<std::ifstream>, "StringsCharErrors.kt");
 }

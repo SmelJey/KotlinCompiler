@@ -1,0 +1,29 @@
+0	0	Key	|fun
+0	4	Word	|main
+0	8	Br	|(
+0	9	Br	|)
+0	11	Br	|{
+1	1	Key	|val
+1	5	Word	|a
+1	6	Op	|:
+1	7	Word	|Char
+1	12	Op	|=
+1	14	Error	Invalid char literal	|'ab'
+2	1	Key	|val
+2	5	Word	|b
+2	6	Op	|:
+2	7	Word	|Char
+2	12	Op	|=
+2	14	Error	Unclosed char literal	|'a
+3	1	Key	|val
+3	5	Word	|c
+3	6	Op	|:
+3	7	Word	|String
+3	14	Op	|=
+3	16	Error	Unclosed string	|"abcd
+4	1	Key	|val
+4	5	Word	|d
+4	7	Op	|:
+4	8	Word	|String
+4	15	Op	|=
+4	17	RStr	Unclosed string	|"""abcd\n\t\tabcde\n}

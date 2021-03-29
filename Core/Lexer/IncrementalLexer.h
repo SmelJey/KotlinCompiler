@@ -16,11 +16,12 @@ public:
 
     IncrementalLexer(const std::string& filepath) : myInputBuffer(filepath) {}
 private:
-    std::function<std::pair<Lexeme::LexemeType, std::string>(IncrementalLexer*, std::string&)> PatternMap[13] {
+    std::function<std::pair<Lexeme::LexemeType, std::string>(IncrementalLexer*, std::string&)> PatternMap[14] {
         &IncrementalLexer::ProcessNumber,
         &IncrementalLexer::ProcessIdentifier,
         &IncrementalLexer::ProcessOperation,
         &IncrementalLexer::ProcessBrace,
+        &IncrementalLexer::ProcessChar,
         &IncrementalLexer::ProcessString,
         &IncrementalLexer::ProcessRawString,
         &IncrementalLexer::ProcessComment,
@@ -218,6 +219,33 @@ private:
             return std::make_pair(LexType::Error, "Unparseable number");
         }
         return std::make_pair(LexType::Number, "");
+    }
+
+    std::pair<LexType, std::string> ProcessChar(std::string& out) {
+        out.push_back(GetNextChar());
+        if (myInputBuffer.GetChar() == '\\') {
+            out.push_back(GetNextChar());
+        }
+        if (myInputBuffer.GetChar() == BUFFER_EOF || NewlineCharset.count(myInputBuffer.GetChar())) {
+            return std::make_pair(LexType::Error, "Unclosed char literal");
+        }
+        out.push_back(GetNextChar());
+        if (myInputBuffer.GetChar() == '\'') {
+            out.push_back(GetNextChar());
+            return std::make_pair(LexType::CharLiteral, "");
+        }
+
+        CharGroup charGroup = GetCharGroup(myInputBuffer.GetChar());
+        while (charGroup != CharGroup::EndOfFile && charGroup != CharGroup::Spacing && charGroup != CharGroup::SingleQuote) {
+            out.push_back(GetNextChar());
+            charGroup = GetCharGroup(myInputBuffer.GetChar());
+        }
+        if (charGroup == CharGroup::SingleQuote) {
+            out.push_back(GetNextChar());
+            return std::make_pair(LexType::Error, "Invalid char literal");
+        }
+
+        return std::make_pair(LexType::Error, "Unclosed char literal");
     }
 
     std::pair<LexType, std::string> ProcessString(std::string& out) {

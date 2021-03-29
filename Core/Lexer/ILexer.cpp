@@ -38,6 +38,12 @@ ILexer::CharGroup ILexer::GetCharGroup(int character) {
     if (IsDecChar(character)) {
         return CharGroup::Digit;
     }
+    if (character == '\"') {
+        return CharGroup::Quote;
+    }
+    if (character == '\'') {
+        return CharGroup::SingleQuote;
+    }
     if (OperationsCharset.count(character)) {
         return CharGroup::Operation;
     }
@@ -55,7 +61,6 @@ ILexer::CharGroup ILexer::GetCharGroup(int character, int lookAhead1, int lookAh
         if (lookAhead1 == '\"' && lookAhead2 == '\"') {
             return CharGroup::TripleQuote;
         }
-        return CharGroup::Quote;
     }
 
     if (character == '/') {

@@ -19,8 +19,9 @@ public:
         RawStringRef = 9,
         StringExpr = 10,
         RawStringExpr = 11,
-        Error = 12,
-        Ignored = 13,
+        CharLiteral = 12,
+        Error = 13,
+        Ignored = 14,
     };
 
     static std::string LexemeToStr[];

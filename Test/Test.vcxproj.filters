@@ -74,10 +74,13 @@
     <None Include="TestSamples\LexerTests\DoubleErrors.kt">
       <Filter>Resource Files\LexerTests</Filter>
     </None>
-    <None Include="TestSamples\LexerTests\StringsErrors.kt">
+    <None Include="TestSamples\LexerTests\SimpleErrors.kt">
       <Filter>Resource Files\LexerTests</Filter>
     </None>
-    <None Include="TestSamples\LexerTests\SimpleErrors.kt">
+    <None Include="TestSamples\LexerTests\CharLiterals.kt">
+      <Filter>Resource Files\LexerTests</Filter>
+    </None>
+    <None Include="TestSamples\LexerTests\StringsCharErrors.kt">
       <Filter>Resource Files\LexerTests</Filter>
     </None>
   </ItemGroup>
