@@ -17,6 +17,16 @@ const std::unordered_set<std::string> ILexer::OperationsSets[3] {
     { "...", "!==", "===" }
 } ;
 
+const std::unordered_set<std::string> ILexer::KeywordSet {
+    "return", "continue", "break", "this", "super", "file", "field", "property", "get", "set", "receiver",
+    "param", "setparam", "delegate", "package", "import", "class", "interface", "fun", "object", "val", "var",
+    "typealias", "constructor", "by", "companion", "init", "typeof", "where", "if", "else", "when", "try",
+    "catch", "finally", "for", "do", "while", "throw", "as", "is", "in", "out", "dynamic", "public", "private",
+    "protected", "internal", "enum", "sealed", "annotation", "data", "inner", "tailrec", "operator", "inline",
+    "infix", "external", "suspend", "override", "abstract", "final", "open", "const", "lateinit", "vararg",
+    "noinline", "crossinline", "reified", "expect", "actual", "true", "false", "null"
+};
+
 ILexer::CharGroup ILexer::GetCharGroup(int character) {
     if (character == BUFFER_EOF) {
         return CharGroup::EndOfFile;

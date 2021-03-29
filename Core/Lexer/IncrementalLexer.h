@@ -83,6 +83,10 @@ private:
             out.push_back(GetNextChar());
             charGroup = GetCharGroup(myInputBuffer.GetChar());
         }
+
+        if (KeywordSet.count(out)) {
+            return std::make_pair(true, LexType::Keyword);
+        }
         return std::make_pair(true, LexType::Identifier);
     }
 

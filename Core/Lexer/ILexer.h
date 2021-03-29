@@ -25,6 +25,7 @@ public:
     static const std::unordered_set<char> SpacingCharset;
     static const std::unordered_set<char> NewlineCharset;
     static const std::unordered_set<std::string> OperationsSets[3];
+    static const std::unordered_set<std::string> KeywordSet;
 
     static CharGroup GetCharGroup(int character);
     static CharGroup GetCharGroup(int character, int lookAhead1, int lookAhead2);
