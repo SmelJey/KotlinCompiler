@@ -15,4 +15,10 @@
 2	7	Word	|String
 2	14	Op	|=
 2	16	Str	|"test with \" escape"
-3	0	Br	|}
+3	1	Key	|val
+3	5	Word	|c
+3	6	Op	|:
+3	7	Word	|String
+3	14	Op	|=
+3	16	Str	|"\t\b\r\n\'\"\\\$"
+4	0	Br	|}

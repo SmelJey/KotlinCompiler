@@ -223,15 +223,24 @@ private:
 
     std::pair<LexType, std::string> ProcessChar(std::string& out) {
         out.push_back(GetNextChar());
+        bool isValidEscape = true;
         if (myInputBuffer.GetChar() == '\\') {
             out.push_back(GetNextChar());
+            if (!EscapeCharset.count(myInputBuffer.GetChar())) {
+                isValidEscape = false;
+            }
         }
         if (myInputBuffer.GetChar() == BUFFER_EOF || NewlineCharset.count(myInputBuffer.GetChar())) {
             return std::make_pair(LexType::Error, "Unclosed char literal");
         }
+
         out.push_back(GetNextChar());
         if (myInputBuffer.GetChar() == '\'') {
             out.push_back(GetNextChar());
+            if (!isValidEscape) {
+                return std::make_pair(LexType::Error, "Invalid escape char");
+            }
+
             return std::make_pair(LexType::CharLiteral, "");
         }
 
@@ -251,8 +260,15 @@ private:
     std::pair<LexType, std::string> ProcessString(std::string& out) {
         out.push_back(myInputBuffer.GetChar());
         GetNextChar();
+        bool isValidEscape = true;
         while (myInputBuffer.GetChar() != BUFFER_EOF && !NewlineCharset.count(myInputBuffer.GetChar()) && myInputBuffer.GetChar() != '\"') {
-            if (myInputBuffer.GetChar() == '\\' && myInputBuffer.LookAhead(1) == '\"') {
+            if (myInputBuffer.GetChar() == '$') {
+                return std::make_pair(LexType::String, "");
+            }
+            if (myInputBuffer.GetChar() == '\\') {
+                if (myInputBuffer.LookAhead(1) == BUFFER_EOF || !EscapeCharset.count(myInputBuffer.LookAhead(1))) {
+                    isValidEscape = false;
+                }
                 out.push_back(myInputBuffer.GetChar());
                 GetNextChar();
             }
@@ -263,6 +279,9 @@ private:
         if (myInputBuffer.GetChar() == '\"') {
             out.push_back(myInputBuffer.GetChar());
             GetNextChar();
+            if (!isValidEscape) {
+                return std::make_pair(LexType::Error, "Invalid escape char");
+            }
             return std::make_pair(LexType::String, "");
         }
 
@@ -351,4 +370,5 @@ private:
     std::size_t myCol = 0;
     std::size_t myRow = 0;
     InputBuffer<InputType> myInputBuffer;
+    std::size_t myStringNesting = 0;
 };

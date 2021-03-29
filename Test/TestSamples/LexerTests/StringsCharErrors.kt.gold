@@ -18,12 +18,24 @@
 3	1	Key	|val
 3	5	Word	|c
 3	6	Op	|:
-3	7	Word	|String
-3	14	Op	|=
-3	16	Error	Unclosed string	|"abcd
+3	7	Word	|Char
+3	12	Op	|=
+3	14	Error	Invalid escape char	|'\f'
 4	1	Key	|val
 4	5	Word	|d
-4	7	Op	|:
-4	8	Word	|String
-4	15	Op	|=
-4	17	RStr	Unclosed string	|"""abcd\n\t\tabcde\n}
+4	6	Op	|:
+4	7	Word	|String
+4	14	Op	|=
+4	16	Error	Unclosed string	|"abcd
+5	1	Key	|val
+5	5	Word	|e
+5	6	Op	|:
+5	7	Word	|String
+5	14	Op	|=
+5	16	Error	Invalid escape char	|"abcd\e"
+6	1	Key	|val
+6	5	Word	|f
+6	7	Op	|:
+6	8	Word	|String
+6	15	Op	|=
+6	17	RStr	Unclosed string	|"""abcd\n\t\tabcde\n}

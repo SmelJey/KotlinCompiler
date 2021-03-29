@@ -27,6 +27,8 @@ const std::unordered_set<std::string> ILexer::KeywordSet {
     "noinline", "crossinline", "reified", "expect", "actual", "true", "false", "null"
 };
 
+const std::unordered_set<char> ILexer::EscapeCharset { 't', 'b', 'r', 'n', '\'', '\"', '\\', '$' };
+
 ILexer::CharGroup ILexer::GetCharGroup(int character) {
     if (character == BUFFER_EOF) {
         return CharGroup::EndOfFile;

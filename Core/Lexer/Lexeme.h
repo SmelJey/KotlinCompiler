@@ -25,7 +25,6 @@ public:
     };
 
     static std::string LexemeToStr[];
-    /*static std::unordered_map<std::string, LexemeType> StrToLexeme;*/
 
     Lexeme();
     Lexeme(int col, int row, std::string text, LexemeType type, std::string errorDescription = "");
