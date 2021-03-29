@@ -173,8 +173,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="TestSamples\Comments.kt" />
+    <None Include="TestSamples\LexerTests\Floats.kt" />
+    <None Include="TestSamples\LexerTests\Integers.kt" />
     <None Include="TestSamples\LexerTests\MultilineComments.kt" />
     <None Include="TestSamples\LexerTests\RawStrings.kt" />
+    <None Include="TestSamples\LexerTests\Doubles.kt" />
     <None Include="TestSamples\LexerTests\SimpleTest.kt" />
     <None Include="TestSamples\LexerTests\SinglelineComments.kt" />
     <None Include="TestSamples\test.kt" />

@@ -47,6 +47,15 @@
     <None Include="TestSamples\LexerTests\RawStrings.kt">
       <Filter>Resource Files\LexerTests</Filter>
     </None>
+    <None Include="TestSamples\LexerTests\Integers.kt">
+      <Filter>Resource Files\LexerTests</Filter>
+    </None>
+    <None Include="TestSamples\LexerTests\Floats.kt">
+      <Filter>Resource Files\LexerTests</Filter>
+    </None>
+    <None Include="TestSamples\LexerTests\Doubles.kt">
+      <Filter>Resource Files\LexerTests</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="InputBufferTest.cpp">

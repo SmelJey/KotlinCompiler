@@ -58,7 +58,9 @@ private:
     }
 
     std::pair<bool, LexType> ProcessComment(std::string& out) {
-        while (myInputBuffer.GetChar() != BUFFER_EOF && !NewlineCharset.count(GetNextChar())) {}
+        while (myInputBuffer.GetChar() != BUFFER_EOF && !NewlineCharset.count(myInputBuffer.GetChar())) {
+            GetNextChar();
+        }
         return std::make_pair(true, LexType::Ignored);
     }
 
@@ -92,7 +94,10 @@ private:
             }
         }
 
+        bool isFloat = false;
+
         if (myInputBuffer.GetChar() == '.') {
+            isFloat = true;
             out.push_back(GetNextChar());
             if (GetCharGroup(myInputBuffer.GetChar()) == CharGroup::Digit) {
                 bool isGood = ProcessIntegerNumber(out);
@@ -103,30 +108,30 @@ private:
         }
 
         if (myInputBuffer.GetChar() == 'e') {
+            isFloat = true;
             out.push_back(GetNextChar());
             if (myInputBuffer.GetChar() == '+' || myInputBuffer.GetChar() == '-') {
                 out.push_back(GetNextChar());
             }
-            if (GetCharGroup(myInputBuffer.GetChar()) == CharGroup::Digit) {
+            CharGroup charGroup = GetCharGroup(myInputBuffer.GetChar());
+            if (charGroup == CharGroup::Digit) {
                 bool isGood = ProcessIntegerNumber(out);
                 if (!isGood) {
                     return std::make_pair(isGood, LexType::Number);
                 }
             } else {
-                CharGroup charGroup = GetCharGroup(myInputBuffer.GetChar());
-                while (charGroup == CharGroup::Digit || charGroup == CharGroup::Alphabetic || charGroup == CharGroup::Unknown) {
-                    out.push_back(myInputBuffer.GetChar());
-                    charGroup = GetCharGroup(GetNextChar());
-                }
+                ConsumeLexeme(out);
                 return std::make_pair(false, LexType::Number);
             }
         }
+
+        if (myInputBuffer.GetChar() == 'f' || myInputBuffer.GetChar() == 'F' || myInputBuffer.GetChar() == 'L' && !isFloat) {
+            out.push_back(GetNextChar());
+        }
+
         CharGroup charGroup = GetCharGroup(myInputBuffer.GetChar());
         if (charGroup == CharGroup::Alphabetic || charGroup == CharGroup::Unknown) {
-            while (charGroup == CharGroup::Digit || charGroup == CharGroup::Alphabetic || charGroup == CharGroup::Unknown) {
-                out.push_back(myInputBuffer.GetChar());
-                charGroup = GetCharGroup(GetNextChar());
-            }
+            ConsumeLexeme(out);
             return std::make_pair(false, LexType::Number);
         }
 
@@ -137,18 +142,14 @@ private:
         out.push_back(GetNextChar());
         int internalLen = ProcessNumberInternals(out);
 
-        if (internalLen == 0) {
-            return true;
-        }
-
         CharGroup charGroup = GetCharGroup(myInputBuffer.GetChar());
 
         if (charGroup != CharGroup::Digit) {
-            while (charGroup == CharGroup::Digit || charGroup == CharGroup::Alphabetic || charGroup == CharGroup::Unknown) {
-                out.push_back(myInputBuffer.GetChar());
-                GetCharGroup(GetNextChar());
+            if (internalLen == 0) {
+                return true;
             }
 
+            ConsumeLexeme(out);
             return false;
         }
 
@@ -208,7 +209,7 @@ private:
             operation.pop_back();
         }
 
-        return std::make_pair(false, LexType::Operation);;
+        return std::make_pair(false, LexType::Operation);
     }
 
     std::pair<bool, LexType> ProcessBrace(std::string& out) {
@@ -221,8 +222,9 @@ private:
         out.push_back(GetNextChar());
         out.push_back(GetNextChar());
 
-        while (!(myInputBuffer.GetChar() == BUFFER_EOF || myInputBuffer.GetChar() == '\"' && myInputBuffer.LookAhead(1) == '\"'
-                 && myInputBuffer.LookAhead(2) == '\"' && myInputBuffer.LookAhead(3) != '\"')) {
+        while (!(myInputBuffer.GetChar() == BUFFER_EOF
+                 || GetCharGroup(myInputBuffer.GetChar(), myInputBuffer.LookAhead(1), myInputBuffer.LookAhead(2)) == CharGroup::TripleQuote
+                 && myInputBuffer.LookAhead(3) != '\"')) {
             out.push_back(GetNextChar());
         }
         if (myInputBuffer.GetChar() == BUFFER_EOF) {
@@ -236,14 +238,20 @@ private:
     }
 
     std::pair<bool, LexType> ProcessUnknown(std::string& out) {
-        while (GetCharGroup(myInputBuffer.GetChar()) == CharGroup::Unknown) {
-            out.push_back(GetNextChar());
-        }
+        ConsumeLexeme(out);
         return std::make_pair(false, LexType::Error);
     }
 
     std::pair<bool, LexType> ProcessEof(std::string& out) {
         return std::make_pair(true, LexType::EndOfFile);
+    }
+
+    void ConsumeLexeme(std::string& out) {
+        CharGroup charGroup = GetCharGroup(myInputBuffer.GetChar());
+        while (charGroup == CharGroup::Digit || charGroup == CharGroup::Alphabetic || charGroup == CharGroup::Unknown) {
+            out.push_back(myInputBuffer.GetChar());
+            charGroup = GetCharGroup(GetNextChar());
+        }
     }
 
     int GetNextChar() {
