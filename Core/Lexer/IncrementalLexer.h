@@ -263,9 +263,6 @@ private:
         GetNextChar();
         bool isValidEscape = true;
         while (myInputBuffer.GetChar() != BUFFER_EOF && !NewlineCharset.count(myInputBuffer.GetChar()) && myInputBuffer.GetChar() != '\"') {
-            if (myInputBuffer.GetChar() == '$') {
-                return std::make_pair(LexType::String, "");
-            }
             if (myInputBuffer.GetChar() == '\\') {
                 if (myInputBuffer.LookAhead(1) == BUFFER_EOF || !EscapeCharset.count(myInputBuffer.LookAhead(1))) {
                     isValidEscape = false;

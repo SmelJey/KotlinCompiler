@@ -178,11 +178,15 @@
     <None Include="TestSamples\LexerTests\CommentsErrors.kt" />
     <None Include="TestSamples\LexerTests\EscapedIds.kt" />
     <None Include="TestSamples\LexerTests\EscapedIdsErrors.kt" />
+    <None Include="TestSamples\LexerTests\ExtensionsExample.kt" />
     <None Include="TestSamples\LexerTests\Floats.kt" />
+    <None Include="TestSamples\LexerTests\GenericsExample.kt" />
     <None Include="TestSamples\LexerTests\HexInts.kt" />
     <None Include="TestSamples\LexerTests\HexIntsErrors.kt" />
+    <None Include="TestSamples\LexerTests\InheritanceExample.kt" />
     <None Include="TestSamples\LexerTests\Integers.kt" />
     <None Include="TestSamples\LexerTests\IntegersErrors.kt" />
+    <None Include="TestSamples\LexerTests\LambdasExample.kt" />
     <None Include="TestSamples\LexerTests\MultilineComments.kt" />
     <None Include="TestSamples\LexerTests\RawStrings.kt" />
     <None Include="TestSamples\LexerTests\Doubles.kt" />

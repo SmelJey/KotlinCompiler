@@ -31,3 +31,10 @@ TEST_CASE("Lexer Incorrect Syntax", "[Lexer]") {
     LEXER_TEST(IncrementalLexer<std::ifstream>, "StringsCharErrors.kt");
     LEXER_TEST(IncrementalLexer<std::ifstream>, "EscapedIdsErrors.kt");
 }
+
+TEST_CASE("Lexer Complex Tests", "[Lexer]") {
+    LEXER_TEST(IncrementalLexer<std::ifstream>, "GenericsExample.kt")
+    LEXER_TEST(IncrementalLexer<std::ifstream>, "ExtensionsExample.kt")
+    LEXER_TEST(IncrementalLexer<std::ifstream>, "InheritanceExample.kt")
+    LEXER_TEST(IncrementalLexer<std::ifstream>, "LambdasExample.kt")
+}

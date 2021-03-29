@@ -89,6 +89,18 @@
     <None Include="TestSamples\LexerTests\EscapedIdsErrors.kt">
       <Filter>Resource Files\LexerTests</Filter>
     </None>
+    <None Include="TestSamples\LexerTests\GenericsExample.kt">
+      <Filter>Resource Files\LexerTests</Filter>
+    </None>
+    <None Include="TestSamples\LexerTests\InheritanceExample.kt">
+      <Filter>Resource Files\LexerTests</Filter>
+    </None>
+    <None Include="TestSamples\LexerTests\LambdasExample.kt">
+      <Filter>Resource Files\LexerTests</Filter>
+    </None>
+    <None Include="TestSamples\LexerTests\ExtensionsExample.kt">
+      <Filter>Resource Files\LexerTests</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="InputBufferTest.cpp">
