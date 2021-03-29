@@ -8,4 +8,5 @@ fun main() {
 	val g : Double = 321.123e-15
 	val h : Double = 3_2_1.1_2_3e-1_3
 	val k : Double = 3__1.1__3__4e-1__5__6
+	val l : Double = .5e5
 }

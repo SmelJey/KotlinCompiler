@@ -1,0 +1,24 @@
+0	0	Key	|fun
+0	4	Word	|main
+0	8	Br	|(
+0	9	Br	|)
+0	11	Br	|{
+1	1	Key	|val
+1	5	Word	|a
+1	7	Op	|:
+1	9	Word	|Int
+1	13	Op	|=
+1	15	Error	Unparseable number	|2asb
+2	1	Key	|val
+2	5	Word	|b
+2	7	Op	|:
+2	9	Word	|Int
+2	13	Op	|=
+2	15	Error	Unparseable number	|2_
+3	1	Key	|val
+3	5	Word	|c
+3	7	Op	|:
+3	9	Word	|Int
+3	13	Op	|=
+3	15	Error	Unparseable number	|2_2L3
+4	0	Br	|}

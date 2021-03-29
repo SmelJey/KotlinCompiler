@@ -8,4 +8,5 @@ fun main() {
 	val g : Float = 321.123e-15F
 	val h : Float = 3_2_1.1_2_3e-1_3F
 	val k : Float = 3__1.1__3__4e-1__5__6f
+	val l : Float = .5e5f
 }

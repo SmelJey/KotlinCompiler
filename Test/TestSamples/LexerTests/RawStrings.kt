@@ -6,4 +6,5 @@ fun main() {
 		string""""
 	val c : String = """"abc"""
 	val d : String = """"""
+	val e : String = """ escape wont work here \"""
 }

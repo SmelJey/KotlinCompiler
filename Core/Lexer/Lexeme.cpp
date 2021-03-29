@@ -3,10 +3,10 @@
 #include <sstream>
 #include <regex>
 
-Lexeme::Lexeme() : Lexeme(0, 0, "", LexemeType::Error, false) {};
+Lexeme::Lexeme() : Lexeme(0, 0, "", LexemeType::Error) {};
 
-Lexeme::Lexeme(int col, int row, std::string text, LexemeType lexemeType, bool isComplete)
-    : myColumn(col), myRow(row), myText(std::move(text)), myType(lexemeType), isComplete(isComplete) {}
+Lexeme::Lexeme(int col, int row, std::string text, LexemeType lexemeType, std::string errorDescription)
+    : myColumn(col), myRow(row), myText(std::move(text)), myError(std::move(errorDescription)), myType(lexemeType) {}
 
 std::ostream& operator<<(std::ostream& out, const Lexeme& lexeme) {
     out << lexeme.ToString();
@@ -25,6 +25,10 @@ const std::string& Lexeme::GetText() const {
     return myText;
 }
 
+const std::string& Lexeme::GetError() const {
+    return myError;
+}
+
 Lexeme::LexemeType Lexeme::GetType() const {
     return myType;
 }
@@ -33,7 +37,7 @@ std::string Lexeme::ToString() const {
     std::stringstream ss;
     std::string textWithoutNewlines = std::regex_replace(myText, std::regex("\n"), "\\n");
     textWithoutNewlines = std::regex_replace(textWithoutNewlines, std::regex("\t"), "\\t");
-    ss << myRow << "\t" << myColumn << "\t" << GetStringType() + (isComplete ? "" : "!") << "\t" << textWithoutNewlines;
+    ss << myRow << "\t" << myColumn << "\t" << GetStringType() <<  (myError.empty() ? "" : "\t") << myError << "\t|" << textWithoutNewlines;
     return ss.str();
 }
 

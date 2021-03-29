@@ -27,13 +27,13 @@ public:
     /*static std::unordered_map<std::string, LexemeType> StrToLexeme;*/
 
     Lexeme();
-    Lexeme(int col, int row, std::string text, LexemeType type, bool isComplete = true);
+    Lexeme(int col, int row, std::string text, LexemeType type, std::string errorDescription = "");
 
     int GetColumn() const;
     int GetRow() const;
     const std::string& GetText() const;
+    const std::string& GetError() const;
     LexemeType GetType() const;
-    bool IsComplete() const;
 
     std::string ToString() const;
 private:
@@ -42,8 +42,8 @@ private:
     int myColumn;
     int myRow;
     std::string myText;
+    std::string myError;
     LexemeType myType;
-    bool isComplete;
 };
 
 std::ostream& operator<<(std::ostream& out, const Lexeme& lexeme);

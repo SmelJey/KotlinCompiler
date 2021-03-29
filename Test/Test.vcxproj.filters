@@ -59,6 +59,27 @@
     <None Include="TestSamples\LexerTests\HexInts.kt">
       <Filter>Resource Files\LexerTests</Filter>
     </None>
+    <None Include="TestSamples\LexerTests\CommentsErrors.kt">
+      <Filter>Resource Files\LexerTests</Filter>
+    </None>
+    <None Include="TestSamples\LexerTests\IntegersErrors.kt">
+      <Filter>Resource Files\LexerTests</Filter>
+    </None>
+    <None Include="TestSamples\LexerTests\BinIntsErrors.kt">
+      <Filter>Resource Files\LexerTests</Filter>
+    </None>
+    <None Include="TestSamples\LexerTests\HexIntsErrors.kt">
+      <Filter>Resource Files\LexerTests</Filter>
+    </None>
+    <None Include="TestSamples\LexerTests\DoubleErrors.kt">
+      <Filter>Resource Files\LexerTests</Filter>
+    </None>
+    <None Include="TestSamples\LexerTests\StringsErrors.kt">
+      <Filter>Resource Files\LexerTests</Filter>
+    </None>
+    <None Include="TestSamples\LexerTests\SimpleErrors.kt">
+      <Filter>Resource Files\LexerTests</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="InputBufferTest.cpp">

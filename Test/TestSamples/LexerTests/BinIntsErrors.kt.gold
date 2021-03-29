@@ -8,35 +8,41 @@
 1	7	Op	|:
 1	9	Word	|Int
 1	13	Op	|=
-1	15	Num	|5
+1	15	Error	Unparseable number	|0b
 2	1	Key	|val
 2	5	Word	|b
 2	7	Op	|:
 2	9	Word	|Int
 2	13	Op	|=
-2	15	Num	|1241241
+2	15	Error	Unparseable number	|0b2
 3	1	Key	|val
 3	5	Word	|c
 3	7	Op	|:
 3	9	Word	|Int
 3	13	Op	|=
-3	15	Num	|452L
+3	15	Error	Unparseable number	|0_b1
 4	1	Key	|val
 4	5	Word	|d
 4	7	Op	|:
 4	9	Word	|Int
 4	13	Op	|=
-4	15	Num	|1_5_2
+4	15	Error	Unparseable number	|0b_1
 5	1	Key	|val
 5	5	Word	|e
 5	7	Op	|:
 5	9	Word	|Int
 5	13	Op	|=
-5	15	Num	|1_244_123L
+5	15	Error	Unparseable number	|0b10_
 6	1	Key	|val
 6	5	Word	|f
 6	7	Op	|:
 6	9	Word	|Int
 6	13	Op	|=
-6	15	Num	|12__5
-7	0	Br	|}
+6	15	Error	Unparseable number	|0b1L1
+7	1	Key	|val
+7	5	Word	|g
+7	7	Op	|:
+7	9	Word	|Int
+7	13	Op	|=
+7	15	Error	Unparseable number	|0b101f
+8	0	Br	|}
