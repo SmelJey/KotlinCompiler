@@ -40,6 +40,9 @@ ILexer::CharGroup ILexer::GetCharGroup(int character) {
     if (IsDecChar(character)) {
         return CharGroup::Digit;
     }
+    if (character == '`') {
+        return CharGroup::IdQuote;
+    }
     if (character == '\"') {
         return CharGroup::Quote;
     }

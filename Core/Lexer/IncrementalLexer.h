@@ -16,11 +16,12 @@ public:
 
     IncrementalLexer(const std::string& filepath) : myInputBuffer(filepath) {}
 private:
-    std::function<std::pair<Lexeme::LexemeType, std::string>(IncrementalLexer*, std::string&)> PatternMap[14] {
+    std::function<std::pair<Lexeme::LexemeType, std::string>(IncrementalLexer*, std::string&)> PatternMap[15] {
         &IncrementalLexer::ProcessNumber,
         &IncrementalLexer::ProcessIdentifier,
         &IncrementalLexer::ProcessOperation,
         &IncrementalLexer::ProcessBrace,
+        &IncrementalLexer::ProcessEscapedIdentifier,
         &IncrementalLexer::ProcessChar,
         &IncrementalLexer::ProcessString,
         &IncrementalLexer::ProcessRawString,
@@ -335,6 +336,19 @@ private:
     std::pair<LexType, std::string> ProcessBrace(std::string& out) {
         out.push_back(GetNextChar());
         return std::make_pair(LexType::Brace, "");
+    }
+
+    std::pair<LexType, std::string> ProcessEscapedIdentifier(std::string& out) {
+        out.push_back(GetNextChar());
+        while (myInputBuffer.GetChar() != BUFFER_EOF && !NewlineCharset.count(myInputBuffer.GetChar()) && myInputBuffer.GetChar() != '`') {
+            out.push_back(GetNextChar());
+        }
+
+        if (myInputBuffer.GetChar() != '`') {
+            return std::make_pair(LexType::Error, "Unclosed escaped identifier");
+        }
+        out.push_back(GetNextChar());
+        return std::make_pair(LexType::Identifier, "");
     }
 
     std::pair<LexType, std::string> ProcessUnknown(std::string& out) {

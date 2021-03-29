@@ -1,0 +1,8 @@
+0	0	Key	|fun
+0	4	Word	|main
+0	8	Br	|(
+0	9	Br	|)
+0	10	Br	|{
+1	1	Key	|val
+1	5	Error	Unclosed escaped identifier	|`a = 5
+2	0	Br	|}

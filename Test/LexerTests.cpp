@@ -18,6 +18,7 @@ TEST_CASE("Lexer Correct Syntax", "[Lexer]") {
     LEXER_TEST(IncrementalLexer<std::ifstream>, "HexInts.kt")
     LEXER_TEST(IncrementalLexer<std::ifstream>, "Floats.kt")
     LEXER_TEST(IncrementalLexer<std::ifstream>, "Doubles.kt")
+    LEXER_TEST(IncrementalLexer<std::ifstream>, "EscapedIds.kt")
 }
 
 TEST_CASE("Lexer Incorrect Syntax", "[Lexer]") {
@@ -28,4 +29,5 @@ TEST_CASE("Lexer Incorrect Syntax", "[Lexer]") {
     LEXER_TEST(IncrementalLexer<std::ifstream>, "HexIntsErrors.kt");
     LEXER_TEST(IncrementalLexer<std::ifstream>, "DoubleErrors.kt");
     LEXER_TEST(IncrementalLexer<std::ifstream>, "StringsCharErrors.kt");
+    LEXER_TEST(IncrementalLexer<std::ifstream>, "EscapedIdsErrors.kt");
 }

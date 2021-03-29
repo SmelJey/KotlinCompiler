@@ -176,6 +176,8 @@
     <None Include="TestSamples\LexerTests\BinIntsErrors.kt" />
     <None Include="TestSamples\LexerTests\CharLiterals.kt" />
     <None Include="TestSamples\LexerTests\CommentsErrors.kt" />
+    <None Include="TestSamples\LexerTests\EscapedIds.kt" />
+    <None Include="TestSamples\LexerTests\EscapedIdsErrors.kt" />
     <None Include="TestSamples\LexerTests\Floats.kt" />
     <None Include="TestSamples\LexerTests\HexInts.kt" />
     <None Include="TestSamples\LexerTests\HexIntsErrors.kt" />
