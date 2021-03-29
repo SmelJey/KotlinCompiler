@@ -174,6 +174,7 @@
   <ItemGroup>
     <None Include="TestSamples\Comments.kt" />
     <None Include="TestSamples\LexerTests\Floats.kt" />
+    <None Include="TestSamples\LexerTests\HexInts.kt" />
     <None Include="TestSamples\LexerTests\Integers.kt" />
     <None Include="TestSamples\LexerTests\MultilineComments.kt" />
     <None Include="TestSamples\LexerTests\RawStrings.kt" />
@@ -184,6 +185,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="TestSamples\LexerTests\Strings.kt" />
+    <Text Include="TestSamples\LexerTests\BinInts.kt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -56,6 +56,9 @@
     <None Include="TestSamples\LexerTests\Doubles.kt">
       <Filter>Resource Files\LexerTests</Filter>
     </None>
+    <None Include="TestSamples\LexerTests\HexInts.kt">
+      <Filter>Resource Files\LexerTests</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="InputBufferTest.cpp">
@@ -67,6 +70,9 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="TestSamples\LexerTests\Strings.kt">
+      <Filter>Resource Files\LexerTests</Filter>
+    </Text>
+    <Text Include="TestSamples\LexerTests\BinInts.kt">
       <Filter>Resource Files\LexerTests</Filter>
     </Text>
   </ItemGroup>

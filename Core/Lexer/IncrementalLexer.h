@@ -16,7 +16,7 @@ public:
 
     IncrementalLexer(const std::string& filepath) : myInputBuffer(filepath) {}
 private:
-    std::function<std::pair<bool, Lexeme::LexemeType>(IncrementalLexer*, std::string&)> PatternMap[11] {
+    std::function<std::pair<bool, Lexeme::LexemeType>(IncrementalLexer*, std::string&)> PatternMap[13] {
         &IncrementalLexer::ProcessNumber,
         &IncrementalLexer::ProcessIdentifier,
         &IncrementalLexer::ProcessOperation,
@@ -25,6 +25,8 @@ private:
         &IncrementalLexer::ProcessRawString,
         &IncrementalLexer::ProcessComment,
         &IncrementalLexer::ProcessMultilineComment,
+        &IncrementalLexer::ProcessBinNumber,
+        &IncrementalLexer::ProcessHexNumber,
         &IncrementalLexer::ProcessWhitespaces,
         &IncrementalLexer::ProcessUnknown,
         &IncrementalLexer::ProcessEof,
@@ -92,7 +94,7 @@ private:
 
     std::pair<bool, LexType> ProcessNumber(std::string& out) {
         if (myInputBuffer.GetChar() != '.') {
-            bool isGood = ProcessIntegerNumber(out);
+            bool isGood = ProcessIntegerNumber(out, &ILexer::IsDecChar);
             if (!isGood) {
                 return std::make_pair(isGood, LexType::Number);
             }
@@ -104,7 +106,7 @@ private:
             isFloat = true;
             out.push_back(GetNextChar());
             if (GetCharGroup(myInputBuffer.GetChar()) == CharGroup::Digit) {
-                bool isGood = ProcessIntegerNumber(out);
+                bool isGood = ProcessIntegerNumber(out, &ILexer::IsDecChar);
                 if (!isGood) {
                     return std::make_pair(isGood, LexType::Number);
                 }
@@ -119,7 +121,7 @@ private:
             }
             CharGroup charGroup = GetCharGroup(myInputBuffer.GetChar());
             if (charGroup == CharGroup::Digit) {
-                bool isGood = ProcessIntegerNumber(out);
+                bool isGood = ProcessIntegerNumber(out, &ILexer::IsDecChar);
                 if (!isGood) {
                     return std::make_pair(isGood, LexType::Number);
                 }
@@ -134,7 +136,7 @@ private:
         }
 
         CharGroup charGroup = GetCharGroup(myInputBuffer.GetChar());
-        if (charGroup == CharGroup::Alphabetic || charGroup == CharGroup::Unknown) {
+        if (charGroup == CharGroup::Alphabetic || charGroup == CharGroup::Unknown || charGroup == CharGroup::Digit) {
             ConsumeLexeme(out);
             return std::make_pair(false, LexType::Number);
         }
@@ -142,13 +144,11 @@ private:
         return std::make_pair(true, LexType::Number);
     }
 
-    bool ProcessIntegerNumber(std::string& out) {
+    bool ProcessIntegerNumber(std::string& out, std::function<bool(int)> validator) {
         out.push_back(GetNextChar());
-        int internalLen = ProcessNumberInternals(out);
+        int internalLen = ProcessNumberInternals(out, validator);
 
-        CharGroup charGroup = GetCharGroup(myInputBuffer.GetChar());
-
-        if (charGroup != CharGroup::Digit) {
+        if (!validator(myInputBuffer.GetChar())) {
             if (internalLen == 0) {
                 return true;
             }
@@ -161,14 +161,58 @@ private:
         return true;
     }
 
-    int ProcessNumberInternals(std::string& out) {
+    int ProcessNumberInternals(std::string& out, std::function<bool(int)> validator) {
         int len = 0;
-        while ((GetCharGroup(myInputBuffer.GetChar()) == CharGroup::Digit || myInputBuffer.GetChar() == '_')
-               && (GetCharGroup(myInputBuffer.LookAhead(1)) == CharGroup::Digit || myInputBuffer.LookAhead(1) == '_')) {
+        while ((validator(myInputBuffer.GetChar()) || myInputBuffer.GetChar() == '_')
+               && (validator(myInputBuffer.LookAhead(1)) || myInputBuffer.LookAhead(1) == '_')) {
             len++;
             out.push_back(GetNextChar());
         }
         return len;
+    }
+
+    std::pair<bool, LexType> ProcessBinNumber(std::string& out) {
+        out.push_back(GetNextChar());
+        out.push_back(GetNextChar());
+        if (!IsBinChar(myInputBuffer.GetChar())) {
+            ConsumeLexeme(out);
+            return std::make_pair(false, LexType::Number);
+        }
+
+        bool isGood = ProcessIntegerNumber(out, &ILexer::IsBinChar);
+        if (myInputBuffer.GetChar() == 'L') {
+            out.push_back(GetNextChar());
+        }
+
+        CharGroup charGroup = GetCharGroup(myInputBuffer.GetChar());
+        if (charGroup == CharGroup::Alphabetic || charGroup == CharGroup::Unknown || charGroup == CharGroup::Digit) {
+            ConsumeLexeme(out);
+            return std::make_pair(false, LexType::Number);
+        }
+
+        return std::make_pair(isGood, LexType::Number);
+    }
+
+    std::pair<bool, LexType> ProcessHexNumber(std::string& out) {
+        out.push_back(GetNextChar());
+        out.push_back(GetNextChar());
+        if (!IsHexChar(myInputBuffer.GetChar())) {
+            ConsumeLexeme(out);
+            return std::make_pair(false, LexType::Number);
+        }
+
+        bool isGood = ProcessIntegerNumber(out, &ILexer::IsHexChar);
+        if (myInputBuffer.GetChar() == 'L') {
+            out.push_back(GetNextChar());
+        }
+
+        CharGroup charGroup = GetCharGroup(myInputBuffer.GetChar());
+        if (charGroup == CharGroup::Alphabetic || charGroup == CharGroup::Unknown || charGroup == CharGroup::Digit) {
+            ConsumeLexeme(out);
+            return std::make_pair(false, LexType::Number);
+        }
+
+        return std::make_pair(isGood, LexType::Number);
     }
 
     std::pair<bool, LexType> ProcessString(std::string& out) {

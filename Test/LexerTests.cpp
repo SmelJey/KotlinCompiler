@@ -13,6 +13,8 @@ TEST_CASE("Lexer Tests", "[Lexer]") {
     LEXER_TEST(IncrementalLexer<std::ifstream>, "Strings.kt")
     LEXER_TEST(IncrementalLexer<std::ifstream>, "RawStrings.kt")
     LEXER_TEST(IncrementalLexer<std::ifstream>, "Integers.kt")
+    LEXER_TEST(IncrementalLexer<std::ifstream>, "BinInts.kt")
+    LEXER_TEST(IncrementalLexer<std::ifstream>, "HexInts.kt")
     LEXER_TEST(IncrementalLexer<std::ifstream>, "Floats.kt")
     LEXER_TEST(IncrementalLexer<std::ifstream>, "Doubles.kt")
 }

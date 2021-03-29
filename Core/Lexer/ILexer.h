@@ -15,9 +15,11 @@ public:
         TripleQuote = 5,
         CommentStart = 6,
         MultilineCommentStart = 7,
-        Spacing = 8,
-        Unknown = 9,
-        EndOfFile = 10,
+        BinPrefix = 8,
+        HexPrefix = 9,
+        Spacing = 10,
+        Unknown = 11,
+        EndOfFile = 12,
     };
 
     static const std::unordered_set<char> BraceCharset;
@@ -29,6 +31,10 @@ public:
 
     static CharGroup GetCharGroup(int character);
     static CharGroup GetCharGroup(int character, int lookAhead1, int lookAhead2);
+
+    static bool IsDecChar(int character);
+    static bool IsBinChar(int character);
+    static bool IsHexChar(int character);
 
     ILexer(const ILexer& src) = delete;
     virtual ~ILexer() = default;

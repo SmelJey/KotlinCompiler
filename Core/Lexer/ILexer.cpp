@@ -35,7 +35,7 @@ ILexer::CharGroup ILexer::GetCharGroup(int character) {
         || character >= 'A' && character <= 'Z' || character == '_') {
         return CharGroup::Alphabetic;
     }
-    if (character >= '0' && character <= '9') {
+    if (IsDecChar(character)) {
         return CharGroup::Digit;
     }
     if (OperationsCharset.count(character)) {
@@ -71,9 +71,29 @@ ILexer::CharGroup ILexer::GetCharGroup(int character, int lookAhead1, int lookAh
     }
     if (character == '.' && GetCharGroup(lookAhead1) == CharGroup::Digit) {
         return CharGroup::Digit;
-    } 
+    }
+    if (character == '0') {
+        if (lookAhead1 == 'x') {
+            return CharGroup::HexPrefix;
+        }
+        if (lookAhead1 == 'b') {
+            return CharGroup::BinPrefix;
+        }
+    }
 
     return GetCharGroup(character);
+}
+
+bool ILexer::IsDecChar(int character) {
+    return character >= '0' && character <= '9';
+}
+
+bool ILexer::IsBinChar(int character) {
+    return character == '0' || character == '1';
+}
+
+bool ILexer::IsHexChar(int character) {
+    return IsDecChar(character) || (character >= 'a' && character <= 'f') || (character >= 'A' && character <= 'F');
 }
 
 ILexer::ILexer() : myCurrentLexeme(0, 0, "", Lexeme::LexemeType::EndOfFile) {}
