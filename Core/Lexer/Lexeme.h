@@ -16,12 +16,10 @@ public:
         String = 6,
         RawString = 7,
         StringRef = 8,
-        RawStringRef = 9,
-        StringExpr = 10,
-        RawStringExpr = 11,
-        CharLiteral = 12,
-        Error = 13,
-        Ignored = 14,
+        StringExpr = 9,
+        CharLiteral = 10,
+        Error = 11,
+        Ignored = 12,
     };
 
     static std::string LexemeToStr[];

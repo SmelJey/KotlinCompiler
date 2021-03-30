@@ -38,4 +38,4 @@
 6	7	Op	|:
 6	8	Word	|String
 6	15	Op	|=
-6	17	RStr	Unclosed string	|"""abcd\n\t\tabcde\n}
+6	17	Error	Unclosed string	|"""abcd\n\t\tabcde\n}

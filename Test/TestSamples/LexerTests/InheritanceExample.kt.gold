@@ -20,7 +20,11 @@
 5	19	Br	|{
 6	8	Word	|println
 6	15	Br	|(
-6	16	Str	|"$name, the lion from $origin says: graoh!"
+6	16	Str	|"
+6	17	StrRf	|$name
+6	22	Str	|, the lion from 
+6	38	StrRf	|$origin
+6	45	Str	| says: graoh!"
 6	59	Br	|)
 7	4	Br	|}
 8	0	Br	|}

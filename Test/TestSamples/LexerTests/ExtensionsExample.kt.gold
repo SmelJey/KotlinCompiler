@@ -130,14 +130,36 @@
 15	93	Br	|)
 17	4	Word	|println
 17	11	Br	|(
-17	12	Str	|"Max priced item name: ${order.maxPricedItemName()}"
+17	12	Str	|"Max priced item name: 
+17	35	StrExp	|${
+17	37	Word	|order
+17	42	Op	|.
+17	43	Word	|maxPricedItemName
+17	60	Br	|(
+17	61	Br	|)
+17	62	Br	|}
+17	63	Str	|"
 17	64	Br	|)
 18	4	Word	|println
 18	11	Br	|(
-18	12	Str	|"Max priced item value: ${order.maxPricedItemValue()}"
+18	12	Str	|"Max priced item value: 
+18	36	StrExp	|${
+18	38	Word	|order
+18	43	Op	|.
+18	44	Word	|maxPricedItemValue
+18	62	Br	|(
+18	63	Br	|)
+18	64	Br	|}
+18	65	Str	|"
 18	66	Br	|)
 19	4	Word	|println
 19	11	Br	|(
-19	12	Str	|"Items: ${order.commaDelimitedItemNames}"
+19	12	Str	|"Items: 
+19	20	StrExp	|${
+19	22	Word	|order
+19	27	Op	|.
+19	28	Word	|commaDelimitedItemNames
+19	51	Br	|}
+19	52	Str	|"
 19	53	Br	|)
 21	0	Br	|}

@@ -101,6 +101,21 @@
     <None Include="TestSamples\LexerTests\ExtensionsExample.kt">
       <Filter>Resource Files\LexerTests</Filter>
     </None>
+    <None Include="TestSamples\LexerTests\StringTemplates.kt">
+      <Filter>Resource Files\LexerTests</Filter>
+    </None>
+    <None Include="TestSamples\LexerTests\RawStringTemplates.kt">
+      <Filter>Resource Files\LexerTests</Filter>
+    </None>
+    <None Include="TestSamples\LexerTests\StringNestedTemplates.kt">
+      <Filter>Resource Files\LexerTests</Filter>
+    </None>
+    <None Include="TestSamples\LexerTests\StringTemplatesErrors2.kt">
+      <Filter>Resource Files\LexerTests</Filter>
+    </None>
+    <None Include="TestSamples\LexerTests\StringTemplatesErrors1.kt">
+      <Filter>Resource Files\LexerTests</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="InputBufferTest.cpp">

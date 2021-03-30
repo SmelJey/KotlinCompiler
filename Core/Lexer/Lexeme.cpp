@@ -41,13 +41,7 @@ std::string Lexeme::ToString() const {
     return ss.str();
 }
 
-std::string Lexeme::LexemeToStr[]{ "EOF", "Word", "Key", "Num", "Op", "Br", "Str", "RStr", "StrRf", "RStrRf", "StrExp", "RStrExp", "Char", "Error", "Ignored" };
-
-//std::unordered_map<std::string, Lexeme::LexemeType> Lexeme::StrToLexeme {
-//    {"EOF", LexemeType::EndOfFile},
-//    {"Word", LexemeType::Identifier },
-//    {"" }
-//};
+std::string Lexeme::LexemeToStr[]{ "EOF", "Word", "Key", "Num", "Op", "Br", "Str", "RStr", "StrRf", "StrExp", "Char", "Error", "Ignored" };
 
 std::string Lexeme::GetStringType() const {
     return LexemeToStr[(int)myType];

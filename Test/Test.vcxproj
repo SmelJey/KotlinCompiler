@@ -191,10 +191,15 @@
     <None Include="TestSamples\LexerTests\RawStrings.kt" />
     <None Include="TestSamples\LexerTests\Doubles.kt" />
     <None Include="TestSamples\LexerTests\DoubleErrors.kt" />
+    <None Include="TestSamples\LexerTests\RawStringTemplates.kt" />
     <None Include="TestSamples\LexerTests\SimpleErrors.kt" />
     <None Include="TestSamples\LexerTests\SimpleTest.kt" />
     <None Include="TestSamples\LexerTests\SinglelineComments.kt" />
+    <None Include="TestSamples\LexerTests\StringNestedTemplates.kt" />
     <None Include="TestSamples\LexerTests\StringsCharErrors.kt" />
+    <None Include="TestSamples\LexerTests\StringTemplates.kt" />
+    <None Include="TestSamples\LexerTests\StringTemplatesErrors1.kt" />
+    <None Include="TestSamples\LexerTests\StringTemplatesErrors2.kt" />
     <None Include="TestSamples\test.kt" />
   </ItemGroup>
   <ItemGroup>

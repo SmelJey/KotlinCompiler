@@ -5,6 +5,7 @@
 
 #include <string>
 #include <functional>
+#include <queue>
 #include <unordered_map>
 
 using LexType = Lexeme::LexemeType;
@@ -35,6 +36,15 @@ private:
     };
 
     Lexeme GetLexemeFromInput() override {
+        if (!myLexemeBuffer.empty()) {
+            Lexeme res = myLexemeBuffer.front();
+            myLexemeBuffer.pop_front();
+            return res;
+        }
+        return ProcessNextLexeme();
+    }
+
+    Lexeme ProcessNextLexeme() {
         std::string curText;
         std::size_t startCol;
         std::size_t startRow;
@@ -71,8 +81,7 @@ private:
     std::pair<LexType, std::string> ProcessMultilineComment(std::string& out) {
         while (myInputBuffer.GetChar() != BUFFER_EOF) {
             if (myInputBuffer.GetChar() == '*' && myInputBuffer.LookAhead(1) == '/') {
-                GetNextChar();
-                GetNextChar();
+                AddNextChars(2, out);
                 out.clear();
                 return std::make_pair(LexType::Ignored, "");
             }
@@ -82,7 +91,6 @@ private:
     }
 
     std::pair<LexType, std::string> ProcessIdentifier(std::string& out) {
-        out.push_back(GetNextChar());
         CharGroup charGroup = GetCharGroup(myInputBuffer.GetChar());
         while (charGroup == CharGroup::Alphabetic || charGroup == CharGroup::Digit) {
             out.push_back(GetNextChar());
@@ -117,11 +125,12 @@ private:
         if (myInputBuffer.GetChar() == 'e') {
             isFloat = true;
             out.push_back(GetNextChar());
+
             if (myInputBuffer.GetChar() == '+' || myInputBuffer.GetChar() == '-') {
                 out.push_back(GetNextChar());
             }
-            CharGroup charGroup = GetCharGroup(myInputBuffer.GetChar());
-            if (charGroup == CharGroup::Digit) {
+
+            if (GetCharGroup(myInputBuffer.GetChar()) == CharGroup::Digit) {
                 if (!ProcessIntegerNumber(out, &ILexer::IsDecChar)) {
                     return std::make_pair(LexType::Error, "Unparseable number");
                 }
@@ -181,35 +190,21 @@ private:
     }
 
     std::pair<LexType, std::string> ProcessBinNumber(std::string& out) {
-        out.push_back(GetNextChar());
-        out.push_back(GetNextChar());
-        if (!IsBinChar(myInputBuffer.GetChar())) {
-            ConsumeLexeme(out);
-            return std::make_pair(LexType::Error, "Unparseable number");
-        }
-
-        bool isGood = ProcessIntegerNumber(out, &ILexer::IsBinChar);
-        if (myInputBuffer.GetChar() == 'L') {
-            out.push_back(GetNextChar());
-        }
-
-        isGood &= ValidateNumberEnd(out);
-
-        if (!isGood) {
-            return std::make_pair(LexType::Error, "Unparseable number");
-        }
-        return std::make_pair(LexType::Number, "");
+        return ProcessPrefixNumber(out, &ILexer::IsBinChar);
     }
 
     std::pair<LexType, std::string> ProcessHexNumber(std::string& out) {
-        out.push_back(GetNextChar());
-        out.push_back(GetNextChar());
-        if (!IsHexChar(myInputBuffer.GetChar())) {
+        return ProcessPrefixNumber(out, &ILexer::IsHexChar);
+    }
+
+    std::pair<LexType, std::string> ProcessPrefixNumber(std::string& out, std::function<bool(int)> validator) {
+        AddNextChars(2, out);
+        if (!validator(myInputBuffer.GetChar())) {
             ConsumeLexeme(out);
             return std::make_pair(LexType::Error, "Unparseable number");
         }
 
-        bool isGood = ProcessIntegerNumber(out, &ILexer::IsHexChar);
+        bool isGood = ProcessIntegerNumber(out, validator);
         if (myInputBuffer.GetChar() == 'L') {
             out.push_back(GetNextChar());
         }
@@ -225,6 +220,7 @@ private:
     std::pair<LexType, std::string> ProcessChar(std::string& out) {
         out.push_back(GetNextChar());
         bool isValidEscape = true;
+
         if (myInputBuffer.GetChar() == '\\') {
             out.push_back(GetNextChar());
             if (!EscapeCharset.count(myInputBuffer.GetChar())) {
@@ -250,6 +246,7 @@ private:
             out.push_back(GetNextChar());
             charGroup = GetCharGroup(myInputBuffer.GetChar());
         }
+
         if (charGroup == CharGroup::SingleQuote) {
             out.push_back(GetNextChar());
             return std::make_pair(LexType::Error, "Invalid char literal");
@@ -259,10 +256,23 @@ private:
     }
 
     std::pair<LexType, std::string> ProcessString(std::string& out) {
-        out.push_back(myInputBuffer.GetChar());
-        GetNextChar();
+        bool needUnlock = false;
+        if (!isInString) {
+            isInString = true;
+            needUnlock = true;
+        }
+
+        int startCol = myCol;
+        int startRow = myRow;
+
+        out.push_back(GetNextChar());
         bool isValidEscape = true;
         while (myInputBuffer.GetChar() != BUFFER_EOF && !NewlineCharset.count(myInputBuffer.GetChar()) && myInputBuffer.GetChar() != '\"') {
+            if (myInputBuffer.GetChar() == '$') {
+                ProcessStringTemplate(out, startCol, startRow, Lexeme::LexemeType::String);
+                continue;
+            }
+
             if (myInputBuffer.GetChar() == '\\') {
                 if (myInputBuffer.LookAhead(1) == BUFFER_EOF || !EscapeCharset.count(myInputBuffer.LookAhead(1))) {
                     isValidEscape = false;
@@ -274,36 +284,110 @@ private:
             GetNextChar();
         }
 
+        LexType lexType = Lexeme::LexemeType::Error;
+        std::string error = "Unclosed string";
+
         if (myInputBuffer.GetChar() == '\"') {
             out.push_back(myInputBuffer.GetChar());
             GetNextChar();
             if (!isValidEscape) {
-                return std::make_pair(LexType::Error, "Invalid escape char");
+                error = "Invalid escape char";
+            } else {
+                error = "";
+                lexType = Lexeme::LexemeType::String;
             }
-            return std::make_pair(LexType::String, "");
         }
 
-        return std::make_pair(LexType::Error, "Unclosed string");
+        return ReturnCurrentStringLexeme(startCol, startRow, needUnlock, out, lexType, error);
     }
 
     std::pair<LexType, std::string> ProcessRawString(std::string& out) {
-        out.push_back(GetNextChar());
-        out.push_back(GetNextChar());
-        out.push_back(GetNextChar());
+        bool needUnlock = false;
+        if (!isInString) {
+            isInString = true;
+            needUnlock = true;
+        }
+
+        int startRow = myRow;
+        int startCol = myCol;
+
+        AddNextChars(3, out);
 
         while (!(myInputBuffer.GetChar() == BUFFER_EOF
                  || GetCharGroup(myInputBuffer.GetChar(), myInputBuffer.LookAhead(1), myInputBuffer.LookAhead(2)) == CharGroup::TripleQuote
                  && myInputBuffer.LookAhead(3) != '\"')) {
+            if (myInputBuffer.GetChar() == '$') {
+                ProcessStringTemplate(out, startCol, startRow, Lexeme::LexemeType::RawString);
+                continue;
+            }
             out.push_back(GetNextChar());
         }
+
+        LexType lexType = Lexeme::LexemeType::RawString;
+        std::string error;
+
         if (myInputBuffer.GetChar() == BUFFER_EOF) {
-            return std::make_pair(LexType::RawString, "Unclosed string");
+            lexType = Lexeme::LexemeType::Error;
+            error = "Unclosed string";
+        } else {
+            AddNextChars(3, out);
         }
 
-        out.push_back(GetNextChar());
-        out.push_back(GetNextChar());
-        out.push_back(GetNextChar());
-        return std::make_pair(LexType::RawString, "");
+        return ReturnCurrentStringLexeme(startCol, startRow, needUnlock, out, lexType, error);
+    }
+
+    void ProcessStringTemplate(std::string& out, int& startCol, int& startRow, LexType stringType) {
+        if (myInputBuffer.LookAhead(1) == '{') {
+            myLexemeBuffer.emplace_back(startCol, startRow, out, stringType);
+            out.clear();
+            AddNextChars(2, out);
+            myLexemeBuffer.emplace_back(myCol - 2, myRow, out, LexType::StringExpr);
+            ProcessStrExpression();
+
+            out.clear();
+            startCol = myCol;
+            startRow = myRow;
+        } else if (GetCharGroup(myInputBuffer.LookAhead(1)) == CharGroup::Alphabetic) {
+            myLexemeBuffer.emplace_back(startCol, startRow, out, stringType);
+            out.clear();
+            startCol = myCol;
+            startRow = myRow;
+
+            out.push_back(GetNextChar());
+            auto [lexType, error] = ProcessIdentifier(out);
+            myLexemeBuffer.emplace_back(startCol, startRow, out, LexType::StringRef);
+            out.clear();
+            startCol = myCol;
+            startRow = myRow;
+        }
+    }
+
+    std::pair<LexType, std::string> ReturnCurrentStringLexeme(int col, int row, bool unlockString, std::string& out, LexType lexType, const std::string& error) {
+        myLexemeBuffer.emplace_back(col, row, out, lexType, error);
+        if (unlockString) {
+            isInString = false;
+        }
+        if (isInString) {
+            out.clear();
+            return std::make_pair(LexType::Ignored, "");
+        }
+        Lexeme frontLexeme = myLexemeBuffer.front();
+        myLexemeBuffer.pop_front();
+        out = frontLexeme.GetText();
+        return std::make_pair(frontLexeme.GetType(), frontLexeme.GetError());
+    }
+
+    void ProcessStrExpression() {
+        Lexeme lexeme = ProcessNextLexeme();
+        while (lexeme.GetType() != Lexeme::LexemeType::EndOfFile) {
+            myLexemeBuffer.push_back(lexeme);
+            if (lexeme.GetText() == "{") {
+                ProcessStrExpression();
+            } else if (lexeme.GetText() == "}") {
+                return;
+            }
+            lexeme = ProcessNextLexeme();
+        }
     }
 
     std::pair<LexType, std::string> ProcessOperation(std::string& out) {
@@ -377,9 +461,17 @@ private:
 
         return character;
     }
+
+    void AddNextChars(int cnt, std::string& out) {
+        for (int i = 0; i < cnt; i++) {
+            out.push_back(GetNextChar());
+        }
+    }
          
     std::size_t myCol = 0;
     std::size_t myRow = 0;
     InputBuffer<InputType> myInputBuffer;
-    std::size_t myStringNesting = 0;
+    std::deque<Lexeme> myLexemeBuffer;
+
+    bool isInString = false;
 };

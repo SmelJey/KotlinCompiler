@@ -1,0 +1,15 @@
+0	0	Key	|fun
+0	4	Word	|main
+0	8	Br	|(
+0	9	Br	|)
+0	11	Br	|{
+1	1	Key	|val
+1	5	Word	|a
+1	6	Op	|:
+1	7	Word	|String
+1	14	Op	|=
+1	16	Str	|" 
+1	18	StrExp	|${
+1	21	Str	|" } "
+2	0	Br	|}
+2	1	Error	Unclosed string	|

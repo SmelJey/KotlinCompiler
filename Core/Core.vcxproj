@@ -160,7 +160,6 @@
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Core.cpp" />
     <ClCompile Include="Lexer\ILexer.cpp" />
     <ClCompile Include="Lexer\Lexeme.cpp" />
     <ClCompile Include="pch.cpp">
