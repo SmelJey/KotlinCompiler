@@ -1,36 +1,37 @@
-0	0	Key	|fun
-0	4	Word	|main
-0	8	Br	|(
-0	9	Br	|)
-0	11	Br	|{
-1	1	Key	|val
-1	5	Word	|a
-1	6	Op	|:
-1	7	Word	|Char
-1	12	Op	|=
-1	14	Char	|'a'
-2	1	Key	|val
-2	5	Word	|b
-2	6	Op	|:
-2	7	Word	|Char
-2	12	Op	|=
-2	14	Char	|'\n'
-3	1	Key	|val
-3	5	Word	|c
-3	6	Op	|:
-3	7	Word	|Char
-3	12	Op	|=
-3	14	Char	|'\''
-4	1	Key	|val
-4	5	Word	|d
-4	6	Op	|:
-4	7	Word	|Char
-4	12	Op	|=
-4	14	Char	|'\"'
-5	1	Key	|val
-5	5	Word	|e
-5	6	Op	|:
-5	7	Word	|Char
-5	12	Op	|=
-5	14	Char	|'\t'
-6	0	Br	|}
+@@@0	0	Key	fun		fun
+@@@0	4	Word	main		main
+@@@0	8	Br	(		(
+@@@0	9	Br	)		)
+@@@0	11	Br	{		{
+@@@1	1	Key	val		val
+@@@1	5	Word	a		a
+@@@1	6	Op	:		:
+@@@1	7	Word	Char		Char
+@@@1	12	Op	=		=
+@@@1	14	Char	'a'		a
+@@@2	1	Key	val		val
+@@@2	5	Word	b		b
+@@@2	6	Op	:		:
+@@@2	7	Word	Char		Char
+@@@2	12	Op	=		=
+@@@2	14	Char	'\n'		
+
+@@@3	1	Key	val		val
+@@@3	5	Word	c		c
+@@@3	6	Op	:		:
+@@@3	7	Word	Char		Char
+@@@3	12	Op	=		=
+@@@3	14	Char	'\''		'
+@@@4	1	Key	val		val
+@@@4	5	Word	d		d
+@@@4	6	Op	:		:
+@@@4	7	Word	Char		Char
+@@@4	12	Op	=		=
+@@@4	14	Char	'\"'		"
+@@@5	1	Key	val		val
+@@@5	5	Word	e		e
+@@@5	6	Op	:		:
+@@@5	7	Word	Char		Char
+@@@5	12	Op	=		=
+@@@5	14	Char	'\t'			
+@@@6	0	Br	}		}

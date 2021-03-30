@@ -1,35 +1,35 @@
-0	0	Key	|fun
-0	4	Word	|main
-0	8	Br	|(
-0	9	Br	|)
-0	11	Br	|{
-1	1	Key	|val
-1	5	Word	|b
-1	6	Op	|:
-1	7	Word	|String
-1	14	Op	|=
-1	16	Str	|" 
-1	18	StrExp	|${
-1	20	Error	Unknown lexeme	|^
-1	21	Br	|}
-1	22	Str	|"
-2	1	Key	|val
-2	5	Word	|c
-2	6	Op	|:
-2	7	Word	|String
-2	14	Op	|=
-2	16	Str	|" 
-2	18	StrExp	|${
-2	21	Error	Invalid escape char	|'\s'
-2	26	Br	|}
-2	27	Str	| "
-3	1	Key	|val
-3	5	Word	|d
-3	6	Op	|:
-3	7	Word	|String
-3	14	Op	|=
-3	16	Str	|" 
-3	18	StrExp	|${
-3	21	Error	Unclosed string	|"
-4	0	Br	|}
-4	1	Error	Unclosed string	|
+@@@0	0	Key	fun		fun
+@@@0	4	Word	main		main
+@@@0	8	Br	(		(
+@@@0	9	Br	)		)
+@@@0	11	Br	{		{
+@@@1	1	Key	val		val
+@@@1	5	Word	b		b
+@@@1	6	Op	:		:
+@@@1	7	Word	String		String
+@@@1	14	Op	=		=
+@@@1	16	Str	" 		 
+@@@1	18	StrExp	${		${
+@@@1	20	Error	^		Unknown lexeme
+@@@1	21	Br	}		}
+@@@1	22	Str	"		
+@@@2	1	Key	val		val
+@@@2	5	Word	c		c
+@@@2	6	Op	:		:
+@@@2	7	Word	String		String
+@@@2	14	Op	=		=
+@@@2	16	Str	" 		 
+@@@2	18	StrExp	${		${
+@@@2	21	Error	'\s'		Invalid escape char
+@@@2	26	Br	}		}
+@@@2	27	Str	 "		 
+@@@3	1	Key	val		val
+@@@3	5	Word	d		d
+@@@3	6	Op	:		:
+@@@3	7	Word	String		String
+@@@3	14	Op	=		=
+@@@3	16	Str	" 		 
+@@@3	18	StrExp	${		${
+@@@3	21	Error	"		Unclosed string
+@@@4	0	Br	}		}
+@@@4	1	Error			Unclosed string

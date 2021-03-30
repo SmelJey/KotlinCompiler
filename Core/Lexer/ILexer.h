@@ -4,6 +4,8 @@
 
 #include "Lexeme.h"
 
+using LexType = Lexeme::LexemeType;
+
 class ILexer {
 public:
     enum class CharGroup : int {
@@ -32,12 +34,18 @@ public:
     static const std::unordered_set<std::string> KeywordSet;
     static const std::unordered_set<char> EscapeCharset;
 
+    static const std::uint64_t IntegersLimits[];
+
     static CharGroup GetCharGroup(int character);
     static CharGroup GetCharGroup(int character, int lookAhead1, int lookAhead2);
 
     static bool IsDecChar(int character);
     static bool IsBinChar(int character);
     static bool IsHexChar(int character);
+
+    static LexType GetLeastType(std::uint64_t, LexType initialType);
+
+    static char EscapeToChar(char escapedChar);
 
     ILexer(const ILexer& src) = delete;
     virtual ~ILexer() = default;

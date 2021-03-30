@@ -186,6 +186,8 @@
     <None Include="TestSamples\LexerTests\InheritanceExample.kt" />
     <None Include="TestSamples\LexerTests\Integers.kt" />
     <None Include="TestSamples\LexerTests\IntegersErrors.kt" />
+    <None Include="TestSamples\LexerTests\IntegersOutOfRangeErrors.kt" />
+    <None Include="TestSamples\LexerTests\IntegerTypes.kt" />
     <None Include="TestSamples\LexerTests\LambdasExample.kt" />
     <None Include="TestSamples\LexerTests\MultilineComments.kt" />
     <None Include="TestSamples\LexerTests\RawStrings.kt" />

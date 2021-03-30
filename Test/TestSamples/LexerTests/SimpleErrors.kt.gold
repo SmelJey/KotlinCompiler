@@ -1,32 +1,32 @@
-0	0	Key	|fun
-0	4	Word	|main
-0	8	Br	|(
-0	9	Br	|)
-0	11	Br	|{
-1	1	Key	|val
-1	5	Word	|a
-1	6	Op	|:
-1	8	Word	|Int
-1	12	Op	|=
-1	14	Num	|5
-1	16	Error	Unknown lexeme	|^
-1	18	Num	|5
-1	19	Op	|;
-2	1	Key	|val
-2	5	Word	|b
-2	6	Op	|:
-2	8	Word	|In
-2	10	Error	Unknown lexeme	|^^t
-2	14	Op	|=
-2	16	Num	|5
-2	17	Op	|;
-3	1	Key	|val
-3	5	Word	|c
-3	6	Op	|:
-3	8	Word	|Int
-3	12	Op	|=
-3	14	Num	|5
-3	16	Op	Unknown operator	|&
-3	18	Num	|5
-3	19	Op	|;
-4	0	Br	|}
+@@@0	0	Key	fun		fun
+@@@0	4	Word	main		main
+@@@0	8	Br	(		(
+@@@0	9	Br	)		)
+@@@0	11	Br	{		{
+@@@1	1	Key	val		val
+@@@1	5	Word	a		a
+@@@1	6	Op	:		:
+@@@1	8	Word	Int		Int
+@@@1	12	Op	=		=
+@@@1	14	Byte	5		5
+@@@1	16	Error	^		Unknown lexeme
+@@@1	18	Byte	5		5
+@@@1	19	Op	;		;
+@@@2	1	Key	val		val
+@@@2	5	Word	b		b
+@@@2	6	Op	:		:
+@@@2	8	Word	In		In
+@@@2	10	Error	^^t		Unknown lexeme
+@@@2	14	Op	=		=
+@@@2	16	Byte	5		5
+@@@2	17	Op	;		;
+@@@3	1	Key	val		val
+@@@3	5	Word	c		c
+@@@3	6	Op	:		:
+@@@3	8	Word	Int		Int
+@@@3	12	Op	=		=
+@@@3	14	Byte	5		5
+@@@3	16	Op	&		Unknown operator
+@@@3	18	Byte	5		5
+@@@3	19	Op	;		;
+@@@4	0	Br	}		}

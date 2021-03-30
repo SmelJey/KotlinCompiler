@@ -1,40 +1,40 @@
-0	0	Key	|fun
-0	4	Word	|main
-0	8	Br	|(
-0	9	Br	|)
-0	11	Br	|{
-1	1	Key	|val
-1	5	Word	|`super`
-1	12	Op	|:
-1	13	Word	|Int
-1	17	Op	|=
-1	19	Num	|43
-2	1	Key	|val
-2	5	Word	|`this`
-2	11	Op	|:
-2	12	Word	|Int
-2	16	Op	|=
-2	18	Num	|2
-3	4	Key	|val
-3	8	Word	|`fun`
-3	13	Op	|:
-3	14	Word	|Int
-3	18	Op	|=
-3	20	Num	|2
-4	1	Key	|val
-4	5	Word	|`133`
-4	10	Op	|:
-4	11	Word	|Int
-4	15	Op	|=
-4	17	Num	|5
-5	1	Key	|val
-5	5	Word	|`abc 12 a`
-5	15	Op	|:
-5	16	Word	|Int
-5	20	Op	|=
-5	22	Num	|5
-6	1	Key	|val
-6	5	Word	|`abc%efd`
-6	15	Op	|=
-6	17	Num	|6
-7	0	Br	|}
+@@@0	0	Key	fun		fun
+@@@0	4	Word	main		main
+@@@0	8	Br	(		(
+@@@0	9	Br	)		)
+@@@0	11	Br	{		{
+@@@1	1	Key	val		val
+@@@1	5	Word	`super`		super
+@@@1	12	Op	:		:
+@@@1	13	Word	Int		Int
+@@@1	17	Op	=		=
+@@@1	19	Byte	43		43
+@@@2	1	Key	val		val
+@@@2	5	Word	`this`		this
+@@@2	11	Op	:		:
+@@@2	12	Word	Int		Int
+@@@2	16	Op	=		=
+@@@2	18	Byte	2		2
+@@@3	4	Key	val		val
+@@@3	8	Word	`fun`		fun
+@@@3	13	Op	:		:
+@@@3	14	Word	Int		Int
+@@@3	18	Op	=		=
+@@@3	20	Byte	2		2
+@@@4	1	Key	val		val
+@@@4	5	Word	`133`		133
+@@@4	10	Op	:		:
+@@@4	11	Word	Int		Int
+@@@4	15	Op	=		=
+@@@4	17	Byte	5		5
+@@@5	1	Key	val		val
+@@@5	5	Word	`abc 12 a`	abc 12 a
+@@@5	15	Op	:		:
+@@@5	16	Word	Int		Int
+@@@5	20	Op	=		=
+@@@5	22	Byte	5		5
+@@@6	1	Key	val		val
+@@@6	5	Word	`abc%efd`	abc%efd
+@@@6	15	Op	=		=
+@@@6	17	Byte	6		6
+@@@7	0	Br	}		}

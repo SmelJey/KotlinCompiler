@@ -29,6 +29,12 @@ const std::unordered_set<std::string> ILexer::KeywordSet {
 
 const std::unordered_set<char> ILexer::EscapeCharset { 't', 'b', 'r', 'n', '\'', '\"', '\\', '$' };
 
+#define MAX_I(Type) std::numeric_limits<Type>::max()
+const std::uint64_t ILexer::IntegersLimits[] {
+    MAX_I(std::int8_t), MAX_I(std::int16_t), MAX_I(std::int32_t), MAX_I(std::int64_t),
+    MAX_I(std::uint8_t), MAX_I(std::uint16_t), MAX_I(std::uint32_t), MAX_I(std::uint64_t)
+};
+
 ILexer::CharGroup ILexer::GetCharGroup(int character) {
     if (character == BUFFER_EOF) {
         return CharGroup::EndOfFile;
@@ -106,7 +112,58 @@ bool ILexer::IsHexChar(int character) {
     return IsDecChar(character) || (character >= 'a' && character <= 'f') || (character >= 'A' && character <= 'F');
 }
 
-ILexer::ILexer() : myCurrentLexeme(0, 0, "", Lexeme::LexemeType::EndOfFile) {}
+LexType ILexer::GetLeastType(uint64_t value, LexType initialType) {
+    if (initialType == LexType::ULong || initialType == LexType::Long) {
+        if (initialType == LexType::Long && value > IntegersLimits[(int)LexType::Long - (int)LexType::Byte]) {
+            return LexType::Error;
+        }
+        return initialType;
+    }
+
+    Lexeme::NumberType numType = Lexeme::GetNumberType(initialType);
+    LexType lowestType;
+    switch (numType) {
+        case Lexeme::NumberType::Integer:
+            initialType = LexType::Long;
+            lowestType = LexType::Byte;
+            if (IntegersLimits[(int)initialType - (int)LexType::Byte] < value) {
+                return LexType::Error;
+            }
+            break;
+        case Lexeme::NumberType::UInteger:
+            initialType = LexType::ULong;
+            lowestType = LexType::UByte;
+            break;
+        default:
+            throw std::invalid_argument("Not an integer lexeme type");
+    }
+
+    while (initialType > lowestType) {
+        if (IntegersLimits[(int)initialType - (int)LexType::Byte - 1] < value) {
+            break;
+        }
+        initialType = static_cast<LexType>((int)initialType - 1);
+    }
+
+    return initialType;
+}
+
+char ILexer::EscapeToChar(char escapedChar) {
+    switch (escapedChar) {
+        case 'n':
+            return '\n';
+        case 'r':
+            return '\r';
+        case 'b':
+            return '\b';
+        case 't':
+            return '\t';
+        default:
+            return escapedChar;
+    }
+}
+
+ILexer::ILexer() : myCurrentLexeme(0, 0, "", Lexeme::LexemeType::EndOfFile, Lexeme::DEFAULT_LEXEME_ERROR) {}
 
 void ILexer::Init() {
     NextLexeme();

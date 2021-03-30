@@ -1,42 +1,54 @@
-0	0	Key	|fun
-0	4	Word	|main
-0	8	Br	|(
-0	9	Br	|)
-0	11	Br	|{
-1	1	Key	|val
-1	5	Word	|a
-1	7	Op	|:
-1	9	Word	|Int
-1	13	Op	|=
-1	15	Num	|5
-2	1	Key	|val
-2	5	Word	|b
-2	7	Op	|:
-2	9	Word	|Int
-2	13	Op	|=
-2	15	Num	|1241241
-3	1	Key	|val
-3	5	Word	|c
-3	7	Op	|:
-3	9	Word	|Int
-3	13	Op	|=
-3	15	Num	|452L
-4	1	Key	|val
-4	5	Word	|d
-4	7	Op	|:
-4	9	Word	|Int
-4	13	Op	|=
-4	15	Num	|1_5_2
-5	1	Key	|val
-5	5	Word	|e
-5	7	Op	|:
-5	9	Word	|Int
-5	13	Op	|=
-5	15	Num	|1_244_123L
-6	1	Key	|val
-6	5	Word	|f
-6	7	Op	|:
-6	9	Word	|Int
-6	13	Op	|=
-6	15	Num	|12__5
-7	0	Br	|}
+@@@0	0	Key	fun		fun
+@@@0	4	Word	main		main
+@@@0	8	Br	(		(
+@@@0	9	Br	)		)
+@@@0	11	Br	{		{
+@@@1	1	Key	val		val
+@@@1	5	Word	a		a
+@@@1	7	Op	:		:
+@@@1	9	Word	Int		Int
+@@@1	13	Op	=		=
+@@@1	15	Byte	5		5
+@@@2	1	Key	val		val
+@@@2	5	Word	b		b
+@@@2	7	Op	:		:
+@@@2	9	Word	Int		Int
+@@@2	13	Op	=		=
+@@@2	15	Int	1241241		1241241
+@@@3	1	Key	val		val
+@@@3	5	Word	c		c
+@@@3	7	Op	:		:
+@@@3	9	Word	Int		Int
+@@@3	13	Op	=		=
+@@@3	15	Long	452L		452
+@@@4	1	Key	val		val
+@@@4	5	Word	d		d
+@@@4	7	Op	:		:
+@@@4	9	Word	Int		Int
+@@@4	13	Op	=		=
+@@@4	15	Short	1_5_2		152
+@@@5	1	Key	val		val
+@@@5	5	Word	e		e
+@@@5	7	Op	:		:
+@@@5	9	Word	Int		Int
+@@@5	13	Op	=		=
+@@@5	15	Long	1_244_123L	1244123
+@@@6	1	Key	val		val
+@@@6	5	Word	f		f
+@@@6	7	Op	:		:
+@@@6	9	Word	Int		Int
+@@@6	13	Op	=		=
+@@@6	15	Byte	12__5		125
+@@@7	1	Key	val		val
+@@@7	5	Word	g		g
+@@@7	7	Op	:		:
+@@@7	9	Word	Int		Int
+@@@7	13	Op	=		=
+@@@7	15	UByte	12u		12
+@@@8	1	Key	val		val
+@@@8	5	Word	h		h
+@@@8	7	Op	:		:
+@@@8	9	Word	Int		Int
+@@@8	13	Op	=		=
+@@@8	15	UByte	12U		12
+@@@9	0	Br	}		}

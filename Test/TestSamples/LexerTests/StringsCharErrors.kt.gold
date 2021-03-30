@@ -1,41 +1,43 @@
-0	0	Key	|fun
-0	4	Word	|main
-0	8	Br	|(
-0	9	Br	|)
-0	11	Br	|{
-1	1	Key	|val
-1	5	Word	|a
-1	6	Op	|:
-1	7	Word	|Char
-1	12	Op	|=
-1	14	Error	Invalid char literal	|'ab'
-2	1	Key	|val
-2	5	Word	|b
-2	6	Op	|:
-2	7	Word	|Char
-2	12	Op	|=
-2	14	Error	Unclosed char literal	|'a
-3	1	Key	|val
-3	5	Word	|c
-3	6	Op	|:
-3	7	Word	|Char
-3	12	Op	|=
-3	14	Error	Invalid escape char	|'\f'
-4	1	Key	|val
-4	5	Word	|d
-4	6	Op	|:
-4	7	Word	|String
-4	14	Op	|=
-4	16	Error	Unclosed string	|"abcd
-5	1	Key	|val
-5	5	Word	|e
-5	6	Op	|:
-5	7	Word	|String
-5	14	Op	|=
-5	16	Error	Invalid escape char	|"abcd\e"
-6	1	Key	|val
-6	5	Word	|f
-6	7	Op	|:
-6	8	Word	|String
-6	15	Op	|=
-6	17	Error	Unclosed string	|"""abcd\n\t\tabcde\n}
+@@@0	0	Key	fun		fun
+@@@0	4	Word	main		main
+@@@0	8	Br	(		(
+@@@0	9	Br	)		)
+@@@0	11	Br	{		{
+@@@1	1	Key	val		val
+@@@1	5	Word	a		a
+@@@1	6	Op	:		:
+@@@1	7	Word	Char		Char
+@@@1	12	Op	=		=
+@@@1	14	Error	'ab'		Invalid char literal
+@@@2	1	Key	val		val
+@@@2	5	Word	b		b
+@@@2	6	Op	:		:
+@@@2	7	Word	Char		Char
+@@@2	12	Op	=		=
+@@@2	14	Error	'a		Unclosed char literal
+@@@3	1	Key	val		val
+@@@3	5	Word	c		c
+@@@3	6	Op	:		:
+@@@3	7	Word	Char		Char
+@@@3	12	Op	=		=
+@@@3	14	Error	'\f'		Invalid escape char
+@@@4	1	Key	val		val
+@@@4	5	Word	d		d
+@@@4	6	Op	:		:
+@@@4	7	Word	String		String
+@@@4	14	Op	=		=
+@@@4	16	Error	"abcd		Unclosed string
+@@@5	1	Key	val		val
+@@@5	5	Word	e		e
+@@@5	6	Op	:		:
+@@@5	7	Word	String		String
+@@@5	14	Op	=		=
+@@@5	16	Error	"abcd\e"	Invalid escape char
+@@@6	1	Key	val		val
+@@@6	5	Word	f		f
+@@@6	7	Op	:		:
+@@@6	8	Word	String		String
+@@@6	15	Op	=		=
+@@@6	17	Error	"""abcd
+		abcde
+}	Unclosed string

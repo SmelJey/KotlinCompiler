@@ -1,0 +1,18 @@
+@@@0	0	Key	fun		fun
+@@@0	4	Word	main		main
+@@@0	8	Br	(		(
+@@@0	9	Br	)		)
+@@@0	11	Br	{		{
+@@@1	1	Key	val		val
+@@@1	5	Word	a		a
+@@@1	7	Op	=		=
+@@@1	9	Error	0xFFFFffffFFFFffff	Number is out of range
+@@@2	1	Key	val		val
+@@@2	5	Word	b		b
+@@@2	7	Op	=		=
+@@@2	9	Error	0xFFFFFFFFFFFFFFFFFuL	Number is out of range
+@@@3	1	Key	val		val
+@@@3	5	Word	c		c
+@@@3	7	Op	=		=
+@@@3	9	Error	9000009999999999999999	Number is out of range
+@@@4	0	Br	}		}

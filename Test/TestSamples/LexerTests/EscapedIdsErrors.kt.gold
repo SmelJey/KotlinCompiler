@@ -1,8 +1,8 @@
-0	0	Key	|fun
-0	4	Word	|main
-0	8	Br	|(
-0	9	Br	|)
-0	10	Br	|{
-1	1	Key	|val
-1	5	Error	Unclosed escaped identifier	|`a = 5
-2	0	Br	|}
+@@@0	0	Key	fun		fun
+@@@0	4	Word	main		main
+@@@0	8	Br	(		(
+@@@0	9	Br	)		)
+@@@0	10	Br	{		{
+@@@1	1	Key	val		val
+@@@1	5	Error	`a = 5		Unclosed escaped identifier
+@@@2	0	Br	}		}

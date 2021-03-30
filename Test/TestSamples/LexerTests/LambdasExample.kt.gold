@@ -1,121 +1,121 @@
-3	0	Key	|fun
-3	4	Word	|main
-3	8	Br	|(
-3	9	Br	|)
-3	11	Br	|{
-8	4	Key	|val
-8	8	Word	|upperCase1
-8	18	Op	|:
-8	20	Br	|(
-8	21	Word	|String
-8	27	Br	|)
-8	29	Op	|->
-8	32	Word	|String
-8	39	Op	|=
-8	41	Br	|{
-8	43	Word	|str
-8	46	Op	|:
-8	48	Word	|String
-8	55	Op	|->
-8	58	Word	|str
-8	61	Op	|.
-8	62	Word	|toUpperCase
-8	73	Br	|(
-8	74	Br	|)
-8	76	Br	|}
-10	4	Key	|val
-10	8	Word	|upperCase2
-10	18	Op	|:
-10	20	Br	|(
-10	21	Word	|String
-10	27	Br	|)
-10	29	Op	|->
-10	32	Word	|String
-10	39	Op	|=
-10	41	Br	|{
-10	43	Word	|str
-10	47	Op	|->
-10	50	Word	|str
-10	53	Op	|.
-10	54	Word	|toUpperCase
-10	65	Br	|(
-10	66	Br	|)
-10	68	Br	|}
-12	4	Key	|val
-12	8	Word	|upperCase3
-12	19	Op	|=
-12	21	Br	|{
-12	23	Word	|str
-12	26	Op	|:
-12	28	Word	|String
-12	35	Op	|->
-12	38	Word	|str
-12	41	Op	|.
-12	42	Word	|toUpperCase
-12	53	Br	|(
-12	54	Br	|)
-12	56	Br	|}
-16	4	Key	|val
-16	8	Word	|upperCase5
-16	18	Op	|:
-16	20	Br	|(
-16	21	Word	|String
-16	27	Br	|)
-16	29	Op	|->
-16	32	Word	|String
-16	39	Op	|=
-16	41	Br	|{
-16	43	Word	|it
-16	45	Op	|.
-16	46	Word	|toUpperCase
-16	57	Br	|(
-16	58	Br	|)
-16	60	Br	|}
-18	4	Key	|val
-18	8	Word	|upperCase6
-18	18	Op	|:
-18	20	Br	|(
-18	21	Word	|String
-18	27	Br	|)
-18	29	Op	|->
-18	32	Word	|String
-18	39	Op	|=
-18	41	Word	|String
-18	47	Op	|::
-18	49	Word	|toUpperCase
-20	4	Word	|println
-20	11	Br	|(
-20	12	Word	|upperCase1
-20	22	Br	|(
-20	23	Str	|"hello"
-20	30	Br	|)
-20	31	Br	|)
-21	4	Word	|println
-21	11	Br	|(
-21	12	Word	|upperCase2
-21	22	Br	|(
-21	23	Str	|"hello"
-21	30	Br	|)
-21	31	Br	|)
-22	4	Word	|println
-22	11	Br	|(
-22	12	Word	|upperCase3
-22	22	Br	|(
-22	23	Str	|"hello"
-22	30	Br	|)
-22	31	Br	|)
-23	4	Word	|println
-23	11	Br	|(
-23	12	Word	|upperCase5
-23	22	Br	|(
-23	23	Str	|"hello"
-23	30	Br	|)
-23	31	Br	|)
-24	4	Word	|println
-24	11	Br	|(
-24	12	Word	|upperCase6
-24	22	Br	|(
-24	23	Str	|"hello"
-24	30	Br	|)
-24	31	Br	|)
-26	0	Br	|}
+@@@3	0	Key	fun		fun
+@@@3	4	Word	main		main
+@@@3	8	Br	(		(
+@@@3	9	Br	)		)
+@@@3	11	Br	{		{
+@@@8	4	Key	val		val
+@@@8	8	Word	upperCase1	upperCase1
+@@@8	18	Op	:		:
+@@@8	20	Br	(		(
+@@@8	21	Word	String		String
+@@@8	27	Br	)		)
+@@@8	29	Op	->		->
+@@@8	32	Word	String		String
+@@@8	39	Op	=		=
+@@@8	41	Br	{		{
+@@@8	43	Word	str		str
+@@@8	46	Op	:		:
+@@@8	48	Word	String		String
+@@@8	55	Op	->		->
+@@@8	58	Word	str		str
+@@@8	61	Op	.		.
+@@@8	62	Word	toUpperCase	toUpperCase
+@@@8	73	Br	(		(
+@@@8	74	Br	)		)
+@@@8	76	Br	}		}
+@@@10	4	Key	val		val
+@@@10	8	Word	upperCase2	upperCase2
+@@@10	18	Op	:		:
+@@@10	20	Br	(		(
+@@@10	21	Word	String		String
+@@@10	27	Br	)		)
+@@@10	29	Op	->		->
+@@@10	32	Word	String		String
+@@@10	39	Op	=		=
+@@@10	41	Br	{		{
+@@@10	43	Word	str		str
+@@@10	47	Op	->		->
+@@@10	50	Word	str		str
+@@@10	53	Op	.		.
+@@@10	54	Word	toUpperCase	toUpperCase
+@@@10	65	Br	(		(
+@@@10	66	Br	)		)
+@@@10	68	Br	}		}
+@@@12	4	Key	val		val
+@@@12	8	Word	upperCase3	upperCase3
+@@@12	19	Op	=		=
+@@@12	21	Br	{		{
+@@@12	23	Word	str		str
+@@@12	26	Op	:		:
+@@@12	28	Word	String		String
+@@@12	35	Op	->		->
+@@@12	38	Word	str		str
+@@@12	41	Op	.		.
+@@@12	42	Word	toUpperCase	toUpperCase
+@@@12	53	Br	(		(
+@@@12	54	Br	)		)
+@@@12	56	Br	}		}
+@@@16	4	Key	val		val
+@@@16	8	Word	upperCase5	upperCase5
+@@@16	18	Op	:		:
+@@@16	20	Br	(		(
+@@@16	21	Word	String		String
+@@@16	27	Br	)		)
+@@@16	29	Op	->		->
+@@@16	32	Word	String		String
+@@@16	39	Op	=		=
+@@@16	41	Br	{		{
+@@@16	43	Word	it		it
+@@@16	45	Op	.		.
+@@@16	46	Word	toUpperCase	toUpperCase
+@@@16	57	Br	(		(
+@@@16	58	Br	)		)
+@@@16	60	Br	}		}
+@@@18	4	Key	val		val
+@@@18	8	Word	upperCase6	upperCase6
+@@@18	18	Op	:		:
+@@@18	20	Br	(		(
+@@@18	21	Word	String		String
+@@@18	27	Br	)		)
+@@@18	29	Op	->		->
+@@@18	32	Word	String		String
+@@@18	39	Op	=		=
+@@@18	41	Word	String		String
+@@@18	47	Op	::		::
+@@@18	49	Word	toUpperCase	toUpperCase
+@@@20	4	Word	println		println
+@@@20	11	Br	(		(
+@@@20	12	Word	upperCase1	upperCase1
+@@@20	22	Br	(		(
+@@@20	23	Str	"hello"		hello
+@@@20	30	Br	)		)
+@@@20	31	Br	)		)
+@@@21	4	Word	println		println
+@@@21	11	Br	(		(
+@@@21	12	Word	upperCase2	upperCase2
+@@@21	22	Br	(		(
+@@@21	23	Str	"hello"		hello
+@@@21	30	Br	)		)
+@@@21	31	Br	)		)
+@@@22	4	Word	println		println
+@@@22	11	Br	(		(
+@@@22	12	Word	upperCase3	upperCase3
+@@@22	22	Br	(		(
+@@@22	23	Str	"hello"		hello
+@@@22	30	Br	)		)
+@@@22	31	Br	)		)
+@@@23	4	Word	println		println
+@@@23	11	Br	(		(
+@@@23	12	Word	upperCase5	upperCase5
+@@@23	22	Br	(		(
+@@@23	23	Str	"hello"		hello
+@@@23	30	Br	)		)
+@@@23	31	Br	)		)
+@@@24	4	Word	println		println
+@@@24	11	Br	(		(
+@@@24	12	Word	upperCase6	upperCase6
+@@@24	22	Br	(		(
+@@@24	23	Str	"hello"		hello
+@@@24	30	Br	)		)
+@@@24	31	Br	)		)
+@@@26	0	Br	}		}

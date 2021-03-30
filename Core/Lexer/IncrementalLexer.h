@@ -8,8 +8,6 @@
 #include <queue>
 #include <unordered_map>
 
-using LexType = Lexeme::LexemeType;
-
 template<typename InputType>
 class IncrementalLexer : public ILexer {
 public:
@@ -50,18 +48,15 @@ private:
         std::size_t startRow;
 
         LexType lexemeType;
-        std::string error;
-        while (curText.empty()) {
+        std::string valueRepresentation;
+        do {
             startCol = myCol;
             startRow = myRow;
             CharGroup charGroup = GetCharGroup(myInputBuffer.GetChar(), myInputBuffer.LookAhead(1), myInputBuffer.LookAhead(2));
-            std::tie(lexemeType, error) = PatternMap[(int)charGroup](this, curText);
-            if (!error.empty() || lexemeType == LexType::EndOfFile) {
-                return Lexeme(startCol, startRow, curText, lexemeType, error);
-            }
-        }
+            std::tie(lexemeType, valueRepresentation) = PatternMap[(int)charGroup](this, curText);
+        } while (lexemeType == Lexeme::LexemeType::Ignored);
 
-        return Lexeme(startCol, startRow, curText, lexemeType);
+        return Lexeme(startCol, startRow, curText, lexemeType, valueRepresentation);
     }
 
     std::pair<LexType, std::string> ProcessWhitespaces(std::string& out) {
@@ -98,9 +93,9 @@ private:
         }
 
         if (KeywordSet.count(out)) {
-            return std::make_pair(LexType::Keyword, "");
+            return std::make_pair(LexType::Keyword, out);
         }
-        return std::make_pair(LexType::Identifier, "");
+        return std::make_pair(LexType::Identifier, out);
     }
 
     std::pair<LexType, std::string> ProcessNumber(std::string& out) {
@@ -110,10 +105,10 @@ private:
             }
         }
 
-        bool isFloat = false;
+        LexType numberType = LexType::Int;
 
         if (myInputBuffer.GetChar() == '.') {
-            isFloat = true;
+            numberType = LexType::Double;
             out.push_back(GetNextChar());
             if (GetCharGroup(myInputBuffer.GetChar()) == CharGroup::Digit) {
                 if (!ProcessIntegerNumber(out, &ILexer::IsDecChar)) {
@@ -123,7 +118,7 @@ private:
         }
 
         if (myInputBuffer.GetChar() == 'e') {
-            isFloat = true;
+            numberType = LexType::Double;
             out.push_back(GetNextChar());
 
             if (myInputBuffer.GetChar() == '+' || myInputBuffer.GetChar() == '-') {
@@ -140,8 +135,19 @@ private:
             }
         }
 
-        if (myInputBuffer.GetChar() == 'f' || myInputBuffer.GetChar() == 'F' || myInputBuffer.GetChar() == 'L' && !isFloat) {
+        if (myInputBuffer.GetChar() == 'f' || myInputBuffer.GetChar() == 'F') {
             out.push_back(GetNextChar());
+            numberType = LexType::Float;
+        }
+
+        if ((myInputBuffer.GetChar() == 'u' || myInputBuffer.GetChar() == 'U') && numberType != LexType::Double && numberType != LexType::Float) {
+            out.push_back(GetNextChar());
+            numberType = LexType::UInt;
+        }
+
+        if (myInputBuffer.GetChar() == 'L' && numberType != LexType::Double && numberType != LexType::Float) {
+            out.push_back(GetNextChar());
+            numberType = (numberType == LexType::UInt ? Lexeme::LexemeType::ULong : Lexeme::LexemeType::Long);
         }
 
         CharGroup charGroup = GetCharGroup(myInputBuffer.GetChar());
@@ -150,8 +156,41 @@ private:
             return std::make_pair(LexType::Error, "Unparseable number");
         }
 
-        return std::make_pair(LexType::Number, "");
+        std::string number = out;
+        number.erase(std::remove(number.begin(), number.end(), '_'), number.end());
+        if (numberType == LexType::Double || numberType == LexType::Float) {
+            try {
+                std::stod(number);
+            } catch (const std::invalid_argument&) {
+                return std::make_pair(LexType::Error, "Unparseable number");
+            } catch (const std::out_of_range&) {
+                return std::make_pair(LexType::Error, "Number is out of range");
+            }
+            return std::make_pair(numberType, number);
+        }
+
+        return GetIntegerData(number, numberType);
     }
+
+    std::pair<LexType, std::string> GetIntegerData(const std::string& number, LexType initialType, int base = 10) const {
+        std::uint64_t val;
+        std::string prefix = (base == 16 ? "0x" : "");
+        try {
+            // std::stoull can't parse hex literals without prefix (and can't parse binary literals with prefix)
+            val = std::stoull(prefix + number, nullptr, base);
+        } catch (const std::invalid_argument&) {
+            return std::make_pair(LexType::Error, "Unparseable number");
+        } catch (const std::out_of_range&) {
+            return std::make_pair(LexType::Error, "Number is out of range");
+        }
+
+        initialType = GetLeastType(val, initialType);
+        if (initialType == LexType::Error) {
+            return std::make_pair(initialType, "Number is out of range");
+        }
+        return std::make_pair(initialType, prefix + number);
+    }
+    
 
     bool ProcessIntegerNumber(std::string& out, std::function<bool(int)> validator) {
         out.push_back(GetNextChar());
@@ -205,7 +244,20 @@ private:
         }
 
         bool isGood = ProcessIntegerNumber(out, validator);
+        LexType numberType = LexType::Int;
+
+        if (myInputBuffer.GetChar() == 'u' || myInputBuffer.GetChar() == 'U') {
+            numberType = LexType::UInt;
+            out.push_back(GetNextChar());
+        }
+
         if (myInputBuffer.GetChar() == 'L') {
+            if (numberType == LexType::UInt) {
+                numberType = LexType::ULong;
+            } else {
+                numberType = LexType::Long;
+            }
+            
             out.push_back(GetNextChar());
         }
 
@@ -214,18 +266,23 @@ private:
         if (!isGood) {
             return std::make_pair(LexType::Error, "Unparseable number");
         }
-        return std::make_pair(LexType::Number, "");
+
+        std::string valueRepresentation = out.substr(2);
+        valueRepresentation.erase(std::remove(valueRepresentation.begin(), valueRepresentation.end(), '_'), valueRepresentation.end());
+        return GetIntegerData(valueRepresentation, numberType, out[1] == 'b' ? 2 : 16);
     }
 
     std::pair<LexType, std::string> ProcessChar(std::string& out) {
         out.push_back(GetNextChar());
         bool isValidEscape = true;
+        std::string escapedChar;
 
         if (myInputBuffer.GetChar() == '\\') {
             out.push_back(GetNextChar());
             if (!EscapeCharset.count(myInputBuffer.GetChar())) {
                 isValidEscape = false;
             }
+            escapedChar.push_back(EscapeToChar(myInputBuffer.GetChar()));
         }
         if (myInputBuffer.GetChar() == BUFFER_EOF || NewlineCharset.count(myInputBuffer.GetChar())) {
             return std::make_pair(LexType::Error, "Unclosed char literal");
@@ -238,7 +295,7 @@ private:
                 return std::make_pair(LexType::Error, "Invalid escape char");
             }
 
-            return std::make_pair(LexType::CharLiteral, "");
+            return std::make_pair(LexType::CharLiteral, escapedChar.empty() ? out.substr(1, out.size() - 2) : escapedChar);
         }
 
         CharGroup charGroup = GetCharGroup(myInputBuffer.GetChar());
@@ -264,12 +321,13 @@ private:
 
         int startCol = myCol;
         int startRow = myRow;
+        std::string valueRepresentation;
 
         out.push_back(GetNextChar());
         bool isValidEscape = true;
         while (myInputBuffer.GetChar() != BUFFER_EOF && !NewlineCharset.count(myInputBuffer.GetChar()) && myInputBuffer.GetChar() != '\"') {
             if (myInputBuffer.GetChar() == '$') {
-                ProcessStringTemplate(out, startCol, startRow, Lexeme::LexemeType::String);
+                ProcessStringTemplate(out, startCol, startRow, Lexeme::LexemeType::String, valueRepresentation);
                 continue;
             }
 
@@ -277,28 +335,31 @@ private:
                 if (myInputBuffer.LookAhead(1) == BUFFER_EOF || !EscapeCharset.count(myInputBuffer.LookAhead(1))) {
                     isValidEscape = false;
                 }
-                out.push_back(myInputBuffer.GetChar());
-                GetNextChar();
+                out.push_back(GetNextChar());
+                valueRepresentation.push_back(EscapeToChar(myInputBuffer.GetChar()));
+                out.push_back(GetNextChar());
+                continue;
             }
+
             out.push_back(myInputBuffer.GetChar());
-            GetNextChar();
+            valueRepresentation.push_back(GetNextChar());
         }
 
         LexType lexType = Lexeme::LexemeType::Error;
-        std::string error = "Unclosed string";
 
         if (myInputBuffer.GetChar() == '\"') {
             out.push_back(myInputBuffer.GetChar());
             GetNextChar();
             if (!isValidEscape) {
-                error = "Invalid escape char";
+                valueRepresentation = "Invalid escape char";
             } else {
-                error = "";
                 lexType = Lexeme::LexemeType::String;
             }
+        } else {
+            valueRepresentation = "Unclosed string";
         }
 
-        return ReturnCurrentStringLexeme(startCol, startRow, needUnlock, out, lexType, error);
+        return ReturnCurrentStringLexeme(startCol, startRow, needUnlock, out, lexType, valueRepresentation);
     }
 
     std::pair<LexType, std::string> ProcessRawString(std::string& out) {
@@ -308,6 +369,7 @@ private:
             needUnlock = true;
         }
 
+        std::string valueRepresentation;
         int startRow = myRow;
         int startCol = myCol;
 
@@ -317,53 +379,56 @@ private:
                  || GetCharGroup(myInputBuffer.GetChar(), myInputBuffer.LookAhead(1), myInputBuffer.LookAhead(2)) == CharGroup::TripleQuote
                  && myInputBuffer.LookAhead(3) != '\"')) {
             if (myInputBuffer.GetChar() == '$') {
-                ProcessStringTemplate(out, startCol, startRow, Lexeme::LexemeType::RawString);
+                ProcessStringTemplate(out, startCol, startRow, Lexeme::LexemeType::RawString, valueRepresentation);
                 continue;
             }
-            out.push_back(GetNextChar());
+            out.push_back(myInputBuffer.GetChar());
+            valueRepresentation.push_back(GetNextChar());
         }
 
         LexType lexType = Lexeme::LexemeType::RawString;
-        std::string error;
+        
 
         if (myInputBuffer.GetChar() == BUFFER_EOF) {
             lexType = Lexeme::LexemeType::Error;
-            error = "Unclosed string";
+            valueRepresentation = "Unclosed string";
         } else {
             AddNextChars(3, out);
         }
 
-        return ReturnCurrentStringLexeme(startCol, startRow, needUnlock, out, lexType, error);
+        return ReturnCurrentStringLexeme(startCol, startRow, needUnlock, out, lexType, valueRepresentation);
     }
 
-    void ProcessStringTemplate(std::string& out, int& startCol, int& startRow, LexType stringType) {
+    void ProcessStringTemplate(std::string& out, int& startCol, int& startRow, LexType stringType, std::string& valueRepresentation) {
         if (myInputBuffer.LookAhead(1) == '{') {
-            myLexemeBuffer.emplace_back(startCol, startRow, out, stringType);
+            myLexemeBuffer.emplace_back(startCol, startRow, out, stringType, valueRepresentation);
             out.clear();
+            valueRepresentation.clear();
             AddNextChars(2, out);
-            myLexemeBuffer.emplace_back(myCol - 2, myRow, out, LexType::StringExpr);
+            myLexemeBuffer.emplace_back(myCol - 2, myRow, out, LexType::StringExpr, out);
             ProcessStrExpression();
 
             out.clear();
             startCol = myCol;
             startRow = myRow;
         } else if (GetCharGroup(myInputBuffer.LookAhead(1)) == CharGroup::Alphabetic) {
-            myLexemeBuffer.emplace_back(startCol, startRow, out, stringType);
+            myLexemeBuffer.emplace_back(startCol, startRow, out, stringType, valueRepresentation);
             out.clear();
+            valueRepresentation.clear();
             startCol = myCol;
             startRow = myRow;
 
             out.push_back(GetNextChar());
-            auto [lexType, error] = ProcessIdentifier(out);
-            myLexemeBuffer.emplace_back(startCol, startRow, out, LexType::StringRef);
+            auto [lexType, idValue] = ProcessIdentifier(out);
+            myLexemeBuffer.emplace_back(startCol, startRow, out, LexType::StringRef, idValue.substr(1));
             out.clear();
             startCol = myCol;
             startRow = myRow;
         }
     }
 
-    std::pair<LexType, std::string> ReturnCurrentStringLexeme(int col, int row, bool unlockString, std::string& out, LexType lexType, const std::string& error) {
-        myLexemeBuffer.emplace_back(col, row, out, lexType, error);
+    std::pair<LexType, std::string> ReturnCurrentStringLexeme(int col, int row, bool unlockString, std::string& out, LexType lexType, const std::string& valueRepresentation) {
+        myLexemeBuffer.emplace_back(col, row, out, lexType, valueRepresentation);
         if (unlockString) {
             isInString = false;
         }
@@ -371,10 +436,11 @@ private:
             out.clear();
             return std::make_pair(LexType::Ignored, "");
         }
+
         Lexeme frontLexeme = myLexemeBuffer.front();
         myLexemeBuffer.pop_front();
         out = frontLexeme.GetText();
-        return std::make_pair(frontLexeme.GetType(), frontLexeme.GetError());
+        return std::make_pair(frontLexeme.GetType(), frontLexeme.GetValue<std::string>());
     }
 
     void ProcessStrExpression() {
@@ -404,7 +470,7 @@ private:
                 for (auto c : operation) {
                     out.push_back(GetNextChar());
                 }
-                return std::make_pair(LexType::Operation, "");
+                return std::make_pair(LexType::Operation, out);
             }
 
             operation.pop_back();
@@ -416,7 +482,7 @@ private:
 
     std::pair<LexType, std::string> ProcessBrace(std::string& out) {
         out.push_back(GetNextChar());
-        return std::make_pair(LexType::Brace, "");
+        return std::make_pair(LexType::Brace, out);
     }
 
     std::pair<LexType, std::string> ProcessEscapedIdentifier(std::string& out) {
@@ -429,7 +495,7 @@ private:
             return std::make_pair(LexType::Error, "Unclosed escaped identifier");
         }
         out.push_back(GetNextChar());
-        return std::make_pair(LexType::Identifier, "");
+        return std::make_pair(LexType::Identifier, out.substr(1, out.size() - 2));
     }
 
     std::pair<LexType, std::string> ProcessUnknown(std::string& out) {

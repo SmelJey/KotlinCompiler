@@ -1,89 +1,95 @@
-0	0	Key	|fun
-0	4	Word	|main
-0	8	Br	|(
-0	9	Br	|)
-0	11	Br	|{
-1	1	Key	|val
-1	5	Word	|a
-1	6	Op	|:
-1	7	Word	|Double
-1	14	Op	|=
-1	16	Word	|e5
-2	1	Key	|val
-2	5	Word	|b
-2	6	Op	|:
-2	7	Word	|Double
-2	14	Op	|=
-2	16	Op	|.
-2	17	Word	|e5
-3	1	Key	|val
-3	5	Word	|c
-3	6	Op	|:
-3	7	Word	|Double
-3	14	Op	|=
-3	16	Error	Unparseable number	|1_e5
-4	1	Key	|val
-4	5	Word	|d
-4	6	Op	|:
-4	7	Word	|Double
-4	14	Op	|=
-4	16	Error	Unparseable number	|1_
-4	18	Num	|.5
-5	1	Key	|val
-5	5	Word	|f
-5	6	Op	|:
-5	7	Word	|Double
-5	14	Op	|=
-5	16	Error	Unparseable number	|1._5
-6	1	Key	|val
-6	5	Word	|g
-6	6	Op	|:
-6	7	Word	|Double
-6	14	Op	|=
-6	16	Error	Unparseable number	|1.5_
-7	1	Key	|val
-7	5	Word	|h
-7	6	Op	|:
-7	7	Word	|Double
-7	14	Op	|=
-7	16	Error	Unparseable number	|1.5g
-8	1	Key	|val
-8	5	Word	|k
-8	6	Op	|:
-8	7	Word	|Double
-8	14	Op	|=
-8	16	Error	Unparseable number	|1.5L
-9	1	Key	|val
-9	5	Word	|l
-9	6	Op	|:
-9	7	Word	|Double
-9	14	Op	|=
-9	16	Num	|50L
-9	19	Num	|.56
-10	1	Key	|val
-10	5	Word	|m
-10	6	Op	|:
-10	7	Word	|Double
-10	14	Op	|=
-10	16	Error	Unparseable number	|1e-
-11	1	Key	|val
-11	5	Word	|o
-11	6	Op	|:
-11	7	Word	|Double
-11	14	Op	|=
-11	16	Error	Unparseable number	|1e-5_
-12	1	Key	|val
-12	5	Word	|p
-12	6	Op	|:
-12	7	Word	|Double
-12	14	Op	|=
-12	16	Num	|1e-5
-12	20	Num	|.5
-13	1	Key	|val
-13	5	Word	|r
-13	6	Op	|:
-13	7	Word	|Double
-13	14	Op	|=
-13	16	Num	|1.1
-13	19	Num	|.1
-14	0	Br	|}
+@@@0	0	Key	fun		fun
+@@@0	4	Word	main		main
+@@@0	8	Br	(		(
+@@@0	9	Br	)		)
+@@@0	11	Br	{		{
+@@@1	1	Key	val		val
+@@@1	5	Word	a		a
+@@@1	6	Op	:		:
+@@@1	7	Word	Double		Double
+@@@1	14	Op	=		=
+@@@1	16	Word	e5		e5
+@@@2	1	Key	val		val
+@@@2	5	Word	b		b
+@@@2	6	Op	:		:
+@@@2	7	Word	Double		Double
+@@@2	14	Op	=		=
+@@@2	16	Op	.		.
+@@@2	17	Word	e5		e5
+@@@3	1	Key	val		val
+@@@3	5	Word	c		c
+@@@3	6	Op	:		:
+@@@3	7	Word	Double		Double
+@@@3	14	Op	=		=
+@@@3	16	Error	1_e5		Unparseable number
+@@@4	1	Key	val		val
+@@@4	5	Word	d		d
+@@@4	6	Op	:		:
+@@@4	7	Word	Double		Double
+@@@4	14	Op	=		=
+@@@4	16	Error	1_		Unparseable number
+@@@4	18	Double	.5		0.5
+@@@5	1	Key	val		val
+@@@5	5	Word	f		f
+@@@5	6	Op	:		:
+@@@5	7	Word	Double		Double
+@@@5	14	Op	=		=
+@@@5	16	Error	1._5		Unparseable number
+@@@6	1	Key	val		val
+@@@6	5	Word	g		g
+@@@6	6	Op	:		:
+@@@6	7	Word	Double		Double
+@@@6	14	Op	=		=
+@@@6	16	Error	1.5_		Unparseable number
+@@@7	1	Key	val		val
+@@@7	5	Word	h		h
+@@@7	6	Op	:		:
+@@@7	7	Word	Double		Double
+@@@7	14	Op	=		=
+@@@7	16	Error	1.5g		Unparseable number
+@@@8	1	Key	val		val
+@@@8	5	Word	k		k
+@@@8	6	Op	:		:
+@@@8	7	Word	Double		Double
+@@@8	14	Op	=		=
+@@@8	16	Error	1.5L		Unparseable number
+@@@9	1	Key	val		val
+@@@9	5	Word	l		l
+@@@9	6	Op	:		:
+@@@9	7	Word	Double		Double
+@@@9	14	Op	=		=
+@@@9	16	Long	50L		50
+@@@9	19	Double	.56		0.56
+@@@10	1	Key	val		val
+@@@10	5	Word	m		m
+@@@10	6	Op	:		:
+@@@10	7	Word	Double		Double
+@@@10	14	Op	=		=
+@@@10	16	Error	1e-		Unparseable number
+@@@11	1	Key	val		val
+@@@11	5	Word	o		o
+@@@11	6	Op	:		:
+@@@11	7	Word	Double		Double
+@@@11	14	Op	=		=
+@@@11	16	Error	1e-5_		Unparseable number
+@@@12	1	Key	val		val
+@@@12	5	Word	p		p
+@@@12	6	Op	:		:
+@@@12	7	Word	Double		Double
+@@@12	14	Op	=		=
+@@@12	16	Double	1e-5		1e-05
+@@@12	20	Double	.5		0.5
+@@@13	1	Key	val		val
+@@@13	5	Word	r		r
+@@@13	6	Op	:		:
+@@@13	7	Word	Double		Double
+@@@13	14	Op	=		=
+@@@13	16	Double	1.1		1.1
+@@@13	19	Double	.1		0.1
+@@@14	1	Key	val		val
+@@@14	5	Word	s		s
+@@@14	6	Op	:		:
+@@@14	7	Word	Double		Double
+@@@14	14	Op	=		=
+@@@14	16	Error	1.5u		Unparseable number
+@@@15	0	Br	}		}

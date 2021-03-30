@@ -5,4 +5,6 @@ fun main() {
 	val d : Int = 1_5_2
 	val e : Int = 1_244_123L
 	val f : Int = 12__5
+	val g : Int = 12u
+	val h : Int = 12U
 }

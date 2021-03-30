@@ -1,48 +1,48 @@
-0	0	Key	|fun
-0	4	Word	|main
-0	8	Br	|(
-0	9	Br	|)
-0	11	Br	|{
-1	1	Key	|val
-1	5	Word	|a
-1	7	Op	|:
-1	9	Word	|Int
-1	13	Op	|=
-1	15	Error	Unparseable number	|0b
-2	1	Key	|val
-2	5	Word	|b
-2	7	Op	|:
-2	9	Word	|Int
-2	13	Op	|=
-2	15	Error	Unparseable number	|0b2
-3	1	Key	|val
-3	5	Word	|c
-3	7	Op	|:
-3	9	Word	|Int
-3	13	Op	|=
-3	15	Error	Unparseable number	|0_b1
-4	1	Key	|val
-4	5	Word	|d
-4	7	Op	|:
-4	9	Word	|Int
-4	13	Op	|=
-4	15	Error	Unparseable number	|0b_1
-5	1	Key	|val
-5	5	Word	|e
-5	7	Op	|:
-5	9	Word	|Int
-5	13	Op	|=
-5	15	Error	Unparseable number	|0b10_
-6	1	Key	|val
-6	5	Word	|f
-6	7	Op	|:
-6	9	Word	|Int
-6	13	Op	|=
-6	15	Error	Unparseable number	|0b1L1
-7	1	Key	|val
-7	5	Word	|g
-7	7	Op	|:
-7	9	Word	|Int
-7	13	Op	|=
-7	15	Error	Unparseable number	|0b101f
-8	0	Br	|}
+@@@0	0	Key	fun		fun
+@@@0	4	Word	main		main
+@@@0	8	Br	(		(
+@@@0	9	Br	)		)
+@@@0	11	Br	{		{
+@@@1	1	Key	val		val
+@@@1	5	Word	a		a
+@@@1	7	Op	:		:
+@@@1	9	Word	Int		Int
+@@@1	13	Op	=		=
+@@@1	15	Error	0b		Unparseable number
+@@@2	1	Key	val		val
+@@@2	5	Word	b		b
+@@@2	7	Op	:		:
+@@@2	9	Word	Int		Int
+@@@2	13	Op	=		=
+@@@2	15	Error	0b2		Unparseable number
+@@@3	1	Key	val		val
+@@@3	5	Word	c		c
+@@@3	7	Op	:		:
+@@@3	9	Word	Int		Int
+@@@3	13	Op	=		=
+@@@3	15	Error	0_b1		Unparseable number
+@@@4	1	Key	val		val
+@@@4	5	Word	d		d
+@@@4	7	Op	:		:
+@@@4	9	Word	Int		Int
+@@@4	13	Op	=		=
+@@@4	15	Error	0b_1		Unparseable number
+@@@5	1	Key	val		val
+@@@5	5	Word	e		e
+@@@5	7	Op	:		:
+@@@5	9	Word	Int		Int
+@@@5	13	Op	=		=
+@@@5	15	Error	0b10_		Unparseable number
+@@@6	1	Key	val		val
+@@@6	5	Word	f		f
+@@@6	7	Op	:		:
+@@@6	9	Word	Int		Int
+@@@6	13	Op	=		=
+@@@6	15	Error	0b1L1		Unparseable number
+@@@7	1	Key	val		val
+@@@7	5	Word	g		g
+@@@7	7	Op	:		:
+@@@7	9	Word	Int		Int
+@@@7	13	Op	=		=
+@@@7	15	Error	0b101f		Unparseable number
+@@@8	0	Br	}		}

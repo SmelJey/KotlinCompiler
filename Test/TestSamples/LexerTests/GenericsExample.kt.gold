@@ -1,171 +1,171 @@
-4	0	Key	|class
-4	6	Word	|MutableStack
-4	18	Op	|<
-4	19	Word	|E
-4	20	Op	|>
-4	21	Br	|(
-4	22	Key	|vararg
-4	29	Word	|items
-4	34	Op	|:
-4	36	Word	|E
-4	37	Br	|)
-4	39	Br	|{
-6	2	Key	|private
-6	10	Key	|val
-6	14	Word	|elements
-6	23	Op	|=
-6	25	Word	|items
-6	30	Op	|.
-6	31	Word	|toMutableList
-6	44	Br	|(
-6	45	Br	|)
-8	2	Key	|fun
-8	6	Word	|push
-8	10	Br	|(
-8	11	Word	|element
-8	18	Op	|:
-8	20	Word	|E
-8	21	Br	|)
-8	23	Op	|=
-8	25	Word	|elements
-8	33	Op	|.
-8	34	Word	|add
-8	37	Br	|(
-8	38	Word	|element
-8	45	Br	|)
-10	2	Key	|fun
-10	6	Word	|peek
-10	10	Br	|(
-10	11	Br	|)
-10	12	Op	|:
-10	14	Word	|E
-10	16	Op	|=
-10	18	Word	|elements
-10	26	Op	|.
-10	27	Word	|last
-10	31	Br	|(
-10	32	Br	|)
-12	2	Key	|fun
-12	6	Word	|pop
-12	9	Br	|(
-12	10	Br	|)
-12	11	Op	|:
-12	13	Word	|E
-12	15	Op	|=
-12	17	Word	|elements
-12	25	Op	|.
-12	26	Word	|removeAt
-12	34	Br	|(
-12	35	Word	|elements
-12	43	Op	|.
-12	44	Word	|size
-12	49	Op	|-
-12	51	Num	|1
-12	52	Br	|)
-14	2	Key	|fun
-14	6	Word	|isEmpty
-14	13	Br	|(
-14	14	Br	|)
-14	16	Op	|=
-14	18	Word	|elements
-14	26	Op	|.
-14	27	Word	|isEmpty
-14	34	Br	|(
-14	35	Br	|)
-16	2	Key	|fun
-16	6	Word	|size
-16	10	Br	|(
-16	11	Br	|)
-16	13	Op	|=
-16	15	Word	|elements
-16	23	Op	|.
-16	24	Word	|size
-18	2	Key	|override
-18	11	Key	|fun
-18	15	Word	|toString
-18	23	Br	|(
-18	24	Br	|)
-18	26	Op	|=
-18	28	Str	|"MutableStack(
-18	42	StrExp	|${
-18	44	Word	|elements
-18	52	Op	|.
-18	53	Word	|joinToString
-18	65	Br	|(
-18	66	Br	|)
-18	67	Br	|}
-18	68	Str	|)"
-19	0	Br	|}
-22	0	Key	|fun
-22	4	Word	|main
-22	8	Br	|(
-22	9	Br	|)
-22	11	Br	|{
-23	2	Key	|val
-23	6	Word	|stack
-23	12	Op	|=
-23	14	Word	|MutableStack
-23	26	Br	|(
-23	27	Num	|0.62
-23	31	Op	|,
-23	33	Num	|3.14
-23	37	Op	|,
-23	39	Num	|2.7
-23	42	Br	|)
-24	2	Word	|stack
-24	7	Op	|.
-24	8	Word	|push
-24	12	Br	|(
-24	13	Num	|9.87
-24	17	Br	|)
-25	2	Word	|println
-25	9	Br	|(
-25	10	Word	|stack
-25	15	Br	|)
-27	2	Word	|println
-27	9	Br	|(
-27	10	Str	|"peek(): 
-27	19	StrExp	|${
-27	21	Word	|stack
-27	26	Op	|.
-27	27	Word	|peek
-27	31	Br	|(
-27	32	Br	|)
-27	33	Br	|}
-27	34	Str	|"
-27	35	Br	|)
-28	2	Word	|println
-28	9	Br	|(
-28	10	Word	|stack
-28	15	Br	|)
-30	2	Key	|for
-30	6	Br	|(
-30	7	Word	|i
-30	9	Key	|in
-30	12	Num	|1.
-30	14	Op	|.
-30	15	Word	|stack
-30	20	Op	|.
-30	21	Word	|size
-30	25	Br	|(
-30	26	Br	|)
-30	27	Br	|)
-30	29	Br	|{
-31	4	Word	|println
-31	11	Br	|(
-31	12	Str	|"pop(): 
-31	20	StrExp	|${
-31	22	Word	|stack
-31	27	Op	|.
-31	28	Word	|pop
-31	31	Br	|(
-31	32	Br	|)
-31	33	Br	|}
-31	34	Str	|"
-31	35	Br	|)
-32	4	Word	|println
-32	11	Br	|(
-32	12	Word	|stack
-32	17	Br	|)
-33	2	Br	|}
-34	0	Br	|}
+@@@4	0	Key	class		class
+@@@4	6	Word	MutableStack	MutableStack
+@@@4	18	Op	<		<
+@@@4	19	Word	E		E
+@@@4	20	Op	>		>
+@@@4	21	Br	(		(
+@@@4	22	Key	vararg		vararg
+@@@4	29	Word	items		items
+@@@4	34	Op	:		:
+@@@4	36	Word	E		E
+@@@4	37	Br	)		)
+@@@4	39	Br	{		{
+@@@6	2	Key	private		private
+@@@6	10	Key	val		val
+@@@6	14	Word	elements	elements
+@@@6	23	Op	=		=
+@@@6	25	Word	items		items
+@@@6	30	Op	.		.
+@@@6	31	Word	toMutableList	toMutableList
+@@@6	44	Br	(		(
+@@@6	45	Br	)		)
+@@@8	2	Key	fun		fun
+@@@8	6	Word	push		push
+@@@8	10	Br	(		(
+@@@8	11	Word	element		element
+@@@8	18	Op	:		:
+@@@8	20	Word	E		E
+@@@8	21	Br	)		)
+@@@8	23	Op	=		=
+@@@8	25	Word	elements	elements
+@@@8	33	Op	.		.
+@@@8	34	Word	add		add
+@@@8	37	Br	(		(
+@@@8	38	Word	element		element
+@@@8	45	Br	)		)
+@@@10	2	Key	fun		fun
+@@@10	6	Word	peek		peek
+@@@10	10	Br	(		(
+@@@10	11	Br	)		)
+@@@10	12	Op	:		:
+@@@10	14	Word	E		E
+@@@10	16	Op	=		=
+@@@10	18	Word	elements	elements
+@@@10	26	Op	.		.
+@@@10	27	Word	last		last
+@@@10	31	Br	(		(
+@@@10	32	Br	)		)
+@@@12	2	Key	fun		fun
+@@@12	6	Word	pop		pop
+@@@12	9	Br	(		(
+@@@12	10	Br	)		)
+@@@12	11	Op	:		:
+@@@12	13	Word	E		E
+@@@12	15	Op	=		=
+@@@12	17	Word	elements	elements
+@@@12	25	Op	.		.
+@@@12	26	Word	removeAt	removeAt
+@@@12	34	Br	(		(
+@@@12	35	Word	elements	elements
+@@@12	43	Op	.		.
+@@@12	44	Word	size		size
+@@@12	49	Op	-		-
+@@@12	51	Byte	1		1
+@@@12	52	Br	)		)
+@@@14	2	Key	fun		fun
+@@@14	6	Word	isEmpty		isEmpty
+@@@14	13	Br	(		(
+@@@14	14	Br	)		)
+@@@14	16	Op	=		=
+@@@14	18	Word	elements	elements
+@@@14	26	Op	.		.
+@@@14	27	Word	isEmpty		isEmpty
+@@@14	34	Br	(		(
+@@@14	35	Br	)		)
+@@@16	2	Key	fun		fun
+@@@16	6	Word	size		size
+@@@16	10	Br	(		(
+@@@16	11	Br	)		)
+@@@16	13	Op	=		=
+@@@16	15	Word	elements	elements
+@@@16	23	Op	.		.
+@@@16	24	Word	size		size
+@@@18	2	Key	override	override
+@@@18	11	Key	fun		fun
+@@@18	15	Word	toString	toString
+@@@18	23	Br	(		(
+@@@18	24	Br	)		)
+@@@18	26	Op	=		=
+@@@18	28	Str	"MutableStack(	MutableStack(
+@@@18	42	StrExp	${		${
+@@@18	44	Word	elements	elements
+@@@18	52	Op	.		.
+@@@18	53	Word	joinToString	joinToString
+@@@18	65	Br	(		(
+@@@18	66	Br	)		)
+@@@18	67	Br	}		}
+@@@18	68	Str	)"		)
+@@@19	0	Br	}		}
+@@@22	0	Key	fun		fun
+@@@22	4	Word	main		main
+@@@22	8	Br	(		(
+@@@22	9	Br	)		)
+@@@22	11	Br	{		{
+@@@23	2	Key	val		val
+@@@23	6	Word	stack		stack
+@@@23	12	Op	=		=
+@@@23	14	Word	MutableStack	MutableStack
+@@@23	26	Br	(		(
+@@@23	27	Double	0.62		0.62
+@@@23	31	Op	,		,
+@@@23	33	Double	3.14		3.14
+@@@23	37	Op	,		,
+@@@23	39	Double	2.7		2.7
+@@@23	42	Br	)		)
+@@@24	2	Word	stack		stack
+@@@24	7	Op	.		.
+@@@24	8	Word	push		push
+@@@24	12	Br	(		(
+@@@24	13	Double	9.87		9.87
+@@@24	17	Br	)		)
+@@@25	2	Word	println		println
+@@@25	9	Br	(		(
+@@@25	10	Word	stack		stack
+@@@25	15	Br	)		)
+@@@27	2	Word	println		println
+@@@27	9	Br	(		(
+@@@27	10	Str	"peek(): 	peek(): 
+@@@27	19	StrExp	${		${
+@@@27	21	Word	stack		stack
+@@@27	26	Op	.		.
+@@@27	27	Word	peek		peek
+@@@27	31	Br	(		(
+@@@27	32	Br	)		)
+@@@27	33	Br	}		}
+@@@27	34	Str	"		
+@@@27	35	Br	)		)
+@@@28	2	Word	println		println
+@@@28	9	Br	(		(
+@@@28	10	Word	stack		stack
+@@@28	15	Br	)		)
+@@@30	2	Key	for		for
+@@@30	6	Br	(		(
+@@@30	7	Word	i		i
+@@@30	9	Key	in		in
+@@@30	12	Double	1.		1
+@@@30	14	Op	.		.
+@@@30	15	Word	stack		stack
+@@@30	20	Op	.		.
+@@@30	21	Word	size		size
+@@@30	25	Br	(		(
+@@@30	26	Br	)		)
+@@@30	27	Br	)		)
+@@@30	29	Br	{		{
+@@@31	4	Word	println		println
+@@@31	11	Br	(		(
+@@@31	12	Str	"pop(): 	pop(): 
+@@@31	20	StrExp	${		${
+@@@31	22	Word	stack		stack
+@@@31	27	Op	.		.
+@@@31	28	Word	pop		pop
+@@@31	31	Br	(		(
+@@@31	32	Br	)		)
+@@@31	33	Br	}		}
+@@@31	34	Str	"		
+@@@31	35	Br	)		)
+@@@32	4	Word	println		println
+@@@32	11	Br	(		(
+@@@32	12	Word	stack		stack
+@@@32	17	Br	)		)
+@@@33	2	Br	}		}
+@@@34	0	Br	}		}
