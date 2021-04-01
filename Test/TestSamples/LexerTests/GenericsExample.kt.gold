@@ -142,8 +142,8 @@
 @@@30	6	Br	(		(
 @@@30	7	Word	i		i
 @@@30	9	Key	in		in
-@@@30	12	Double	1.		1
-@@@30	14	Op	.		.
+@@@30	12	Int	1		1
+@@@30	13	Op	..		..
 @@@30	15	Word	stack		stack
 @@@30	20	Op	.		.
 @@@30	21	Word	size		size

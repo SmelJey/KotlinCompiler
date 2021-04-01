@@ -34,7 +34,9 @@
 @@@5	6	Op	:		:
 @@@5	7	Word	Double		Double
 @@@5	14	Op	=		=
-@@@5	16	Error	1._5		Unparseable number
+@@@5	16	Int	1		1
+@@@5	17	Op	.		.
+@@@5	18	Word	_5		_5
 @@@6	1	Key	val		val
 @@@6	5	Word	g		g
 @@@6	6	Op	:		:
@@ -92,4 +94,11 @@
 @@@14	7	Word	Double		Double
 @@@14	14	Op	=		=
 @@@14	16	Error	1.5u		Unparseable number
-@@@15	0	Br	}		}
+@@@15	1	Key	val		val
+@@@15	5	Word	t		t
+@@@15	6	Op	:		:
+@@@15	7	Word	Double		Double
+@@@15	14	Op	=		=
+@@@15	16	Int	5		5
+@@@15	17	Op	.		.
+@@@16	0	Br	}		}

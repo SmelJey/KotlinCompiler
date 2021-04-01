@@ -108,12 +108,17 @@ private:
         LexType numberType = LexType::Int;
 
         if (myInputBuffer.GetChar() == '.') {
+            if (GetCharGroup(myInputBuffer.LookAhead(1)) != CharGroup::Digit) {
+                std::string number = out;
+                number.erase(std::remove(number.begin(), number.end(), '_'), number.end());
+                return std::make_pair(numberType, number);
+            }
+
             numberType = LexType::Double;
             out.push_back(GetNextChar());
-            if (GetCharGroup(myInputBuffer.GetChar()) == CharGroup::Digit) {
-                if (!ProcessIntegerNumber(out, &ILexer::IsDecChar)) {
-                    return std::make_pair(LexType::Error, "Unparseable number");
-                }
+
+            if (!ProcessIntegerNumber(out, &ILexer::IsDecChar)) {
+                return std::make_pair(LexType::Error, "Unparseable number");
             }
         }
 

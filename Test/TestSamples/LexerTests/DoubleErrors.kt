@@ -13,4 +13,5 @@ fun main() {
 	val p:Double = 1e-5.5
 	val r:Double = 1.1.1
 	val s:Double = 1.5u
+	val t:Double = 5.
 }
