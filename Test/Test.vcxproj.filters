@@ -122,6 +122,9 @@
     <None Include="TestSamples\LexerTests\IntegersOutOfRangeErrors.kt">
       <Filter>Resource Files\LexerTests</Filter>
     </None>
+    <None Include="TestSamples\LexerTests\CommentsErrors2.kt">
+      <Filter>Resource Files\LexerTests</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="InputBufferTest.cpp">

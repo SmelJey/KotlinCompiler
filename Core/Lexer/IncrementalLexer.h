@@ -74,14 +74,25 @@ private:
     }
 
     std::pair<LexType, std::string> ProcessMultilineComment(std::string& out) {
+        int nestedCnt = 0;
         while (myInputBuffer.GetChar() != BUFFER_EOF) {
-            if (myInputBuffer.GetChar() == '*' && myInputBuffer.LookAhead(1) == '/') {
+            if (GetCharGroup(myInputBuffer.GetChar(), myInputBuffer.LookAhead(1),
+                             myInputBuffer.LookAhead(2)) == CharGroup::MultilineCommentStart) {
+                nestedCnt++;
                 AddNextChars(2, out);
-                out.clear();
-                return std::make_pair(LexType::Ignored, "");
+                continue;
+            }
+            if (myInputBuffer.GetChar() == '*' && myInputBuffer.LookAhead(1) == '/') {
+                nestedCnt--;
+                AddNextChars(2, out);
+                if (nestedCnt == 0) {
+                    out.clear();
+                    return std::make_pair(LexType::Ignored, "");
+                }
             }
             out.push_back(GetNextChar());
         }
+
         return std::make_pair(LexType::Error, "Unclosed comment");
     }
 

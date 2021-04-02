@@ -28,6 +28,7 @@ TEST_CASE("Lexer Correct Syntax", "[Lexer]") {
 TEST_CASE("Lexer Incorrect Syntax", "[Lexer]") {
     LEXER_TEST(IncrementalLexer<std::ifstream>, "SimpleErrors.kt")
     LEXER_TEST(IncrementalLexer<std::ifstream>, "CommentsErrors.kt")
+    LEXER_TEST(IncrementalLexer<std::ifstream>, "CommentsErrors2.kt")
     LEXER_TEST(IncrementalLexer<std::ifstream>, "IntegersErrors.kt")
     LEXER_TEST(IncrementalLexer<std::ifstream>, "BinIntsErrors.kt")
     LEXER_TEST(IncrementalLexer<std::ifstream>, "HexIntsErrors.kt")
