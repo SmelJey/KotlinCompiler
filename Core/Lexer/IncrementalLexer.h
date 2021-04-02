@@ -155,9 +155,7 @@ private:
             numberType = (numberType == LexType::UInt ? Lexeme::LexemeType::ULong : Lexeme::LexemeType::Long);
         }
 
-        CharGroup charGroup = GetCharGroup(myInputBuffer.GetChar());
-        if (charGroup == CharGroup::Alphabetic || charGroup == CharGroup::Unknown || charGroup == CharGroup::Digit) {
-            ConsumeLexeme(out);
+        if (!ValidateNumberEnd(out)) {
             return std::make_pair(LexType::Error, "Unparseable number");
         }
 

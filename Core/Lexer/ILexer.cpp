@@ -89,10 +89,10 @@ ILexer::CharGroup ILexer::GetCharGroup(int character, int lookAhead1, int lookAh
         return CharGroup::Digit;
     }
     if (character == '0') {
-        if (lookAhead1 == 'x') {
+        if (lookAhead1 == 'x' || lookAhead1 == 'X') {
             return CharGroup::HexPrefix;
         }
-        if (lookAhead1 == 'b') {
+        if (lookAhead1 == 'b' || lookAhead1 == 'B') {
             return CharGroup::BinPrefix;
         }
     }
