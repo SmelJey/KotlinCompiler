@@ -1,41 +1,87 @@
 #pragma once
 
-#include <string>
-#include <fstream>
-#include <unordered_map>
 #include <any>
+#include <fstream>
+#include <string>
 
 class Lexeme {
 public:
+    friend class Lexer;
+
     enum class LexemeType : int {
-        EndOfFile = 0,
-        Identifier = 1,
-        Keyword = 2,
+        EndOfFile,
+        Identifier,
+        Keyword,
 
-        Byte = 3,
-        Short = 4,
-        Int = 5,
-        Long = 6,
+        Byte,
+        Short,
+        Int,
+        Long,
 
-        UByte = 7,
-        UShort = 8,
-        UInt = 9,
-        ULong = 10,
+        UByte,
+        UShort,
+        UInt,
+        ULong,
 
-        Float = 11,
-        Double = 12,
+        Float,
+        Double,
 
-        Operation = 13,
-        Brace = 14,
+        OpAdd,
+        OpSub,
+        OpMult,
+        OpDiv,
+        OpAssign,
+        OpMod,
+        OpExclMark,
+        OpComma,
+        OpDot,
+        OpColon,
+        OpSemicolon,
+        OpHash,
+        OpAt,
+        OpQuestMark,
+        OpLess,
+        OpGreater,
+        OpInc,
+        OpDec,
+        OpAnd,
+        OpOr,
+        OpPlusAssign,
+        OpMinusAssign,
+        OpMultAssign,
+        OpDivAssign,
+        OpModAssign,
+        OpArrow,
+        OpDArrow,
+        OpDDot,
+        OpDColon,
+        OpDSemicolon,
+        OpLessOrEq,
+        OpGreaterOrEq,
+        OpInequal,
+        OpEqual,
+        OpTripleDot,
+        OpStrictIneq,
+        OpStrictEq,
 
-        String = 15,
-        RawString = 16,
-        StringRef = 17,
-        StringExpr = 18,
-        CharLiteral = 19,
+        LParen,
+        RParen,
+        LSquare,
+        RSquare,
+        LCurl,
+        RCurl,
 
-        Error = 20,
-        Ignored = 21,
+        Quote,
+        SingleQuote,
+
+        String,
+        RawString,
+        StringRef,
+        StringExpr,
+        CharLiteral,
+
+        Error,
+        Ignored,
     };
 
     enum class NumberType {
@@ -45,18 +91,20 @@ public:
         Real
     };
 
-    const static std::string DEFAULT_LEXEME_ERROR;
+    static const std::string DEFAULT_LEXEME_ERROR;
 
     static std::string LexemeToStr[];
 
     static NumberType GetNumberType(LexemeType lexemeType);
 
     Lexeme();
-    Lexeme(int col, int row, std::string text, LexemeType type, const std::string& valueRepresentation);
+    Lexeme(int col, int row, std::string text, LexemeType type, const std::string& valueRepresentation, bool isError = false);
 
     int GetColumn() const;
     int GetRow() const;
     const std::string& GetText() const;
+
+    bool IsError() const;
 
     template<typename T>
     T GetValue() const {
@@ -74,6 +122,7 @@ private:
     std::string myText;
     std::any myValue;
     LexemeType myType;
+    bool isError;
 };
 
 std::ostream& operator<<(std::ostream& out, const Lexeme& lexeme);

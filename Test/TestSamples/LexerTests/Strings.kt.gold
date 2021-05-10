@@ -1,25 +1,25 @@
-@@@0	0	Key	fun		fun
-@@@0	4	Word	main		main
-@@@0	8	Br	(		(
-@@@0	9	Br	)		)
-@@@0	11	Br	{		{
-@@@1	1	Key	val		val
-@@@1	5	Word	a		a
-@@@1	6	Op	:		:
-@@@1	7	Word	String		String
-@@@1	14	Op	=		=
-@@@1	16	Str	"test 123 string"	test 123 string
-@@@2	1	Key	val		val
-@@@2	5	Word	b		b
-@@@2	6	Op	:		:
-@@@2	7	Word	String		String
-@@@2	14	Op	=		=
-@@@2	16	Str	"test with \" escape"	test with " escape
-@@@3	1	Key	val		val
-@@@3	5	Word	c		c
-@@@3	6	Op	:		:
-@@@3	7	Word	String		String
-@@@3	14	Op	=		=
-@@@3	16	Str	"\t\b\r\n\'\"\\\$"		
+@@@0	0	Keyword		fun		fun
+@@@0	4	Identifier	main		main
+@@@0	8	LParen		(		(
+@@@0	9	RParen		)		)
+@@@0	11	LCurl		{		{
+@@@1	1	Keyword		val		val
+@@@1	5	Identifier	a		a
+@@@1	6	OpColon		:		:
+@@@1	7	Identifier	String		String
+@@@1	14	OpAssign	=		=
+@@@1	16	String		"test 123 string"	test 123 string
+@@@2	1	Keyword		val		val
+@@@2	5	Identifier	b		b
+@@@2	6	OpColon		:		:
+@@@2	7	Identifier	String		String
+@@@2	14	OpAssign	=		=
+@@@2	16	String		"test with \" escape"	test with " escape
+@@@3	1	Keyword		val		val
+@@@3	5	Identifier	c		c
+@@@3	6	OpColon		:		:
+@@@3	7	Identifier	String		String
+@@@3	14	OpAssign	=		=
+@@@3	16	String		"\t\b\r\n\'\"\\\$"		
 '"\$
-@@@4	0	Br	}		}
+@@@4	0	RCurl		}		}

@@ -19,6 +19,12 @@
     <Filter Include="Source Files\Lexer">
       <UniqueIdentifier>{7bb8ded4-4ed8-4236-939d-9620eb3b8c9a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Parser">
+      <UniqueIdentifier>{eaf91d47-01d6-452f-af64-1f85f01e96ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Parser">
+      <UniqueIdentifier>{47aaa709-6439-433f-9b92-415a4a308d5f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -27,13 +33,28 @@
     <ClInclude Include="InputBuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Lexer\ILexer.h">
-      <Filter>Header Files\Lexer</Filter>
-    </ClInclude>
     <ClInclude Include="Lexer\Lexeme.h">
       <Filter>Header Files\Lexer</Filter>
     </ClInclude>
-    <ClInclude Include="Lexer\IncrementalLexer.h">
+    <ClInclude Include="Lexer\Lexer.h">
+      <Filter>Header Files\Lexer</Filter>
+    </ClInclude>
+    <ClInclude Include="Parser\Parser.h">
+      <Filter>Header Files\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="Parser\ISyntaxNode.h">
+      <Filter>Header Files\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="Parser\SimpleNodes.h">
+      <Filter>Header Files\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="Parser\BinOperationNode.h">
+      <Filter>Header Files\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="magic_enum.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Lexer\LexerUtils.h">
       <Filter>Header Files\Lexer</Filter>
     </ClInclude>
   </ItemGroup>
@@ -41,10 +62,25 @@
     <ClCompile Include="pch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Lexer\ILexer.cpp">
+    <ClCompile Include="Lexer\Lexeme.cpp">
       <Filter>Source Files\Lexer</Filter>
     </ClCompile>
-    <ClCompile Include="Lexer\Lexeme.cpp">
+    <ClCompile Include="Parser\Parser.cpp">
+      <Filter>Source Files\Parser</Filter>
+    </ClCompile>
+    <ClCompile Include="Parser\ISyntaxNode.cpp">
+      <Filter>Source Files\Parser</Filter>
+    </ClCompile>
+    <ClCompile Include="Parser\SimpleNodes.cpp">
+      <Filter>Source Files\Parser</Filter>
+    </ClCompile>
+    <ClCompile Include="Parser\BinOperationNode.cpp">
+      <Filter>Source Files\Parser</Filter>
+    </ClCompile>
+    <ClCompile Include="Lexer\LexerUtils.cpp">
+      <Filter>Source Files\Lexer</Filter>
+    </ClCompile>
+    <ClCompile Include="Lexer\Lexer.cpp">
       <Filter>Source Files\Lexer</Filter>
     </ClCompile>
   </ItemGroup>

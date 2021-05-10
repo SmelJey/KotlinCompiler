@@ -1,42 +1,42 @@
-@@@0	0	Key	fun		fun
-@@@0	4	Word	main		main
-@@@0	8	Br	(		(
-@@@0	9	Br	)		)
-@@@0	11	Br	{		{
-@@@1	1	Key	val		val
-@@@1	5	Word	a		a
-@@@1	6	Op	:		:
-@@@1	7	Word	String		String
-@@@1	14	Op	=		=
-@@@1	16	RStr	"""test 123 string"""	test 123 string
-@@@2	1	Key	val		val
-@@@2	5	Word	b		b
-@@@2	7	Op	:		:
-@@@2	9	Word	String		String
-@@@2	16	Op	=		=
-@@@2	18	RStr	"""
+@@@0	0	Keyword		fun		fun
+@@@0	4	Identifier	main		main
+@@@0	8	LParen		(		(
+@@@0	9	RParen		)		)
+@@@0	11	LCurl		{		{
+@@@1	1	Keyword		val		val
+@@@1	5	Identifier	a		a
+@@@1	6	OpColon		:		:
+@@@1	7	Identifier	String		String
+@@@1	14	OpAssign	=		=
+@@@1	16	RawString	"""test 123 string"""	test 123 string
+@@@2	1	Keyword		val		val
+@@@2	5	Identifier	b		b
+@@@2	7	OpColon		:		:
+@@@2	9	Identifier	String		String
+@@@2	16	OpAssign	=		=
+@@@2	18	RawString	"""
 		multi
 		line
 		string""""	
 		multi
 		line
 		string"
-@@@6	1	Key	val		val
-@@@6	5	Word	c		c
-@@@6	7	Op	:		:
-@@@6	9	Word	String		String
-@@@6	16	Op	=		=
-@@@6	18	RStr	""""abc"""	"abc
-@@@7	1	Key	val		val
-@@@7	5	Word	d		d
-@@@7	7	Op	:		:
-@@@7	9	Word	String		String
-@@@7	16	Op	=		=
-@@@7	18	RStr	""""""		
-@@@8	1	Key	val		val
-@@@8	5	Word	e		e
-@@@8	7	Op	:		:
-@@@8	9	Word	String		String
-@@@8	16	Op	=		=
-@@@8	18	RStr	""" escape wont work here \"""	 escape wont work here \
-@@@9	0	Br	}		}
+@@@6	1	Keyword		val		val
+@@@6	5	Identifier	c		c
+@@@6	7	OpColon		:		:
+@@@6	9	Identifier	String		String
+@@@6	16	OpAssign	=		=
+@@@6	18	RawString	""""abc"""	"abc
+@@@7	1	Keyword		val		val
+@@@7	5	Identifier	d		d
+@@@7	7	OpColon		:		:
+@@@7	9	Identifier	String		String
+@@@7	16	OpAssign	=		=
+@@@7	18	RawString	""""""		
+@@@8	1	Keyword		val		val
+@@@8	5	Identifier	e		e
+@@@8	7	OpColon		:		:
+@@@8	9	Identifier	String		String
+@@@8	16	OpAssign	=		=
+@@@8	18	RawString	""" escape wont work here \"""	 escape wont work here \
+@@@9	0	RCurl		}		}

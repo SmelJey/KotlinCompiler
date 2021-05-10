@@ -1,134 +1,134 @@
-@@@0	0	Key	fun		fun
-@@@0	4	Word	test		test
-@@@0	8	Br	(		(
-@@@0	9	Br	)		)
-@@@0	11	Br	{		{
-@@@0	12	Br	}		}
-@@@1	0	Key	fun		fun
-@@@1	4	Word	main		main
-@@@1	8	Br	(		(
-@@@1	9	Br	)		)
-@@@1	11	Br	{		{
-@@@2	1	Key	val		val
-@@@2	5	Word	a		a
-@@@2	6	Op	:		:
-@@@2	7	Word	String		String
-@@@2	14	Op	=		=
-@@@2	16	RStr	"""template 	template 
-@@@2	28	StrExp	${		${
-@@@2	30	Byte	3		3
-@@@2	31	Op	-		-
-@@@2	32	Byte	2		2
-@@@2	33	Br	}		}
-@@@2	34	RStr	 test"""	 test
-@@@3	1	Key	val		val
-@@@3	5	Word	b		b
-@@@3	6	Op	:		:
-@@@3	7	Word	String		String
-@@@3	14	Op	=		=
-@@@3	16	RStr	"""
+@@@0	0	Keyword		fun		fun
+@@@0	4	Identifier	test		test
+@@@0	8	LParen		(		(
+@@@0	9	RParen		)		)
+@@@0	11	LCurl		{		{
+@@@0	12	RCurl		}		}
+@@@1	0	Keyword		fun		fun
+@@@1	4	Identifier	main		main
+@@@1	8	LParen		(		(
+@@@1	9	RParen		)		)
+@@@1	11	LCurl		{		{
+@@@2	1	Keyword		val		val
+@@@2	5	Identifier	a		a
+@@@2	6	OpColon		:		:
+@@@2	7	Identifier	String		String
+@@@2	14	OpAssign	=		=
+@@@2	16	RawString	"""template 	template 
+@@@2	28	StringExpr	${		${
+@@@2	30	Byte		3		3
+@@@2	31	OpSub		-		-
+@@@2	32	Byte		2		2
+@@@2	33	RCurl		}		}
+@@@2	34	RawString	 test"""	 test
+@@@3	1	Keyword		val		val
+@@@3	5	Identifier	b		b
+@@@3	6	OpColon		:		:
+@@@3	7	Identifier	String		String
+@@@3	14	OpAssign	=		=
+@@@3	16	RawString	"""
 	template
 		
 	template
 	
-@@@5	1	StrRf	$a		a
-@@@5	3	RStr	
+@@@5	1	StringRef	$a		a
+@@@5	3	RawString	
 	test"""	
 	test
-@@@7	1	Key	val		val
-@@@7	5	Word	c		c
-@@@7	6	Op	:		:
-@@@7	7	Word	String		String
-@@@7	14	Op	=		=
-@@@7	16	RStr	"""
+@@@7	1	Keyword		val		val
+@@@7	5	Identifier	c		c
+@@@7	6	OpColon		:		:
+@@@7	7	Identifier	String		String
+@@@7	14	OpAssign	=		=
+@@@7	16	RawString	"""
 	template 	
 	template 
-@@@8	10	StrExp	${		${
-@@@8	12	Word	test		test
-@@@8	16	Br	(		(
-@@@8	17	Br	)		)
-@@@8	18	Br	}		}
-@@@8	19	RStr	
+@@@8	10	StringExpr	${		${
+@@@8	12	Identifier	test		test
+@@@8	16	LParen		(		(
+@@@8	17	RParen		)		)
+@@@8	18	RCurl		}		}
+@@@8	19	RawString	
 	"""		
 	
-@@@10	1	Key	val		val
-@@@10	5	Word	d		d
-@@@10	6	Op	:		:
-@@@10	7	Word	String		String
-@@@10	14	Op	=		=
-@@@10	16	RStr	"""		
-@@@10	19	StrExp	${		${
-@@@10	21	Word	a		a
-@@@10	22	Br	}		}
-@@@10	23	RStr	"""		
-@@@11	1	Key	val		val
-@@@11	5	Word	e		e
-@@@11	6	Op	:		:
-@@@11	7	Word	String		String
-@@@11	14	Op	=		=
-@@@11	16	RStr	"""
+@@@10	1	Keyword		val		val
+@@@10	5	Identifier	d		d
+@@@10	6	OpColon		:		:
+@@@10	7	Identifier	String		String
+@@@10	14	OpAssign	=		=
+@@@10	16	RawString	"""		
+@@@10	19	StringExpr	${		${
+@@@10	21	Identifier	a		a
+@@@10	22	RCurl		}		}
+@@@10	23	RawString	"""		
+@@@11	1	Keyword		val		val
+@@@11	5	Identifier	e		e
+@@@11	6	OpColon		:		:
+@@@11	7	Identifier	String		String
+@@@11	14	OpAssign	=		=
+@@@11	16	RawString	"""
 			
 	
-@@@12	1	StrRf	$a		a
-@@@12	3	RStr	
+@@@12	1	StringRef	$a		a
+@@@12	3	RawString	
 	"""		
 	
-@@@14	1	Key	val		val
-@@@14	5	Word	f		f
-@@@14	6	Op	:		:
-@@@14	7	Word	String		String
-@@@14	14	Op	=		=
-@@@14	16	RStr	"""		
-@@@14	19	StrRf	$a		a
-@@@14	21	RStr	 		 
-@@@14	22	StrRf	$b		b
-@@@14	24	RStr	 		 
-@@@14	25	StrRf	$c		c
-@@@14	27	RStr	"""		
-@@@15	1	Key	val		val
-@@@15	5	Word	g		g
-@@@15	6	Op	:		:
-@@@15	7	Word	String		String
-@@@15	14	Op	=		=
-@@@15	16	RStr	"""		
-@@@15	19	StrExp	${		${
-@@@15	21	Byte	2		2
-@@@15	23	Op	+		+
-@@@15	25	Byte	3		3
-@@@15	27	Op	-		-
-@@@15	29	Byte	5		5
-@@@15	31	Br	}		}
-@@@15	32	RStr	, 		, 
-@@@15	34	StrExp	${		${
-@@@15	37	Word	a		a
-@@@15	39	Op	+		+
-@@@15	41	Word	b		b
-@@@15	43	Br	}		}
-@@@15	44	RStr	"""		
-@@@16	1	Key	val		val
-@@@16	5	Word	h		h
-@@@16	6	Op	:		:
-@@@16	7	Word	String		String
-@@@16	14	Op	=		=
-@@@16	16	RStr	"""		
-@@@16	19	StrExp	${		${
-@@@17	4	Byte	2		2
-@@@17	6	Op	+		+
-@@@17	8	Byte	3		3
-@@@17	10	Op	-		-
-@@@17	12	Byte	5		5
-@@@19	0	Br	}		}
-@@@19	1	RStr	"""		
-@@@20	1	Key	val		val
-@@@20	5	Word	k		k
-@@@20	6	Op	:		:
-@@@20	7	Word	String		String
-@@@20	14	Op	=		=
-@@@20	16	RStr	"""		
-@@@20	19	StrExp	${		${
-@@@20	21	Byte	2		2
-@@@20	22	Op	+		+
-@@@20	23	Byte	3		3
-@@@20	24	Br	}		}
-@@@20	25	RStr	}"""		}
-@@@21	0	Br	}		}
+@@@14	1	Keyword		val		val
+@@@14	5	Identifier	f		f
+@@@14	6	OpColon		:		:
+@@@14	7	Identifier	String		String
+@@@14	14	OpAssign	=		=
+@@@14	16	RawString	"""		
+@@@14	19	StringRef	$a		a
+@@@14	21	RawString	 		 
+@@@14	22	StringRef	$b		b
+@@@14	24	RawString	 		 
+@@@14	25	StringRef	$c		c
+@@@14	27	RawString	"""		
+@@@15	1	Keyword		val		val
+@@@15	5	Identifier	g		g
+@@@15	6	OpColon		:		:
+@@@15	7	Identifier	String		String
+@@@15	14	OpAssign	=		=
+@@@15	16	RawString	"""		
+@@@15	19	StringExpr	${		${
+@@@15	21	Byte		2		2
+@@@15	23	OpAdd		+		+
+@@@15	25	Byte		3		3
+@@@15	27	OpSub		-		-
+@@@15	29	Byte		5		5
+@@@15	31	RCurl		}		}
+@@@15	32	RawString	, 		, 
+@@@15	34	StringExpr	${		${
+@@@15	37	Identifier	a		a
+@@@15	39	OpAdd		+		+
+@@@15	41	Identifier	b		b
+@@@15	43	RCurl		}		}
+@@@15	44	RawString	"""		
+@@@16	1	Keyword		val		val
+@@@16	5	Identifier	h		h
+@@@16	6	OpColon		:		:
+@@@16	7	Identifier	String		String
+@@@16	14	OpAssign	=		=
+@@@16	16	RawString	"""		
+@@@16	19	StringExpr	${		${
+@@@17	4	Byte		2		2
+@@@17	6	OpAdd		+		+
+@@@17	8	Byte		3		3
+@@@17	10	OpSub		-		-
+@@@17	12	Byte		5		5
+@@@19	0	RCurl		}		}
+@@@19	1	RawString	"""		
+@@@20	1	Keyword		val		val
+@@@20	5	Identifier	k		k
+@@@20	6	OpColon		:		:
+@@@20	7	Identifier	String		String
+@@@20	14	OpAssign	=		=
+@@@20	16	RawString	"""		
+@@@20	19	StringExpr	${		${
+@@@20	21	Byte		2		2
+@@@20	22	OpAdd		+		+
+@@@20	23	Byte		3		3
+@@@20	24	RCurl		}		}
+@@@20	25	RawString	}"""		}
+@@@21	0	RCurl		}		}

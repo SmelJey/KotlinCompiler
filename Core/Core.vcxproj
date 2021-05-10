@@ -158,14 +158,24 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="InputBuffer.h" />
-    <ClInclude Include="Lexer\ILexer.h" />
-    <ClInclude Include="Lexer\IncrementalLexer.h" />
+    <ClInclude Include="Lexer\Lexer.h" />
     <ClInclude Include="Lexer\Lexeme.h" />
+    <ClInclude Include="Lexer\LexerUtils.h" />
+    <ClInclude Include="magic_enum.hpp" />
+    <ClInclude Include="Parser\BinOperationNode.h" />
+    <ClInclude Include="Parser\SimpleNodes.h" />
+    <ClInclude Include="Parser\Parser.h" />
+    <ClInclude Include="Parser\ISyntaxNode.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Lexer\ILexer.cpp" />
     <ClCompile Include="Lexer\Lexeme.cpp" />
+    <ClCompile Include="Lexer\Lexer.cpp" />
+    <ClCompile Include="Lexer\LexerUtils.cpp" />
+    <ClCompile Include="Parser\BinOperationNode.cpp" />
+    <ClCompile Include="Parser\Parser.cpp" />
+    <ClCompile Include="Parser\ISyntaxNode.cpp" />
+    <ClCompile Include="Parser\SimpleNodes.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

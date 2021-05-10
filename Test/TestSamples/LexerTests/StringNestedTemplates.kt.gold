@@ -1,166 +1,166 @@
-@@@0	0	Key	fun		fun
-@@@0	4	Word	main		main
-@@@0	8	Br	(		(
-@@@0	9	Br	)		)
-@@@0	11	Br	{		{
-@@@1	1	Key	val		val
-@@@1	5	Word	a		a
-@@@1	6	Op	:		:
-@@@1	7	Word	String		String
-@@@1	14	Op	=		=
-@@@1	16	Str	"		
-@@@1	17	StrExp	${		${
-@@@1	20	Str	"abc"		abc
-@@@1	26	Br	}		}
-@@@1	27	Str	"		
-@@@2	4	Key	val		val
-@@@2	8	Word	b		b
-@@@2	9	Op	:		:
-@@@2	10	Word	String		String
-@@@2	17	Op	=		=
-@@@2	19	Str	"		
-@@@2	20	StrExp	${		${
-@@@2	22	Str	"		
-@@@2	23	StrExp	${		${
-@@@2	25	Word	a		a
-@@@2	26	Br	}		}
-@@@2	27	Str	"		
-@@@2	28	Br	}		}
-@@@2	29	Str	"		
-@@@3	1	Key	val		val
-@@@3	5	Word	c		c
-@@@3	6	Op	:		:
-@@@3	7	Word	String		String
-@@@3	14	Op	=		=
-@@@3	16	Str	"		
-@@@3	17	StrExp	${		${
-@@@4	4	Str	"		
-@@@4	5	StrExp	${		${
-@@@4	7	Str	"		
-@@@4	8	StrRf	$a		a
-@@@4	10	Str	"		
-@@@5	4	Br	}		}
-@@@5	5	Str	"		
-@@@6	4	Br	}		}
-@@@6	5	Str	"		
-@@@7	1	Key	val		val
-@@@7	5	Word	d		d
-@@@7	6	Op	:		:
-@@@7	7	Word	String		String
-@@@7	14	Op	=		=
-@@@7	16	Str	"abcd 		abcd 
-@@@7	22	StrExp	${		${
-@@@7	25	Str	"abcd{}"	abcd{}
-@@@7	34	Br	}		}
-@@@7	35	Str	 + 		 + 
-@@@7	38	StrExp	${		${
-@@@7	41	Str	"test + 	test + 
-@@@7	49	StrExp	${		${
-@@@7	52	Word	a		a
-@@@7	54	Op	+		+
-@@@7	56	Word	b		b
-@@@7	58	Op	+		+
-@@@7	60	Str	"		
-@@@7	61	StrExp	${		${
-@@@7	64	Str	"nested"	nested
-@@@7	73	Br	}		}
-@@@7	74	Str	"		
-@@@7	76	Br	}		}
-@@@7	77	Str	"		
-@@@7	78	Br	}		}
-@@@7	79	Str	 "		 
-@@@10	1	Key	val		val
-@@@10	5	Word	e		e
-@@@10	6	Op	:		:
-@@@10	7	Word	String		String
-@@@10	14	Op	=		=
-@@@10	16	RStr	"""
+@@@0	0	Keyword		fun		fun
+@@@0	4	Identifier	main		main
+@@@0	8	LParen		(		(
+@@@0	9	RParen		)		)
+@@@0	11	LCurl		{		{
+@@@1	1	Keyword		val		val
+@@@1	5	Identifier	a		a
+@@@1	6	OpColon		:		:
+@@@1	7	Identifier	String		String
+@@@1	14	OpAssign	=		=
+@@@1	16	String		"		
+@@@1	17	StringExpr	${		${
+@@@1	20	String		"abc"		abc
+@@@1	26	RCurl		}		}
+@@@1	27	String		"		
+@@@2	4	Keyword		val		val
+@@@2	8	Identifier	b		b
+@@@2	9	OpColon		:		:
+@@@2	10	Identifier	String		String
+@@@2	17	OpAssign	=		=
+@@@2	19	String		"		
+@@@2	20	StringExpr	${		${
+@@@2	22	String		"		
+@@@2	23	StringExpr	${		${
+@@@2	25	Identifier	a		a
+@@@2	26	RCurl		}		}
+@@@2	27	String		"		
+@@@2	28	RCurl		}		}
+@@@2	29	String		"		
+@@@3	1	Keyword		val		val
+@@@3	5	Identifier	c		c
+@@@3	6	OpColon		:		:
+@@@3	7	Identifier	String		String
+@@@3	14	OpAssign	=		=
+@@@3	16	String		"		
+@@@3	17	StringExpr	${		${
+@@@4	4	String		"		
+@@@4	5	StringExpr	${		${
+@@@4	7	String		"		
+@@@4	8	StringRef	$a		a
+@@@4	10	String		"		
+@@@5	4	RCurl		}		}
+@@@5	5	String		"		
+@@@6	4	RCurl		}		}
+@@@6	5	String		"		
+@@@7	1	Keyword		val		val
+@@@7	5	Identifier	d		d
+@@@7	6	OpColon		:		:
+@@@7	7	Identifier	String		String
+@@@7	14	OpAssign	=		=
+@@@7	16	String		"abcd 		abcd 
+@@@7	22	StringExpr	${		${
+@@@7	25	String		"abcd{}"	abcd{}
+@@@7	34	RCurl		}		}
+@@@7	35	String		 + 		 + 
+@@@7	38	StringExpr	${		${
+@@@7	41	String		"test + 	test + 
+@@@7	49	StringExpr	${		${
+@@@7	52	Identifier	a		a
+@@@7	54	OpAdd		+		+
+@@@7	56	Identifier	b		b
+@@@7	58	OpAdd		+		+
+@@@7	60	String		"		
+@@@7	61	StringExpr	${		${
+@@@7	64	String		"nested"	nested
+@@@7	73	RCurl		}		}
+@@@7	74	String		"		
+@@@7	76	RCurl		}		}
+@@@7	77	String		"		
+@@@7	78	RCurl		}		}
+@@@7	79	String		 "		 
+@@@10	1	Keyword		val		val
+@@@10	5	Identifier	e		e
+@@@10	6	OpColon		:		:
+@@@10	7	Identifier	String		String
+@@@10	14	OpAssign	=		=
+@@@10	16	RawString	"""
     	
     
-@@@11	4	StrExp	${		${
-@@@11	7	Str	"abc"		abc
-@@@11	13	Br	}		}
-@@@11	14	RStr	
+@@@11	4	StringExpr	${		${
+@@@11	7	String		"abc"		abc
+@@@11	13	RCurl		}		}
+@@@11	14	RawString	
     """	
     
-@@@13	1	Key	val		val
-@@@13	5	Word	f		f
-@@@13	6	Op	:		:
-@@@13	7	Word	String		String
-@@@13	14	Op	=		=
-@@@13	16	Str	"		
-@@@13	17	StrExp	${		${
-@@@14	1	RStr	"""abc
+@@@13	1	Keyword		val		val
+@@@13	5	Identifier	f		f
+@@@13	6	OpColon		:		:
+@@@13	7	Identifier	String		String
+@@@13	14	OpAssign	=		=
+@@@13	16	String		"		
+@@@13	17	StringExpr	${		${
+@@@14	1	RawString	"""abc
 	dab"""	abc
 	dab
-@@@16	1	Br	}		}
-@@@16	2	Str	"		
-@@@17	4	Key	val		val
-@@@17	8	Word	g		g
-@@@17	9	Op	:		:
-@@@17	10	Word	String		String
-@@@17	17	Op	=		=
-@@@17	19	RStr	"""		
-@@@17	22	StrExp	${		${
-@@@17	24	RStr	"""		
-@@@17	27	StrExp	${		${
-@@@17	29	Word	a		a
-@@@17	30	Br	}		}
-@@@17	31	RStr	""""		"
-@@@17	35	Br	}		}
-@@@17	36	RStr	""""		"
-@@@18	1	Key	val		val
-@@@18	5	Word	h		h
-@@@18	6	Op	:		:
-@@@18	7	Word	String		String
-@@@18	14	Op	=		=
-@@@18	16	RStr	"""		
-@@@18	19	StrExp	${		${
-@@@19	4	Str	"		
-@@@19	5	StrExp	${		${
-@@@19	7	Str	"		
-@@@19	8	StrRf	$a		a
-@@@19	10	Str	"		
-@@@20	4	Br	}		}
-@@@20	5	Str	"		
-@@@21	4	Br	}		}
-@@@21	5	RStr	"""		
-@@@22	1	Key	val		val
-@@@22	5	Word	k		k
-@@@22	6	Op	:		:
-@@@22	7	Word	String		String
-@@@22	14	Op	=		=
-@@@22	16	RStr	"""abcd 	abcd 
-@@@22	24	StrExp	${		${
-@@@22	27	Str	"abcd{}"	abcd{}
-@@@22	36	Br	}		}
-@@@22	37	RStr	 + 		 + 
-@@@22	40	StrExp	${		${
-@@@22	43	Str	"test + 	test + 
-@@@22	51	StrExp	${		${
-@@@22	54	Word	a		a
-@@@22	56	Op	+		+
-@@@22	58	Word	b		b
-@@@22	60	Op	+		+
-@@@22	62	Str	"		
-@@@22	63	StrExp	${		${
-@@@22	66	RStr	"""
+@@@16	1	RCurl		}		}
+@@@16	2	String		"		
+@@@17	4	Keyword		val		val
+@@@17	8	Identifier	g		g
+@@@17	9	OpColon		:		:
+@@@17	10	Identifier	String		String
+@@@17	17	OpAssign	=		=
+@@@17	19	RawString	"""		
+@@@17	22	StringExpr	${		${
+@@@17	24	RawString	"""		
+@@@17	27	StringExpr	${		${
+@@@17	29	Identifier	a		a
+@@@17	30	RCurl		}		}
+@@@17	31	RawString	""""		"
+@@@17	35	RCurl		}		}
+@@@17	36	RawString	""""		"
+@@@18	1	Keyword		val		val
+@@@18	5	Identifier	h		h
+@@@18	6	OpColon		:		:
+@@@18	7	Identifier	String		String
+@@@18	14	OpAssign	=		=
+@@@18	16	RawString	"""		
+@@@18	19	StringExpr	${		${
+@@@19	4	String		"		
+@@@19	5	StringExpr	${		${
+@@@19	7	String		"		
+@@@19	8	StringRef	$a		a
+@@@19	10	String		"		
+@@@20	4	RCurl		}		}
+@@@20	5	String		"		
+@@@21	4	RCurl		}		}
+@@@21	5	RawString	"""		
+@@@22	1	Keyword		val		val
+@@@22	5	Identifier	k		k
+@@@22	6	OpColon		:		:
+@@@22	7	Identifier	String		String
+@@@22	14	OpAssign	=		=
+@@@22	16	RawString	"""abcd 	abcd 
+@@@22	24	StringExpr	${		${
+@@@22	27	String		"abcd{}"	abcd{}
+@@@22	36	RCurl		}		}
+@@@22	37	RawString	 + 		 + 
+@@@22	40	StringExpr	${		${
+@@@22	43	String		"test + 	test + 
+@@@22	51	StringExpr	${		${
+@@@22	54	Identifier	a		a
+@@@22	56	OpAdd		+		+
+@@@22	58	Identifier	b		b
+@@@22	60	OpAdd		+		+
+@@@22	62	String		"		
+@@@22	63	StringExpr	${		${
+@@@22	66	RawString	"""
     nested
     test 	
     nested
     test 
-@@@24	9	StrExp	${		${
-@@@24	11	Str	"another nest"	another nest
-@@@24	25	Br	}		}
-@@@24	26	RStr	"""		
-@@@24	30	Br	}		}
-@@@24	31	Str	"		
-@@@24	33	Br	}		}
-@@@24	34	Str	"		
-@@@24	35	Br	}		}
-@@@24	36	RStr	 """		 
-@@@25	4	Word	println		println
-@@@25	11	Br	(		(
-@@@25	12	Word	k		k
-@@@25	13	Br	)		)
-@@@26	0	Br	}		}
+@@@24	9	StringExpr	${		${
+@@@24	11	String		"another nest"	another nest
+@@@24	25	RCurl		}		}
+@@@24	26	RawString	"""		
+@@@24	30	RCurl		}		}
+@@@24	31	String		"		
+@@@24	33	RCurl		}		}
+@@@24	34	String		"		
+@@@24	35	RCurl		}		}
+@@@24	36	RawString	 """		 
+@@@25	4	Identifier	println		println
+@@@25	11	LParen		(		(
+@@@25	12	Identifier	k		k
+@@@25	13	RParen		)		)
+@@@26	0	RCurl		}		}

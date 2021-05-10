@@ -1,8 +1,9 @@
 #include "ConfigurationBuilder.h"
 #include "Configuration.h"
-#include "Lexer/IncrementalLexer.h"
+#include "Lexer/Lexer.h"
 
 #include <iostream>
+#include <fstream>
 #include <vector>
 #include <string>
 #include <boost/program_options/parsers.hpp>
@@ -45,16 +46,13 @@ int main(int argc, char** argv) {
     Configuration configuration = ParseCommandLineArgs(argc, argv);
 
     std::ifstream ifs(configuration.GetPaths()[0]);
+    Lexer lexer(configuration.GetPaths()[0]);
+    lexer.NextLexeme();
 
-    IncrementalLexer<std::ifstream> lexer(configuration.GetPaths()[0]);
-    lexer.Init();
-
-    while (lexer.GetLexeme().GetType() != Lexeme::LexemeType::EndOfFile) {
+    while (lexer.NextLexeme().GetType() != Lexeme::LexemeType::EndOfFile) {
         if (configuration.GetLexerDebug()) {
             std::cout << lexer.GetLexeme() << std::endl;
         }
-
-        lexer.NextLexeme();
     }
     
     return 0;

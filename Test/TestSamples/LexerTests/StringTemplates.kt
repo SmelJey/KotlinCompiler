@@ -11,5 +11,6 @@ fun main() {
     2 + 3 - 5
     
 }"
-	val k:String = "${2+3}}"
+	val _k:String = "${2+3}}"
+	val l:String = "$_k"
 }

@@ -1,18 +1,18 @@
-@@@0	0	Key	fun		fun
-@@@0	4	Word	main		main
-@@@0	8	Br	(		(
-@@@0	9	Br	)		)
-@@@0	11	Br	{		{
-@@@1	1	Key	val		val
-@@@1	5	Word	a		a
-@@@1	7	Op	=		=
-@@@1	9	Error	0xFFFFffffFFFFffff	Number is out of range
-@@@2	1	Key	val		val
-@@@2	5	Word	b		b
-@@@2	7	Op	=		=
-@@@2	9	Error	0xFFFFFFFFFFFFFFFFFuL	Number is out of range
-@@@3	1	Key	val		val
-@@@3	5	Word	c		c
-@@@3	7	Op	=		=
-@@@3	9	Error	9000009999999999999999	Number is out of range
-@@@4	0	Br	}		}
+@@@0	0	Keyword		fun		fun
+@@@0	4	Identifier	main		main
+@@@0	8	LParen		(		(
+@@@0	9	RParen		)		)
+@@@0	11	LCurl		{		{
+@@@1	1	Keyword		val		val
+@@@1	5	Identifier	a		a
+@@@1	7	OpAssign	=		=
+@@@1	9	Long!		0xFFFFffffFFFFffff	The value is out of range
+@@@2	1	Keyword		val		val
+@@@2	5	Identifier	b		b
+@@@2	7	OpAssign	=		=
+@@@2	9	ULong!		0xFFFFFFFFFFFFFFFFFuL	The value is out of range
+@@@3	1	Keyword		val		val
+@@@3	5	Identifier	c		c
+@@@3	7	OpAssign	=		=
+@@@3	9	Int!		9000009999999999999999	The value is out of range
+@@@4	0	RCurl		}		}

@@ -19,7 +19,7 @@ public:
     InputBuffer(std::streambuf* streamBuf, std::size_t lookAheadBufferSize = DEFAULT_LOOKAHEAD_BUFFER_SIZE, std::size_t bufferSize = DEFAULT_CAPACITY)
         : myBuffer(bufferSize + lookAheadBufferSize, 0), myCurrentIdx(), myCurrentEnd(), myBufferSize(bufferSize + lookAheadBufferSize),
         myLookAheadBufferSize(lookAheadBufferSize), myInputStream() {
-        myInputStream.rdbuf(streamBuf);
+        myInputStream.std::istream::rdbuf(streamBuf);
         ReadFromStream();
     }
 
@@ -68,35 +68,30 @@ public:
         returnCharsBuffer.push_back(character);
     }
 
-    // TODO: make this work?
-    /*template<std::enable_if<std::is_same<InputType, std::stringstream>, InputType>>
-    void AppendText(std::string& src) {
-        myInputStream << src;
-    }*/
-
 private:
     bool ReadFromStream() {
-        int leftCharCount = myCurrentEnd - myCurrentIdx;
+        size_t leftCharCount = myCurrentEnd - myCurrentIdx;
         if (leftCharCount == myBufferSize || myInputStream.eof()) {
             return false;
         }
 
-        for (int i = 0; i < leftCharCount; i++) {
+        for (size_t i = 0; i < leftCharCount; i++) {
             myBuffer[i] = myBuffer[i + myCurrentIdx + 1];
         }
 
         myInputStream.read(&myBuffer[leftCharCount], myBufferSize - leftCharCount);
         myCurrentIdx = 0;
-        myCurrentEnd = myInputStream.gcount() + leftCharCount;
+        myCurrentEnd = static_cast<size_t>(myInputStream.gcount()) + leftCharCount;
         return myInputStream.gcount() != 0;
     }
 
     std::string returnCharsBuffer;
     std::string myBuffer;
-    std::streamsize myCurrentIdx;
-    std::streamsize myCurrentEnd;
-    std::size_t myBufferSize;
-    std::size_t myLookAheadBufferSize;
+
+    size_t myCurrentIdx;
+    size_t myCurrentEnd;
+    size_t myBufferSize;
+    size_t myLookAheadBufferSize;
 
     InputType myInputStream;
 };

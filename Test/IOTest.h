@@ -18,7 +18,7 @@ public:
 
     void Run() {
         FileProcessor fileProcessor(myFilepath);
-        fileProcessor.Init();
+        fileProcessor.NextLexeme();
         std::ifstream goldStream(myFilepath + ".gold");
         std::ofstream outputStream(myFilepath + ".gold.last");
 

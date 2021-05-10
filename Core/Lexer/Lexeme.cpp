@@ -1,7 +1,8 @@
 #include "Lexeme.h"
+
+#include "../magic_enum.hpp"
 #include <utility>
 #include <sstream>
-#include <regex>
 
 const std::string Lexeme::DEFAULT_LEXEME_ERROR = "Uninitialized lexeme";
 
@@ -17,30 +18,25 @@ Lexeme::NumberType Lexeme::GetNumberType(LexemeType lexemeType) {
     }
     return NumberType::NotANumber;
 }
-Lexeme::Lexeme() : Lexeme(0, 0, "", LexemeType::Error, DEFAULT_LEXEME_ERROR) {}
+Lexeme::Lexeme() : Lexeme(0, 0, "", LexemeType::Error, DEFAULT_LEXEME_ERROR, true) {}
 
-Lexeme::Lexeme(int col, int row, std::string text, LexemeType lexemeType, const std::string& valueRepresentation)
-    : myColumn(col), myRow(row), myText(std::move(text)), myType(lexemeType) {
+Lexeme::Lexeme(int col, int row, std::string text, LexemeType lexemeType, const std::string& valueRepresentation, bool isError)
+    : myColumn(col), myRow(row), myText(std::move(text)), myType(lexemeType), isError(isError) {
+
+    if (isError) {
+        myValue = valueRepresentation;
+        return;
+    }
 
     switch (GetNumberType(lexemeType)) {
         case NumberType::Integer:
         case NumberType::UInteger: {
-            int base = 10;
-            if (myText.size() > 1) {
-                std::string prefix = myText.substr(0, 2);
-                if (prefix == "0b") {
-                    base = 2;
-                } else if (prefix == "0x") {
-                    base = 16;
-                }
-            }
-
-            myValue.emplace<std::uint64_t>(std::stoull(valueRepresentation, 0, base));
+            myValue.emplace<std::uint64_t>(std::stoull(valueRepresentation));
             break;
         }
             
         case NumberType::Real:
-            myValue = std::stod(valueRepresentation);
+            myValue.emplace<double>(std::stod(valueRepresentation));
             break;
         default:
             myValue = valueRepresentation;
@@ -65,6 +61,10 @@ const std::string& Lexeme::GetText() const {
     return myText;
 }
 
+bool Lexeme::IsError() const {
+    return isError;
+}
+
 Lexeme::LexemeType Lexeme::GetType() const {
     return myType;
 }
@@ -72,23 +72,34 @@ Lexeme::LexemeType Lexeme::GetType() const {
 std::string Lexeme::ToString() const {
     std::stringstream ss;
 
-    ss << myRow << "\t" << myColumn << "\t" << GetStringType() << "\t" << myText << "\t";
+    std::string typeStr = GetStringType() + (isError ? "!" : "");
+    ss << myRow << "\t" << myColumn << "\t" << typeStr << "\t";
+    if (typeStr.size() < 8) {
+        ss << "\t";
+    }
+
+    ss << myText << "\t";
     if (myText.size() < 8) {
         ss << "\t";
     }
 
-    switch (GetNumberType(myType)) {
-        case NumberType::Real:
-            ss << GetValue<double>();
-            break;
-        case NumberType::UInteger:
-        case NumberType::Integer:
-            ss << GetValue<uint64_t>();
-            break;
-        default:
-            ss << GetValue<std::string>();
-            break;
+    if (isError) {
+        ss << GetValue<std::string>();
+    } else {
+        switch (GetNumberType(myType)) {
+            case NumberType::Real:
+                ss << GetValue<double>();
+                break;
+            case NumberType::UInteger:
+            case NumberType::Integer:
+                ss << GetValue<uint64_t>();
+                break;
+            default:
+                ss << GetValue<std::string>();
+                break;
+        }
     }
+    
     return ss.str();
 }
 
@@ -100,5 +111,6 @@ std::string Lexeme::LexemeToStr[]{ "EOF", "Word", "Key",
     "Error", "Ignored" };
 
 std::string Lexeme::GetStringType() const {
-    return LexemeToStr[(int)myType];
+    auto tmp = magic_enum::enum_name(myType);
+    return tmp.data();
 }
