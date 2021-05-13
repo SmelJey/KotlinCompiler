@@ -1,5 +1,5 @@
 #include "Parser.h"
-#include "BinOperationNode.h"
+#include "OperationNode.h"
 #include "SimpleNodes.h"
 
 Parser::Parser(Lexer& lexer) : myLexer(lexer) {
@@ -11,9 +11,11 @@ Lexer& Parser::GetLexer() {
 }
 
 Pointer<ISyntaxNode> Parser::Parse() {
-    Pointer<ISyntaxNode> root = ParseExpression();
-    
+    if (myLexer.GetLexeme().GetType() == Lexeme::LexemeType::EndOfFile) {
+        return nullptr;
+    }
 
+    Pointer<ISyntaxNode> root = ParseExpression();
     return root;
 }
 
@@ -49,7 +51,7 @@ Pointer<ISyntaxNode> Parser::ParseMult() {
 
 // Identifier | Number
 Pointer<ISyntaxNode> Parser::ParseFactor() {
-    Lexeme curLexeme = myLexer.NextLexeme();
+    const Lexeme curLexeme = myLexer.NextLexeme();
     if (curLexeme.GetType() == Lexeme::LexemeType::Identifier) {
         return std::make_unique<IdentifierNode>(IdentifierNode(curLexeme));
     }
@@ -61,14 +63,22 @@ Pointer<ISyntaxNode> Parser::ParseFactor() {
         Pointer<ISyntaxNode> expr = ParseExpression();
         Lexeme rParen = myLexer.GetLexeme();
         if (rParen.GetType() != Lexeme::LexemeType::RParen) {
-            // TODO: handle exception
-            throw "No rparen"; 
+            expr->AddError(MakeError("Expecting \")\""));
         }
 
         myLexer.NextLexeme();
         return expr;
     }
 
-    // TODO: handle exception
-    throw "Unexpected lexeme";
+    if (curLexeme.GetType() == Lexeme::LexemeType::OpSub) {
+        Pointer<ISyntaxNode> operand = ParseFactor();
+        return std::make_unique<UnaryOperationNode>(UnaryOperationNode(curLexeme, std::move(operand)));
+    }
+
+    return std::make_unique<UnexpectedNode>(UnexpectedNode(curLexeme));
 }
+
+Pointer<ISyntaxNode> Parser::MakeError(const std::string& error) const {
+    return std::make_unique<ErrorNode>(ErrorNode(error));
+}
+

@@ -9,7 +9,7 @@ NodeVisitor::~NodeVisitor() = default;
 
 void NodeVisitor::VisitNode(ISyntaxNode& node, int depth) {
     ProcessNode(node, depth);
-    node.AcceptVisitor(*this, depth + 1);
+    node.InternalAcceptVisitor(*this, depth + 1);
 }
 
 PrintVisitor::PrintVisitor() = default;

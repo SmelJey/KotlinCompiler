@@ -1,0 +1,6 @@
+@@ Bin op :: +
+@@  |Integer 2
+@@  |Bin op :: +
+@@  | |Integer 3
+@@  | |Integer 1
+@@  | |Error :: Expecting ")"

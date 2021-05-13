@@ -25,3 +25,21 @@ public:
 protected:
     std::string GetName() const override;
 };
+
+class UnexpectedNode : public SimpleNode {
+public:
+    UnexpectedNode(const Lexeme& lexeme, const std::string& error = "Unexpected lexeme");
+protected:
+    std::string GetName() const override;
+private:
+    std::string myError;
+};
+
+class ErrorNode : public ISyntaxNode {
+public:
+    ErrorNode(const std::string& errorMessage);
+protected:
+    std::string GetName() const override;
+private:
+    std::string myError;
+};

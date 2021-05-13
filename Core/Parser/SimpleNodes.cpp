@@ -1,10 +1,6 @@
 #include "SimpleNodes.h"
 
-#include <utility>
-
 SimpleNode::SimpleNode(const Lexeme& lexeme) : myLexeme(lexeme) {}
-
-//SimpleNode::~SimpleNode() = default;
 
 Lexeme SimpleNode::GetLexeme() const {
     return myLexeme;
@@ -20,4 +16,16 @@ IntegerNode::IntegerNode(const Lexeme& lexeme) : SimpleNode(lexeme) {}
 
 std::string IntegerNode::GetName() const {
     return "Integer " + std::to_string(myLexeme.GetValue<uint64_t>());
+}
+
+UnexpectedNode::UnexpectedNode(const Lexeme& lexeme, const std::string& error) : SimpleNode(lexeme), myError(error) {}
+
+std::string UnexpectedNode::GetName() const {
+    return "Error :: " + myError;
+}
+
+ErrorNode::ErrorNode(const std::string& errorMessage) : myError(errorMessage) {}
+
+std::string ErrorNode::GetName() const {
+    return "Error :: " + myError;
 }
