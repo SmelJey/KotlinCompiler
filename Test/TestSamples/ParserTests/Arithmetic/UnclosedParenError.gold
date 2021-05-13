@@ -3,4 +3,4 @@
 @@ | Bin op :: +
 @@ | | Integer :: 3
 @@ | | Integer :: 1
-@@ | | Error :: Expecting ")"
+@@ | | Error 0:11 :: Expecting ")"

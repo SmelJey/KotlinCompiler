@@ -37,9 +37,11 @@ private:
 
 class ErrorNode : public ISyntaxNode {
 public:
-    ErrorNode(const std::string& errorMessage);
+    ErrorNode(const std::string& errorMessage, size_t row, size_t col);
 protected:
     std::string GetName() const override;
 private:
     std::string myError;
+    size_t myRow;
+    size_t myCol;
 };

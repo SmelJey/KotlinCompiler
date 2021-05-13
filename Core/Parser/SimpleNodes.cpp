@@ -1,5 +1,7 @@
 #include "SimpleNodes.h"
 
+#include <sstream>
+
 SimpleNode::SimpleNode(const Lexeme& lexeme) : myLexeme(lexeme) {}
 
 Lexeme SimpleNode::GetLexeme() const {
@@ -24,8 +26,10 @@ std::string UnexpectedNode::GetName() const {
     return "Error :: " + myError;
 }
 
-ErrorNode::ErrorNode(const std::string& errorMessage) : myError(errorMessage) {}
+ErrorNode::ErrorNode(const std::string& errorMessage, size_t row, size_t col) : myError(errorMessage), myRow(row), myCol(col) {}
 
 std::string ErrorNode::GetName() const {
-    return "Error :: " + myError;
+    std::stringstream ss;
+    ss << "Error " << myRow << ":" << myCol << " :: " + myError;
+    return ss.str();
 }

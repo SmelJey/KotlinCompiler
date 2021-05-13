@@ -18,7 +18,7 @@ private:
 
     Pointer<ISyntaxNode> ParseFactor();
 
-    void AddError(ISyntaxNode& root, const std::string& error) const;
+    void AddError(ISyntaxNode& root, const Lexeme& location, const std::string& error) const;
 
     Lexer& myLexer;
 };

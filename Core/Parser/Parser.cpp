@@ -55,7 +55,7 @@ Pointer<ISyntaxNode> Parser::ParseFactor() {
         Pointer<ISyntaxNode> expr = ParseLeftRecursive(0);
         const Lexeme rParen = myLexer.GetLexeme();
         if (rParen.GetType() != Lexeme::LexemeType::RParen) {
-            AddError(*expr, "Expecting \")\"");
+            AddError(*expr, rParen, "Expecting \")\"");
         }
 
         myLexer.NextLexeme();
@@ -70,6 +70,6 @@ Pointer<ISyntaxNode> Parser::ParseFactor() {
     return std::make_unique<UnexpectedNode>(UnexpectedNode(curLexeme));
 }
 
-void Parser::AddError(ISyntaxNode& root, const std::string& error) const {
-    root.AddError(std::make_unique<ErrorNode>(ErrorNode(error)));
+void Parser::AddError(ISyntaxNode& root, const Lexeme& location, const std::string& error) const {
+    root.AddError(std::make_unique<ErrorNode>(ErrorNode(error, location.GetRow(), location.GetColumn())));
 }
