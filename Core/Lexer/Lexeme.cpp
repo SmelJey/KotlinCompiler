@@ -1,8 +1,8 @@
 #include "Lexeme.h"
 
-#include "../magic_enum.hpp"
-#include <utility>
 #include <sstream>
+#include <utility>
+#include "../magic_enum.hpp"
 
 const std::string Lexeme::DEFAULT_LEXEME_ERROR = "Uninitialized lexeme";
 

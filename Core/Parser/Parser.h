@@ -1,4 +1,5 @@
 #pragma once
+
 #include "ISyntaxNode.h"
 #include "../Lexer/Lexer.h"
 
@@ -13,13 +14,11 @@ public:
 
     Pointer<ISyntaxNode> Parse();
 private:
-    Pointer<ISyntaxNode> ParseExpression();
-
-    Pointer<ISyntaxNode> ParseMult();
+    Pointer<ISyntaxNode> ParseLeftRecursive(size_t priority);
 
     Pointer<ISyntaxNode> ParseFactor();
 
-    Pointer<ISyntaxNode> MakeError(const std::string& error) const;
+    void AddError(ISyntaxNode& root, const std::string& error) const;
 
     Lexer& myLexer;
 };

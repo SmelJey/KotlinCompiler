@@ -1,5 +1,4 @@
 #include "catch.hpp"
-
 #include "CompilerTest.h"
 
 TEST_CASE("Lexer Correct Syntax", "[Lexer]") {

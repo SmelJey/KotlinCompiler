@@ -1,10 +1,10 @@
 @@ Bin op :: +
-@@  |Bin op :: +
-@@  | |Integer 3
-@@  | |Bin op :: *
-@@  | | |Unary op :: -
-@@  | | | |Integer 2
-@@  | | |Unary op :: -
-@@  | | | |Integer 3
-@@  |Unary op :: -
-@@  | |Integer 4
+@@ | Bin op :: +
+@@ | | Integer :: 3
+@@ | | Bin op :: *
+@@ | | | Unary op :: -
+@@ | | | | Integer :: 2
+@@ | | | Unary op :: -
+@@ | | | | Integer :: 3
+@@ | Unary op :: -
+@@ | | Integer :: 4

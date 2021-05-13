@@ -2,8 +2,8 @@
 
 #include "Configuration.h"
 
-#include <vector>
 #include <string>
+#include <vector>
 
 class ConfigurationBuilder {
 public:

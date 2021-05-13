@@ -9,13 +9,13 @@ Lexeme SimpleNode::GetLexeme() const {
 IdentifierNode::IdentifierNode(const Lexeme& lexeme) : SimpleNode(lexeme) {}
 
 std::string IdentifierNode::GetName() const {
-    return "Identifier " + myLexeme.GetValue<std::string>();
+    return "Identifier :: " + myLexeme.GetValue<std::string>();
 }
 
 IntegerNode::IntegerNode(const Lexeme& lexeme) : SimpleNode(lexeme) {}
 
 std::string IntegerNode::GetName() const {
-    return "Integer " + std::to_string(myLexeme.GetValue<uint64_t>());
+    return "Integer :: " + std::to_string(myLexeme.GetValue<uint64_t>());
 }
 
 UnexpectedNode::UnexpectedNode(const Lexeme& lexeme, const std::string& error) : SimpleNode(lexeme), myError(error) {}

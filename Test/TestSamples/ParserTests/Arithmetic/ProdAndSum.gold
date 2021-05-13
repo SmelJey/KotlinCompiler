@@ -1,5 +1,5 @@
 @@ Bin op :: +
-@@  |Bin op :: *
-@@  | |Integer 4
-@@  | |Integer 3
-@@  |Integer 2
+@@ | Bin op :: *
+@@ | | Integer :: 4
+@@ | | Integer :: 3
+@@ | Integer :: 2

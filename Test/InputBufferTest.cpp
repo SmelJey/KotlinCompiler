@@ -1,8 +1,7 @@
 #define CATCH_CONFIG_MAIN
-#include "catch.hpp"
-
 #include <sstream>
 
+#include "catch.hpp"
 #include "../Core/InputBuffer.h"
 
 TEST_CASE("InputBufferTest", "[InputBuffer]") {

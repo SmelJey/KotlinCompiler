@@ -30,5 +30,5 @@ void ISyntaxNode::AcceptVisitor(NodeVisitor& visitor, int depth) {
 
 
 std::ostream& operator<<(std::ostream& os, const ISyntaxNode& node) {
-    return os << "<" << node.ToString() << ">";
+    return os << node.ToString();
 }

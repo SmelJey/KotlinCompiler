@@ -1,17 +1,17 @@
 @@ Bin op :: -
-@@  |Bin op :: +
-@@  | |Bin op :: +
-@@  | | |Bin op :: -
-@@  | | | |Integer 2
-@@  | | | |Integer 3
-@@  | | |Bin op :: /
-@@  | | | |Integer 8
-@@  | | | |Integer 4
-@@  | |Bin op :: *
-@@  | | |Integer 5
-@@  | | |Integer 6
-@@  |Bin op :: *
-@@  | |Bin op :: /
-@@  | | |Integer 7
-@@  | | |Integer 14
-@@  | |Integer 8
+@@ | Bin op :: +
+@@ | | Bin op :: +
+@@ | | | Bin op :: -
+@@ | | | | Integer :: 2
+@@ | | | | Integer :: 3
+@@ | | | Bin op :: /
+@@ | | | | Integer :: 8
+@@ | | | | Integer :: 4
+@@ | | Bin op :: *
+@@ | | | Integer :: 5
+@@ | | | Integer :: 6
+@@ | Bin op :: *
+@@ | | Bin op :: /
+@@ | | | Integer :: 7
+@@ | | | Integer :: 14
+@@ | | Integer :: 8

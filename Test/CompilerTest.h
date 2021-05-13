@@ -26,7 +26,7 @@ private:
     std::string NextToken() override;
 
     std::vector<std::string> myTokens;
-    int myIdx = 0;
+    size_t myIdx = 0;
 };
 
 #define PARSER_TEST(input) \

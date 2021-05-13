@@ -2,7 +2,6 @@
 
 #include <iostream>
 
-
 #include "ISyntaxNode.h"
 
 NodeVisitor::~NodeVisitor() = default;
@@ -17,7 +16,7 @@ PrintVisitor::PrintVisitor() = default;
 void PrintVisitor::ProcessNode(ISyntaxNode& node, int depth) {
     std::string indent;
     for (int d = 0; d < depth; d++) {
-        indent += " |";
+        indent += "| ";
     }
 
     std::cout << indent << node << std::endl;
@@ -32,7 +31,7 @@ std::vector<std::string> ToStringVisitor::GetStringData() const {
 void ToStringVisitor::ProcessNode(ISyntaxNode& node, int depth) {
     std::string indent;
     for (int d = 0; d < depth; d++) {
-        indent += " |";
+        indent += "| ";
     }
 
     myStringData.push_back(indent + node.ToString());

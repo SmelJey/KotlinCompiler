@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../Lexer/Lexeme.h"
 #include "NodeVisitor.h"
+#include "../Lexer/Lexeme.h"
 
 class ISyntaxNode {
 public:

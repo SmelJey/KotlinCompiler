@@ -1,6 +1,6 @@
 #include "Configuration.h"
 
-Configuration::Configuration() : isLexerDebugOption() {} 
+Configuration::Configuration() = default;
 
 bool Configuration::GetLexerDebug() const {
     return isLexerDebugOption;

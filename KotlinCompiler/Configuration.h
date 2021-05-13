@@ -1,7 +1,7 @@
 #pragma once
 
-#include <vector>
 #include <string>
+#include <vector>
 
 class Configuration {
 public:
@@ -16,8 +16,8 @@ private:
 
     std::vector<std::string> myPaths;
 
-    bool isLexerDebugOption;
-    bool isParserDebugOption;
+    bool isLexerDebugOption = false;
+    bool isParserDebugOption = false;
 
     friend class ConfigurationBuilder;
 };

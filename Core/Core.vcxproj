@@ -164,6 +164,7 @@
     <ClInclude Include="magic_enum.hpp" />
     <ClInclude Include="Parser\OperationNode.h" />
     <ClInclude Include="Parser\NodeVisitor.h" />
+    <ClInclude Include="Parser\ParserUtils.h" />
     <ClInclude Include="Parser\SimpleNodes.h" />
     <ClInclude Include="Parser\Parser.h" />
     <ClInclude Include="Parser\ISyntaxNode.h" />
@@ -177,6 +178,7 @@
     <ClCompile Include="Parser\NodeVisitor.cpp" />
     <ClCompile Include="Parser\Parser.cpp" />
     <ClCompile Include="Parser\ISyntaxNode.cpp" />
+    <ClCompile Include="Parser\ParserUtils.cpp" />
     <ClCompile Include="Parser\SimpleNodes.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

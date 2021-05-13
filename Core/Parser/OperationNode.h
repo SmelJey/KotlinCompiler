@@ -6,7 +6,7 @@
 
 class BinOperationNode : public ISyntaxNode {
 public:
-    BinOperationNode(const Lexeme& operation, std::unique_ptr<ISyntaxNode>&& left, std::unique_ptr<ISyntaxNode>&& right);
+    BinOperationNode(const Lexeme& operation, std::unique_ptr<ISyntaxNode> left, std::unique_ptr<ISyntaxNode> right);
 
     Lexeme GetOperation() const;
 
@@ -25,7 +25,7 @@ private:
 
 class UnaryOperationNode : public ISyntaxNode {
 public:
-    UnaryOperationNode(const Lexeme& operation, std::unique_ptr<ISyntaxNode>&& operand);
+    UnaryOperationNode(const Lexeme& operation, std::unique_ptr<ISyntaxNode> operand);
 
     Lexeme GetOperation() const;
     ISyntaxNode& GetOperand() const;

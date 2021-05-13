@@ -3,8 +3,8 @@
 #include "Lexeme.h"
 
 #include <string>
-#include <unordered_set>
 #include <unordered_map>
+#include <unordered_set>
 
 class LexerUtils {
 public:

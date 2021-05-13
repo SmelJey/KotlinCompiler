@@ -9,7 +9,7 @@ LexerTest::LexerTest(const std::string& filepath) : IOTest(LexerDirectory + file
 }
 
 std::string LexerTest::NextToken() {
-    Lexeme lexeme = myLexer->NextLexeme();
+    const Lexeme lexeme = myLexer->NextLexeme();
     if (lexeme.GetType() == Lexeme::LexemeType::EndOfFile) {
         return "";
     }

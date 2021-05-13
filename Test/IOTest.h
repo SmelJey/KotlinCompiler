@@ -1,8 +1,8 @@
 #pragma once
 
-#include "catch.hpp"
-
 #include <string>
+
+#include "catch.hpp"
 
 const static std::string TestDirectory = "TestSamples/";
 

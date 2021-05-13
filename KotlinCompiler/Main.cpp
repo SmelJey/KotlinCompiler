@@ -52,7 +52,7 @@ Configuration ParseCommandLineArgs(int argc, char** argv) {
 }
 
 int main(int argc, char** argv) {
-    Configuration configuration = ParseCommandLineArgs(argc, argv);
+    const Configuration configuration = ParseCommandLineArgs(argc, argv);
 
     std::ifstream ifs(configuration.GetPaths()[0]);
 

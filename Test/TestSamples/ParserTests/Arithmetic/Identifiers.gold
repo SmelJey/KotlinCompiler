@@ -1,7 +1,7 @@
 @@ Bin op :: -
-@@  |Bin op :: +
-@@  | |Identifier x
-@@  | |Identifier y
-@@  |Bin op :: /
-@@  | |Integer 5
-@@  | |Identifier z
+@@ | Bin op :: +
+@@ | | Identifier :: x
+@@ | | Identifier :: y
+@@ | Bin op :: /
+@@ | | Integer :: 5
+@@ | | Identifier :: z
