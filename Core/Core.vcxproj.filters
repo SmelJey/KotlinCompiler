@@ -57,6 +57,9 @@
     <ClInclude Include="Lexer\LexerUtils.h">
       <Filter>Header Files\Lexer</Filter>
     </ClInclude>
+    <ClInclude Include="Parser\NodeVisitor.h">
+      <Filter>Header Files\Parser</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -82,6 +85,9 @@
     </ClCompile>
     <ClCompile Include="Lexer\Lexer.cpp">
       <Filter>Source Files\Lexer</Filter>
+    </ClCompile>
+    <ClCompile Include="Parser\NodeVisitor.cpp">
+      <Filter>Source Files\Parser</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

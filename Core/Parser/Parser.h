@@ -2,15 +2,22 @@
 #include "ISyntaxNode.h"
 #include "../Lexer/Lexer.h"
 
+template<typename T>
+using Pointer = std::unique_ptr<T>;
+
 class Parser {
 public:
+    explicit Parser(Lexer& lexer);
+
     Lexer& GetLexer();
 
-    ISyntaxNode* Parse();
+    Pointer<ISyntaxNode> Parse();
 private:
-    ISyntaxNode* ParseExpression();
+    Pointer<ISyntaxNode> ParseExpression();
 
-    ISyntaxNode* ParseMult();
+    Pointer<ISyntaxNode> ParseMult();
+
+    Pointer<ISyntaxNode> ParseFactor();
 
     Lexer& myLexer;
 };

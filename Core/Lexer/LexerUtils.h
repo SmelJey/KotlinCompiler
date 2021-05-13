@@ -33,4 +33,8 @@ public:
     static bool GetLeastType(uint64_t value, Lexeme::LexemeType& initialType);
 
     static char EscapeToChar(char escapedChar);
+
+    static bool IsIntegerType(Lexeme::LexemeType type);
+
+    static bool IsRealType(Lexeme::LexemeType type);
 };

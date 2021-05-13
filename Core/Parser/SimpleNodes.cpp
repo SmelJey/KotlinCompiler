@@ -19,5 +19,5 @@ std::string IdentifierNode::GetName() const {
 IntegerNode::IntegerNode(const Lexeme& lexeme) : SimpleNode(lexeme) {}
 
 std::string IntegerNode::GetName() const {
-    return "Integer " + myLexeme.GetValue<uint64_t>();
+    return "Integer " + std::to_string(myLexeme.GetValue<uint64_t>());
 }

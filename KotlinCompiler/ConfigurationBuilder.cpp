@@ -10,6 +10,11 @@ ConfigurationBuilder& ConfigurationBuilder::SetLexerDebug() {
     return *this;
 }
 
+ConfigurationBuilder& ConfigurationBuilder::SetParserDebug() {
+    myConfiguration.isParserDebugOption = true;
+    return *this;
+}
+
 Configuration ConfigurationBuilder::Build() const {
     return myConfiguration;
 }

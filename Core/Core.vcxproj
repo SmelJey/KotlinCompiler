@@ -163,6 +163,7 @@
     <ClInclude Include="Lexer\LexerUtils.h" />
     <ClInclude Include="magic_enum.hpp" />
     <ClInclude Include="Parser\BinOperationNode.h" />
+    <ClInclude Include="Parser\NodeVisitor.h" />
     <ClInclude Include="Parser\SimpleNodes.h" />
     <ClInclude Include="Parser\Parser.h" />
     <ClInclude Include="Parser\ISyntaxNode.h" />
@@ -173,6 +174,7 @@
     <ClCompile Include="Lexer\Lexer.cpp" />
     <ClCompile Include="Lexer\LexerUtils.cpp" />
     <ClCompile Include="Parser\BinOperationNode.cpp" />
+    <ClCompile Include="Parser\NodeVisitor.cpp" />
     <ClCompile Include="Parser\Parser.cpp" />
     <ClCompile Include="Parser\ISyntaxNode.cpp" />
     <ClCompile Include="Parser\SimpleNodes.cpp" />

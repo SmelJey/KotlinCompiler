@@ -148,3 +148,11 @@ char LexerUtils::EscapeToChar(char escapedChar) {
             return escapedChar;
     }
 }
+
+bool LexerUtils::IsIntegerType(Lexeme::LexemeType type) {
+    return type >= Lexeme::LexemeType::Byte && type <= Lexeme::LexemeType::ULong;
+}
+
+bool LexerUtils::IsRealType(Lexeme::LexemeType type) {
+    return type == Lexeme::LexemeType::Float || type == Lexeme::LexemeType::Double;
+}

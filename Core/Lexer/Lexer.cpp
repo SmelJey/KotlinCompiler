@@ -1,8 +1,10 @@
 #include "Lexer.h"
 
-Lexer::Lexer(std::ifstream& input) : myInputBuffer(input.rdbuf()), myCurrentLexeme(0, 0, "", Lexeme::LexemeType::EndOfFile, Lexeme::DEFAULT_LEXEME_ERROR) {}
+Lexer::Lexer(std::ifstream& input) : myInputBuffer(input.rdbuf()),
+    myCurrentLexeme(0, 0, "", Lexeme::LexemeType::EndOfFile, Lexeme::DEFAULT_LEXEME_ERROR) {}
 
-Lexer::Lexer(const std::string& filepath) : myInputBuffer(filepath), myCurrentLexeme(0, 0, "", Lexeme::LexemeType::EndOfFile, Lexeme::DEFAULT_LEXEME_ERROR) {}
+Lexer::Lexer(const std::string& filepath) : myInputBuffer(filepath),
+    myCurrentLexeme(0, 0, "", Lexeme::LexemeType::EndOfFile, Lexeme::DEFAULT_LEXEME_ERROR) {}
 
 Lexeme Lexer::GetLexeme() const {
     return myCurrentLexeme;
