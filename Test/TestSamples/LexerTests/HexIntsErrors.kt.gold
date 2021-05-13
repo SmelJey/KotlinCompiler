@@ -1,48 +1,48 @@
-@@@0	0	Keyword		fun		fun
-@@@0	4	Identifier	main		main
-@@@0	8	LParen		(		(
-@@@0	9	RParen		)		)
-@@@0	11	LCurl		{		{
-@@@1	1	Keyword		val		val
-@@@1	5	Identifier	a		a
-@@@1	7	OpColon		:		:
-@@@1	9	Identifier	Int		Int
-@@@1	13	OpAssign	=		=
-@@@1	15	Int!		0x		The value is out of range
-@@@2	1	Keyword		val		val
-@@@2	5	Identifier	b		b
-@@@2	7	OpColon		:		:
-@@@2	9	Identifier	Int		Int
-@@@2	13	OpAssign	=		=
-@@@2	15	Int!		0xG		Illegal suffix
-@@@3	1	Keyword		val		val
-@@@3	5	Identifier	c		c
-@@@3	7	OpColon		:		:
-@@@3	9	Identifier	Int		Int
-@@@3	13	OpAssign	=		=
-@@@3	15	Int!		0_x1		Illegal suffix
-@@@4	1	Keyword		val		val
-@@@4	5	Identifier	d		d
-@@@4	7	OpColon		:		:
-@@@4	9	Identifier	Int		Int
-@@@4	13	OpAssign	=		=
-@@@4	15	Int!		0x_1		Illegal suffix
-@@@5	1	Keyword		val		val
-@@@5	5	Identifier	e		e
-@@@5	7	OpColon		:		:
-@@@5	9	Identifier	Int		Int
-@@@5	13	OpAssign	=		=
-@@@5	15	Int!		0x12_		Illegal underscore
-@@@6	1	Keyword		val		val
-@@@6	5	Identifier	f		f
-@@@6	7	OpColon		:		:
-@@@6	9	Identifier	Int		Int
-@@@6	13	OpAssign	=		=
-@@@6	15	Long!		0x1L1		Illegal suffix
-@@@7	1	Keyword		val		val
-@@@7	5	Identifier	g		g
-@@@7	7	OpColon		:		:
-@@@7	9	Identifier	Int		Int
-@@@7	13	OpAssign	=		=
-@@@7	15	Int!		0x101g		Illegal suffix
-@@@8	0	RCurl		}		}
+@@ 0	0	Keyword		fun		fun
+@@ 0	4	Identifier	main		main
+@@ 0	8	LParen		(		(
+@@ 0	9	RParen		)		)
+@@ 0	11	LCurl		{		{
+@@ 1	1	Keyword		val		val
+@@ 1	5	Identifier	a		a
+@@ 1	7	OpColon		:		:
+@@ 1	9	Identifier	Int		Int
+@@ 1	13	OpAssign	=		=
+@@ 1	15	Int!		0x		The value is out of range
+@@ 2	1	Keyword		val		val
+@@ 2	5	Identifier	b		b
+@@ 2	7	OpColon		:		:
+@@ 2	9	Identifier	Int		Int
+@@ 2	13	OpAssign	=		=
+@@ 2	15	Int!		0xG		Illegal suffix
+@@ 3	1	Keyword		val		val
+@@ 3	5	Identifier	c		c
+@@ 3	7	OpColon		:		:
+@@ 3	9	Identifier	Int		Int
+@@ 3	13	OpAssign	=		=
+@@ 3	15	Int!		0_x1		Illegal suffix
+@@ 4	1	Keyword		val		val
+@@ 4	5	Identifier	d		d
+@@ 4	7	OpColon		:		:
+@@ 4	9	Identifier	Int		Int
+@@ 4	13	OpAssign	=		=
+@@ 4	15	Int!		0x_1		Illegal suffix
+@@ 5	1	Keyword		val		val
+@@ 5	5	Identifier	e		e
+@@ 5	7	OpColon		:		:
+@@ 5	9	Identifier	Int		Int
+@@ 5	13	OpAssign	=		=
+@@ 5	15	Int!		0x12_		Illegal underscore
+@@ 6	1	Keyword		val		val
+@@ 6	5	Identifier	f		f
+@@ 6	7	OpColon		:		:
+@@ 6	9	Identifier	Int		Int
+@@ 6	13	OpAssign	=		=
+@@ 6	15	Long!		0x1L1		Illegal suffix
+@@ 7	1	Keyword		val		val
+@@ 7	5	Identifier	g		g
+@@ 7	7	OpColon		:		:
+@@ 7	9	Identifier	Int		Int
+@@ 7	13	OpAssign	=		=
+@@ 7	15	Int!		0x101g		Illegal suffix
+@@ 8	0	RCurl		}		}

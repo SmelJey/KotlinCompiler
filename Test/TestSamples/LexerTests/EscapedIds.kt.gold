@@ -1,40 +1,40 @@
-@@@0	0	Keyword		fun		fun
-@@@0	4	Identifier	main		main
-@@@0	8	LParen		(		(
-@@@0	9	RParen		)		)
-@@@0	11	LCurl		{		{
-@@@1	1	Keyword		val		val
-@@@1	5	Identifier	`super`		super
-@@@1	12	OpColon		:		:
-@@@1	13	Identifier	Int		Int
-@@@1	17	OpAssign	=		=
-@@@1	19	Byte		43		43
-@@@2	1	Keyword		val		val
-@@@2	5	Identifier	`this`		this
-@@@2	11	OpColon		:		:
-@@@2	12	Identifier	Int		Int
-@@@2	16	OpAssign	=		=
-@@@2	18	Byte		2		2
-@@@3	4	Keyword		val		val
-@@@3	8	Identifier	`fun`		fun
-@@@3	13	OpColon		:		:
-@@@3	14	Identifier	Int		Int
-@@@3	18	OpAssign	=		=
-@@@3	20	Byte		2		2
-@@@4	1	Keyword		val		val
-@@@4	5	Identifier	`133`		133
-@@@4	10	OpColon		:		:
-@@@4	11	Identifier	Int		Int
-@@@4	15	OpAssign	=		=
-@@@4	17	Byte		5		5
-@@@5	1	Keyword		val		val
-@@@5	5	Identifier	`abc 12 a`	abc 12 a
-@@@5	15	OpColon		:		:
-@@@5	16	Identifier	Int		Int
-@@@5	20	OpAssign	=		=
-@@@5	22	Byte		5		5
-@@@6	1	Keyword		val		val
-@@@6	5	Identifier	`abc%efd`	abc%efd
-@@@6	15	OpAssign	=		=
-@@@6	17	Byte		6		6
-@@@7	0	RCurl		}		}
+@@ 0	0	Keyword		fun		fun
+@@ 0	4	Identifier	main		main
+@@ 0	8	LParen		(		(
+@@ 0	9	RParen		)		)
+@@ 0	11	LCurl		{		{
+@@ 1	1	Keyword		val		val
+@@ 1	5	Identifier	`super`		super
+@@ 1	12	OpColon		:		:
+@@ 1	13	Identifier	Int		Int
+@@ 1	17	OpAssign	=		=
+@@ 1	19	Byte		43		43
+@@ 2	1	Keyword		val		val
+@@ 2	5	Identifier	`this`		this
+@@ 2	11	OpColon		:		:
+@@ 2	12	Identifier	Int		Int
+@@ 2	16	OpAssign	=		=
+@@ 2	18	Byte		2		2
+@@ 3	4	Keyword		val		val
+@@ 3	8	Identifier	`fun`		fun
+@@ 3	13	OpColon		:		:
+@@ 3	14	Identifier	Int		Int
+@@ 3	18	OpAssign	=		=
+@@ 3	20	Byte		2		2
+@@ 4	1	Keyword		val		val
+@@ 4	5	Identifier	`133`		133
+@@ 4	10	OpColon		:		:
+@@ 4	11	Identifier	Int		Int
+@@ 4	15	OpAssign	=		=
+@@ 4	17	Byte		5		5
+@@ 5	1	Keyword		val		val
+@@ 5	5	Identifier	`abc 12 a`	abc 12 a
+@@ 5	15	OpColon		:		:
+@@ 5	16	Identifier	Int		Int
+@@ 5	20	OpAssign	=		=
+@@ 5	22	Byte		5		5
+@@ 6	1	Keyword		val		val
+@@ 6	5	Identifier	`abc%efd`	abc%efd
+@@ 6	15	OpAssign	=		=
+@@ 6	17	Byte		6		6
+@@ 7	0	RCurl		}		}

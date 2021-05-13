@@ -1,4 +1,6 @@
 #pragma once
+#include <string>
+#include <vector>
 
 class ISyntaxNode;
 
@@ -17,4 +19,16 @@ public:
 
 protected:
     void ProcessNode(ISyntaxNode& node, int depth) override;
+};
+
+class ToStringVisitor : public NodeVisitor {
+public:
+    ToStringVisitor();
+
+    std::vector<std::string> GetStringData() const;
+protected:
+    void ProcessNode(ISyntaxNode& node, int depth) override;
+
+private:
+    std::vector<std::string> myStringData;
 };

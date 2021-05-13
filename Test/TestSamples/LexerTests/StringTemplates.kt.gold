@@ -1,128 +1,128 @@
-@@@0	0	Keyword		fun		fun
-@@@0	4	Identifier	test		test
-@@@0	8	LParen		(		(
-@@@0	9	RParen		)		)
-@@@0	11	LCurl		{		{
-@@@0	12	RCurl		}		}
-@@@1	0	Keyword		fun		fun
-@@@1	4	Identifier	main		main
-@@@1	8	LParen		(		(
-@@@1	9	RParen		)		)
-@@@1	11	LCurl		{		{
-@@@2	1	Keyword		val		val
-@@@2	5	Identifier	a		a
-@@@2	6	OpColon		:		:
-@@@2	7	Identifier	String		String
-@@@2	14	OpAssign	=		=
-@@@2	16	String		"template 	template 
-@@@2	26	StringExpr	${		${
-@@@2	28	Byte		3		3
-@@@2	29	OpSub		-		-
-@@@2	30	Byte		2		2
-@@@2	31	RCurl		}		}
-@@@2	32	String		 test"		 test
-@@@3	1	Keyword		val		val
-@@@3	5	Identifier	b		b
-@@@3	6	OpColon		:		:
-@@@3	7	Identifier	String		String
-@@@3	14	OpAssign	=		=
-@@@3	16	String		"template 	template 
-@@@3	26	StringRef	$a		a
-@@@3	28	String		 test"		 test
-@@@4	1	Keyword		val		val
-@@@4	5	Identifier	c		c
-@@@4	6	OpColon		:		:
-@@@4	7	Identifier	String		String
-@@@4	14	OpAssign	=		=
-@@@4	16	String		"template 	template 
-@@@4	26	StringExpr	${		${
-@@@4	28	Identifier	test		test
-@@@4	32	LParen		(		(
-@@@4	33	RParen		)		)
-@@@4	34	RCurl		}		}
-@@@4	35	String		"		
-@@@5	1	Keyword		val		val
-@@@5	5	Identifier	d		d
-@@@5	6	OpColon		:		:
-@@@5	7	Identifier	String		String
-@@@5	14	OpAssign	=		=
-@@@5	16	String		"		
-@@@5	17	StringExpr	${		${
-@@@5	19	Identifier	a		a
-@@@5	20	RCurl		}		}
-@@@5	21	String		"		
-@@@6	1	Keyword		val		val
-@@@6	5	Identifier	e		e
-@@@6	6	OpColon		:		:
-@@@6	7	Identifier	String		String
-@@@6	14	OpAssign	=		=
-@@@6	16	String		"		
-@@@6	17	StringRef	$a		a
-@@@6	19	String		"		
-@@@7	1	Keyword		val		val
-@@@7	5	Identifier	f		f
-@@@7	6	OpColon		:		:
-@@@7	7	Identifier	String		String
-@@@7	14	OpAssign	=		=
-@@@7	16	String		"		
-@@@7	17	StringRef	$a		a
-@@@7	19	String		 		 
-@@@7	20	StringRef	$b		b
-@@@7	22	String		 		 
-@@@7	23	StringRef	$c		c
-@@@7	25	String		"		
-@@@8	1	Keyword		val		val
-@@@8	5	Identifier	g		g
-@@@8	6	OpColon		:		:
-@@@8	7	Identifier	String		String
-@@@8	14	OpAssign	=		=
-@@@8	16	String		"		
-@@@8	17	StringExpr	${		${
-@@@8	19	Byte		2		2
-@@@8	21	OpAdd		+		+
-@@@8	23	Byte		3		3
-@@@8	25	OpSub		-		-
-@@@8	27	Byte		5		5
-@@@8	29	RCurl		}		}
-@@@8	30	String		, 		, 
-@@@8	32	StringExpr	${		${
-@@@8	35	Identifier	a		a
-@@@8	37	OpAdd		+		+
-@@@8	39	Identifier	b		b
-@@@8	41	RCurl		}		}
-@@@8	42	String		"		
-@@@9	1	Keyword		val		val
-@@@9	5	Identifier	h		h
-@@@9	6	OpColon		:		:
-@@@9	7	Identifier	String		String
-@@@9	14	OpAssign	=		=
-@@@9	16	String		"		
-@@@9	17	StringExpr	${		${
-@@@10	4	Byte		2		2
-@@@10	6	OpAdd		+		+
-@@@10	8	Byte		3		3
-@@@10	10	OpSub		-		-
-@@@10	12	Byte		5		5
-@@@12	0	RCurl		}		}
-@@@12	1	String		"		
-@@@13	1	Keyword		val		val
-@@@13	5	Identifier	_k		_k
-@@@13	7	OpColon		:		:
-@@@13	8	Identifier	String		String
-@@@13	15	OpAssign	=		=
-@@@13	17	String		"		
-@@@13	18	StringExpr	${		${
-@@@13	20	Byte		2		2
-@@@13	21	OpAdd		+		+
-@@@13	22	Byte		3		3
-@@@13	23	RCurl		}		}
-@@@13	24	String		}"		}
-@@@14	1	Keyword		val		val
-@@@14	5	Identifier	l		l
-@@@14	6	OpColon		:		:
-@@@14	7	Identifier	String		String
-@@@14	14	OpAssign	=		=
-@@@14	16	String		"		
-@@@14	17	StringRef	$_k		_k
-@@@14	20	String		"		
-@@@15	0	RCurl		}		}
+@@ 0	0	Keyword		fun		fun
+@@ 0	4	Identifier	test		test
+@@ 0	8	LParen		(		(
+@@ 0	9	RParen		)		)
+@@ 0	11	LCurl		{		{
+@@ 0	12	RCurl		}		}
+@@ 1	0	Keyword		fun		fun
+@@ 1	4	Identifier	main		main
+@@ 1	8	LParen		(		(
+@@ 1	9	RParen		)		)
+@@ 1	11	LCurl		{		{
+@@ 2	1	Keyword		val		val
+@@ 2	5	Identifier	a		a
+@@ 2	6	OpColon		:		:
+@@ 2	7	Identifier	String		String
+@@ 2	14	OpAssign	=		=
+@@ 2	16	String		"template 	template 
+@@ 2	26	StringExpr	${		${
+@@ 2	28	Byte		3		3
+@@ 2	29	OpSub		-		-
+@@ 2	30	Byte		2		2
+@@ 2	31	RCurl		}		}
+@@ 2	32	String		 test"		 test
+@@ 3	1	Keyword		val		val
+@@ 3	5	Identifier	b		b
+@@ 3	6	OpColon		:		:
+@@ 3	7	Identifier	String		String
+@@ 3	14	OpAssign	=		=
+@@ 3	16	String		"template 	template 
+@@ 3	26	StringRef	$a		a
+@@ 3	28	String		 test"		 test
+@@ 4	1	Keyword		val		val
+@@ 4	5	Identifier	c		c
+@@ 4	6	OpColon		:		:
+@@ 4	7	Identifier	String		String
+@@ 4	14	OpAssign	=		=
+@@ 4	16	String		"template 	template 
+@@ 4	26	StringExpr	${		${
+@@ 4	28	Identifier	test		test
+@@ 4	32	LParen		(		(
+@@ 4	33	RParen		)		)
+@@ 4	34	RCurl		}		}
+@@ 4	35	String		"		
+@@ 5	1	Keyword		val		val
+@@ 5	5	Identifier	d		d
+@@ 5	6	OpColon		:		:
+@@ 5	7	Identifier	String		String
+@@ 5	14	OpAssign	=		=
+@@ 5	16	String		"		
+@@ 5	17	StringExpr	${		${
+@@ 5	19	Identifier	a		a
+@@ 5	20	RCurl		}		}
+@@ 5	21	String		"		
+@@ 6	1	Keyword		val		val
+@@ 6	5	Identifier	e		e
+@@ 6	6	OpColon		:		:
+@@ 6	7	Identifier	String		String
+@@ 6	14	OpAssign	=		=
+@@ 6	16	String		"		
+@@ 6	17	StringRef	$a		a
+@@ 6	19	String		"		
+@@ 7	1	Keyword		val		val
+@@ 7	5	Identifier	f		f
+@@ 7	6	OpColon		:		:
+@@ 7	7	Identifier	String		String
+@@ 7	14	OpAssign	=		=
+@@ 7	16	String		"		
+@@ 7	17	StringRef	$a		a
+@@ 7	19	String		 		 
+@@ 7	20	StringRef	$b		b
+@@ 7	22	String		 		 
+@@ 7	23	StringRef	$c		c
+@@ 7	25	String		"		
+@@ 8	1	Keyword		val		val
+@@ 8	5	Identifier	g		g
+@@ 8	6	OpColon		:		:
+@@ 8	7	Identifier	String		String
+@@ 8	14	OpAssign	=		=
+@@ 8	16	String		"		
+@@ 8	17	StringExpr	${		${
+@@ 8	19	Byte		2		2
+@@ 8	21	OpAdd		+		+
+@@ 8	23	Byte		3		3
+@@ 8	25	OpSub		-		-
+@@ 8	27	Byte		5		5
+@@ 8	29	RCurl		}		}
+@@ 8	30	String		, 		, 
+@@ 8	32	StringExpr	${		${
+@@ 8	35	Identifier	a		a
+@@ 8	37	OpAdd		+		+
+@@ 8	39	Identifier	b		b
+@@ 8	41	RCurl		}		}
+@@ 8	42	String		"		
+@@ 9	1	Keyword		val		val
+@@ 9	5	Identifier	h		h
+@@ 9	6	OpColon		:		:
+@@ 9	7	Identifier	String		String
+@@ 9	14	OpAssign	=		=
+@@ 9	16	String		"		
+@@ 9	17	StringExpr	${		${
+@@ 10	4	Byte		2		2
+@@ 10	6	OpAdd		+		+
+@@ 10	8	Byte		3		3
+@@ 10	10	OpSub		-		-
+@@ 10	12	Byte		5		5
+@@ 12	0	RCurl		}		}
+@@ 12	1	String		"		
+@@ 13	1	Keyword		val		val
+@@ 13	5	Identifier	_k		_k
+@@ 13	7	OpColon		:		:
+@@ 13	8	Identifier	String		String
+@@ 13	15	OpAssign	=		=
+@@ 13	17	String		"		
+@@ 13	18	StringExpr	${		${
+@@ 13	20	Byte		2		2
+@@ 13	21	OpAdd		+		+
+@@ 13	22	Byte		3		3
+@@ 13	23	RCurl		}		}
+@@ 13	24	String		}"		}
+@@ 14	1	Keyword		val		val
+@@ 14	5	Identifier	l		l
+@@ 14	6	OpColon		:		:
+@@ 14	7	Identifier	String		String
+@@ 14	14	OpAssign	=		=
+@@ 14	16	String		"		
+@@ 14	17	StringRef	$_k		_k
+@@ 14	20	String		"		
+@@ 15	0	RCurl		}		}

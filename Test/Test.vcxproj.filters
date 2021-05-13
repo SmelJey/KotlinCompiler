@@ -16,6 +16,12 @@
     <Filter Include="Resource Files\LexerTests">
       <UniqueIdentifier>{90214ed0-a74a-4465-9415-18543587e9c5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\LexerTests\ComplexTests">
+      <UniqueIdentifier>{5efd9c7e-0ef4-4da9-837c-753f0f36dbe6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\ParserTests">
+      <UniqueIdentifier>{b12fac7d-9178-4701-963e-b2ef70795d1e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="catch.hpp">
@@ -24,7 +30,7 @@
     <ClInclude Include="IOTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="LexerTest.h">
+    <ClInclude Include="CompilerTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -89,18 +95,6 @@
     <None Include="TestSamples\LexerTests\EscapedIdsErrors.kt">
       <Filter>Resource Files\LexerTests</Filter>
     </None>
-    <None Include="TestSamples\LexerTests\GenericsExample.kt">
-      <Filter>Resource Files\LexerTests</Filter>
-    </None>
-    <None Include="TestSamples\LexerTests\InheritanceExample.kt">
-      <Filter>Resource Files\LexerTests</Filter>
-    </None>
-    <None Include="TestSamples\LexerTests\LambdasExample.kt">
-      <Filter>Resource Files\LexerTests</Filter>
-    </None>
-    <None Include="TestSamples\LexerTests\ExtensionsExample.kt">
-      <Filter>Resource Files\LexerTests</Filter>
-    </None>
     <None Include="TestSamples\LexerTests\StringTemplates.kt">
       <Filter>Resource Files\LexerTests</Filter>
     </None>
@@ -125,12 +119,45 @@
     <None Include="TestSamples\LexerTests\CommentsErrors2.kt">
       <Filter>Resource Files\LexerTests</Filter>
     </None>
+    <None Include="TestSamples\LexerTests\ComplexTests\ExtensionsExample.kt">
+      <Filter>Resource Files\LexerTests\ComplexTests</Filter>
+    </None>
+    <None Include="TestSamples\LexerTests\ComplexTests\GenericsExample.kt">
+      <Filter>Resource Files\LexerTests\ComplexTests</Filter>
+    </None>
+    <None Include="TestSamples\LexerTests\ComplexTests\InheritanceExample.kt">
+      <Filter>Resource Files\LexerTests\ComplexTests</Filter>
+    </None>
+    <None Include="TestSamples\LexerTests\ComplexTests\LambdasExample.kt">
+      <Filter>Resource Files\LexerTests\ComplexTests</Filter>
+    </None>
+    <None Include="TestSamples\ParserTests\Arithmetic\MultipleSum">
+      <Filter>Resource Files\ParserTests</Filter>
+    </None>
+    <None Include="TestSamples\ParserTests\Arithmetic\ProdAndSum">
+      <Filter>Resource Files\ParserTests</Filter>
+    </None>
+    <None Include="TestSamples\ParserTests\Arithmetic\SimpleSum">
+      <Filter>Resource Files\ParserTests</Filter>
+    </None>
+    <None Include="TestSamples\ParserTests\Arithmetic\SumAndProd">
+      <Filter>Resource Files\ParserTests</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="InputBufferTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="LexerTests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CompilerTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="IOTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ParserTests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

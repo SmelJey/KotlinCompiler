@@ -163,13 +163,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CompilerTest.cpp" />
     <ClCompile Include="InputBufferTest.cpp" />
+    <ClCompile Include="IOTest.cpp" />
     <ClCompile Include="LexerTests.cpp" />
+    <ClCompile Include="ParserTests.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="catch.hpp" />
     <ClInclude Include="IOTest.h" />
-    <ClInclude Include="LexerTest.h" />
+    <ClInclude Include="CompilerTest.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="TestSamples\Comments.kt" />
@@ -177,19 +180,19 @@
     <None Include="TestSamples\LexerTests\CharLiterals.kt" />
     <None Include="TestSamples\LexerTests\CommentsErrors.kt" />
     <None Include="TestSamples\LexerTests\CommentsErrors2.kt" />
+    <None Include="TestSamples\LexerTests\ComplexTests\ExtensionsExample.kt" />
+    <None Include="TestSamples\LexerTests\ComplexTests\GenericsExample.kt" />
+    <None Include="TestSamples\LexerTests\ComplexTests\InheritanceExample.kt" />
+    <None Include="TestSamples\LexerTests\ComplexTests\LambdasExample.kt" />
     <None Include="TestSamples\LexerTests\EscapedIds.kt" />
     <None Include="TestSamples\LexerTests\EscapedIdsErrors.kt" />
-    <None Include="TestSamples\LexerTests\ExtensionsExample.kt" />
     <None Include="TestSamples\LexerTests\Floats.kt" />
-    <None Include="TestSamples\LexerTests\GenericsExample.kt" />
     <None Include="TestSamples\LexerTests\HexInts.kt" />
     <None Include="TestSamples\LexerTests\HexIntsErrors.kt" />
-    <None Include="TestSamples\LexerTests\InheritanceExample.kt" />
     <None Include="TestSamples\LexerTests\Integers.kt" />
     <None Include="TestSamples\LexerTests\IntegersErrors.kt" />
     <None Include="TestSamples\LexerTests\IntegersOutOfRangeErrors.kt" />
     <None Include="TestSamples\LexerTests\IntegerTypes.kt" />
-    <None Include="TestSamples\LexerTests\LambdasExample.kt" />
     <None Include="TestSamples\LexerTests\MultilineComments.kt" />
     <None Include="TestSamples\LexerTests\RawStrings.kt" />
     <None Include="TestSamples\LexerTests\Doubles.kt" />
@@ -203,6 +206,10 @@
     <None Include="TestSamples\LexerTests\StringTemplates.kt" />
     <None Include="TestSamples\LexerTests\StringTemplatesErrors1.kt" />
     <None Include="TestSamples\LexerTests\StringTemplatesErrors2.kt" />
+    <None Include="TestSamples\ParserTests\Arithmetic\MultipleSum" />
+    <None Include="TestSamples\ParserTests\Arithmetic\ProdAndSum" />
+    <None Include="TestSamples\ParserTests\Arithmetic\SimpleSum" />
+    <None Include="TestSamples\ParserTests\Arithmetic\SumAndProd" />
     <None Include="TestSamples\test.kt" />
   </ItemGroup>
   <ItemGroup>

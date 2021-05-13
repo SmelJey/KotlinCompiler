@@ -1,66 +1,66 @@
-@@@0	0	Keyword		fun		fun
-@@@0	4	Identifier	main		main
-@@@0	8	LParen		(		(
-@@@0	9	RParen		)		)
-@@@0	11	LCurl		{		{
-@@@1	1	Keyword		val		val
-@@@1	5	Identifier	a		a
-@@@1	7	OpColon		:		:
-@@@1	9	Identifier	Float		Float
-@@@1	15	OpAssign	=		=
-@@@1	17	Float		1.0f		1
-@@@2	1	Keyword		val		val
-@@@2	5	Identifier	b		b
-@@@2	7	OpColon		:		:
-@@@2	9	Identifier	Float		Float
-@@@2	15	OpAssign	=		=
-@@@2	17	Float		.05f		0.05
-@@@3	1	Keyword		val		val
-@@@3	5	Identifier	c		c
-@@@3	7	OpColon		:		:
-@@@3	9	Identifier	Float		Float
-@@@3	15	OpAssign	=		=
-@@@3	17	Float		1e5F		100000
-@@@4	1	Keyword		val		val
-@@@4	5	Identifier	d		d
-@@@4	7	OpColon		:		:
-@@@4	9	Identifier	Float		Float
-@@@4	15	OpAssign	=		=
-@@@4	17	Float		12.25F		12.25
-@@@5	1	Keyword		val		val
-@@@5	5	Identifier	e		e
-@@@5	7	OpColon		:		:
-@@@5	9	Identifier	Float		Float
-@@@5	15	OpAssign	=		=
-@@@5	17	Float		1e-10f		1e-10
-@@@6	1	Keyword		val		val
-@@@6	5	Identifier	f		f
-@@@6	7	OpColon		:		:
-@@@6	9	Identifier	Float		Float
-@@@6	15	OpAssign	=		=
-@@@6	17	Float		125.091e11f	1.25091e+13
-@@@7	1	Keyword		val		val
-@@@7	5	Identifier	g		g
-@@@7	7	OpColon		:		:
-@@@7	9	Identifier	Float		Float
-@@@7	15	OpAssign	=		=
-@@@7	17	Float		321.123e-15F	3.21123e-13
-@@@8	1	Keyword		val		val
-@@@8	5	Identifier	h		h
-@@@8	7	OpColon		:		:
-@@@8	9	Identifier	Float		Float
-@@@8	15	OpAssign	=		=
-@@@8	17	Float		3_2_1.1_2_3e-1_3F	3.21123e-11
-@@@9	1	Keyword		val		val
-@@@9	5	Identifier	k		k
-@@@9	7	OpColon		:		:
-@@@9	9	Identifier	Float		Float
-@@@9	15	OpAssign	=		=
-@@@9	17	Float		3__1.1__3__4e-1__5__6f	3.1134e-155
-@@@10	1	Keyword		val		val
-@@@10	5	Identifier	l		l
-@@@10	7	OpColon		:		:
-@@@10	9	Identifier	Float		Float
-@@@10	15	OpAssign	=		=
-@@@10	17	Float		.5e5f		50000
-@@@11	0	RCurl		}		}
+@@ 0	0	Keyword		fun		fun
+@@ 0	4	Identifier	main		main
+@@ 0	8	LParen		(		(
+@@ 0	9	RParen		)		)
+@@ 0	11	LCurl		{		{
+@@ 1	1	Keyword		val		val
+@@ 1	5	Identifier	a		a
+@@ 1	7	OpColon		:		:
+@@ 1	9	Identifier	Float		Float
+@@ 1	15	OpAssign	=		=
+@@ 1	17	Float		1.0f		1
+@@ 2	1	Keyword		val		val
+@@ 2	5	Identifier	b		b
+@@ 2	7	OpColon		:		:
+@@ 2	9	Identifier	Float		Float
+@@ 2	15	OpAssign	=		=
+@@ 2	17	Float		.05f		0.05
+@@ 3	1	Keyword		val		val
+@@ 3	5	Identifier	c		c
+@@ 3	7	OpColon		:		:
+@@ 3	9	Identifier	Float		Float
+@@ 3	15	OpAssign	=		=
+@@ 3	17	Float		1e5F		100000
+@@ 4	1	Keyword		val		val
+@@ 4	5	Identifier	d		d
+@@ 4	7	OpColon		:		:
+@@ 4	9	Identifier	Float		Float
+@@ 4	15	OpAssign	=		=
+@@ 4	17	Float		12.25F		12.25
+@@ 5	1	Keyword		val		val
+@@ 5	5	Identifier	e		e
+@@ 5	7	OpColon		:		:
+@@ 5	9	Identifier	Float		Float
+@@ 5	15	OpAssign	=		=
+@@ 5	17	Float		1e-10f		1e-10
+@@ 6	1	Keyword		val		val
+@@ 6	5	Identifier	f		f
+@@ 6	7	OpColon		:		:
+@@ 6	9	Identifier	Float		Float
+@@ 6	15	OpAssign	=		=
+@@ 6	17	Float		125.091e11f	1.25091e+13
+@@ 7	1	Keyword		val		val
+@@ 7	5	Identifier	g		g
+@@ 7	7	OpColon		:		:
+@@ 7	9	Identifier	Float		Float
+@@ 7	15	OpAssign	=		=
+@@ 7	17	Float		321.123e-15F	3.21123e-13
+@@ 8	1	Keyword		val		val
+@@ 8	5	Identifier	h		h
+@@ 8	7	OpColon		:		:
+@@ 8	9	Identifier	Float		Float
+@@ 8	15	OpAssign	=		=
+@@ 8	17	Float		3_2_1.1_2_3e-1_3F	3.21123e-11
+@@ 9	1	Keyword		val		val
+@@ 9	5	Identifier	k		k
+@@ 9	7	OpColon		:		:
+@@ 9	9	Identifier	Float		Float
+@@ 9	15	OpAssign	=		=
+@@ 9	17	Float		3__1.1__3__4e-1__5__6f	3.1134e-155
+@@ 10	1	Keyword		val		val
+@@ 10	5	Identifier	l		l
+@@ 10	7	OpColon		:		:
+@@ 10	9	Identifier	Float		Float
+@@ 10	15	OpAssign	=		=
+@@ 10	17	Float		.5e5f		50000
+@@ 11	0	RCurl		}		}

@@ -20,5 +20,20 @@ void PrintVisitor::ProcessNode(ISyntaxNode& node, int depth) {
         indent += " |";
     }
 
-    std::cout << indent << " |" << node << std::endl;
+    std::cout << indent << node << std::endl;
+}
+
+ToStringVisitor::ToStringVisitor() = default;
+
+std::vector<std::string> ToStringVisitor::GetStringData() const {
+    return myStringData;
+}
+
+void ToStringVisitor::ProcessNode(ISyntaxNode& node, int depth) {
+    std::string indent;
+    for (int d = 0; d < depth; d++) {
+        indent += " |";
+    }
+
+    myStringData.push_back(indent + node.ToString());
 }
