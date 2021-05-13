@@ -21,11 +21,12 @@ Pointer<ISyntaxNode> Parser::Parse() {
 Pointer<ISyntaxNode> Parser::ParseExpression() {
     Pointer<ISyntaxNode> leftOperand = ParseMult();
     Lexeme operation = myLexer.GetLexeme();
-    if (operation.GetType() == Lexeme::LexemeType::OpAdd || operation.GetType() == Lexeme::LexemeType::OpSub) {
+    while (operation.GetType() == Lexeme::LexemeType::OpAdd || operation.GetType() == Lexeme::LexemeType::OpSub) {
         myLexer.NextLexeme();
-        Pointer<ISyntaxNode> rightOperand = ParseExpression();
+        Pointer<ISyntaxNode> rightOperand = ParseMult();
         
-        return std::make_unique<BinOperationNode>(BinOperationNode(operation, std::move(leftOperand), std::move(rightOperand)));
+        leftOperand = std::make_unique<BinOperationNode>(BinOperationNode(operation, std::move(leftOperand), std::move(rightOperand)));
+        operation = myLexer.GetLexeme();
     }
 
     return leftOperand;
@@ -35,11 +36,12 @@ Pointer<ISyntaxNode> Parser::ParseExpression() {
 Pointer<ISyntaxNode> Parser::ParseMult() {
     Pointer<ISyntaxNode> leftOperand = ParseFactor();
     Lexeme operation = myLexer.GetLexeme();
-    if (operation.GetType() == Lexeme::LexemeType::OpMult || operation.GetType() == Lexeme::LexemeType::OpDiv) {
+    while (operation.GetType() == Lexeme::LexemeType::OpMult || operation.GetType() == Lexeme::LexemeType::OpDiv) {
         myLexer.NextLexeme();
-        Pointer<ISyntaxNode> rightOperand = ParseMult();
+        Pointer<ISyntaxNode> rightOperand = ParseFactor();
         
-        return std::make_unique<BinOperationNode>(BinOperationNode(operation, std::move(leftOperand), std::move(rightOperand)));
+        leftOperand = std::make_unique<BinOperationNode>(BinOperationNode(operation, std::move(leftOperand), std::move(rightOperand)));
+        operation = myLexer.GetLexeme();
     }
 
     return leftOperand;
@@ -70,4 +72,3 @@ Pointer<ISyntaxNode> Parser::ParseFactor() {
     // TODO: handle exception
     throw "Unexpected lexeme";
 }
-

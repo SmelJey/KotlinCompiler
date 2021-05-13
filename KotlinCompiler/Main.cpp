@@ -55,13 +55,13 @@ int main(int argc, char** argv) {
     Configuration configuration = ParseCommandLineArgs(argc, argv);
 
     std::ifstream ifs(configuration.GetPaths()[0]);
-    
 
     if (configuration.GetLexerDebug()) {
         Lexer lexer(configuration.GetPaths()[0]);
         lexer.NextLexeme();
-        while (lexer.NextLexeme().GetType() != Lexeme::LexemeType::EndOfFile) {
-            std::cout << lexer.GetLexeme() << std::endl;
+
+        while (lexer.GetLexeme().GetType() != Lexeme::LexemeType::EndOfFile) {
+            std::cout << lexer.NextLexeme() << std::endl;
         }
     }
 
