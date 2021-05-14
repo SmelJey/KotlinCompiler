@@ -20,16 +20,10 @@ std::string IntegerNode::GetName() const {
     return "Integer :: " + std::to_string(myLexeme.GetValue<uint64_t>());
 }
 
-UnexpectedNode::UnexpectedNode(const Lexeme& lexeme, const std::string& error) : SimpleNode(lexeme), myError(error) {}
-
-std::string UnexpectedNode::GetName() const {
-    return "Error :: " + myError;
-}
-
-ErrorNode::ErrorNode(const std::string& errorMessage, size_t row, size_t col) : myError(errorMessage), myRow(row), myCol(col) {}
+ErrorNode::ErrorNode(const Lexeme& lexeme, const std::string& error) : SimpleNode(lexeme), myError(error) {}
 
 std::string ErrorNode::GetName() const {
     std::stringstream ss;
-    ss << "Error " << myRow << ":" << myCol << " :: " + myError;
+    ss << "Error " << myLexeme.GetRow() << ":" << myLexeme.GetColumn() << " :: " + myError;
     return ss.str();
 }

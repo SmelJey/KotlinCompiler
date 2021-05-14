@@ -14,7 +14,7 @@ public:
 
     Pointer<ISyntaxNode> Parse();
 private:
-    Pointer<ISyntaxNode> ParseLeftRecursive(size_t priority);
+    Pointer<ISyntaxNode> ParseLeftAssociative(size_t priority);
 
     Pointer<ISyntaxNode> ParseFactor();
 

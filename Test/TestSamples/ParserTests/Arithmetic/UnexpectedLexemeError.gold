@@ -1,3 +1,3 @@
 @@ Bin op :: +
 @@ | Integer :: 2
-@@ | Error :: Unexpected lexeme
+@@ | Error 0:4 :: Unexpected lexeme
