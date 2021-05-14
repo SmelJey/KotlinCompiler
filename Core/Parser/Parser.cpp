@@ -44,11 +44,11 @@ Pointer<ISyntaxNode> Parser::ParseLeftAssociative(size_t priority) {
 Pointer<ISyntaxNode> Parser::ParseFactor() {
     const Lexeme curLexeme = myLexer.NextLexeme();
     if (curLexeme.GetType() == Lexeme::LexemeType::Identifier) {
-        return std::make_unique<IdentifierNode>(IdentifierNode(curLexeme));
+        return ReturnNode<IdentifierNode>(curLexeme);
     }
 
     if (LexerUtils::IsIntegerType(curLexeme.GetType())) {
-        return std::make_unique<IntegerNode>(IntegerNode(curLexeme));
+        return ReturnNode<IntegerNode>(curLexeme);
     }
 
     if (curLexeme.GetType() == Lexeme::LexemeType::LParen) {

@@ -536,7 +536,8 @@ void Lexer::ProcessUnknown() {
 
 void Lexer::ConsumeLexeme() {
     while (!LexerUtils::SpacingCharset.count(myInputBuffer.GetChar())
-           && !LexerUtils::OperationsCharset.count(myInputBuffer.GetChar())) {
+           && !LexerUtils::OperationsCharset.count(myInputBuffer.GetChar())
+           && myInputBuffer.GetChar() != BUFFER_EOF) {
         AddNextChar();
     }
 }
