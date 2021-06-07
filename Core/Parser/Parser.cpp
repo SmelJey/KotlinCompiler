@@ -33,7 +33,7 @@ Pointer<ISyntaxNode> Parser::ParseLeftAssociative(size_t priority) {
         myLexer.NextLexeme();
         Pointer<ISyntaxNode> rightOperand = ParseLeftAssociative(priority + 1);
 
-        leftOperand = std::make_unique<BinOperationNode>(BinOperationNode(operation, std::move(leftOperand), std::move(rightOperand)));
+        leftOperand = std::make_unique<BinOperationNode>(operation, std::move(leftOperand), std::move(rightOperand));
         operation = myLexer.GetLexeme();
     }
 
@@ -56,6 +56,7 @@ Pointer<ISyntaxNode> Parser::ParseFactor() {
         const Lexeme rParen = myLexer.GetLexeme();
         if (rParen.GetType() != Lexeme::LexemeType::RParen) {
             AddError(*expr, rParen, "Expecting \")\"");
+            return expr;
         }
 
         myLexer.NextLexeme();
@@ -64,12 +65,12 @@ Pointer<ISyntaxNode> Parser::ParseFactor() {
 
     if (curLexeme.GetType() == Lexeme::LexemeType::OpSub || curLexeme.GetType() == Lexeme::LexemeType::OpAdd) {
         Pointer<ISyntaxNode> operand = ParseFactor();
-        return std::make_unique<UnaryOperationNode>(UnaryOperationNode(curLexeme, std::move(operand)));
+        return std::make_unique<UnaryOperationNode>(curLexeme, std::move(operand));
     }
 
     return std::make_unique<ErrorNode>(ErrorNode(curLexeme));
 }
 
 void Parser::AddError(ISyntaxNode& root, const Lexeme& location, const std::string& error) const {
-    root.AddError(std::make_unique<ErrorNode>(ErrorNode(location, error)));
+    root.AddError(std::make_unique<ErrorNode>(location, error));
 }

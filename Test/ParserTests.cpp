@@ -21,6 +21,7 @@ TEST_CASE("Parser arithmetic", "[Parser]") {
     PARSER_TEST("Arithmetic/Identifiers")
 
     PARSER_TEST("Arithmetic/UnclosedParenError")
-    PARSER_TEST("Arithmetic/UnexpectedLexemeError")
+    PARSER_TEST("Arithmetic/UnexpectedLexemeError1")
+    PARSER_TEST("Arithmetic/UnexpectedLexemeError2")
     PARSER_TEST("Arithmetic/ErrorNumber")
 }
