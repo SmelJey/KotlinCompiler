@@ -43,7 +43,7 @@ functionDeclaration (used by declaration)
   : 'fun'
     simpleIdentifier functionValueParameters
     (':' type)?
-    functionBody?
+    functionBody
   ;
 
 functionBody (used by functionDeclaration)

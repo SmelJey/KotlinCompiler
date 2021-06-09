@@ -1,6 +1,9 @@
-@@ Bin op :: +
-@@ | Integer :: 2
-@@ | Bin op :: +
-@@ | | Integer :: 3
-@@ | | Integer :: 1
-@@ | | Error 0:11 :: Expecting ")"
+@@ DeclBlock
+@@ | Fun Decl :: test
+@@ | | Params
+@@ | | Bin op :: +
+@@ | | | Integer :: 2
+@@ | | | Bin op :: +
+@@ | | | | Integer :: 3
+@@ | | | | Integer :: 1
+@@ | | | | Error 0:24 :: Expecting ")"

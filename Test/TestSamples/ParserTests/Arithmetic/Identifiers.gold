@@ -1,7 +1,10 @@
-@@ Bin op :: -
-@@ | Bin op :: +
-@@ | | Identifier :: x
-@@ | | Identifier :: y
-@@ | Bin op :: /
-@@ | | Integer :: 5
-@@ | | Identifier :: z
+@@ DeclBlock
+@@ | Fun Decl :: test
+@@ | | Params
+@@ | | Bin op :: -
+@@ | | | Bin op :: +
+@@ | | | | Identifier :: x
+@@ | | | | Identifier :: y
+@@ | | | Bin op :: /
+@@ | | | | Integer :: 5
+@@ | | | | Identifier :: z

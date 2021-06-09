@@ -1,16 +1,19 @@
-@@ Bin op :: +
-@@ | Bin op :: +
-@@ | | Unary op :: -
+@@ DeclBlock
+@@ | Fun Decl :: test
+@@ | | Params
+@@ | | Bin op :: +
 @@ | | | Bin op :: +
-@@ | | | | Integer :: 3
-@@ | | | | Bin op :: /
-@@ | | | | | Integer :: 4
+@@ | | | | Unary op :: -
+@@ | | | | | Bin op :: +
+@@ | | | | | | Integer :: 3
+@@ | | | | | | Bin op :: /
+@@ | | | | | | | Integer :: 4
+@@ | | | | | | | Integer :: 2
+@@ | | | | Unary op :: -
+@@ | | | | | Unary op :: -
+@@ | | | | | | Integer :: 3
+@@ | | | Bin op :: *
+@@ | | | | Unary op :: -
+@@ | | | | | Integer :: 3
+@@ | | | | Unary op :: -
 @@ | | | | | Integer :: 2
-@@ | | Unary op :: -
-@@ | | | Unary op :: -
-@@ | | | | Integer :: 3
-@@ | Bin op :: *
-@@ | | Unary op :: -
-@@ | | | Integer :: 3
-@@ | | Unary op :: -
-@@ | | | Integer :: 2

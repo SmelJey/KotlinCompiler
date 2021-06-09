@@ -25,3 +25,10 @@ TEST_CASE("Parser arithmetic", "[Parser]") {
     PARSER_TEST("Arithmetic/UnexpectedLexemeError2")
     PARSER_TEST("Arithmetic/ErrorNumber")
 }
+
+TEST_CASE("Parser basic syntax", "[Parser]") {
+    PARSER_TEST("BasicSyntax/emptyFun.kt")
+    PARSER_TEST("BasicSyntax/funParams1.kt")
+    PARSER_TEST("BasicSyntax/funParams2.kt")
+    PARSER_TEST("BasicSyntax/funDefaultParams.kt")
+}

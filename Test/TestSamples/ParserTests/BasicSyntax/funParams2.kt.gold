@@ -1,0 +1,10 @@
+@@ DeclBlock
+@@ | Fun Decl :: test
+@@ | | Params
+@@ | | | Param :: a
+@@ | | | | Type :: Int
+@@ | | | Param :: b
+@@ | | | | Type :: String
+@@ | | | Param :: c
+@@ | | | | Type :: Boolean
+@@ | | BlockNode

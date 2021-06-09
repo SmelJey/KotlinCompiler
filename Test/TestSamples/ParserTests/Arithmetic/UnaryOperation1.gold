@@ -1,2 +1,5 @@
-@@ Unary op :: -
-@@ | Integer :: 4
+@@ DeclBlock
+@@ | Fun Decl :: test
+@@ | | Params
+@@ | | Unary op :: -
+@@ | | | Integer :: 4

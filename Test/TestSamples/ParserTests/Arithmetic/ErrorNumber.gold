@@ -1,3 +1,6 @@
-@@ Bin op :: +
-@@ | Integer :: 2
-@@ | Error 0:4 :: Illegal suffix
+@@ DeclBlock
+@@ | Fun Decl :: test
+@@ | | Params
+@@ | | Bin op :: +
+@@ | | | Integer :: 2
+@@ | | | Error 0:17 :: Illegal suffix

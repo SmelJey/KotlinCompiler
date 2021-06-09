@@ -1,1 +1,1 @@
-x+y-5/z
+fun test() = x+y-5/z

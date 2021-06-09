@@ -162,7 +162,8 @@
     <ClInclude Include="Lexer\Lexeme.h" />
     <ClInclude Include="Lexer\LexerUtils.h" />
     <ClInclude Include="magic_enum.hpp" />
-    <ClInclude Include="Parser\OperationNode.h" />
+    <ClInclude Include="Parser\DeclarationNodes.h" />
+    <ClInclude Include="Parser\ExpressionNodes.h" />
     <ClInclude Include="Parser\NodeVisitor.h" />
     <ClInclude Include="Parser\ParserUtils.h" />
     <ClInclude Include="Parser\SimpleNodes.h" />
@@ -174,7 +175,8 @@
     <ClCompile Include="Lexer\Lexeme.cpp" />
     <ClCompile Include="Lexer\Lexer.cpp" />
     <ClCompile Include="Lexer\LexerUtils.cpp" />
-    <ClCompile Include="Parser\OperationNode.cpp" />
+    <ClCompile Include="Parser\DeclarationNodes.cpp" />
+    <ClCompile Include="Parser\ExpressionNodes.cpp" />
     <ClCompile Include="Parser\NodeVisitor.cpp" />
     <ClCompile Include="Parser\Parser.cpp" />
     <ClCompile Include="Parser\ISyntaxNode.cpp" />

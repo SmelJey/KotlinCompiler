@@ -4,14 +4,16 @@
 
 #include <memory>
 
-class BinOperationNode : public ISyntaxNode {
+#include "SimpleNodes.h"
+
+class BinOperationNode : public ILexemeNode {
 public:
     BinOperationNode(const Lexeme& operation, std::unique_ptr<ISyntaxNode> left, std::unique_ptr<ISyntaxNode> right);
 
-    Lexeme GetOperation() const;
-
     ISyntaxNode& GetLeftOperand() const;
     ISyntaxNode& GetRightOperand() const;
+
+    std::string GetOperation() const;
 
 protected:
     std::string GetName() const override;
@@ -20,15 +22,15 @@ protected:
 private:
     std::unique_ptr<ISyntaxNode> myLeftOperand;
     std::unique_ptr<ISyntaxNode> myRightOperand;
-    Lexeme myOperation;
 };
 
-class UnaryOperationNode : public ISyntaxNode {
+class UnaryOperationNode : public ILexemeNode {
 public:
     UnaryOperationNode(const Lexeme& operation, std::unique_ptr<ISyntaxNode> operand);
 
-    Lexeme GetOperation() const;
     ISyntaxNode& GetOperand() const;
+
+    std::string GetOperation() const;
 
 protected:
     std::string GetName() const override;
@@ -37,5 +39,4 @@ protected:
 
 private:
     std::unique_ptr<ISyntaxNode> myOperand;
-    Lexeme myOperation;
 };

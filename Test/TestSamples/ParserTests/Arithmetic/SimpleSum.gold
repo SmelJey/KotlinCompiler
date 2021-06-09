@@ -1,3 +1,6 @@
-@@ Bin op :: +
-@@ | Integer :: 4
-@@ | Integer :: 5
+@@ DeclBlock
+@@ | Fun Decl :: test
+@@ | | Params
+@@ | | Bin op :: +
+@@ | | | Integer :: 4
+@@ | | | Integer :: 5
