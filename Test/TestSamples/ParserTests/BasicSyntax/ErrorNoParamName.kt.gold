@@ -1,0 +1,9 @@
+@@ Decl Block
+@@ | Fun Decl :: test
+@@ | | Params
+@@ | | | Param :: 
+@@ | | | | Type :: Int
+@@ | | | | Error 0:9 :: Parameter name expected
+@@ | | Bin op :: +
+@@ | | | Integer :: 2
+@@ | | | Integer :: 3

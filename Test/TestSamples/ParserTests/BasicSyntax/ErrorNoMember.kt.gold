@@ -1,0 +1,7 @@
+@@ Decl Block
+@@ | Fun Decl :: main
+@@ | | Params
+@@ | | Block
+@@ | | | MemberAccess
+@@ | | | | Identifier :: a
+@@ | | | | Error 2:0 :: Name expected

@@ -1,0 +1,9 @@
+@@ Decl Block
+@@ | Fun Decl :: test
+@@ | | Params
+@@ | | | Param :: a
+@@ | | | | Error 0:12 :: Type expected
+@@ | | Block
+@@ | | | Bin op :: +
+@@ | | | | Integer :: 2
+@@ | | | | Integer :: 3

@@ -50,13 +50,17 @@ Pointer<IDeclaration> Parser::ParseClass() {
 // 'fun' simpleIdentifier functionValueParameters (':' type)? functionBody
 Pointer<IDeclaration> Parser::ParseFunction() {
     myLexer.NextLexeme();
-    Lexeme curLexeme = myLexer.NextLexeme();
-    Pointer<FunctionDeclaration> functionDecl = std::make_unique<FunctionDeclaration>(curLexeme);
+    Lexeme curLexeme = myLexer.GetLexeme();
+    Pointer<FunctionDeclaration> functionDecl;
     if (curLexeme.GetType() != Lexeme::LexemeType::Identifier) {
+        functionDecl = std::make_unique<FunctionDeclaration>(Lexeme(curLexeme.GetColumn(), curLexeme.GetRow(), "", Lexeme::LexemeType::Identifier, "", false));
         AddError(*functionDecl, curLexeme, "Function declaration must have a name");
+    } else {
+        functionDecl = std::make_unique<FunctionDeclaration>(curLexeme);
+        myLexer.NextLexeme();
     }
 
-    functionDecl->SetParameters(ParseParameters(true));
+    functionDecl->SetParameters(ParseParameters());
 
     if (myLexer.GetLexeme().GetType() == Lexeme::LexemeType::OpColon) {
         functionDecl->SetReturnNode(ParseType());
@@ -73,7 +77,7 @@ Pointer<IDeclaration> Parser::ParseFunction() {
 }
 
 // '(' (functionValueParameter (',' functionValueParameter)* ','?)? ')'
-Pointer<ParameterList> Parser::ParseParameters(bool isDeclaration) {
+Pointer<ParameterList> Parser::ParseParameters() {
     Pointer<ParameterList> params = std::make_unique<ParameterList>();
     if (myLexer.GetLexeme().GetType() != Lexeme::LexemeType::LParen) {
         AddError(*params, myLexer.GetLexeme(), "Expecting '('");
@@ -87,7 +91,7 @@ Pointer<ParameterList> Parser::ParseParameters(bool isDeclaration) {
             AddError(*params, myLexer.GetLexeme(), "Expecting ','");
         }
 
-        params->AddParameter(std::move(ParseParameter(isDeclaration)));
+        params->AddParameter(std::move(ParseParameter()));
 
         isLastArg = true;
         if (myLexer.GetLexeme().GetType() == Lexeme::LexemeType::OpComma) {
@@ -106,20 +110,21 @@ Pointer<ParameterList> Parser::ParseParameters(bool isDeclaration) {
 }
 
 //  simpleIdentifier ':' type ('=' expression)? 
-Pointer<Parameter> Parser::ParseParameter(bool isDeclaration) {
-    Lexeme curLexeme = myLexer.NextLexeme();
-    Pointer<Parameter> param = std::make_unique<Parameter>(curLexeme);
+Pointer<Parameter> Parser::ParseParameter() {
+    Lexeme curLexeme = myLexer.GetLexeme();
+    Pointer<Parameter> param;
     if (curLexeme.GetType() != Lexeme::LexemeType::Identifier) {
+        param = std::make_unique<Parameter>(Lexeme(curLexeme.GetColumn(), curLexeme.GetRow(), "", Lexeme::LexemeType::Identifier, ""));
         AddError(*param, curLexeme, "Parameter name expected");
-    }
-
-    if (!isDeclaration) {
-        return param;
+    } else {
+        param = std::make_unique<Parameter>(curLexeme);
+        myLexer.NextLexeme();
     }
 
     curLexeme = myLexer.GetLexeme();
     if (curLexeme.GetType() != Lexeme::LexemeType::OpColon) {
-        AddError(*param, curLexeme, "A type annotation is required on a value parameter");
+        param->SetTypeNode(std::make_unique<ErrorNode>(Lexeme(curLexeme.GetColumn(), curLexeme.GetRow(),
+                        "", Lexeme::LexemeType::Identifier, ""), "A type annotation is required on a value parameter"));
         return param;
     }
     myLexer.NextLexeme();
@@ -134,10 +139,10 @@ Pointer<Parameter> Parser::ParseParameter(bool isDeclaration) {
 }
 
 // ( ('(' type ')') | (simpleIdentifier ('.' simpleIdentifier)*) )
-Pointer<TypeNode> Parser::ParseType() {
+Pointer<ISyntaxNode> Parser::ParseType() {
     if (myLexer.GetLexeme().GetType() == Lexeme::LexemeType::LParen) {
         myLexer.NextLexeme();
-        Pointer<TypeNode> typeNode = ParseType();
+        Pointer<ISyntaxNode> typeNode = ParseType();
         if (myLexer.GetLexeme().GetType() != Lexeme::LexemeType::RParen) {
             AddError(*typeNode, myLexer.GetLexeme(), "Expecting ')'");
         } else {
@@ -147,13 +152,13 @@ Pointer<TypeNode> Parser::ParseType() {
         return typeNode;
     }
 
-    Lexeme curLexeme = myLexer.NextLexeme();
-    Pointer<TypeNode> typeNode = std::make_unique<TypeNode>(curLexeme);
+    Lexeme curLexeme = myLexer.GetLexeme();
     if (curLexeme.GetType() != Lexeme::LexemeType::Identifier) {
-        AddError(*typeNode, curLexeme, "Type expected");
+        return std::make_unique<ErrorNode>(curLexeme, "Type expected");
     }
 
-    return typeNode;
+    myLexer.NextLexeme();
+    return std::make_unique<TypeNode>(curLexeme);
 }
 
 Pointer<BlockNode> Parser::ParseBlock() {
@@ -232,10 +237,18 @@ Pointer<ISyntaxNode> Parser::ParsePostfix() {
         myLexer.NextLexeme();
         if (curLexeme.GetType() == Lexeme::LexemeType::OpInc || curLexeme.GetType() == Lexeme::LexemeType::OpDec) {
             operand = std::make_unique<UnaryPostfixOperationNode>(curLexeme, std::move(operand));
+
         } else if (curLexeme.GetType() == Lexeme::LexemeType::OpDot) {
             std::unique_ptr<MemberAccessNode> memberAccess = std::make_unique<MemberAccessNode>(std::move(operand));
-            memberAccess->SetMember(ReturnNode<IdentifierNode>(myLexer.NextLexeme(), Lexeme::LexemeType::Identifier));
+            curLexeme = myLexer.GetLexeme();
+            if (curLexeme.GetType() != Lexeme::LexemeType::Identifier) {
+                memberAccess->SetMember(std::make_unique<ErrorNode>(curLexeme, "Name expected"));
+            } else {
+                memberAccess->SetMember(ReturnNode<IdentifierNode>(curLexeme));
+                myLexer.NextLexeme();
+            }
             operand = std::move(memberAccess);
+
         } else if (curLexeme.GetType() == Lexeme::LexemeType::LParen) {
             Pointer<CallSuffixNode> callNode = std::make_unique<CallSuffixNode>(std::move(operand));
             std::vector<Pointer<ISyntaxNode>> args = ParseArguments(*callNode, Lexeme::LexemeType::RParen);
@@ -249,6 +262,7 @@ Pointer<ISyntaxNode> Parser::ParsePostfix() {
             }
 
             operand = std::move(callNode);
+
         } else if (curLexeme.GetType() == Lexeme::LexemeType::LSquare) {
             Pointer<IndexSuffixNode> indexNode = std::make_unique<IndexSuffixNode>(std::move(operand));
             std::vector<Pointer<ISyntaxNode>> args = ParseArguments(*indexNode, Lexeme::LexemeType::RSquare);

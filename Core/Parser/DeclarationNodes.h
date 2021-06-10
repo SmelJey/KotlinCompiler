@@ -43,8 +43,8 @@ class Parameter : public ILexemeNode {
 public:
     explicit Parameter(const Lexeme& parameterLexeme);
 
-    const TypeNode& GetTypeNode() const;
-    void SetTypeNode(std::unique_ptr<TypeNode> typeNode);
+    const ISyntaxNode& GetTypeNode() const;
+    void SetTypeNode(std::unique_ptr<ISyntaxNode> typeNode);
 
     const ISyntaxNode& GetDefaultNode() const;
     void SetDefaultNode(std::unique_ptr<ISyntaxNode> defaultNode);
@@ -56,7 +56,7 @@ protected:
     void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
 
 private:
-    std::unique_ptr<TypeNode> myTypeNode;
+    std::unique_ptr<ISyntaxNode> myTypeNode;
     std::unique_ptr<ISyntaxNode> myDefaultNode;
 };
 
@@ -85,8 +85,8 @@ public:
     const ISyntaxNode& GetBody() const;
     void SetBody(std::unique_ptr<ISyntaxNode> body);
 
-    const TypeNode& GetReturnNode() const;
-    void SetReturnNode(std::unique_ptr<TypeNode> returnNode);
+    const ISyntaxNode& GetReturnNode() const;
+    void SetReturnNode(std::unique_ptr<ISyntaxNode> returnNode);
 
     bool HasReturnNode() const;
 protected:
@@ -97,7 +97,7 @@ protected:
 private:
     std::unique_ptr<ParameterList> myParams;
     std::unique_ptr<ISyntaxNode> myBody;
-    std::unique_ptr<TypeNode> myReturnNode;
+    std::unique_ptr<ISyntaxNode> myReturnNode;
 };
 
 class BlockNode : public ISyntaxNode {

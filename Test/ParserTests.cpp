@@ -38,4 +38,10 @@ TEST_CASE("Parser basic syntax", "[Parser]") {
     PARSER_TEST("BasicSyntax/MemberAccess1.kt")
     PARSER_TEST("BasicSyntax/MemberAccess2.kt")
     PARSER_TEST("BasicSyntax/PostfixOperators.kt")
+    PARSER_TEST("BasicSyntax/ErrorNoFunName.kt")
+    PARSER_TEST("BasicSyntax/ErrorNoIndex.kt")
+    PARSER_TEST("BasicSyntax/ErrorNoMember.kt")
+    PARSER_TEST("BasicSyntax/ErrorNoParamName.kt")
+    PARSER_TEST("BasicSyntax/ErrorNoTypeName.kt")
+    PARSER_TEST("BasicSyntax/ErrorNoType.kt")
 }

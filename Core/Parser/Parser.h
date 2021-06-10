@@ -19,10 +19,10 @@ private:
     Pointer<IDeclaration> ParseClass();
 
     Pointer<IDeclaration> ParseFunction();
-    Pointer<ParameterList> ParseParameters(bool isDeclaration);
-    Pointer<Parameter> ParseParameter(bool isDeclaration);
+    Pointer<ParameterList> ParseParameters();
+    Pointer<Parameter> ParseParameter();
 
-    Pointer<TypeNode> ParseType();
+    Pointer<ISyntaxNode> ParseType();
 
     Pointer<BlockNode> ParseBlock();
 

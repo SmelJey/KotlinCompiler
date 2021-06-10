@@ -42,11 +42,11 @@ void ClassDeclaration::AcceptVisitor(NodeVisitor& visitor, int depth) const {
 
 Parameter::Parameter(const Lexeme& parameterLexeme) : ILexemeNode(parameterLexeme) {}
 
-const TypeNode& Parameter::GetTypeNode() const {
+const ISyntaxNode& Parameter::GetTypeNode() const {
     return *myTypeNode;
 }
 
-void Parameter::SetTypeNode(std::unique_ptr<TypeNode> typeNode) {
+void Parameter::SetTypeNode(std::unique_ptr<ISyntaxNode> typeNode) {
     myTypeNode = std::move(typeNode);
 }
 
@@ -110,11 +110,11 @@ void FunctionDeclaration::SetBody(std::unique_ptr<ISyntaxNode> body) {
     myBody = std::move(body);
 }
 
-const TypeNode& FunctionDeclaration::GetReturnNode() const {
+const ISyntaxNode& FunctionDeclaration::GetReturnNode() const {
     return *myReturnNode;
 }
 
-void FunctionDeclaration::SetReturnNode(std::unique_ptr<TypeNode> returnNode) {
+void FunctionDeclaration::SetReturnNode(std::unique_ptr<ISyntaxNode> returnNode) {
     myReturnNode = std::move(returnNode);
 }
 
