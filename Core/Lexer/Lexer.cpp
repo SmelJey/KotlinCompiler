@@ -90,6 +90,11 @@ void Lexer::ProcessNextLexeme() {
         ProcessNumber();
         return;
     }
+    
+    if (curChars[0] == 'i' && curChars[1] == 'n') {
+        ProcessOperation();
+        return;
+    }
 
     if (LexerUtils::IsAlphabetic(curChars[0]) || curChars[0] == '_') {
         ProcessIdentifier();
@@ -187,7 +192,7 @@ void Lexer::ProcessNumber() {
         AddNextChar();
     }
 
-    if (myInputBuffer.GetChar() == '.') {
+    if (myInputBuffer.GetChar() == '.' && myInputBuffer.LookAhead(1) != '.') {
         myLexemeType = LexType::Double;
 
         if (!LexerUtils::IsDigit(myInputBuffer.LookAhead(1))) {

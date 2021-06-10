@@ -24,6 +24,27 @@ protected:
     std::string GetName() const override;
 };
 
+class RealNode : public ILexemeNode {
+public:
+    explicit RealNode(const Lexeme& lexeme);
+protected:
+    std::string GetName() const override;
+};
+
+class BooleanNode : public ILexemeNode {
+public:
+    explicit BooleanNode(const Lexeme& lexeme);
+protected:
+    std::string GetName() const override;
+};
+
+class StringNode : public ILexemeNode {
+public:
+    explicit StringNode(const Lexeme& lexeme);
+protected:
+    std::string GetName() const override;
+};
+
 class ErrorNode : public ILexemeNode {
 public:
     ErrorNode(const Lexeme& lexeme, const std::string& error = "Unexpected lexeme");

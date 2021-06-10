@@ -37,9 +37,10 @@ const std::unordered_map<std::string, Lexeme::LexemeType> LexerUtils::Operations
         {"+=", LexType::OpPlusAssign}, {"-=", LexType::OpMinusAssign}, {"*=", LexType::OpMultAssign},
         {"/=", LexType::OpDivAssign}, {"%=", LexType::OpModAssign}, {"->", LexType::OpArrow}, {"=>", LexType::OpDArrow},
         {"..", LexType::OpDDot}, {"::", LexType::OpDColon}, {";;", LexType::OpDColon},
-        {"<=", LexType::OpLessOrEq}, {">=", LexType::OpGreaterOrEq}, {"!=", LexType::OpInequal}, {"==", LexType::OpEqual}
+        {"<=", LexType::OpLessOrEq}, {">=", LexType::OpGreaterOrEq}, {"!=", LexType::OpInequal}, {"==", LexType::OpEqual},
+        {"in", LexType::OpIn}
     }, {
-        {"...", LexType::OpTripleDot}, {"!==", LexType::OpStrictIneq}, {"===", LexType::OpStrictEq}
+        {"...", LexType::OpTripleDot}, {"!==", LexType::OpStrictIneq}, {"===", LexType::OpStrictEq}, {"!in", LexType::OpNotIn}
     }
 };
 

@@ -20,6 +20,24 @@ std::string IntegerNode::GetName() const {
     return "Integer :: " + std::to_string(myLexeme.GetValue<uint64_t>());
 }
 
+RealNode::RealNode(const Lexeme& lexeme) : ILexemeNode(lexeme) {}
+
+std::string RealNode::GetName() const {
+    return "Real :: " + std::to_string(myLexeme.GetValue<double>());
+}
+
+BooleanNode::BooleanNode(const Lexeme& lexeme) : ILexemeNode(lexeme) {}
+
+std::string BooleanNode::GetName() const {
+    return "Boolean :: " + myLexeme.GetValue<std::string>();
+}
+
+StringNode::StringNode(const Lexeme& lexeme) : ILexemeNode(lexeme) {}
+
+std::string StringNode::GetName() const {
+    return "String :: " + myLexeme.GetValue<std::string>();
+}
+
 ErrorNode::ErrorNode(const Lexeme& lexeme, const std::string& error) : ILexemeNode(lexeme), myError(error) {}
 
 std::string ErrorNode::GetName() const {

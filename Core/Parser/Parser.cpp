@@ -196,7 +196,10 @@ Pointer<ISyntaxNode> Parser::ParseLeftAssociative(size_t priority) {
 
     Pointer<ISyntaxNode> leftOperand = ParseLeftAssociative(priority + 1);
     Lexeme operation = myLexer.GetLexeme();
-    while (ParserUtils::OperationsPriority.at(priority).count(operation.GetType())) {
+
+    while (ParserUtils::OperationsPriority.at(priority).count(operation.GetType())
+           // infixFunctionCall 
+           || (priority == 5 && operation.GetType() == Lexeme::LexemeType::Identifier)) {
         myLexer.NextLexeme();
         Pointer<ISyntaxNode> rightOperand = ParseLeftAssociative(priority + 1);
 
@@ -207,7 +210,8 @@ Pointer<ISyntaxNode> Parser::ParseLeftAssociative(size_t priority) {
     return leftOperand;
 }
 
-// Identifier | Number | UnaryOp Factor | ( LeftAssociative(0) ) |
+// TODO: if expression
+// (Identifier | Number | String | UnaryOp Factor | (LeftAssociative(0))) (postfixUnarySuffix)*
 Pointer<ISyntaxNode> Parser::ParseFactor() {
     const Lexeme curLexeme = myLexer.NextLexeme();
     if (curLexeme.GetType() == Lexeme::LexemeType::Identifier) {
@@ -216,6 +220,15 @@ Pointer<ISyntaxNode> Parser::ParseFactor() {
 
     if (LexerUtils::IsIntegerType(curLexeme.GetType())) {
         return ReturnNode<IntegerNode>(curLexeme);
+    }
+    if (LexerUtils::IsRealType(curLexeme.GetType())) {
+        return ReturnNode<RealNode>(curLexeme);
+    }
+    if (curLexeme.GetType() == Lexeme::LexemeType::String || curLexeme.GetType() == Lexeme::LexemeType::RawString) {
+        return ReturnNode<StringNode>(curLexeme);
+    }
+    if (curLexeme.GetType() == Lexeme::LexemeType::Keyword && (curLexeme.GetValue<std::string>() == "true" || curLexeme.GetValue<std::string>() == "false")) {
+        return ReturnNode<BooleanNode>(curLexeme);
     }
 
     if (curLexeme.GetType() == Lexeme::LexemeType::LParen) {
@@ -230,7 +243,9 @@ Pointer<ISyntaxNode> Parser::ParseFactor() {
         return expr;
     }
 
-    if (curLexeme.GetType() == Lexeme::LexemeType::OpSub || curLexeme.GetType() == Lexeme::LexemeType::OpAdd) {
+    if (curLexeme.GetType() == Lexeme::LexemeType::OpSub || curLexeme.GetType() == Lexeme::LexemeType::OpAdd
+        || curLexeme.GetType() == Lexeme::LexemeType::OpInc || curLexeme.GetType() == Lexeme::LexemeType::OpDec
+        || curLexeme.GetType() == Lexeme::LexemeType::OpExclMark) {
         Pointer<ISyntaxNode> operand = ParseFactor();
         return std::make_unique<UnaryOperationNode>(curLexeme, std::move(operand));
     }

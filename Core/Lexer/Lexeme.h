@@ -63,6 +63,8 @@ public:
         OpTripleDot,
         OpStrictIneq,
         OpStrictEq,
+        OpIn,
+        OpNotIn,
 
         LParen,
         RParen,

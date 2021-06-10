@@ -1,3 +1,5 @@
+# General
+
 ```
 topLevelObject
   : declaration semis?
@@ -152,14 +154,10 @@ equality (used by conjunction)
   ;
 
 comparison (used by equality)
-  : genericCallLikeComparison (comparisonOperator genericCallLikeComparison)*
+  : infixFunctionCall (comparisonOperator infixFunctionCall)*
   ;
 
-genericCallLikeComparison (used by comparison)
-  : infixOperation callSuffix*
-  ;
-
-infixOperation (used by genericCallLikeComparison)
+infixOperation (used by comparison)
   : infixFunctionCall (inOperator infixFunctionCall)*
   ;
 
@@ -226,7 +224,7 @@ navigationSuffix (used by postfixUnarySuffix, assignableSuffix)
   : '.' simpleIdentifier
   ;
 
-callSuffix (used by genericCallLikeComparison, postfixUnarySuffix)
+callSuffix (used by postfixUnarySuffix)
   : '(' (valueArgument (',' valueArgument)* ','?)? ')'
   ;
 

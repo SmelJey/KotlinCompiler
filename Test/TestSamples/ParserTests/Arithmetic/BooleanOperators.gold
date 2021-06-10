@@ -1,0 +1,21 @@
+@@ DeclBlock
+@@ | Fun Decl :: test
+@@ | | Params
+@@ | | Bin op :: ||
+@@ | | | Bin op :: ||
+@@ | | | | Boolean :: true
+@@ | | | | Bin op :: &&
+@@ | | | | | Boolean :: false
+@@ | | | | | Bin op :: ==
+@@ | | | | | | Integer :: 5
+@@ | | | | | | Integer :: 3
+@@ | | | Bin op :: ||
+@@ | | | | Bin op :: ===
+@@ | | | | | Identifier :: a
+@@ | | | | | Identifier :: g
+@@ | | | | Unary op :: !
+@@ | | | | | Bin op :: !=
+@@ | | | | | | Bin op :: +
+@@ | | | | | | | Integer :: 5
+@@ | | | | | | | Integer :: 3
+@@ | | | | | | Integer :: 7

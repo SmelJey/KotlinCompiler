@@ -24,6 +24,10 @@ TEST_CASE("Parser arithmetic", "[Parser]") {
     PARSER_TEST("Arithmetic/UnexpectedLexemeError1")
     PARSER_TEST("Arithmetic/UnexpectedLexemeError2")
     PARSER_TEST("Arithmetic/ErrorNumber")
+
+    PARSER_TEST("Arithmetic/InfixOperator")
+    PARSER_TEST("Arithmetic/InRangeOperator")
+    PARSER_TEST("Arithmetic/BooleanOperators")
 }
 
 TEST_CASE("Parser basic syntax", "[Parser]") {

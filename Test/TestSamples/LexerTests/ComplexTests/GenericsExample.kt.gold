@@ -141,8 +141,8 @@
 @@ 30	2	Keyword		for		for
 @@ 30	6	LParen		(		(
 @@ 30	7	Identifier	i		i
-@@ 30	9	Keyword		in		in
-@@ 30	12	Double		1		1
+@@ 30	9	OpIn		in		in
+@@ 30	12	Byte		1		1
 @@ 30	13	OpDDot		..		..
 @@ 30	15	Identifier	stack		stack
 @@ 30	20	OpDot		.		.
