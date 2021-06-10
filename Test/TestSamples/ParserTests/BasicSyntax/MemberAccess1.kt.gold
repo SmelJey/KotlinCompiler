@@ -1,0 +1,7 @@
+@@ Decl Block
+@@ | Fun Decl :: main
+@@ | | Params
+@@ | | Block
+@@ | | | MemberAccess
+@@ | | | | Identifier :: a
+@@ | | | | Identifier :: b

@@ -6,11 +6,11 @@ BinOperationNode::BinOperationNode(const Lexeme& operation, std::unique_ptr<ISyn
                                    std::unique_ptr<ISyntaxNode> right)
     : ILexemeNode(operation), myLeftOperand(std::move(left)), myRightOperand(std::move(right)) {}
 
-ISyntaxNode& BinOperationNode::GetLeftOperand() const {
+const ISyntaxNode& BinOperationNode::GetLeftOperand() const {
     return *myLeftOperand;
 }
 
-ISyntaxNode& BinOperationNode::GetRightOperand() const {
+const ISyntaxNode& BinOperationNode::GetRightOperand() const {
     return *myRightOperand;
 }
 
@@ -22,26 +22,82 @@ std::string BinOperationNode::GetName() const {
     return "Bin op :: " + GetOperation();
 }
 
-void BinOperationNode::AcceptVisitor(NodeVisitor& visitor, int depth) {
+void BinOperationNode::AcceptVisitor(NodeVisitor& visitor, int depth) const {
     visitor.VisitNode(GetLeftOperand(), depth);
     visitor.VisitNode(GetRightOperand(), depth);
 }
 
-UnaryOperationNode::UnaryOperationNode(const Lexeme& operation, std::unique_ptr<ISyntaxNode> operand)
+IUnaryOperationNode::IUnaryOperationNode(const Lexeme& operation, std::unique_ptr<ISyntaxNode> operand)
     : ILexemeNode(operation), myOperand(std::move(operand)) {}
 
-ISyntaxNode& UnaryOperationNode::GetOperand() const {
+const ISyntaxNode& IUnaryOperationNode::GetOperand() const {
     return *myOperand;
 }
 
-std::string UnaryOperationNode::GetOperation() const {
+std::string IUnaryOperationNode::GetOperation() const {
     return myLexeme.GetValue<std::string>();
 }
 
-std::string UnaryOperationNode::GetName() const {
-    return "Unary op :: " + GetOperation();
+void IUnaryOperationNode::AcceptVisitor(NodeVisitor& visitor, int depth) const {
+    visitor.VisitNode(*myOperand, depth);
 }
 
-void UnaryOperationNode::AcceptVisitor(NodeVisitor& visitor, int depth) {
-    visitor.VisitNode(*myOperand, depth);
+UnaryPrefixOperationNode::UnaryPrefixOperationNode(const Lexeme& operation, std::unique_ptr<ISyntaxNode> operand) : IUnaryOperationNode(operation, std::move(operand)) {}
+
+std::string UnaryPrefixOperationNode::GetName() const {
+    return "Prefix Op :: " + GetOperation();
+}
+
+UnaryPostfixOperationNode::UnaryPostfixOperationNode(const Lexeme& operation, std::unique_ptr<ISyntaxNode> operand) : IUnaryOperationNode(operation, std::move(operand)) {}
+
+std::string UnaryPostfixOperationNode::GetName() const {
+    return "Postfix Op :: " + GetOperation();
+}
+
+IPostfixCallNode::IPostfixCallNode(std::unique_ptr<ISyntaxNode> expression) : myExpression(std::move(expression)) {}
+
+const std::vector<std::unique_ptr<ISyntaxNode>>& IPostfixCallNode::GetArguments() const {
+    return myArguments;
+}
+
+void IPostfixCallNode::SetArguments(std::vector<std::unique_ptr<ISyntaxNode>> arguments) {
+    myArguments = std::move(arguments);
+}
+
+void IPostfixCallNode::AcceptVisitor(NodeVisitor& visitor, int depth) const {
+    visitor.VisitNode(*myExpression, depth);
+    for (auto& arg : myArguments) {
+        visitor.VisitNode(*arg, depth);
+    }
+}
+
+IndexSuffixNode::IndexSuffixNode(std::unique_ptr<ISyntaxNode> expression) : IPostfixCallNode(std::move(expression)) {}
+
+std::string IndexSuffixNode::GetName() const {
+    return "IndexSuffix";
+}
+
+CallSuffixNode::CallSuffixNode(std::unique_ptr<ISyntaxNode> expression) : IPostfixCallNode(std::move(expression)) {}
+
+std::string CallSuffixNode::GetName() const {
+    return "CallSuffix";
+}
+
+MemberAccessNode::MemberAccessNode(std::unique_ptr<ISyntaxNode> expression) : myExpression(std::move(expression)) {}
+
+const ISyntaxNode& MemberAccessNode::GetMember() const {
+    return *myMemberNode;
+}
+
+void MemberAccessNode::SetMember(std::unique_ptr<ISyntaxNode> member) {
+    myMemberNode = std::move(member);
+}
+
+std::string MemberAccessNode::GetName() const {
+    return "MemberAccess";
+}
+
+void MemberAccessNode::AcceptVisitor(NodeVisitor& visitor, int depth) const {
+    visitor.VisitNode(*myExpression, depth);
+    visitor.VisitNode(*myMemberNode, depth);
 }

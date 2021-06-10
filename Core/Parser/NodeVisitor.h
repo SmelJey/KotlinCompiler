@@ -9,9 +9,9 @@ class NodeVisitor {
 public:
     virtual ~NodeVisitor();
 
-    void VisitNode(ISyntaxNode& node, int depth);
+    void VisitNode(const ISyntaxNode& node, int depth);
 protected:
-    virtual void ProcessNode(ISyntaxNode& node, int depth) = 0;
+    virtual void ProcessNode(const ISyntaxNode& node, int depth) = 0;
 };
 
 class PrintVisitor : public NodeVisitor {
@@ -19,7 +19,7 @@ public:
     PrintVisitor();
 
 protected:
-    void ProcessNode(ISyntaxNode& node, int depth) override;
+    void ProcessNode(const ISyntaxNode& node, int depth) override;
 };
 
 class ToStringVisitor : public NodeVisitor {
@@ -28,7 +28,7 @@ public:
 
     std::vector<std::string> GetStringData() const;
 protected:
-    void ProcessNode(ISyntaxNode& node, int depth) override;
+    void ProcessNode(const ISyntaxNode& node, int depth) override;
 
 private:
     std::vector<std::string> myStringData;

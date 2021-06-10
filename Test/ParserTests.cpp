@@ -31,8 +31,11 @@ TEST_CASE("Parser arithmetic", "[Parser]") {
 }
 
 TEST_CASE("Parser basic syntax", "[Parser]") {
-    PARSER_TEST("BasicSyntax/emptyFun.kt")
-    PARSER_TEST("BasicSyntax/funParams1.kt")
-    PARSER_TEST("BasicSyntax/funParams2.kt")
-    PARSER_TEST("BasicSyntax/funDefaultParams.kt")
+    PARSER_TEST("BasicSyntax/EmptyFun.kt")
+    PARSER_TEST("BasicSyntax/FunParams1.kt")
+    PARSER_TEST("BasicSyntax/FunParams2.kt")
+    PARSER_TEST("BasicSyntax/FunDefaultParams.kt")
+    PARSER_TEST("BasicSyntax/MemberAccess1.kt")
+    PARSER_TEST("BasicSyntax/MemberAccess2.kt")
+    PARSER_TEST("BasicSyntax/PostfixOperators.kt")
 }

@@ -6,14 +6,14 @@
 
 NodeVisitor::~NodeVisitor() = default;
 
-void NodeVisitor::VisitNode(ISyntaxNode& node, int depth) {
+void NodeVisitor::VisitNode(const ISyntaxNode& node, int depth) {
     ProcessNode(node, depth);
     node.InternalAcceptVisitor(*this, depth + 1);
 }
 
 PrintVisitor::PrintVisitor() = default;
 
-void PrintVisitor::ProcessNode(ISyntaxNode& node, int depth) {
+void PrintVisitor::ProcessNode(const ISyntaxNode& node, int depth) {
     std::string indent;
     for (int d = 0; d < depth; d++) {
         indent += "| ";
@@ -28,7 +28,7 @@ std::vector<std::string> ToStringVisitor::GetStringData() const {
     return myStringData;
 }
 
-void ToStringVisitor::ProcessNode(ISyntaxNode& node, int depth) {
+void ToStringVisitor::ProcessNode(const ISyntaxNode& node, int depth) {
     std::string indent;
     for (int d = 0; d < depth; d++) {
         indent += "| ";

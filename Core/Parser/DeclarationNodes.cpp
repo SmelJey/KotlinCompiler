@@ -17,10 +17,10 @@ void DeclarationBlock::AddDeclaration(std::unique_ptr<IDeclaration> declaration)
 }
 
 std::string DeclarationBlock::GetName() const {
-    return "DeclBlock";
+    return "Decl Block";
 }
 
-void DeclarationBlock::AcceptVisitor(NodeVisitor& visitor, int depth) {
+void DeclarationBlock::AcceptVisitor(NodeVisitor& visitor, int depth) const {
     for (auto& declaration : myDeclarations) {
         visitor.VisitNode(*declaration, depth);
     }
@@ -36,7 +36,7 @@ std::string ClassDeclaration::GetName() const {
     return "Class Decl :: " + GetIdentifier();
 }
 
-void ClassDeclaration::AcceptVisitor(NodeVisitor& visitor, int depth) {
+void ClassDeclaration::AcceptVisitor(NodeVisitor& visitor, int depth) const {
     visitor.VisitNode(*myClassBody, depth);
 }
 
@@ -66,7 +66,7 @@ std::string Parameter::GetName() const {
     return "Param :: " + myLexeme.GetValue<std::string>();
 }
 
-void Parameter::AcceptVisitor(NodeVisitor& visitor, int depth) {
+void Parameter::AcceptVisitor(NodeVisitor& visitor, int depth) const {
     visitor.VisitNode(*myTypeNode, depth);
     if (HasDefaultNode()) {
         visitor.VisitNode(*myDefaultNode, depth);
@@ -85,7 +85,7 @@ std::string ParameterList::GetName() const {
     return "Params";
 }
 
-void ParameterList::AcceptVisitor(NodeVisitor& visitor, int depth) {
+void ParameterList::AcceptVisitor(NodeVisitor& visitor, int depth) const {
     for (auto& param : myParameters) {
         visitor.VisitNode(*param, depth);
     }
@@ -126,7 +126,7 @@ std::string FunctionDeclaration::GetName() const {
     return "Fun Decl :: " + GetIdentifier();
 }
 
-void FunctionDeclaration::AcceptVisitor(NodeVisitor& visitor, int depth) {
+void FunctionDeclaration::AcceptVisitor(NodeVisitor& visitor, int depth) const {
     visitor.VisitNode(*myParams, depth);
     if (HasReturnNode()) {
         visitor.VisitNode(*myReturnNode, depth);
@@ -144,5 +144,11 @@ void BlockNode::AddStatement(std::unique_ptr<ISyntaxNode> statement) {
 }
 
 std::string BlockNode::GetName() const {
-    return "BlockNode";
+    return "Block";
+}
+
+void BlockNode::AcceptVisitor(NodeVisitor& visitor, int depth) const {
+    for (auto& statement : myStatements) {
+        visitor.VisitNode(*statement, depth);
+    }
 }

@@ -1,4 +1,4 @@
-@@ DeclBlock
+@@ Decl Block
 @@ | Fun Decl :: test
 @@ | | Params
 @@ | | Bin op :: &&

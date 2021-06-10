@@ -1,4 +1,4 @@
-@@ DeclBlock
+@@ Decl Block
 @@ | Fun Decl :: test
 @@ | | Params
 @@ | | Bin op :: ||
@@ -13,7 +13,7 @@
 @@ | | | | Bin op :: ===
 @@ | | | | | Identifier :: a
 @@ | | | | | Identifier :: g
-@@ | | | | Unary op :: !
+@@ | | | | Prefix Op :: !
 @@ | | | | | Bin op :: !=
 @@ | | | | | | Bin op :: +
 @@ | | | | | | | Integer :: 5

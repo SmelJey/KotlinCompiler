@@ -191,7 +191,7 @@ Pointer<ISyntaxNode> Parser::ParseExpression() {
 // LeftAssociative(n+1) | LeftAssociative(n+1) operator(n) LeftAssociative(n+1)
 Pointer<ISyntaxNode> Parser::ParseLeftAssociative(size_t priority) {
     if (priority == ParserUtils::OperationsPriority.size()) {
-        return ParseFactor();
+        return ParsePrefix();
     }
 
     Pointer<ISyntaxNode> leftOperand = ParseLeftAssociative(priority + 1);
@@ -210,27 +210,94 @@ Pointer<ISyntaxNode> Parser::ParseLeftAssociative(size_t priority) {
     return leftOperand;
 }
 
+// prefixUnaryOperator* postfixUnaryExpression
+Pointer<ISyntaxNode> Parser::ParsePrefix() {
+    const Lexeme curLexeme = myLexer.GetLexeme();
+    if (curLexeme.GetType() == Lexeme::LexemeType::OpSub || curLexeme.GetType() == Lexeme::LexemeType::OpAdd
+        || curLexeme.GetType() == Lexeme::LexemeType::OpInc || curLexeme.GetType() == Lexeme::LexemeType::OpDec
+        || curLexeme.GetType() == Lexeme::LexemeType::OpExclMark) {
+        myLexer.NextLexeme();
+        return std::make_unique<UnaryPrefixOperationNode>(curLexeme, ParsePrefix());
+    }
+
+    return ParsePostfix();
+}
+
+// primaryExpression postfixUnarySuffix*
+Pointer<ISyntaxNode> Parser::ParsePostfix() {
+    Pointer<ISyntaxNode> operand = ParsePrimary();
+    Lexeme curLexeme = myLexer.GetLexeme();
+
+    while (ParserUtils::PostfixOperations.count(curLexeme.GetType())) {
+        myLexer.NextLexeme();
+        if (curLexeme.GetType() == Lexeme::LexemeType::OpInc || curLexeme.GetType() == Lexeme::LexemeType::OpDec) {
+            operand = std::make_unique<UnaryPostfixOperationNode>(curLexeme, std::move(operand));
+        } else if (curLexeme.GetType() == Lexeme::LexemeType::OpDot) {
+            std::unique_ptr<MemberAccessNode> memberAccess = std::make_unique<MemberAccessNode>(std::move(operand));
+            memberAccess->SetMember(ReturnNode<IdentifierNode>(myLexer.NextLexeme(), Lexeme::LexemeType::Identifier));
+            operand = std::move(memberAccess);
+        } else if (curLexeme.GetType() == Lexeme::LexemeType::LParen) {
+            Pointer<CallSuffixNode> callNode = std::make_unique<CallSuffixNode>(std::move(operand));
+            std::vector<Pointer<ISyntaxNode>> args = ParseArguments(*callNode, Lexeme::LexemeType::RParen);
+            callNode->SetArguments(std::move(args));
+
+            Lexeme curLexeme = myLexer.GetLexeme();
+            if (curLexeme.GetType() != Lexeme::LexemeType::RParen) {
+                AddError(*callNode, curLexeme, "Expecting ')'");
+            } else {
+                myLexer.NextLexeme();
+            }
+
+            operand = std::move(callNode);
+        } else if (curLexeme.GetType() == Lexeme::LexemeType::LSquare) {
+            Pointer<IndexSuffixNode> indexNode = std::make_unique<IndexSuffixNode>(std::move(operand));
+            std::vector<Pointer<ISyntaxNode>> args = ParseArguments(*indexNode, Lexeme::LexemeType::RSquare);
+
+            if (args.empty()) {
+                AddError(*indexNode, curLexeme, "Expecting an index");
+            }
+            indexNode->SetArguments(std::move(args));
+
+            Lexeme curLexeme = myLexer.GetLexeme();
+            if (curLexeme.GetType() != Lexeme::LexemeType::RSquare) {
+                AddError(*indexNode, curLexeme, "Expecting ']'");
+            } else {
+                myLexer.NextLexeme();
+            }
+
+            operand = std::move(indexNode);
+        }
+
+        curLexeme = myLexer.GetLexeme();
+    }
+
+    return operand;
+}
+
+std::vector<Pointer<ISyntaxNode>> Parser::ParseArguments(ISyntaxNode& host, Lexeme::LexemeType rParen) {
+    std::vector<Pointer<ISyntaxNode>> params;
+    bool isLastArg = false;
+    while (myLexer.GetLexeme().GetType() != rParen && myLexer.GetLexeme().GetType() != Lexeme::LexemeType::EndOfFile) {
+        if (isLastArg) {
+            AddError(host, myLexer.GetLexeme(), "Expecting ','");
+        }
+
+        params.push_back(ParseExpression());
+
+        isLastArg = true;
+        if (myLexer.GetLexeme().GetType() == Lexeme::LexemeType::OpComma) {
+            myLexer.NextLexeme();
+            isLastArg = false;
+        }
+    }
+
+    return params;
+}
+
 // TODO: if expression
-// (Identifier | Number | String | UnaryOp Factor | (LeftAssociative(0))) (postfixUnarySuffix)*
-Pointer<ISyntaxNode> Parser::ParseFactor() {
+// Identifier | Number | String | '(' LeftAssociative(0) ')'
+Pointer<ISyntaxNode> Parser::ParsePrimary() {
     const Lexeme curLexeme = myLexer.NextLexeme();
-    if (curLexeme.GetType() == Lexeme::LexemeType::Identifier) {
-        return ReturnNode<IdentifierNode>(curLexeme);
-    }
-
-    if (LexerUtils::IsIntegerType(curLexeme.GetType())) {
-        return ReturnNode<IntegerNode>(curLexeme);
-    }
-    if (LexerUtils::IsRealType(curLexeme.GetType())) {
-        return ReturnNode<RealNode>(curLexeme);
-    }
-    if (curLexeme.GetType() == Lexeme::LexemeType::String || curLexeme.GetType() == Lexeme::LexemeType::RawString) {
-        return ReturnNode<StringNode>(curLexeme);
-    }
-    if (curLexeme.GetType() == Lexeme::LexemeType::Keyword && (curLexeme.GetValue<std::string>() == "true" || curLexeme.GetValue<std::string>() == "false")) {
-        return ReturnNode<BooleanNode>(curLexeme);
-    }
-
     if (curLexeme.GetType() == Lexeme::LexemeType::LParen) {
         Pointer<ISyntaxNode> expr = ParseExpression();
         const Lexeme rParen = myLexer.GetLexeme();
@@ -242,12 +309,20 @@ Pointer<ISyntaxNode> Parser::ParseFactor() {
         myLexer.NextLexeme();
         return expr;
     }
-
-    if (curLexeme.GetType() == Lexeme::LexemeType::OpSub || curLexeme.GetType() == Lexeme::LexemeType::OpAdd
-        || curLexeme.GetType() == Lexeme::LexemeType::OpInc || curLexeme.GetType() == Lexeme::LexemeType::OpDec
-        || curLexeme.GetType() == Lexeme::LexemeType::OpExclMark) {
-        Pointer<ISyntaxNode> operand = ParseFactor();
-        return std::make_unique<UnaryOperationNode>(curLexeme, std::move(operand));
+    if (curLexeme.GetType() == Lexeme::LexemeType::Identifier) {
+        return ReturnNode<IdentifierNode>(curLexeme);
+    }
+    if (LexerUtils::IsIntegerType(curLexeme.GetType())) {
+        return ReturnNode<IntegerNode>(curLexeme);
+    }
+    if (LexerUtils::IsRealType(curLexeme.GetType())) {
+        return ReturnNode<RealNode>(curLexeme);
+    }
+    if (curLexeme.GetType() == Lexeme::LexemeType::String || curLexeme.GetType() == Lexeme::LexemeType::RawString) {
+        return ReturnNode<StringNode>(curLexeme);
+    }
+    if (curLexeme.GetType() == Lexeme::LexemeType::Keyword && (curLexeme.GetValue<std::string>() == "true" || curLexeme.GetValue<std::string>() == "false")) {
+        return ReturnNode<BooleanNode>(curLexeme);
     }
 
     return std::make_unique<ErrorNode>(ErrorNode(curLexeme));

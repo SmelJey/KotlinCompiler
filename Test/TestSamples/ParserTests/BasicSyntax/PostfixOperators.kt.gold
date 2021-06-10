@@ -1,0 +1,14 @@
+@@ Decl Block
+@@ | Fun Decl :: main
+@@ | | Params
+@@ | | Block
+@@ | | | MemberAccess
+@@ | | | | CallSuffix
+@@ | | | | | IndexSuffix
+@@ | | | | | | CallSuffix
+@@ | | | | | | | MemberAccess
+@@ | | | | | | | | CallSuffix
+@@ | | | | | | | | | Identifier :: a
+@@ | | | | | | | | Identifier :: b
+@@ | | | | | | Integer :: 5
+@@ | | | | Identifier :: c

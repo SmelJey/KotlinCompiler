@@ -7,4 +7,6 @@
 class ParserUtils {
 public:
     static const std::vector<std::unordered_set<Lexeme::LexemeType>> OperationsPriority;
+
+    static const std::unordered_set<Lexeme::LexemeType> PostfixOperations;
 };

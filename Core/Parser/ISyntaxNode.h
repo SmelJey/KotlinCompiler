@@ -19,14 +19,14 @@ public:
 
     friend std::ostream& operator<<(std::ostream& os, const ISyntaxNode& node);
 
-    void RunVisitor(NodeVisitor& visitor);
+    void RunVisitor(NodeVisitor& visitor) const;
 
     void AddError(std::unique_ptr<ISyntaxNode>&& errorNode);
 
 protected:
-    void InternalAcceptVisitor(NodeVisitor& visitor, int depth);
+    void InternalAcceptVisitor(NodeVisitor& visitor, int depth) const;
 
-    virtual void AcceptVisitor(NodeVisitor& visitor, int depth);
+    virtual void AcceptVisitor(NodeVisitor& visitor, int depth) const;
 
     virtual std::string GetName() const = 0;
 

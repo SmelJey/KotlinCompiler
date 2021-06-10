@@ -1,4 +1,4 @@
-@@ DeclBlock
+@@ Decl Block
 @@ | Fun Decl :: test
 @@ | | Params
 @@ | | Bin op :: +
@@ -6,11 +6,11 @@
 @@ | | | | Bin op :: +
 @@ | | | | | Integer :: 3
 @@ | | | | | Bin op :: *
-@@ | | | | | | Unary op :: -
+@@ | | | | | | Prefix Op :: -
 @@ | | | | | | | Integer :: 2
-@@ | | | | | | Unary op :: -
+@@ | | | | | | Prefix Op :: -
 @@ | | | | | | | Integer :: 3
-@@ | | | | Unary op :: -
+@@ | | | | Prefix Op :: -
 @@ | | | | | Integer :: 4
-@@ | | | Unary op :: +
+@@ | | | Prefix Op :: +
 @@ | | | | Integer :: 2

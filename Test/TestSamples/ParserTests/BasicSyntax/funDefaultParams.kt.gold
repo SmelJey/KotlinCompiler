@@ -1,4 +1,4 @@
-@@ DeclBlock
+@@ Decl Block
 @@ | Fun Decl :: test
 @@ | | Params
 @@ | | | Param :: a
@@ -7,4 +7,4 @@
 @@ | | | Param :: b
 @@ | | | | Type :: Int
 @@ | | | | Integer :: 3
-@@ | | BlockNode
+@@ | | Block

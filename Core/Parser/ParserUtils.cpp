@@ -12,3 +12,7 @@ const std::vector<std::unordered_set<Lexeme::LexemeType>> ParserUtils::Operation
     { Lexeme::LexemeType::OpAdd, Lexeme::LexemeType::OpSub },
     { Lexeme::LexemeType::OpMult, Lexeme::LexemeType::OpDiv },
 };
+
+const std::unordered_set<Lexeme::LexemeType> ParserUtils::PostfixOperations {
+    Lexeme::LexemeType::OpDec, Lexeme::LexemeType::OpInc, Lexeme::LexemeType::OpDot, Lexeme::LexemeType::LParen, Lexeme::LexemeType::LSquare
+};

@@ -9,7 +9,7 @@ std::string ISyntaxNode::ToString() const {
     return GetName();
 }
 
-void ISyntaxNode::RunVisitor(NodeVisitor& visitor) {
+void ISyntaxNode::RunVisitor(NodeVisitor& visitor) const {
     visitor.VisitNode(*this, 0);
 }
 
@@ -17,7 +17,7 @@ void ISyntaxNode::AddError(std::unique_ptr<ISyntaxNode>&& errorNode) {
     myErrors.push_back(std::move(errorNode));
 }
 
-void ISyntaxNode::InternalAcceptVisitor(NodeVisitor& visitor, int depth) {
+void ISyntaxNode::InternalAcceptVisitor(NodeVisitor& visitor, int depth) const {
     AcceptVisitor(visitor, depth);
 
     for (auto& error : myErrors) {
@@ -25,7 +25,7 @@ void ISyntaxNode::InternalAcceptVisitor(NodeVisitor& visitor, int depth) {
     }
 }
 
-void ISyntaxNode::AcceptVisitor(NodeVisitor& visitor, int depth) {
+void ISyntaxNode::AcceptVisitor(NodeVisitor& visitor, int depth) const {
 }
 
 

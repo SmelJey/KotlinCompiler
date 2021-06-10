@@ -225,11 +225,7 @@ navigationSuffix (used by postfixUnarySuffix, assignableSuffix)
   ;
 
 callSuffix (used by postfixUnarySuffix)
-  : '(' (valueArgument (',' valueArgument)* ','?)? ')'
-  ;
-
-valueArgument (used by valueArguments)
-  : (simpleIdentifier '=')? expression
+  : '(' (expression (',' expression)* ','?)? ')'
   ;
 
 primaryExpression (used by postfixUnaryExpression)

@@ -1,6 +1,6 @@
-@@ DeclBlock
+@@ Decl Block
 @@ | Fun Decl :: test
 @@ | | Params
 @@ | | | Param :: a
 @@ | | | | Type :: Int
-@@ | | BlockNode
+@@ | | Block

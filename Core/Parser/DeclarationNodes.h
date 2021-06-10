@@ -19,7 +19,7 @@ public:
 
 protected:
     std::string GetName() const override;
-    void AcceptVisitor(NodeVisitor& visitor, int depth) override;
+    void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
 
 private:
     std::vector<std::unique_ptr<IDeclaration>> myDeclarations;
@@ -33,7 +33,7 @@ public:
 
 protected:
     std::string GetName() const override;
-    void AcceptVisitor(NodeVisitor& visitor, int depth) override;
+    void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
 
 private:
     std::unique_ptr<DeclarationBlock> myClassBody;
@@ -53,7 +53,7 @@ public:
 
 protected:
     std::string GetName() const override;
-    void AcceptVisitor(NodeVisitor& visitor, int depth) override;
+    void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
 
 private:
     std::unique_ptr<TypeNode> myTypeNode;
@@ -69,7 +69,7 @@ public:
 
 protected:
     std::string GetName() const override;
-    void AcceptVisitor(NodeVisitor& visitor, int depth) override;
+    void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
 
 private:
     std::vector<std::unique_ptr<Parameter>> myParameters;
@@ -92,7 +92,7 @@ public:
 protected:
     std::string GetName() const override;
 
-    void AcceptVisitor(NodeVisitor& visitor, int depth) override;
+    void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
 
 private:
     std::unique_ptr<ParameterList> myParams;
@@ -106,8 +106,11 @@ public:
 
     const std::vector<std::unique_ptr<ISyntaxNode>>& GetStatements() const;
     void AddStatement(std::unique_ptr<ISyntaxNode> statement);
+
 protected:
     std::string GetName() const override;
+    void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
+
 private:
     // TODO: create statement node
     std::vector<std::unique_ptr<ISyntaxNode>> myStatements;

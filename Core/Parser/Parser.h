@@ -31,7 +31,11 @@ private:
     Pointer<ISyntaxNode> ParseExpression();
     Pointer<ISyntaxNode> ParseLeftAssociative(size_t priority);
 
-    Pointer<ISyntaxNode> ParseFactor();
+    Pointer<ISyntaxNode> ParsePrefix();
+    Pointer<ISyntaxNode> ParsePostfix();
+    std::vector<Pointer<ISyntaxNode>> ParseArguments(ISyntaxNode& host, Lexeme::LexemeType rParen);
+
+    Pointer<ISyntaxNode> ParsePrimary();
 
     void AddError(ISyntaxNode& root, const Lexeme& location, const std::string& error) const;
 

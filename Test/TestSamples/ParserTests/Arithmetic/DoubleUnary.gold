@@ -1,6 +1,6 @@
-@@ DeclBlock
+@@ Decl Block
 @@ | Fun Decl :: test
 @@ | | Params
-@@ | | Unary op :: -
-@@ | | | Unary op :: -
+@@ | | Prefix Op :: -
+@@ | | | Prefix Op :: -
 @@ | | | | Integer :: 2
