@@ -1,0 +1,8 @@
+@@ Decl Block
+@@ | Fun Decl :: main
+@@ | | Params
+@@ | | Block
+@@ | | | While
+@@ | | | | Boolean :: true
+@@ | | | | Error 2:0 :: Unexpected lexeme
+@@ | | | Error 2:1 :: Expecting '}'

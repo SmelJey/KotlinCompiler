@@ -1,0 +1,15 @@
+@@ Decl Block
+@@ | Fun Decl :: main
+@@ | | Params
+@@ | | Block
+@@ | | | While
+@@ | | | | Boolean :: true
+@@ | | | | While
+@@ | | | | | Bin op :: >
+@@ | | | | | | Bin op :: +
+@@ | | | | | | | Integer :: 5
+@@ | | | | | | | Integer :: 2
+@@ | | | | | | Integer :: 8
+@@ | | | | | CallSuffix
+@@ | | | | | | Identifier :: println
+@@ | | | | | | String :: 7 > 8

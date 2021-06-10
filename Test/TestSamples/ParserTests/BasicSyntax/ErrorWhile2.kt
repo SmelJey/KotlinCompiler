@@ -1,0 +1,4 @@
+fun main() {
+	while true) {
+	}
+}

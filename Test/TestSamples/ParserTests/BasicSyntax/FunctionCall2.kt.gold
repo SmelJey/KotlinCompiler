@@ -1,0 +1,7 @@
+@@ Decl Block
+@@ | Fun Decl :: main
+@@ | | Params
+@@ | | Block
+@@ | | | CallSuffix
+@@ | | | | Identifier :: println
+@@ | | | | String :: Hello world!

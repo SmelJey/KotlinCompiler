@@ -38,6 +38,13 @@ TEST_CASE("Parser basic syntax", "[Parser]") {
 
     PARSER_TEST("BasicSyntax/MemberAccess1.kt")
     PARSER_TEST("BasicSyntax/MemberAccess2.kt")
+    PARSER_TEST("BasicSyntax/FunctionCall1.kt")
+    PARSER_TEST("BasicSyntax/FunctionCall2.kt")
+    PARSER_TEST("BasicSyntax/FunctionCall3.kt")
+    PARSER_TEST("BasicSyntax/FunctionCall4.kt")
+    PARSER_TEST("BasicSyntax/IndexOperator1.kt")
+    PARSER_TEST("BasicSyntax/IndexOperator2.kt")
+    PARSER_TEST("BasicSyntax/IndexOperator3.kt")
     PARSER_TEST("BasicSyntax/PostfixOperators.kt")
 
     PARSER_TEST("BasicSyntax/ErrorNoFunName.kt")
@@ -52,4 +59,35 @@ TEST_CASE("Parser basic syntax", "[Parser]") {
     PARSER_TEST("BasicSyntax/PropDecl2.kt")
     PARSER_TEST("BasicSyntax/PropDecl3.kt")
     PARSER_TEST("BasicSyntax/PropFunDecl.kt")
+
+    PARSER_TEST("BasicSyntax/ForLoop1.kt")
+    PARSER_TEST("BasicSyntax/ForLoop2.kt")
+
+    PARSER_TEST("BasicSyntax/ErrorFor1.kt")
+    PARSER_TEST("BasicSyntax/ErrorFor2.kt")
+    PARSER_TEST("BasicSyntax/ErrorFor3.kt")
+    PARSER_TEST("BasicSyntax/ErrorFor4.kt")
+    PARSER_TEST("BasicSyntax/ErrorFor5.kt")
+    PARSER_TEST("BasicSyntax/ErrorFor6.kt")
+
+    PARSER_TEST("BasicSyntax/WhileLoop1.kt")
+    PARSER_TEST("BasicSyntax/WhileLoop2.kt")
+    PARSER_TEST("BasicSyntax/WhileLoop3.kt")
+
+    PARSER_TEST("BasicSyntax/ErrorWhile1.kt")
+    PARSER_TEST("BasicSyntax/ErrorWhile2.kt")
+    PARSER_TEST("BasicSyntax/ErrorWhile3.kt")
+    PARSER_TEST("BasicSyntax/ErrorWhile4.kt")
+
+    PARSER_TEST("BasicSyntax/DoWhile1.kt")
+    PARSER_TEST("BasicSyntax/DoWhile2.kt")
+    PARSER_TEST("BasicSyntax/DoWhile3.kt")
+
+    PARSER_TEST("BasicSyntax/ErrorDoWhile1.kt")
+    PARSER_TEST("BasicSyntax/ErrorDoWhile2.kt")
+    PARSER_TEST("BasicSyntax/ErrorDoWhile3.kt")
+    PARSER_TEST("BasicSyntax/ErrorDoWhile4.kt")
+    PARSER_TEST("BasicSyntax/ErrorDoWhile5.kt")
+    PARSER_TEST("BasicSyntax/ErrorDoWhile6.kt")
+
 }

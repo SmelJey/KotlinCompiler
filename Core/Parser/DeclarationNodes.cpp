@@ -40,44 +40,44 @@ void ClassDeclaration::AcceptVisitor(NodeVisitor& visitor, int depth) const {
     visitor.VisitNode(*myClassBody, depth);
 }
 
-Parameter::Parameter(const Lexeme& parameterLexeme) : ILexemeNode(parameterLexeme) {}
+Variable::Variable(const Lexeme& parameterLexeme) : ILexemeNode(parameterLexeme) {}
 
-const ISyntaxNode& Parameter::GetTypeNode() const {
+const ISyntaxNode& Variable::GetTypeNode() const {
     return *myTypeNode;
 }
 
-void Parameter::SetTypeNode(std::unique_ptr<ISyntaxNode> typeNode) {
+void Variable::SetTypeNode(std::unique_ptr<ISyntaxNode> typeNode) {
     myTypeNode = std::move(typeNode);
 }
 
-const ISyntaxNode& Parameter::GetDefaultNode() const {
+const ISyntaxNode& Variable::GetDefaultNode() const {
     return *myDefaultNode;
 }
 
-void Parameter::SetDefaultNode(std::unique_ptr<ISyntaxNode> defaultNode) {
+void Variable::SetDefaultNode(std::unique_ptr<ISyntaxNode> defaultNode) {
     myDefaultNode = std::move(defaultNode);
 }
 
-bool Parameter::HasDefaultNode() const {
+bool Variable::HasDefaultNode() const {
     return myDefaultNode != nullptr;
 }
 
-std::string Parameter::GetName() const {
+std::string Variable::GetName() const {
     return "Param :: " + myLexeme.GetValue<std::string>();
 }
 
-void Parameter::AcceptVisitor(NodeVisitor& visitor, int depth) const {
+void Variable::AcceptVisitor(NodeVisitor& visitor, int depth) const {
     visitor.VisitNode(*myTypeNode, depth);
     if (HasDefaultNode()) {
         visitor.VisitNode(*myDefaultNode, depth);
     }
 }
 
-const std::vector<std::unique_ptr<Parameter>>& ParameterList::GetParameters() const {
+const std::vector<std::unique_ptr<Variable>>& ParameterList::GetParameters() const {
     return myParameters;
 }
 
-void ParameterList::AddParameter(std::unique_ptr<Parameter> param) {
+void ParameterList::AddParameter(std::unique_ptr<Variable> param) {
     myParameters.push_back(std::move(param));
 }
 

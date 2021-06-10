@@ -1,0 +1,10 @@
+@@ Decl Block
+@@ | Fun Decl :: main
+@@ | | Params
+@@ | | Block
+@@ | | | For
+@@ | | | | Error 1:7 :: Expecting a variable name
+@@ | | | | Bin op :: ..
+@@ | | | | | Integer :: 1
+@@ | | | | | Integer :: 5
+@@ | | | | Block

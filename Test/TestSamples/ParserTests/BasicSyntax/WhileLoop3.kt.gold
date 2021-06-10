@@ -1,0 +1,7 @@
+@@ Decl Block
+@@ | Fun Decl :: main
+@@ | | Params
+@@ | | Block
+@@ | | | While
+@@ | | | | Boolean :: true
+@@ | | | | Empty Statement

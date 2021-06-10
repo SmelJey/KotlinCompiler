@@ -1,0 +1,13 @@
+@@ Decl Block
+@@ | Fun Decl :: main
+@@ | | Params
+@@ | | Block
+@@ | | | DoWhile
+@@ | | | | Error 3:1 :: Unexpected lexeme
+@@ | | | | While
+@@ | | | | | Boolean :: false
+@@ | | | | | Error 3:0 :: Unexpected lexeme
+@@ | | | | Error 3:1 :: Expecting 'while' followed by a post-condition
+@@ | | | | Error 3:1 :: Expecting '('
+@@ | | | | Error 3:1 :: Expecting ')'
+@@ | | | Error 3:1 :: Expecting '}'

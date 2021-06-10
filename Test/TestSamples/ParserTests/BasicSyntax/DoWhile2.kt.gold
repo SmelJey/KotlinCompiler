@@ -1,0 +1,9 @@
+@@ Decl Block
+@@ | Fun Decl :: main
+@@ | | Params
+@@ | | Block
+@@ | | | DoWhile
+@@ | | | | Boolean :: false
+@@ | | | | CallSuffix
+@@ | | | | | Identifier :: println
+@@ | | | | | String :: Hello

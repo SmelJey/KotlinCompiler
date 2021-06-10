@@ -1,0 +1,7 @@
+@@ Decl Block
+@@ | Fun Decl :: main
+@@ | | Params
+@@ | | Block
+@@ | | | IndexSuffix
+@@ | | | | Identifier :: a
+@@ | | | | Integer :: 1

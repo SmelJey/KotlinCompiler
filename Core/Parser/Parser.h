@@ -4,6 +4,7 @@
 #include "ExpressionNodes.h"
 #include "ISyntaxNode.h"
 #include "SimpleNodes.h"
+#include "StatementNodes.h"
 #include "../Lexer/Lexer.h"
 
 template<typename T>
@@ -21,11 +22,15 @@ private:
 
     Pointer<IDeclaration> ParseFunction();
     Pointer<ParameterList> ParseParameters();
-    Pointer<Parameter> ParseParameter();
-
+    Pointer<Variable> ParseParameter();
     Pointer<ISyntaxNode> ParseType();
 
+    Pointer<ISyntaxNode> ParseStatement();
+
     Pointer<BlockNode> ParseBlock();
+    Pointer<ForNode> ParseForLoop();
+    Pointer<WhileNode> ParseWhileLoop();
+    Pointer<DoWhileNode> ParseDoWhileLoop();
 
     Pointer<IDeclaration> ParseProperty();
 

@@ -1,0 +1,10 @@
+@@ Decl Block
+@@ | Fun Decl :: main
+@@ | | Params
+@@ | | Block
+@@ | | | For
+@@ | | | | Identifier :: c
+@@ | | | | Bin op :: ..
+@@ | | | | | Integer :: 1
+@@ | | | | | Integer :: 5
+@@ | | | | Block

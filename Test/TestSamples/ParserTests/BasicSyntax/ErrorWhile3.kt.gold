@@ -1,0 +1,8 @@
+@@ Decl Block
+@@ | Fun Decl :: main
+@@ | | Params
+@@ | | Block
+@@ | | | While
+@@ | | | | Error 1:8 :: Unexpected lexeme
+@@ | | | | Block
+@@ | | | | Error 1:10 :: Expecting ')'

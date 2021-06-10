@@ -39,16 +39,15 @@ private:
     std::unique_ptr<DeclarationBlock> myClassBody;
 };
 
-class Parameter : public ILexemeNode {
+class Variable : public ILexemeNode {
 public:
-    explicit Parameter(const Lexeme& parameterLexeme);
+    explicit Variable(const Lexeme& parameterLexeme);
 
     const ISyntaxNode& GetTypeNode() const;
     void SetTypeNode(std::unique_ptr<ISyntaxNode> typeNode);
 
     const ISyntaxNode& GetDefaultNode() const;
     void SetDefaultNode(std::unique_ptr<ISyntaxNode> defaultNode);
-
     bool HasDefaultNode() const;
 
 protected:
@@ -64,15 +63,15 @@ class ParameterList : public ISyntaxNode {
 public:
     ParameterList() = default;
 
-    const std::vector<std::unique_ptr<Parameter>>& GetParameters() const;
-    void AddParameter(std::unique_ptr<Parameter> param);
+    const std::vector<std::unique_ptr<Variable>>& GetParameters() const;
+    void AddParameter(std::unique_ptr<Variable> param);
 
 protected:
     std::string GetName() const override;
     void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
 
 private:
-    std::vector<std::unique_ptr<Parameter>> myParameters;
+    std::vector<std::unique_ptr<Variable>> myParameters;
 };
 
 class FunctionDeclaration : public IDeclaration {

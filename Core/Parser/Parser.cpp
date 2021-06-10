@@ -3,6 +3,7 @@
 #include "ExpressionNodes.h"
 #include "ParserUtils.h"
 #include "SimpleNodes.h"
+#include "StatementNodes.h"
 
 Parser::Parser(Lexer& lexer) : myLexer(lexer) {
     myLexer.NextLexeme();
@@ -110,14 +111,14 @@ Pointer<ParameterList> Parser::ParseParameters() {
 }
 
 //  simpleIdentifier ':' type ('=' expression)? 
-Pointer<Parameter> Parser::ParseParameter() {
+Pointer<Variable> Parser::ParseParameter() {
     Lexeme curLexeme = myLexer.GetLexeme();
-    Pointer<Parameter> param;
+    Pointer<Variable> param;
     if (curLexeme.GetType() != Lexeme::LexemeType::Identifier) {
-        param = std::make_unique<Parameter>(Lexeme(curLexeme.GetColumn(), curLexeme.GetRow(), "", Lexeme::LexemeType::Identifier, ""));
+        param = std::make_unique<Variable>(Lexeme(curLexeme.GetColumn(), curLexeme.GetRow(), "", Lexeme::LexemeType::Identifier, ""));
         AddError(*param, curLexeme, "Parameter name expected");
     } else {
-        param = std::make_unique<Parameter>(curLexeme);
+        param = std::make_unique<Variable>(curLexeme);
         myLexer.NextLexeme();
     }
 
@@ -161,6 +162,36 @@ Pointer<ISyntaxNode> Parser::ParseType() {
     return std::make_unique<TypeNode>(curLexeme);
 }
 
+Pointer<ISyntaxNode> Parser::ParseStatement() {
+    Lexeme curLexeme = myLexer.GetLexeme();
+
+    if (curLexeme.GetType() == Lexeme::LexemeType::Keyword) {
+        std::string keyword = curLexeme.GetValue<std::string>();
+        if (keyword == "val" || keyword == "var") {
+            return ParseProperty();
+        }
+        if (keyword == "fun") {
+            return ParseFunction();
+        }
+        if (keyword == "class") {
+            return ParseClass();
+        }
+        
+        if (keyword == "for") {
+            return ParseForLoop();
+        } 
+        if (keyword == "while") {
+            return ParseWhileLoop();
+        } 
+        if (keyword == "do") {
+            return ParseDoWhileLoop();
+        }
+        return std::make_unique<ErrorNode>(myLexer.NextLexeme(), "Unsupported keyword");
+    }
+
+    return ParseExpression();
+}
+
 Pointer<BlockNode> Parser::ParseBlock() {
     Pointer<BlockNode> blockNode = std::make_unique<BlockNode>();
     if (myLexer.GetLexeme().GetType() != Lexeme::LexemeType::LCurl) {
@@ -170,26 +201,7 @@ Pointer<BlockNode> Parser::ParseBlock() {
     }
 
     while (myLexer.GetLexeme().GetType() != Lexeme::LexemeType::EndOfFile && myLexer.GetLexeme().GetType() != Lexeme::LexemeType::RCurl) {
-        Lexeme curLexeme = myLexer.GetLexeme();
-        std::unique_ptr<ISyntaxNode> statement;
-
-        if (curLexeme.GetType() == Lexeme::LexemeType::Keyword) {
-            std::string keyword = curLexeme.GetValue<std::string>();
-            if (keyword == "val" || keyword == "var") {
-                statement = ParseProperty();
-            } else if (keyword == "fun") {
-                statement = ParseFunction();
-            } else if (keyword == "class") {
-                statement = ParseClass();
-            } else {
-                AddError(*blockNode, myLexer.NextLexeme(), "Unsupported keyword");
-                continue;
-            }
-        } else {
-            statement = ParseExpression();
-        }
-
-        blockNode->AddStatement(std::move(statement));
+        blockNode->AddStatement(ParseStatement());
     }
 
     if (myLexer.GetLexeme().GetType() != Lexeme::LexemeType::RCurl) {
@@ -199,6 +211,120 @@ Pointer<BlockNode> Parser::ParseBlock() {
     }
 
     return blockNode;
+}
+
+// 'for' '(' (variableDeclaration | multiVariableDeclaration) 'in' expression ')' controlStructureBody?
+Pointer<ForNode> Parser::ParseForLoop() {
+    Pointer<ForNode> forLoop = std::make_unique<ForNode>(myLexer.NextLexeme());
+
+    if (myLexer.GetLexeme().GetType() != Lexeme::LexemeType::LParen) {
+        AddError(*forLoop, myLexer.GetLexeme(), "Expecting '(' to open a loop range");
+    } else {
+        myLexer.NextLexeme();
+    }
+
+    Lexeme curLexeme = myLexer.GetLexeme();
+    if (curLexeme.GetType() != Lexeme::LexemeType::Identifier) {
+        forLoop->SetVariable(std::make_unique<ErrorNode>(
+            Lexeme(curLexeme.GetColumn(), curLexeme.GetRow(), "", Lexeme::LexemeType::Identifier, ""), "Expecting a variable name"));
+    } else {
+        myLexer.NextLexeme();
+        forLoop->SetVariable(std::make_unique<IdentifierNode>(curLexeme));
+    }
+
+    if (myLexer.GetLexeme().GetType() == Lexeme::LexemeType::OpColon) {
+        forLoop->SetType(ParseType());
+    }
+
+    if (myLexer.GetLexeme().GetType() != Lexeme::LexemeType::OpIn) {
+        AddError(*forLoop, curLexeme, "Expecting 'in'");
+    } else {
+        myLexer.NextLexeme();
+    }
+
+    forLoop->SetExpression(ParseExpression());
+
+    if (myLexer.GetLexeme().GetType() != Lexeme::LexemeType::RParen) {
+        AddError(*forLoop, myLexer.GetLexeme(), "Expecting ')'");
+    } else {
+        myLexer.NextLexeme();
+    }
+
+    // TODO: refactor
+    if (myLexer.GetLexeme().GetType() == Lexeme::LexemeType::LCurl) {
+        forLoop->SetBody(ParseBlock());
+    } else {
+        forLoop->SetBody(ParseStatement());
+    }
+
+    return forLoop;
+}
+
+// 'while' '(' expression ')' (controlStructureBody | ';')
+Pointer<WhileNode> Parser::ParseWhileLoop() {
+    Pointer<WhileNode> whileLoop = std::make_unique<WhileNode>(myLexer.NextLexeme());
+
+    if (myLexer.GetLexeme().GetType() != Lexeme::LexemeType::LParen) {
+        AddError(*whileLoop, myLexer.GetLexeme(), "Expecting '('");
+    } else {
+        myLexer.NextLexeme();
+    }
+
+    whileLoop->SetExpression(ParseExpression());
+
+    if (myLexer.GetLexeme().GetType() != Lexeme::LexemeType::RParen) {
+        AddError(*whileLoop, myLexer.GetLexeme(), "Expecting ')'");
+    } else {
+        myLexer.NextLexeme();
+    }
+
+    // TODO: Refactor
+    if (myLexer.GetLexeme().GetType() == Lexeme::LexemeType::LCurl) {
+        whileLoop->SetBody(ParseBlock());
+
+    } else if (myLexer.GetLexeme().GetType() == Lexeme::LexemeType::OpSemicolon) {
+        whileLoop->SetBody(std::make_unique<EmptyStatement>());
+        myLexer.NextLexeme();
+
+    } else {
+        whileLoop->SetBody(ParseStatement());
+    }
+
+    return whileLoop;
+}
+
+// 'do' controlStructureBody 'while' '(' expression ')'
+Pointer<DoWhileNode> Parser::ParseDoWhileLoop() {
+    Pointer<DoWhileNode> doWhileLoop = std::make_unique<DoWhileNode>(myLexer.NextLexeme());
+
+    if (myLexer.GetLexeme().GetType() == Lexeme::LexemeType::LCurl) {
+        doWhileLoop->SetBody(ParseBlock());
+    } else {
+        doWhileLoop->SetBody(ParseStatement());
+    }
+
+    Lexeme curLexeme = myLexer.GetLexeme();
+    if (curLexeme.GetType() != Lexeme::LexemeType::Keyword || curLexeme.GetValue<std::string>() != "while") {
+        AddError(*doWhileLoop, curLexeme, "Expecting 'while' followed by a post-condition");
+    } else {
+        myLexer.NextLexeme();
+    }
+
+    if (myLexer.GetLexeme().GetType() != Lexeme::LexemeType::LParen) {
+        AddError(*doWhileLoop, myLexer.GetLexeme(), "Expecting '('");
+    } else {
+        myLexer.NextLexeme();
+    }
+
+    doWhileLoop->SetExpression(ParseExpression());
+
+    if (myLexer.GetLexeme().GetType() != Lexeme::LexemeType::RParen) {
+        AddError(*doWhileLoop, myLexer.GetLexeme(), "Expecting ')'");
+    } else {
+        myLexer.NextLexeme();
+    }
+
+    return doWhileLoop;
 }
 
 // ('val' | 'var') variableDeclaration ('=' expression)? ';'?
