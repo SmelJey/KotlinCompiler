@@ -18,6 +18,7 @@ public:
 
     Pointer<DeclarationBlock> Parse();
 private:
+    Pointer<DeclarationBlock> ParseDeclarations(bool isClass);
     Pointer<IDeclaration> ParseClass();
 
     Pointer<IDeclaration> ParseFunction();

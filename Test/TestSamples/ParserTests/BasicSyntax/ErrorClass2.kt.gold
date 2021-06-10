@@ -1,0 +1,4 @@
+@@ Decl Block
+@@ | Class Decl :: A
+@@ | | Decl Block
+@@ | | Error 0:9 :: Expecting '}'

@@ -1,0 +1,5 @@
+@@ Decl Block
+@@ | Class Decl :: A
+@@ | Fun Decl :: main
+@@ | | Params
+@@ | | Block

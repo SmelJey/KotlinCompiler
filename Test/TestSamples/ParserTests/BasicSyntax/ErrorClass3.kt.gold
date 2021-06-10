@@ -1,0 +1,6 @@
+@@ Decl Block
+@@ | Class Decl :: 
+@@ | | Error 0:6 :: Class declaration must have a name
+@@ | Fun Decl :: test
+@@ | | Params
+@@ | | Block

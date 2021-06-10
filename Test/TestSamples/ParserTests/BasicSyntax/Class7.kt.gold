@@ -1,0 +1,12 @@
+@@ Decl Block
+@@ | Fun Decl :: main
+@@ | | Params
+@@ | | Block
+@@ | | | Class Decl :: A
+@@ | | | | Decl Block
+@@ | | | | | Val Decl :: a
+@@ | | | | | | Type :: Int
+@@ | | | | | | Integer :: 1
+@@ | | | Val Decl :: a
+@@ | | | | CallSuffix
+@@ | | | | | Identifier :: A

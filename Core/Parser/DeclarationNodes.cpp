@@ -26,7 +26,19 @@ void DeclarationBlock::AcceptVisitor(NodeVisitor& visitor, int depth) const {
     }
 }
 
-ClassDeclaration::ClassDeclaration(const Lexeme& lexeme, std::unique_ptr<DeclarationBlock> body) : IDeclaration(lexeme), myClassBody(std::move(body)) {}
+ClassDeclaration::ClassDeclaration(const Lexeme& lexeme) : IDeclaration(lexeme) {}
+
+const DeclarationBlock* ClassDeclaration::GetBody() const {
+    return myClassBody.get();
+}
+
+void ClassDeclaration::SetBody(std::unique_ptr<DeclarationBlock> body) {
+    myClassBody = std::move(body);
+}
+
+bool ClassDeclaration::HasBody() const {
+    return myClassBody != nullptr;
+}
 
 const DeclarationBlock& ClassDeclaration::GetClassBody() const {
     return *myClassBody;
@@ -37,7 +49,9 @@ std::string ClassDeclaration::GetName() const {
 }
 
 void ClassDeclaration::AcceptVisitor(NodeVisitor& visitor, int depth) const {
-    visitor.VisitNode(*myClassBody, depth);
+    if (HasBody()) {
+        visitor.VisitNode(*myClassBody, depth);
+    }
 }
 
 Variable::Variable(const Lexeme& parameterLexeme) : ILexemeNode(parameterLexeme) {}

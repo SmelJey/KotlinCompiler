@@ -1,0 +1,9 @@
+@@ Decl Block
+@@ | Class Decl :: A
+@@ | | Decl Block
+@@ | | | Val Decl :: a
+@@ | | | | Type :: Int
+@@ | | | | Integer :: 1
+@@ | Fun Decl :: main
+@@ | | Params
+@@ | | Block

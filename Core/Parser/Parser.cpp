@@ -13,20 +13,35 @@ Lexer& Parser::GetLexer() {
     return myLexer;
 }
 
-// (classDeclaration | functionDeclaration | propertyDeclaration semis?)*
+
 Pointer<DeclarationBlock> Parser::Parse() {
+    return ParseDeclarations(false);
+}
+
+// (classDeclaration | functionDeclaration | propertyDeclaration semis?)*
+Pointer<DeclarationBlock> Parser::ParseDeclarations(bool isClass) {
     Pointer<DeclarationBlock> declarations = std::make_unique<DeclarationBlock>();
-    int curRow = -1;
     Lexeme curLexeme = myLexer.GetLexeme();
-    while (curLexeme.GetType() != Lexeme::LexemeType::EndOfFile) {
+
+    while (curLexeme.GetType() != Lexeme::LexemeType::EndOfFile && !(curLexeme.GetType() == Lexeme::LexemeType::RCurl && isClass)) {
         if (curLexeme.GetType() != Lexeme::LexemeType::Keyword) {
-            AddError(*declarations, curLexeme, "Expecting a top level declaration");
+            if (isClass) {
+                AddError(*declarations, curLexeme, "Expecting member declaration");
+            } else {
+                AddError(*declarations, curLexeme, "Expecting a top level declaration");
+            }
+            
             myLexer.NextLexeme();
         } else {
             std::string keyword = curLexeme.GetValue<std::string>();
 
             if (keyword == "class") {
-                declarations->AddDeclaration(std::move(ParseClass()));
+                if (isClass) {
+                    myLexer.NextLexeme();
+                    AddError(*declarations, curLexeme, "Class is not allowed here");
+                } else {
+                    declarations->AddDeclaration(std::move(ParseClass()));
+                }
             } else if (keyword == "fun") {
                 declarations->AddDeclaration(std::move(ParseFunction()));
             } else if (keyword == "var" || keyword == "val") {
@@ -45,7 +60,32 @@ Pointer<DeclarationBlock> Parser::Parse() {
 
 // 'class' simpleIdentifier classBody?
 Pointer<IDeclaration> Parser::ParseClass() {
-    throw;
+    myLexer.NextLexeme();
+    Lexeme curLexeme = myLexer.GetLexeme();
+    Pointer<ClassDeclaration> classDecl;
+
+    if (curLexeme.GetType() != Lexeme::LexemeType::Identifier) {
+        classDecl = std::make_unique<ClassDeclaration>(Lexeme(curLexeme.GetColumn(), curLexeme.GetRow(), "", Lexeme::LexemeType::Identifier, "", false));
+        AddError(*classDecl, curLexeme, "Class declaration must have a name");
+    } else {
+        classDecl = std::make_unique<ClassDeclaration>(curLexeme);
+        myLexer.NextLexeme();
+    }
+
+    if (myLexer.GetLexeme().GetType() != Lexeme::LexemeType::LCurl) {
+        return classDecl;
+    }
+
+    myLexer.NextLexeme();
+
+    classDecl->SetBody(ParseDeclarations(true));
+    if (myLexer.GetLexeme().GetType() != Lexeme::LexemeType::RCurl) {
+        AddError(*classDecl, myLexer.GetLexeme(), "Expecting '}'");
+    } else {
+        myLexer.NextLexeme();
+    }
+
+    return classDecl;
 }
 
 // 'fun' simpleIdentifier functionValueParameters (':' type)? functionBody
@@ -114,9 +154,11 @@ Pointer<ParameterList> Parser::ParseParameters() {
 Pointer<Variable> Parser::ParseParameter() {
     Lexeme curLexeme = myLexer.GetLexeme();
     Pointer<Variable> param;
+    bool isError = false;
     if (curLexeme.GetType() != Lexeme::LexemeType::Identifier) {
         param = std::make_unique<Variable>(Lexeme(curLexeme.GetColumn(), curLexeme.GetRow(), "", Lexeme::LexemeType::Identifier, ""));
         AddError(*param, curLexeme, "Parameter name expected");
+        isError = true;
     } else {
         param = std::make_unique<Variable>(curLexeme);
         myLexer.NextLexeme();
@@ -126,6 +168,9 @@ Pointer<Variable> Parser::ParseParameter() {
     if (curLexeme.GetType() != Lexeme::LexemeType::OpColon) {
         param->SetTypeNode(std::make_unique<ErrorNode>(Lexeme(curLexeme.GetColumn(), curLexeme.GetRow(),
                         "", Lexeme::LexemeType::Identifier, ""), "A type annotation is required on a value parameter"));
+        if (isError) {
+            myLexer.NextLexeme();
+        }
         return param;
     }
     myLexer.NextLexeme();

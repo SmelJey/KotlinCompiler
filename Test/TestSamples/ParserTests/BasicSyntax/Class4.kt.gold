@@ -1,0 +1,12 @@
+@@ Decl Block
+@@ | Class Decl :: A
+@@ | | Decl Block
+@@ | | | Val Decl :: a
+@@ | | | | Type :: Int
+@@ | | | | Integer :: 1
+@@ | | | Var Decl :: b
+@@ | | | | Type :: String
+@@ | | | | String :: aba
+@@ | Fun Decl :: main
+@@ | | Params
+@@ | | Block

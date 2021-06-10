@@ -116,4 +116,16 @@ TEST_CASE("Parser basic syntax", "[Parser]") {
     PARSER_TEST("BasicSyntax/ErrorDoWhile5.kt")
     PARSER_TEST("BasicSyntax/ErrorDoWhile6.kt")
 
+    PARSER_TEST("BasicSyntax/Class1.kt")
+    PARSER_TEST("BasicSyntax/Class2.kt")
+    PARSER_TEST("BasicSyntax/Class3.kt")
+    PARSER_TEST("BasicSyntax/Class4.kt")
+    PARSER_TEST("BasicSyntax/Class5.kt")
+    PARSER_TEST("BasicSyntax/Class6.kt")
+    PARSER_TEST("BasicSyntax/Class7.kt")
+
+    PARSER_TEST("BasicSyntax/ErrorClass1.kt")
+    PARSER_TEST("BasicSyntax/ErrorClass2.kt")
+    PARSER_TEST("BasicSyntax/ErrorClass3.kt")
+
 }

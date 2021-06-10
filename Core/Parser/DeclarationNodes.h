@@ -27,7 +27,11 @@ private:
 
 class ClassDeclaration : public IDeclaration {
 public:
-    ClassDeclaration(const Lexeme& lexeme, std::unique_ptr<DeclarationBlock> body);
+    ClassDeclaration(const Lexeme& lexeme);
+
+    const DeclarationBlock* GetBody() const;
+    void SetBody(std::unique_ptr<DeclarationBlock> body);
+    bool HasBody() const;
 
     const DeclarationBlock& GetClassBody() const;
 
