@@ -11,7 +11,7 @@ Lexeme Lexer::GetLexeme() const {
 }
 
 Lexeme Lexer::NextLexeme() {
-    Lexeme lastLexeme = myCurrentLexeme;
+    myPreviousLexeme = myCurrentLexeme;
     if (!myLexemeBuffer.empty()) {
         myCurrentLexeme = myLexemeBuffer.front();
         myLexemeBuffer.pop_front();
@@ -19,7 +19,11 @@ Lexeme Lexer::NextLexeme() {
         myCurrentLexeme = NextFromInput();
     }
 
-    return lastLexeme;
+    return myPreviousLexeme;
+}
+
+Lexeme Lexer::PrevLexeme() {
+    return myPreviousLexeme;
 }
 
 Lexeme Lexer::NextFromInput() {

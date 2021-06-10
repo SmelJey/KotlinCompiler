@@ -36,19 +36,21 @@ private:
 
     Pointer<IDeclaration> ParseProperty();
 
-    Pointer<ISyntaxNode> ParseExpression();
-    Pointer<ISyntaxNode> ParseLeftAssociative(size_t priority);
-
-    Pointer<ISyntaxNode> ParsePrefix();
-    Pointer<ISyntaxNode> ParsePostfix();
+    Pointer<ILexemeNode> ParseExpression();
+    Pointer<ILexemeNode> ParseLeftAssociative(size_t priority);
+    Pointer<ILexemeNode> ParsePrefix();
+    Pointer<ILexemeNode> ParsePostfix();
     std::vector<Pointer<ISyntaxNode>> ParseArguments(ISyntaxNode& host, Lexeme::LexemeType rParen);
 
-    Pointer<ISyntaxNode> ParsePrimary();
+    Pointer<ILexemeNode> ParsePrimary();
+
+    Pointer<ILexemeNode> ParseIfExpression();
+    Pointer<ISyntaxNode> ParseElseExpression();
 
     void AddError(ISyntaxNode& root, const Lexeme& location, const std::string& error) const;
 
     template<typename T>
-    Pointer<ISyntaxNode> ReturnNode(const Lexeme& lexeme, Lexeme::LexemeType typeConstraint) {
+    Pointer<ILexemeNode> ReturnNode(const Lexeme& lexeme, Lexeme::LexemeType typeConstraint) {
         if (lexeme.GetType() != typeConstraint) {
             return std::make_unique<ErrorNode>(ErrorNode(lexeme, lexeme.GetValue<std::string>()));
         }
@@ -56,7 +58,7 @@ private:
     }
 
     template<typename T>
-    Pointer<ISyntaxNode> ReturnNode(const Lexeme& lexeme) {
+    Pointer<ILexemeNode> ReturnNode(const Lexeme& lexeme) {
         if (lexeme.IsError()) {
             return std::make_unique<ErrorNode>(ErrorNode(lexeme, lexeme.GetValue<std::string>()));
         }

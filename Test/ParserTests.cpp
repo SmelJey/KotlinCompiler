@@ -64,6 +64,23 @@ TEST_CASE("Parser basic syntax", "[Parser]") {
     PARSER_TEST("BasicSyntax/ErrorAssignment3.kt")
     PARSER_TEST("BasicSyntax/ErrorAssignment4.kt")
 
+    PARSER_TEST("BasicSyntax/IfExpr1.kt")
+    PARSER_TEST("BasicSyntax/IfExpr2.kt")
+    PARSER_TEST("BasicSyntax/IfExpr3.kt")
+    PARSER_TEST("BasicSyntax/IfElseExpr1.kt")
+    PARSER_TEST("BasicSyntax/IfElseExpr2.kt")
+    PARSER_TEST("BasicSyntax/IfElseExpr3.kt")
+    PARSER_TEST("BasicSyntax/IfElseExpr4.kt")
+    PARSER_TEST("BasicSyntax/IfElseExpr5.kt")
+    PARSER_TEST("BasicSyntax/IfElseExpr6.kt")
+    PARSER_TEST("BasicSyntax/IfElseAssignment.kt")
+
+    PARSER_TEST("BasicSyntax/ErrorIf1.kt")
+    PARSER_TEST("BasicSyntax/ErrorIf2.kt")
+    PARSER_TEST("BasicSyntax/ErrorIf3.kt")
+    PARSER_TEST("BasicSyntax/ErrorIf4.kt")
+    PARSER_TEST("BasicSyntax/ErrorIfElse1.kt")
+
     PARSER_TEST("BasicSyntax/PropDecl1.kt")
     PARSER_TEST("BasicSyntax/PropDecl2.kt")
     PARSER_TEST("BasicSyntax/PropDecl3.kt")

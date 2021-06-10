@@ -17,6 +17,7 @@ public:
     Lexeme GetLexeme() const;
 
     Lexeme NextLexeme();
+    Lexeme PrevLexeme();
 
 private:
     Lexeme NextFromInput();
@@ -65,6 +66,7 @@ private:
     std::deque<Lexeme> myLexemeBuffer;
 
     Lexeme myCurrentLexeme;
+    Lexeme myPreviousLexeme = Lexeme(-1, -1, "", Lexeme::LexemeType::EndOfFile, "", true);
 
     std::string myLexemeText;
     std::string myLexemeValue;

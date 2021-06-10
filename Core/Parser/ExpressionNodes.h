@@ -54,11 +54,14 @@ protected:
     std::string GetName() const override;
 };
 
-class IUnaryPostfix : public ISyntaxNode {};
+class IUnaryPostfix : public ILexemeNode {
+public:
+    explicit IUnaryPostfix(const Lexeme& lexeme);
+};
 
 class IPostfixCallNode : public IUnaryPostfix {
 public:
-    explicit IPostfixCallNode(std::unique_ptr<ISyntaxNode> expression);
+    explicit IPostfixCallNode(const Lexeme& lexeme, std::unique_ptr<ISyntaxNode> expression);
 
     const std::vector<std::unique_ptr<ISyntaxNode>>& GetArguments() const;
     void SetArguments(std::vector<std::unique_ptr<ISyntaxNode>> arguments);
@@ -73,24 +76,23 @@ private:
     std::vector<std::unique_ptr<ISyntaxNode>> myArguments;
 };
 
-
 class IndexSuffixNode : public IPostfixCallNode {
 public:
-    explicit IndexSuffixNode(std::unique_ptr<ISyntaxNode> expression);
+    explicit IndexSuffixNode(const Lexeme& lexeme, std::unique_ptr<ISyntaxNode> expression);
 protected:
     std::string GetName() const override;
 };
 
 class CallSuffixNode : public IPostfixCallNode {
 public:
-    explicit CallSuffixNode(std::unique_ptr<ISyntaxNode> expression);
+    explicit CallSuffixNode(const Lexeme& lexeme, std::unique_ptr<ISyntaxNode> expression);
 protected:
     std::string GetName() const override;
 };
 
 class MemberAccessNode : public IUnaryPostfix {
 public:
-    MemberAccessNode(std::unique_ptr<ISyntaxNode> expression);
+    MemberAccessNode(const Lexeme& lexeme, std::unique_ptr<ISyntaxNode> expression);
 
     const ISyntaxNode* GetExpression() const;
 
@@ -104,6 +106,30 @@ protected:
 private:
     std::unique_ptr<ISyntaxNode> myExpression;
     std::unique_ptr<ISyntaxNode> myMemberNode;
+};
+
+class IfExpression : public ILexemeNode {
+public:
+    explicit IfExpression(const Lexeme& lexeme);
+
+    const ISyntaxNode* GetExpression() const;
+    void SetExpression(std::unique_ptr<ISyntaxNode> expression);
+
+    const ISyntaxNode* GetIfBody() const;
+    void SetIfBody(std::unique_ptr<ISyntaxNode> body);
+
+    const ISyntaxNode* GetElseBody() const;
+    void SetElseBody(std::unique_ptr<ISyntaxNode> body);
+    bool HasElseBody() const;
+
+protected:
+    std::string GetName() const override;
+    void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
+
+private:
+    std::unique_ptr<ISyntaxNode> myExpression;
+    std::unique_ptr<ISyntaxNode> myIfBody;
+    std::unique_ptr<ISyntaxNode> myElseBody;
 };
 
 class BlockNode : public ISyntaxNode {

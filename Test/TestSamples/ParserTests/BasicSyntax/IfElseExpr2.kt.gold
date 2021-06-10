@@ -1,0 +1,12 @@
+@@ Decl Block
+@@ | Fun Decl :: main
+@@ | | Params
+@@ | | Block
+@@ | | | If Expr
+@@ | | | | Bin op :: >
+@@ | | | | | Integer :: 2
+@@ | | | | | Integer :: 3
+@@ | | | | Empty Statement
+@@ | | | | CallSuffix
+@@ | | | | | Identifier :: println
+@@ | | | | | String :: bye
