@@ -13,4 +13,5 @@
 @@ | | | | | | Integer :: 8
 @@ | | | | | CallSuffix
 @@ | | | | | | Identifier :: println
-@@ | | | | | | String :: 7 > 8
+@@ | | | | | | Args
+@@ | | | | | | | String :: 7 > 8

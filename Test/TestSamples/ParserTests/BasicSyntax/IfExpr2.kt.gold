@@ -10,7 +10,9 @@
 @@ | | | | Block
 @@ | | | | | CallSuffix
 @@ | | | | | | Identifier :: println
-@@ | | | | | | String :: hello
+@@ | | | | | | Args
+@@ | | | | | | | String :: hello
 @@ | | | | | CallSuffix
 @@ | | | | | | Identifier :: println
-@@ | | | | | | String :: world
+@@ | | | | | | Args
+@@ | | | | | | | String :: world

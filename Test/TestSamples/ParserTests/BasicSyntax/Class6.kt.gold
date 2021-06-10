@@ -17,6 +17,7 @@
 @@ | | | | Type :: B
 @@ | | | | CallSuffix
 @@ | | | | | Identifier :: B
+@@ | | | | | Args
 @@ | Fun Decl
 @@ | | Identifier :: main
 @@ | | Params

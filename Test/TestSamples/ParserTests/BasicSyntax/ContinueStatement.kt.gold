@@ -9,4 +9,5 @@
 @@ | | | | | Continue
 @@ | | | | | CallSuffix
 @@ | | | | | | Identifier :: println
-@@ | | | | | | String :: test
+@@ | | | | | | Args
+@@ | | | | | | | String :: test

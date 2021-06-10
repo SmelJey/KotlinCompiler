@@ -5,3 +5,4 @@
 @@ | | Block
 @@ | | | CallSuffix
 @@ | | | | Identifier :: println
+@@ | | | | Args

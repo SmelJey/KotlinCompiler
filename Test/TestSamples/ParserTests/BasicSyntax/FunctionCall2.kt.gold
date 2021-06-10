@@ -5,4 +5,5 @@
 @@ | | Block
 @@ | | | CallSuffix
 @@ | | | | Identifier :: println
-@@ | | | | String :: Hello world!
+@@ | | | | Args
+@@ | | | | | String :: Hello world!

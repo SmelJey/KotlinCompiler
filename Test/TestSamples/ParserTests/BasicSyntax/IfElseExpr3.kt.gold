@@ -10,4 +10,5 @@
 @@ | | | | Empty Statement
 @@ | | | | CallSuffix
 @@ | | | | | Identifier :: println
-@@ | | | | | String :: bye
+@@ | | | | | Args
+@@ | | | | | | String :: bye

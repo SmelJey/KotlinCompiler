@@ -44,7 +44,7 @@ private:
     Pointer<ILexemeNode> ParseLeftAssociative(size_t priority);
     Pointer<ILexemeNode> ParsePrefix();
     Pointer<ILexemeNode> ParsePostfix();
-    std::vector<Pointer<ISyntaxNode>> ParseArguments(ISyntaxNode& host, Lexeme::LexemeType rParen);
+    Pointer<CallArgumentsNode> ParseArguments(Lexeme::LexemeType rParen);
 
     Pointer<ILexemeNode> ParsePrimary();
 
@@ -55,14 +55,6 @@ private:
     bool ConsumeLexeme(Lexeme::LexemeType lexemeType, ISyntaxNode& host, const std::string& error);
     bool ConsumeLexeme(Lexeme::LexemeType lexemeType, const std::string& text, ISyntaxNode& host, const std::string& error);
     void ConsumeSemicolons();
-
-    template<typename T>
-    Pointer<ILexemeNode> CreateNodeOfType(const Lexeme& lexeme, Lexeme::LexemeType typeConstraint) {
-        if (lexeme.GetType() != typeConstraint) {
-            return std::make_unique<ErrorNode>(ErrorNode(lexeme, "Unexpected lexeme"));
-        }
-        return CreateNodeOfType<T>(lexeme);
-    }
 
     template<typename T>
     Pointer<ILexemeNode> CreateNodeOfType(const Lexeme& lexeme) {

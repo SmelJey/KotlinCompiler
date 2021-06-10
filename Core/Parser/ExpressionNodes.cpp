@@ -56,14 +56,32 @@ std::string UnaryPostfixOperationNode::GetName() const {
 
 IUnaryPostfix::IUnaryPostfix(const Lexeme& lexeme) : ILexemeNode(lexeme) {}
 
-IPostfixCallNode::IPostfixCallNode(const Lexeme& lexeme, std::unique_ptr<ISyntaxNode> expression) : IUnaryPostfix(lexeme), myExpression(std::move(expression)) {}
-
-const std::vector<std::unique_ptr<ISyntaxNode>>& IPostfixCallNode::GetArguments() const {
+const std::vector<std::unique_ptr<ISyntaxNode>>& CallArgumentsNode::GetArguments() const {
     return myArguments;
 }
 
-void IPostfixCallNode::SetArguments(std::vector<std::unique_ptr<ISyntaxNode>> arguments) {
-    myArguments = std::move(arguments);
+void CallArgumentsNode::AddArgument(std::unique_ptr<ISyntaxNode> argument) {
+    myArguments.push_back(std::move(argument));
+}
+
+std::string CallArgumentsNode::GetName() const {
+    return "Args";
+}
+
+void CallArgumentsNode::AcceptVisitor(NodeVisitor& visitor, int depth) const {
+    for (auto& arg : myArguments) {
+        visitor.VisitNode(*arg, depth);
+    }
+}
+
+IPostfixCallNode::IPostfixCallNode(const Lexeme& lexeme, std::unique_ptr<ISyntaxNode> expression) : IUnaryPostfix(lexeme), myExpression(std::move(expression)) {}
+
+const CallArgumentsNode& IPostfixCallNode::GetArguments() const {
+    return *myArgumentsNode;
+}
+
+void IPostfixCallNode::SetArguments(std::unique_ptr<CallArgumentsNode> arguments) {
+    myArgumentsNode = std::move(arguments);
 }
 
 const ISyntaxNode* IPostfixCallNode::GetExpression() const {
@@ -72,9 +90,7 @@ const ISyntaxNode* IPostfixCallNode::GetExpression() const {
 
 void IPostfixCallNode::AcceptVisitor(NodeVisitor& visitor, int depth) const {
     visitor.VisitNode(*myExpression, depth);
-    for (auto& arg : myArguments) {
-        visitor.VisitNode(*arg, depth);
-    }
+    visitor.VisitNode(*myArgumentsNode, depth);
 }
 
 IndexSuffixNode::IndexSuffixNode(const Lexeme& lexeme, std::unique_ptr<ISyntaxNode> expression) : IPostfixCallNode(lexeme, std::move(expression)) {}

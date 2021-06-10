@@ -405,7 +405,7 @@ Pointer<ILexemeNode> Parser::ParsePostfix() {
 
         } else if (curLexeme.GetType() == Lexeme::LexemeType::LParen) {
             Pointer<CallSuffixNode> callNode = std::make_unique<CallSuffixNode>(curLexeme, std::move(operand));
-            std::vector<Pointer<ISyntaxNode>> args = ParseArguments(*callNode, Lexeme::LexemeType::RParen);
+            Pointer<CallArgumentsNode> args = ParseArguments(Lexeme::LexemeType::RParen);
             callNode->SetArguments(std::move(args));
 
             ConsumeLexeme(Lexeme::LexemeType::RParen, *callNode, "Expecting ')'");
@@ -413,9 +413,9 @@ Pointer<ILexemeNode> Parser::ParsePostfix() {
 
         } else if (curLexeme.GetType() == Lexeme::LexemeType::LSquare) {
             Pointer<IndexSuffixNode> indexNode = std::make_unique<IndexSuffixNode>(curLexeme, std::move(operand));
-            std::vector<Pointer<ISyntaxNode>> args = ParseArguments(*indexNode, Lexeme::LexemeType::RSquare);
+            Pointer<CallArgumentsNode> args = ParseArguments(Lexeme::LexemeType::RSquare);
 
-            if (args.empty()) {
+            if (args->GetArguments().empty()) {
                 AddError(*indexNode, curLexeme, "Expecting an index");
             }
             indexNode->SetArguments(std::move(args));
@@ -430,15 +430,15 @@ Pointer<ILexemeNode> Parser::ParsePostfix() {
     return operand;
 }
 
-std::vector<Pointer<ISyntaxNode>> Parser::ParseArguments(ISyntaxNode& host, Lexeme::LexemeType rParen) {
-    std::vector<Pointer<ISyntaxNode>> params;
+Pointer<CallArgumentsNode> Parser::ParseArguments(Lexeme::LexemeType rParen) {
+    Pointer<CallArgumentsNode> arguments = std::make_unique<CallArgumentsNode>();
     bool isLastArg = false;
     while (myLexer.GetLexeme().GetType() != rParen && myLexer.GetLexeme().GetType() != Lexeme::LexemeType::EndOfFile) {
         if (isLastArg) {
-            AddError(host, myLexer.GetLexeme(), "Expecting ','");
+            AddError(*arguments, myLexer.GetLexeme(), "Expecting ','");
         }
 
-        params.push_back(ParseExpression());
+        arguments->AddArgument(ParseExpression());
 
         isLastArg = true;
         if (myLexer.GetLexeme().GetType() == Lexeme::LexemeType::OpComma) {
@@ -447,7 +447,7 @@ std::vector<Pointer<ISyntaxNode>> Parser::ParseArguments(ISyntaxNode& host, Lexe
         }
     }
 
-    return params;
+    return arguments;
 }
 
 // Identifier | Number | String | '(' LeftAssociative(0) ')' | ifExpression | jumpExpression

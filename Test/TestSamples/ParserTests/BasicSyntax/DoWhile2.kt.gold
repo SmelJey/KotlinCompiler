@@ -7,4 +7,5 @@
 @@ | | | | Boolean :: false
 @@ | | | | CallSuffix
 @@ | | | | | Identifier :: println
-@@ | | | | | String :: Hello
+@@ | | | | | Args
+@@ | | | | | | String :: Hello

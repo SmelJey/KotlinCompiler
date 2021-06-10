@@ -59,12 +59,27 @@ public:
     explicit IUnaryPostfix(const Lexeme& lexeme);
 };
 
+class CallArgumentsNode : public ISyntaxNode {
+public:
+    CallArgumentsNode() = default;
+
+    const std::vector<std::unique_ptr<ISyntaxNode>>& GetArguments() const;
+    void AddArgument(std::unique_ptr<ISyntaxNode> argument);
+
+protected:
+    std::string GetName() const override;
+    void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
+
+private:
+    std::vector<std::unique_ptr<ISyntaxNode>> myArguments;
+};
+
 class IPostfixCallNode : public IUnaryPostfix {
 public:
     explicit IPostfixCallNode(const Lexeme& lexeme, std::unique_ptr<ISyntaxNode> expression);
 
-    const std::vector<std::unique_ptr<ISyntaxNode>>& GetArguments() const;
-    void SetArguments(std::vector<std::unique_ptr<ISyntaxNode>> arguments);
+    const CallArgumentsNode& GetArguments() const;
+    void SetArguments(std::unique_ptr<CallArgumentsNode> arguments);
 
     const ISyntaxNode* GetExpression() const;
 
@@ -73,7 +88,7 @@ protected:
 
 private:
     std::unique_ptr<ISyntaxNode> myExpression;
-    std::vector<std::unique_ptr<ISyntaxNode>> myArguments;
+    std::unique_ptr<CallArgumentsNode> myArgumentsNode;
 };
 
 class IndexSuffixNode : public IPostfixCallNode {

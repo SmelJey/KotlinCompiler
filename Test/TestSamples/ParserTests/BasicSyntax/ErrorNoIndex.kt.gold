@@ -5,4 +5,5 @@
 @@ | | Block
 @@ | | | IndexSuffix
 @@ | | | | Identifier :: a
+@@ | | | | Args
 @@ | | | | Error 1:2 :: Expecting an index

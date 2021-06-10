@@ -10,6 +10,10 @@
 @@ | | | | | | | MemberAccess
 @@ | | | | | | | | CallSuffix
 @@ | | | | | | | | | Identifier :: a
+@@ | | | | | | | | | Args
 @@ | | | | | | | | Identifier :: b
-@@ | | | | | | Integer :: 5
+@@ | | | | | | | Args
+@@ | | | | | | Args
+@@ | | | | | | | Integer :: 5
+@@ | | | | | Args
 @@ | | | | Identifier :: c

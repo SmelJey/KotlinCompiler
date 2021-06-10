@@ -10,8 +10,10 @@
 @@ | | | | Block
 @@ | | | | | CallSuffix
 @@ | | | | | | Identifier :: println
-@@ | | | | | | String :: hi
+@@ | | | | | | Args
+@@ | | | | | | | String :: hi
 @@ | | | | Block
 @@ | | | | | CallSuffix
 @@ | | | | | | Identifier :: println
-@@ | | | | | | String :: bye
+@@ | | | | | | Args
+@@ | | | | | | | String :: bye

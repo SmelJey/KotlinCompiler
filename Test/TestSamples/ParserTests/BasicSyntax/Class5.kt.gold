@@ -16,7 +16,8 @@
 @@ | | | | Block
 @@ | | | | | CallSuffix
 @@ | | | | | | Identifier :: println
-@@ | | | | | | String :: Hi
+@@ | | | | | | Args
+@@ | | | | | | | String :: Hi
 @@ | Fun Decl
 @@ | | Identifier :: main
 @@ | | Params

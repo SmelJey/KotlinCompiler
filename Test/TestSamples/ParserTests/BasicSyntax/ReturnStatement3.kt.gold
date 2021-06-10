@@ -6,4 +6,5 @@
 @@ | | | Return
 @@ | | | CallSuffix
 @@ | | | | Identifier :: println
-@@ | | | | String :: no way
+@@ | | | | Args
+@@ | | | | | String :: no way

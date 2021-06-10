@@ -6,6 +6,7 @@
 @@ | | | Assignment :: =
 @@ | | | | CallSuffix
 @@ | | | | | Identifier :: a
+@@ | | | | | Args
 @@ | | | | Bin op :: +
 @@ | | | | | Integer :: 5
 @@ | | | | | Bin op :: /

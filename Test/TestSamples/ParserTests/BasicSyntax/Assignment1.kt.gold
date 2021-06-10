@@ -6,5 +6,6 @@
 @@ | | | Assignment :: =
 @@ | | | | IndexSuffix
 @@ | | | | | Identifier :: a
-@@ | | | | | Integer :: 1
+@@ | | | | | Args
+@@ | | | | | | Integer :: 1
 @@ | | | | Integer :: 5

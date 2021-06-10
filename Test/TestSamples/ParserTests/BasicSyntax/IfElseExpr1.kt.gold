@@ -9,7 +9,9 @@
 @@ | | | | | Integer :: 3
 @@ | | | | CallSuffix
 @@ | | | | | Identifier :: println
-@@ | | | | | String :: hi
+@@ | | | | | Args
+@@ | | | | | | String :: hi
 @@ | | | | CallSuffix
 @@ | | | | | Identifier :: println
-@@ | | | | | String :: bye
+@@ | | | | | Args
+@@ | | | | | | String :: bye
