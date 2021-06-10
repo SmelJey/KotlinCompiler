@@ -54,12 +54,16 @@ protected:
     std::string GetName() const override;
 };
 
-class IPostfixCallNode : public ISyntaxNode {
+class IUnaryPostfix : public ISyntaxNode {};
+
+class IPostfixCallNode : public IUnaryPostfix {
 public:
     explicit IPostfixCallNode(std::unique_ptr<ISyntaxNode> expression);
 
     const std::vector<std::unique_ptr<ISyntaxNode>>& GetArguments() const;
     void SetArguments(std::vector<std::unique_ptr<ISyntaxNode>> arguments);
+
+    const ISyntaxNode* GetExpression() const;
 
 protected:
     void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
@@ -77,7 +81,6 @@ protected:
     std::string GetName() const override;
 };
 
-
 class CallSuffixNode : public IPostfixCallNode {
 public:
     explicit CallSuffixNode(std::unique_ptr<ISyntaxNode> expression);
@@ -85,9 +88,11 @@ protected:
     std::string GetName() const override;
 };
 
-class MemberAccessNode : public ISyntaxNode {
+class MemberAccessNode : public IUnaryPostfix {
 public:
     MemberAccessNode(std::unique_ptr<ISyntaxNode> expression);
+
+    const ISyntaxNode* GetExpression() const;
 
     const ISyntaxNode& GetMember() const;
     void SetMember(std::unique_ptr<ISyntaxNode> member);

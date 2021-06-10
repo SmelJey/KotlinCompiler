@@ -120,7 +120,7 @@ doWhileStatement (used by loopStatement)
   ;
 
 assignment (used by statement)
-  : ((directlyAssignableExpression '=') | (assignableExpression assignmentAndOperator)) expression
+  : directlyAssignableExpression assignmentAndOperator expression
   ;
 
 semi
@@ -200,15 +200,6 @@ directlyAssignableExpression (used by assignment, parenthesizedDirectlyAssignabl
 
 parenthesizedDirectlyAssignableExpression (used by directlyAssignableExpression)
   : '(' directlyAssignableExpression ')'
-  ;
-
-assignableExpression (used by assignment, parenthesizedAssignableExpression)
-  : prefixUnaryExpression
-  | parenthesizedAssignableExpression
-  ;
-
-parenthesizedAssignableExpression (used by assignableExpression)
-  : '(' assignableExpression ')'
   ;
 
 assignableSuffix (used by directlyAssignableExpression)

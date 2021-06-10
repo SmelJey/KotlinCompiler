@@ -32,6 +32,8 @@ private:
     Pointer<WhileNode> ParseWhileLoop();
     Pointer<DoWhileNode> ParseDoWhileLoop();
 
+    Pointer<ISyntaxNode> ParseAssignment();
+
     Pointer<IDeclaration> ParseProperty();
 
     Pointer<ISyntaxNode> ParseExpression();

@@ -64,6 +64,10 @@ void IPostfixCallNode::SetArguments(std::vector<std::unique_ptr<ISyntaxNode>> ar
     myArguments = std::move(arguments);
 }
 
+const ISyntaxNode* IPostfixCallNode::GetExpression() const {
+    return myExpression.get();
+}
+
 void IPostfixCallNode::AcceptVisitor(NodeVisitor& visitor, int depth) const {
     visitor.VisitNode(*myExpression, depth);
     for (auto& arg : myArguments) {
@@ -84,6 +88,10 @@ std::string CallSuffixNode::GetName() const {
 }
 
 MemberAccessNode::MemberAccessNode(std::unique_ptr<ISyntaxNode> expression) : myExpression(std::move(expression)) {}
+
+const ISyntaxNode* MemberAccessNode::GetExpression() const {
+    return myExpression.get();
+}
 
 const ISyntaxNode& MemberAccessNode::GetMember() const {
     return *myMemberNode;

@@ -1,0 +1,14 @@
+@@ Decl Block
+@@ | Fun Decl :: main
+@@ | | Params
+@@ | | Block
+@@ | | | Assignment :: =
+@@ | | | | Bin op :: +
+@@ | | | | | Identifier :: a
+@@ | | | | | Identifier :: b
+@@ | | | | Bin op :: +
+@@ | | | | | Integer :: 5
+@@ | | | | | Bin op :: /
+@@ | | | | | | Integer :: 3
+@@ | | | | | | Integer :: 4
+@@ | | | | Error 1:7 :: Variable expected

@@ -189,7 +189,7 @@ Pointer<ISyntaxNode> Parser::ParseStatement() {
         return std::make_unique<ErrorNode>(myLexer.NextLexeme(), "Unsupported keyword");
     }
 
-    return ParseExpression();
+    return ParseAssignment();
 }
 
 Pointer<BlockNode> Parser::ParseBlock() {
@@ -325,6 +325,26 @@ Pointer<DoWhileNode> Parser::ParseDoWhileLoop() {
     }
 
     return doWhileLoop;
+}
+
+// (directlyAssignableExpression assignmentAndOperator)? expression
+Pointer<ISyntaxNode> Parser::ParseAssignment() {
+    std::unique_ptr<ISyntaxNode> assignable = ParseExpression();
+
+    Lexeme curLexeme = myLexer.GetLexeme();
+    if (ParserUtils::AssignmentOperations.count(curLexeme.GetType())) {
+        Pointer<Assignment> assignment = std::make_unique<Assignment>(myLexer.NextLexeme());
+
+        if (!ParserUtils::IsDirectlyAssignable(assignable.get())) {
+            AddError(*assignment, curLexeme, "Variable expected");
+        }
+        
+        assignment->SetAssignable(std::move(assignable));
+        assignment->SetExpression(ParseExpression());
+        return assignment;
+    }
+
+    return assignable;
 }
 
 // ('val' | 'var') variableDeclaration ('=' expression)? ';'?

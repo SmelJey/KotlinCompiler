@@ -1,0 +1,11 @@
+@@ Decl Block
+@@ | Fun Decl :: main
+@@ | | Params
+@@ | | Block
+@@ | | | Assignment :: =
+@@ | | | | Identifier :: a
+@@ | | | | Bin op :: +
+@@ | | | | | Integer :: 5
+@@ | | | | | Bin op :: /
+@@ | | | | | | Integer :: 3
+@@ | | | | | | Integer :: 4
