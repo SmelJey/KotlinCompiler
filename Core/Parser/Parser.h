@@ -1,6 +1,7 @@
 #pragma once
 
 #include "DeclarationNodes.h"
+#include "ExpressionNodes.h"
 #include "ISyntaxNode.h"
 #include "SimpleNodes.h"
 #include "../Lexer/Lexer.h"

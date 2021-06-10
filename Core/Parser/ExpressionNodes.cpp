@@ -101,3 +101,21 @@ void MemberAccessNode::AcceptVisitor(NodeVisitor& visitor, int depth) const {
     visitor.VisitNode(*myExpression, depth);
     visitor.VisitNode(*myMemberNode, depth);
 }
+
+const std::vector<std::unique_ptr<ISyntaxNode>>& BlockNode::GetStatements() const {
+    return myStatements;
+}
+
+void BlockNode::AddStatement(std::unique_ptr<ISyntaxNode> statement) {
+    myStatements.push_back(std::move(statement));
+}
+
+std::string BlockNode::GetName() const {
+    return "Block";
+}
+
+void BlockNode::AcceptVisitor(NodeVisitor& visitor, int depth) const {
+    for (auto& statement : myStatements) {
+        visitor.VisitNode(*statement, depth);
+    }
+}

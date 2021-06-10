@@ -35,13 +35,21 @@ TEST_CASE("Parser basic syntax", "[Parser]") {
     PARSER_TEST("BasicSyntax/FunParams1.kt")
     PARSER_TEST("BasicSyntax/FunParams2.kt")
     PARSER_TEST("BasicSyntax/FunDefaultParams.kt")
+
     PARSER_TEST("BasicSyntax/MemberAccess1.kt")
     PARSER_TEST("BasicSyntax/MemberAccess2.kt")
     PARSER_TEST("BasicSyntax/PostfixOperators.kt")
+
     PARSER_TEST("BasicSyntax/ErrorNoFunName.kt")
     PARSER_TEST("BasicSyntax/ErrorNoIndex.kt")
     PARSER_TEST("BasicSyntax/ErrorNoMember.kt")
     PARSER_TEST("BasicSyntax/ErrorNoParamName.kt")
     PARSER_TEST("BasicSyntax/ErrorNoTypeName.kt")
     PARSER_TEST("BasicSyntax/ErrorNoType.kt")
+    PARSER_TEST("BasicSyntax/ErrorNoPropName.kt")
+
+    PARSER_TEST("BasicSyntax/PropDecl1.kt")
+    PARSER_TEST("BasicSyntax/PropDecl2.kt")
+    PARSER_TEST("BasicSyntax/PropDecl3.kt")
+    PARSER_TEST("BasicSyntax/PropFunDecl.kt")
 }

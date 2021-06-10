@@ -1,0 +1,6 @@
+@@ Decl Block
+@@ | Val Decl :: 
+@@ | | Error 2:0 :: Expecting property name
+@@ | Fun Decl :: test
+@@ | | Params
+@@ | | Integer :: 5

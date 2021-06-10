@@ -135,20 +135,49 @@ void FunctionDeclaration::AcceptVisitor(NodeVisitor& visitor, int depth) const {
     visitor.VisitNode(*myBody, depth);
 }
 
-const std::vector<std::unique_ptr<ISyntaxNode>>& BlockNode::GetStatements() const {
-    return myStatements;
+PropertyDeclaration::PropertyDeclaration(const Lexeme& lexeme, const Lexeme& keyword) : IDeclaration(lexeme), myKeyword(keyword) {}
+
+bool PropertyDeclaration::IsMutable() const {
+    return GetKeyword() == "var";
 }
 
-void BlockNode::AddStatement(std::unique_ptr<ISyntaxNode> statement) {
-    myStatements.push_back(std::move(statement));
+std::string PropertyDeclaration::GetKeyword() const {
+    return myKeyword.GetValue<std::string>();
 }
 
-std::string BlockNode::GetName() const {
-    return "Block";
+const ISyntaxNode& PropertyDeclaration::GetType() const {
+    return *myTypeNode;
 }
 
-void BlockNode::AcceptVisitor(NodeVisitor& visitor, int depth) const {
-    for (auto& statement : myStatements) {
-        visitor.VisitNode(*statement, depth);
+void PropertyDeclaration::SetType(std::unique_ptr<ISyntaxNode> typeNode) {
+    myTypeNode = std::move(typeNode);
+}
+
+bool PropertyDeclaration::HasType() const {
+    return myTypeNode != nullptr;
+}
+
+const ISyntaxNode& PropertyDeclaration::GetInitialization() const {
+    return *myInit;
+}
+
+void PropertyDeclaration::SetInitialization(std::unique_ptr<ISyntaxNode> initNode) {
+    myInit = std::move(initNode);
+}
+
+bool PropertyDeclaration::HasInitialization() const {
+    return myInit != nullptr;
+}
+
+std::string PropertyDeclaration::GetName() const {
+    return "V" + GetKeyword().substr(1) + " Decl :: " + myLexeme.GetValue<std::string>();
+}
+
+void PropertyDeclaration::AcceptVisitor(NodeVisitor& visitor, int depth) const {
+    if (HasType()) {
+        visitor.VisitNode(*myTypeNode, depth);
+    }
+    if (HasInitialization()) {
+        visitor.VisitNode(*myInit, depth);
     }
 }

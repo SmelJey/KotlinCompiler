@@ -170,8 +170,26 @@ Pointer<BlockNode> Parser::ParseBlock() {
     }
 
     while (myLexer.GetLexeme().GetType() != Lexeme::LexemeType::EndOfFile && myLexer.GetLexeme().GetType() != Lexeme::LexemeType::RCurl) {
-        // TODO: Change to statement
-        blockNode->AddStatement(ParseExpression());
+        Lexeme curLexeme = myLexer.GetLexeme();
+        std::unique_ptr<ISyntaxNode> statement;
+
+        if (curLexeme.GetType() == Lexeme::LexemeType::Keyword) {
+            std::string keyword = curLexeme.GetValue<std::string>();
+            if (keyword == "val" || keyword == "var") {
+                statement = ParseProperty();
+            } else if (keyword == "fun") {
+                statement = ParseFunction();
+            } else if (keyword == "class") {
+                statement = ParseClass();
+            } else {
+                AddError(*blockNode, myLexer.NextLexeme(), "Unsupported keyword");
+                continue;
+            }
+        } else {
+            statement = ParseExpression();
+        }
+
+        blockNode->AddStatement(std::move(statement));
     }
 
     if (myLexer.GetLexeme().GetType() != Lexeme::LexemeType::RCurl) {
@@ -183,9 +201,32 @@ Pointer<BlockNode> Parser::ParseBlock() {
     return blockNode;
 }
 
-// propertyDeclaration (used by declaration) : ('val' | 'var') variableDeclaration ('=' expression) ? ';' ?
+// ('val' | 'var') variableDeclaration ('=' expression)? ';'?
 Pointer<IDeclaration> Parser::ParseProperty() {
-    throw;
+    Lexeme keyword = myLexer.NextLexeme();
+    Lexeme identifier = myLexer.GetLexeme();
+
+    if (identifier.GetType() != Lexeme::LexemeType::Identifier) {
+        Pointer<PropertyDeclaration> propertyDecl = std::make_unique<PropertyDeclaration>(
+            Lexeme(identifier.GetColumn(), identifier.GetRow(), "", Lexeme::LexemeType::Identifier, ""), keyword);
+        AddError(*propertyDecl, identifier, "Expecting property name");
+        return propertyDecl;
+    }
+
+    myLexer.NextLexeme();
+    Pointer<PropertyDeclaration> propertyDecl = std::make_unique<PropertyDeclaration>(identifier, keyword);
+
+    if (myLexer.GetLexeme().GetType() == Lexeme::LexemeType::OpColon) {
+        myLexer.NextLexeme();
+        propertyDecl->SetType(ParseType());
+    }
+
+    if (myLexer.GetLexeme().GetType() == Lexeme::LexemeType::OpAssign) {
+        myLexer.NextLexeme();
+        propertyDecl->SetInitialization(ParseExpression());
+    }
+
+    return propertyDecl;
 }
 
 // LeftAssociative(0)

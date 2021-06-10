@@ -1,0 +1,5 @@
+@@ Decl Block
+@@ | Val Decl :: b
+@@ | | Bin op :: +
+@@ | | | Integer :: 5
+@@ | | | Integer :: 1

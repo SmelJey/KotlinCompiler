@@ -100,3 +100,19 @@ private:
     std::unique_ptr<ISyntaxNode> myExpression;
     std::unique_ptr<ISyntaxNode> myMemberNode;
 };
+
+class BlockNode : public ISyntaxNode {
+public:
+    BlockNode() = default;
+
+    const std::vector<std::unique_ptr<ISyntaxNode>>& GetStatements() const;
+    void AddStatement(std::unique_ptr<ISyntaxNode> statement);
+
+protected:
+    std::string GetName() const override;
+    void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
+
+private:
+    // TODO: create statement node
+    std::vector<std::unique_ptr<ISyntaxNode>> myStatements;
+};

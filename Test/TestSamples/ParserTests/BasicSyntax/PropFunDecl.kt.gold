@@ -1,0 +1,13 @@
+@@ Decl Block
+@@ | Fun Decl :: main
+@@ | | Params
+@@ | | Block
+@@ | | | Val Decl :: a
+@@ | | | | Integer :: 5
+@@ | | | Var Decl :: b
+@@ | | | | Integer :: 3
+@@ | | | Val Decl :: c
+@@ | | | | Bin op :: +
+@@ | | | | | Identifier :: a
+@@ | | | | | Postfix Op :: ++
+@@ | | | | | | Identifier :: b

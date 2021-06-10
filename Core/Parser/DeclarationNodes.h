@@ -100,18 +100,27 @@ private:
     std::unique_ptr<ISyntaxNode> myReturnNode;
 };
 
-class BlockNode : public ISyntaxNode {
+class PropertyDeclaration : public IDeclaration {
 public:
-    BlockNode() = default;
+    explicit PropertyDeclaration(const Lexeme& lexeme, const Lexeme& keyword);
 
-    const std::vector<std::unique_ptr<ISyntaxNode>>& GetStatements() const;
-    void AddStatement(std::unique_ptr<ISyntaxNode> statement);
+    bool IsMutable() const;
+    std::string GetKeyword() const;
+
+    const ISyntaxNode& GetType() const;
+    void SetType(std::unique_ptr<ISyntaxNode> typeNode);
+    bool HasType() const;
+
+    const ISyntaxNode& GetInitialization() const;
+    void SetInitialization(std::unique_ptr<ISyntaxNode> initNode);
+    bool HasInitialization() const;
 
 protected:
     std::string GetName() const override;
     void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
 
 private:
-    // TODO: create statement node
-    std::vector<std::unique_ptr<ISyntaxNode>> myStatements;
+    std::unique_ptr<ISyntaxNode> myTypeNode;
+    std::unique_ptr<ISyntaxNode> myInit;
+    Lexeme myKeyword;
 };
