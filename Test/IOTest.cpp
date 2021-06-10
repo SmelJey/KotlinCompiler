@@ -15,7 +15,6 @@ void IOTest::Run() {
     std::ofstream outputStream(myFilepath + ".gold.last");
 
     REQUIRE(std::filesystem::exists(myFilepath));
-    REQUIRE(std::filesystem::exists(myFilepath + ".gold"));
     REQUIRE(!goldStream.eof());
 
     std::string token1 = NextToken(), token2 = NextTokenFromGold(goldStream);

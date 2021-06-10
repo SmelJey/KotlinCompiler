@@ -225,6 +225,7 @@ primaryExpression (used by postfixUnaryExpression)
   | literalConstant
   | stringLiteral
   | ifExpression
+  | jumpExpression
   ;
 
 parenthesizedExpression (used by navigationSuffix, primaryExpression)
@@ -250,6 +251,12 @@ stringLiteral (used by primaryExpression)
 ifExpression (used by primaryExpression)
   : 'if' '(' expression ')'
     (controlStructureBody | (controlStructureBody? ';'? 'else' (controlStructureBody | ';')) | ';')
+  ;
+
+jumpExpression (used by primaryExpression)
+  : 'return' expression?
+  | 'continue'
+  | 'break'
   ;
 
 assignmentAndOperator (used by assignment)

@@ -51,15 +51,15 @@ private:
     void AddError(ISyntaxNode& root, const Lexeme& location, const std::string& error) const;
 
     template<typename T>
-    Pointer<ILexemeNode> ReturnNode(const Lexeme& lexeme, Lexeme::LexemeType typeConstraint) {
+    Pointer<ILexemeNode> CreateNodeOfType(const Lexeme& lexeme, Lexeme::LexemeType typeConstraint) {
         if (lexeme.GetType() != typeConstraint) {
             return std::make_unique<ErrorNode>(ErrorNode(lexeme, lexeme.GetValue<std::string>()));
         }
-        return ReturnNode<T>(lexeme);
+        return CreateNodeOfType<T>(lexeme);
     }
 
     template<typename T>
-    Pointer<ILexemeNode> ReturnNode(const Lexeme& lexeme) {
+    Pointer<ILexemeNode> CreateNodeOfType(const Lexeme& lexeme) {
         if (lexeme.IsError()) {
             return std::make_unique<ErrorNode>(ErrorNode(lexeme, lexeme.GetValue<std::string>()));
         }

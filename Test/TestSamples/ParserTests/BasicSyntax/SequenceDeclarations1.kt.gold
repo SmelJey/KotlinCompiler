@@ -1,0 +1,14 @@
+@@ Decl Block
+@@ | Val Decl :: a
+@@ | | Integer :: 5
+@@ | Val Decl :: b
+@@ | | Integer :: 3
+@@ | Fun Decl :: c
+@@ | | Params
+@@ | | Integer :: 1
+@@ | Fun Decl :: d
+@@ | | Params
+@@ | | Block
+@@ | Class Decl :: E
+@@ | Class Decl :: F
+@@ | | Decl Block

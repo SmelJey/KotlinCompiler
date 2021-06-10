@@ -60,3 +60,33 @@ public:
 protected:
     std::string GetName() const override;
 };
+
+class BreakNode : public ILexemeNode {
+public:
+    explicit BreakNode(const Lexeme& lexeme);
+protected:
+    std::string GetName() const override;
+};
+
+class ContinueNode : public ILexemeNode {
+public:
+    explicit ContinueNode(const Lexeme& lexeme);
+protected:
+    std::string GetName() const override;
+};
+
+class ReturnNode : public ILexemeNode {
+public:
+    explicit ReturnNode(const Lexeme& lexeme);
+
+    const ISyntaxNode* GetExpression() const;
+    void SetExpression(std::unique_ptr<ISyntaxNode> expression);
+    bool HasExpression() const;
+
+protected:
+    std::string GetName() const override;
+    void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
+
+private:
+    std::unique_ptr<ISyntaxNode> myExpression;
+};

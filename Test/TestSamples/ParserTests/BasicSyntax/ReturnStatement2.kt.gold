@@ -1,0 +1,8 @@
+@@ Decl Block
+@@ | Fun Decl :: main
+@@ | | Params
+@@ | | Block
+@@ | | | Return
+@@ | | | | Bin op :: +
+@@ | | | | | Integer :: 5
+@@ | | | | | Integer :: 2

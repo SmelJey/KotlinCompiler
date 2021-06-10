@@ -51,3 +51,39 @@ TypeNode::TypeNode(const Lexeme& lexeme) : ILexemeNode(lexeme) {}
 std::string TypeNode::GetName() const {
     return "Type :: " + myLexeme.GetValue<std::string>();
 }
+
+BreakNode::BreakNode(const Lexeme& lexeme) : ILexemeNode(lexeme) {}
+
+std::string BreakNode::GetName() const {
+    return "Break";
+}
+
+ContinueNode::ContinueNode(const Lexeme& lexeme) : ILexemeNode(lexeme) {}
+
+std::string ContinueNode::GetName() const {
+    return "Continue";
+}
+
+ReturnNode::ReturnNode(const Lexeme& lexeme) : ILexemeNode(lexeme) {}
+
+const ISyntaxNode* ReturnNode::GetExpression() const {
+    return myExpression.get();
+}
+
+void ReturnNode::SetExpression(std::unique_ptr<ISyntaxNode> expression) {
+    myExpression = std::move(expression);
+}
+
+bool ReturnNode::HasExpression() const {
+    return myExpression != nullptr;
+}
+
+std::string ReturnNode::GetName() const {
+    return "Return";
+}
+
+void ReturnNode::AcceptVisitor(NodeVisitor& visitor, int depth) const {
+    if (HasExpression()) {
+        visitor.VisitNode(*myExpression, depth);
+    }
+}
