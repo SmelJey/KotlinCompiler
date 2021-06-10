@@ -354,3 +354,6 @@ MigrationBackup/
 
 # Cpp coverage:
 .opencppcov
+
+# Helper scripts
+Test/TestSamples/**/*.py

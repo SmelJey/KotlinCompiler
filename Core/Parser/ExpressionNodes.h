@@ -144,6 +144,5 @@ protected:
     void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
 
 private:
-    // TODO: create statement node
     std::vector<std::unique_ptr<ISyntaxNode>> myStatements;
 };

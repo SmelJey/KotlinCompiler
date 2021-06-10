@@ -1,9 +1,10 @@
 @@ Decl Block
-@@ | Fun Decl :: test
+@@ | Fun Decl
+@@ | | Identifier :: test
 @@ | | Params
 @@ | | Bin op :: +
 @@ | | | Integer :: 2
 @@ | | | Bin op :: +
 @@ | | | | Integer :: 3
 @@ | | | | Integer :: 1
-@@ | | | | Error 0:24 :: Expecting ")"
+@@ | | | | Error 0:24 :: Expecting ')'

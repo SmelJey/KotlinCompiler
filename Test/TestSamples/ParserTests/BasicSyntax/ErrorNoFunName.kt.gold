@@ -1,8 +1,9 @@
 @@ Decl Block
-@@ | Fun Decl :: 
+@@ | Fun Decl
+@@ | | Identifier :: 
+@@ | | | Error 0:4 :: Function declaration must have a name
 @@ | | Params
 @@ | | Block
 @@ | | | Bin op :: +
 @@ | | | | Integer :: 5
 @@ | | | | Integer :: 2
-@@ | | Error 0:4 :: Function declaration must have a name

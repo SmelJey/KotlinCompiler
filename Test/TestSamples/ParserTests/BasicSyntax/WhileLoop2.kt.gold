@@ -1,5 +1,6 @@
 @@ Decl Block
-@@ | Fun Decl :: main
+@@ | Fun Decl
+@@ | | Identifier :: main
 @@ | | Params
 @@ | | Block
 @@ | | | While

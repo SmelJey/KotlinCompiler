@@ -1,14 +1,17 @@
 @@ Decl Block
-@@ | Fun Decl :: main
+@@ | Fun Decl
+@@ | | Identifier :: main
 @@ | | Params
 @@ | | Block
 @@ | | | For
-@@ | | | | Identifier :: c
+@@ | | | | Variable
+@@ | | | | | Identifier :: c
 @@ | | | | Bin op :: ..
 @@ | | | | | Integer :: 3
 @@ | | | | | Integer :: 5
 @@ | | | | For
-@@ | | | | | Identifier :: d
+@@ | | | | | Variable
+@@ | | | | | | Identifier :: d
 @@ | | | | | Bin op :: ..
 @@ | | | | | | Integer :: 1
 @@ | | | | | | Identifier :: c

@@ -1,4 +1,5 @@
 @@ Decl Block
-@@ | Class Decl :: A
+@@ | Class Decl
+@@ | | Identifier :: A
 @@ | | Decl Block
 @@ | | Error 0:9 :: Expecting '}'

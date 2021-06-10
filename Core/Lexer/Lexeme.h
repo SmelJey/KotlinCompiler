@@ -116,6 +116,9 @@ public:
     LexemeType GetType() const;
 
     std::string ToString() const;
+
+    Lexeme CopyEmpty() const;
+    Lexeme CopyEmptyOfType(LexemeType type) const;
 private:
     std::string GetStringType() const;
 

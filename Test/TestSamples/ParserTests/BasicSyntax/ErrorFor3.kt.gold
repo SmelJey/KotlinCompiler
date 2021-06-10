@@ -1,11 +1,13 @@
 @@ Decl Block
-@@ | Fun Decl :: main
+@@ | Fun Decl
+@@ | | Identifier :: main
 @@ | | Params
 @@ | | Block
 @@ | | | For
-@@ | | | | Identifier :: c
+@@ | | | | Variable
+@@ | | | | | Identifier :: c
 @@ | | | | Bin op :: ..
 @@ | | | | | Integer :: 1
 @@ | | | | | Integer :: 5
 @@ | | | | Block
-@@ | | | | Error 1:6 :: Expecting 'in'
+@@ | | | | Error 1:9 :: Expecting 'in'

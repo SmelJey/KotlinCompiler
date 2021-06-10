@@ -1,4 +1,5 @@
 @@ Decl Block
-@@ | Val Decl :: a
+@@ | Val Decl
+@@ | | Identifier :: a
 @@ | | Type :: Int
 @@ | | Integer :: 5

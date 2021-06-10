@@ -1,10 +1,14 @@
 @@ Decl Block
-@@ | Fun Decl :: test
+@@ | Fun Decl
+@@ | | Identifier :: test
 @@ | | Params
-@@ | | | Param :: a
+@@ | | | Parameter
+@@ | | | | Identifier :: a
 @@ | | | | Type :: Int
-@@ | | | Param :: b
+@@ | | | Parameter
+@@ | | | | Identifier :: b
 @@ | | | | Type :: String
-@@ | | | Param :: c
+@@ | | | Parameter
+@@ | | | | Identifier :: c
 @@ | | | | Type :: Boolean
 @@ | | Block

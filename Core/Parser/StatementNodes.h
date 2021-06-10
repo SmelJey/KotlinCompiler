@@ -1,4 +1,5 @@
 #pragma once
+#include "DeclarationNodes.h"
 #include "ExpressionNodes.h"
 
 class EmptyStatement : public ISyntaxNode {
@@ -28,9 +29,9 @@ private:
     std::unique_ptr<ISyntaxNode> myExpression;
 };
 
-class ILoopNode : public ILexemeNode {
+class ILoopNode : public ISyntaxNode {
 public:
-    explicit ILoopNode(const Lexeme& lexeme);
+    ILoopNode() = default;
 
     const ISyntaxNode& GetExpression() const;
     void SetExpression(std::unique_ptr<ISyntaxNode> expression);
@@ -48,7 +49,7 @@ private:
 
 class WhileNode : public ILoopNode {
 public:
-    explicit WhileNode(const Lexeme& lexeme);
+    WhileNode() = default;
 
 protected:
     std::string GetName() const override;
@@ -56,7 +57,7 @@ protected:
 
 class DoWhileNode : public ILoopNode {
 public:
-    explicit DoWhileNode(const Lexeme& lexeme);
+    DoWhileNode() = default;
 
 protected:
     std::string GetName() const override;
@@ -64,20 +65,15 @@ protected:
 
 class ForNode : public ILoopNode {
 public:
-    explicit ForNode(const Lexeme& lexeme);
+    ForNode() = default;
 
-    const ISyntaxNode& GetVariable() const;
-    void SetVariable(std::unique_ptr<ISyntaxNode> variable);
-
-    const ISyntaxNode& GetType() const;
-    void SetType(std::unique_ptr<ISyntaxNode> typeNode);
-    bool HasType() const;
+    const VariableNode& GetVariable() const;
+    void SetVariable(std::unique_ptr<VariableNode> variable);
 
 protected:
     std::string GetName() const override;
     void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
 
 private:
-    std::unique_ptr<ISyntaxNode> myVariable;
-    std::unique_ptr<ISyntaxNode> myVarType;
+    std::unique_ptr<VariableNode> myVariable;
 };

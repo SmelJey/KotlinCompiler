@@ -1,9 +1,19 @@
 #include "DeclarationNodes.h"
 
-IDeclaration::IDeclaration(const Lexeme& identifierLexeme) : ILexemeNode(identifierLexeme) {}
-
 std::string IDeclaration::GetIdentifier() const {
-    return myLexeme.GetValue<std::string>();
+    return myIdentifier->GetLexeme().GetValue<std::string>();
+}
+
+const IdentifierNode& IDeclaration::GetIdentifierNode() const {
+    return *myIdentifier;
+}
+
+void IDeclaration::SetIdentifier(std::unique_ptr<IdentifierNode> identifier) {
+    myIdentifier = std::move(identifier);
+}
+
+void IDeclaration::AcceptVisitor(NodeVisitor& visitor, int depth) const {
+    visitor.VisitNode(*myIdentifier, depth);
 }
 
 DeclarationBlock::DeclarationBlock(std::vector<std::unique_ptr<IDeclaration>> declarations) : myDeclarations(std::move(declarations)) {}
@@ -26,10 +36,8 @@ void DeclarationBlock::AcceptVisitor(NodeVisitor& visitor, int depth) const {
     }
 }
 
-ClassDeclaration::ClassDeclaration(const Lexeme& lexeme) : IDeclaration(lexeme) {}
-
-const DeclarationBlock* ClassDeclaration::GetBody() const {
-    return myClassBody.get();
+const DeclarationBlock& ClassDeclaration::GetBody() const {
+    return *myClassBody;
 }
 
 void ClassDeclaration::SetBody(std::unique_ptr<DeclarationBlock> body) {
@@ -40,58 +48,94 @@ bool ClassDeclaration::HasBody() const {
     return myClassBody != nullptr;
 }
 
-const DeclarationBlock& ClassDeclaration::GetClassBody() const {
-    return *myClassBody;
-}
-
 std::string ClassDeclaration::GetName() const {
-    return "Class Decl :: " + GetIdentifier();
+    return "Class Decl";
 }
 
 void ClassDeclaration::AcceptVisitor(NodeVisitor& visitor, int depth) const {
+    IDeclaration::AcceptVisitor(visitor, depth);
+
     if (HasBody()) {
         visitor.VisitNode(*myClassBody, depth);
     }
 }
 
-Variable::Variable(const Lexeme& parameterLexeme) : ILexemeNode(parameterLexeme) {}
+const IdentifierNode& ParameterNode::GetIdentifier() const {
+    return *myIdentifierNode;
+}
 
-const ISyntaxNode& Variable::GetTypeNode() const {
+void ParameterNode::SetIdentifier(std::unique_ptr<IdentifierNode> identifier) {
+    myIdentifierNode = std::move(identifier);
+}
+
+const ISyntaxNode& ParameterNode::GetTypeNode() const {
     return *myTypeNode;
 }
 
-void Variable::SetTypeNode(std::unique_ptr<ISyntaxNode> typeNode) {
+void ParameterNode::SetTypeNode(std::unique_ptr<ISyntaxNode> typeNode) {
     myTypeNode = std::move(typeNode);
 }
 
-const ISyntaxNode& Variable::GetDefaultNode() const {
+const ISyntaxNode& ParameterNode::GetDefaultNode() const {
     return *myDefaultNode;
 }
 
-void Variable::SetDefaultNode(std::unique_ptr<ISyntaxNode> defaultNode) {
+void ParameterNode::SetDefaultNode(std::unique_ptr<ISyntaxNode> defaultNode) {
     myDefaultNode = std::move(defaultNode);
 }
 
-bool Variable::HasDefaultNode() const {
+bool ParameterNode::HasDefaultNode() const {
     return myDefaultNode != nullptr;
 }
 
-std::string Variable::GetName() const {
-    return "Param :: " + myLexeme.GetValue<std::string>();
+std::string ParameterNode::GetName() const {
+    return "Parameter";
 }
 
-void Variable::AcceptVisitor(NodeVisitor& visitor, int depth) const {
+void ParameterNode::AcceptVisitor(NodeVisitor& visitor, int depth) const {
+    visitor.VisitNode(*myIdentifierNode, depth);
     visitor.VisitNode(*myTypeNode, depth);
     if (HasDefaultNode()) {
         visitor.VisitNode(*myDefaultNode, depth);
     }
 }
 
-const std::vector<std::unique_ptr<Variable>>& ParameterList::GetParameters() const {
+const IdentifierNode& VariableNode::GetIdentifier() const {
+    return *myIdentifierNode;
+}
+
+void VariableNode::SetIdentifier(std::unique_ptr<IdentifierNode> identifier) {
+    myIdentifierNode = std::move(identifier);
+}
+
+const ISyntaxNode& VariableNode::GetTypeNode() const {
+    return *myTypeNode;
+}
+
+void VariableNode::SetTypeNode(std::unique_ptr<ISyntaxNode> typeNode) {
+    myTypeNode = std::move(typeNode);
+}
+
+bool VariableNode::HasTypeNode() const {
+    return myTypeNode != nullptr;
+}
+
+std::string VariableNode::GetName() const {
+    return "Variable";
+}
+
+void VariableNode::AcceptVisitor(NodeVisitor& visitor, int depth) const {
+    visitor.VisitNode(*myIdentifierNode, depth);
+    if (HasTypeNode()) {
+        visitor.VisitNode(*myTypeNode, depth);
+    }
+}
+
+const std::vector<std::unique_ptr<ParameterNode>>& ParameterList::GetParameters() const {
     return myParameters;
 }
 
-void ParameterList::AddParameter(std::unique_ptr<Variable> param) {
+void ParameterList::AddParameter(std::unique_ptr<ParameterNode> param) {
     myParameters.push_back(std::move(param));
 }
 
@@ -104,9 +148,6 @@ void ParameterList::AcceptVisitor(NodeVisitor& visitor, int depth) const {
         visitor.VisitNode(*param, depth);
     }
 }
-
-FunctionDeclaration::FunctionDeclaration(const Lexeme& lexeme)
-    : IDeclaration(lexeme) {}
 
 const ParameterList& FunctionDeclaration::GetParameters() const {
     return *myParams;
@@ -137,10 +178,12 @@ bool FunctionDeclaration::HasReturnNode() const {
 }
 
 std::string FunctionDeclaration::GetName() const {
-    return "Fun Decl :: " + GetIdentifier();
+    return "Fun Decl";
 }
 
 void FunctionDeclaration::AcceptVisitor(NodeVisitor& visitor, int depth) const {
+    IDeclaration::AcceptVisitor(visitor, depth);
+
     visitor.VisitNode(*myParams, depth);
     if (HasReturnNode()) {
         visitor.VisitNode(*myReturnNode, depth);
@@ -149,7 +192,7 @@ void FunctionDeclaration::AcceptVisitor(NodeVisitor& visitor, int depth) const {
     visitor.VisitNode(*myBody, depth);
 }
 
-PropertyDeclaration::PropertyDeclaration(const Lexeme& lexeme, const Lexeme& keyword) : IDeclaration(lexeme), myKeyword(keyword) {}
+PropertyDeclaration::PropertyDeclaration(const Lexeme& keyword) : myKeyword(keyword) {}
 
 bool PropertyDeclaration::IsMutable() const {
     return GetKeyword() == "var";
@@ -184,10 +227,12 @@ bool PropertyDeclaration::HasInitialization() const {
 }
 
 std::string PropertyDeclaration::GetName() const {
-    return "V" + GetKeyword().substr(1) + " Decl :: " + myLexeme.GetValue<std::string>();
+    return "V" + GetKeyword().substr(1) + " Decl";
 }
 
 void PropertyDeclaration::AcceptVisitor(NodeVisitor& visitor, int depth) const {
+    IDeclaration::AcceptVisitor(visitor, depth);
+
     if (HasType()) {
         visitor.VisitNode(*myTypeNode, depth);
     }

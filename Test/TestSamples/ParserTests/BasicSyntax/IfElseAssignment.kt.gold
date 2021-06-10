@@ -1,8 +1,10 @@
 @@ Decl Block
-@@ | Fun Decl :: main
+@@ | Fun Decl
+@@ | | Identifier :: main
 @@ | | Params
 @@ | | Block
-@@ | | | Val Decl :: a
+@@ | | | Val Decl
+@@ | | | | Identifier :: a
 @@ | | | | If Expr
 @@ | | | | | Bin op :: >
 @@ | | | | | | Integer :: 2

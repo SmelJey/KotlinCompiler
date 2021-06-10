@@ -1,5 +1,6 @@
 @@ Decl Block
-@@ | Class Decl :: A
+@@ | Class Decl
+@@ | | Identifier :: A
 @@ | | Decl Block
 @@ | | | Error 1:1 :: Expecting member declaration
 @@ | | | Error 1:3 :: Expecting member declaration

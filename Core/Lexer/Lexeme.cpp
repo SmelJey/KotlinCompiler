@@ -103,6 +103,14 @@ std::string Lexeme::ToString() const {
     return ss.str();
 }
 
+Lexeme Lexeme::CopyEmpty() const {
+    return CopyEmptyOfType(myType);
+}
+
+Lexeme Lexeme::CopyEmptyOfType(LexemeType type) const {
+    return Lexeme(myColumn, myRow, "", type, "");
+}
+
 std::string Lexeme::LexemeToStr[]{ "EOF", "Word", "Key",
     "Byte", "Short", "Int", "Long",
     "UByte", "UShort", "UInt", "ULong",

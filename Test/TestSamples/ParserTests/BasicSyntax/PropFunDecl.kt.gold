@@ -1,12 +1,16 @@
 @@ Decl Block
-@@ | Fun Decl :: main
+@@ | Fun Decl
+@@ | | Identifier :: main
 @@ | | Params
 @@ | | Block
-@@ | | | Val Decl :: a
+@@ | | | Val Decl
+@@ | | | | Identifier :: a
 @@ | | | | Integer :: 5
-@@ | | | Var Decl :: b
+@@ | | | Var Decl
+@@ | | | | Identifier :: b
 @@ | | | | Integer :: 3
-@@ | | | Val Decl :: c
+@@ | | | Val Decl
+@@ | | | | Identifier :: c
 @@ | | | | Bin op :: +
 @@ | | | | | Identifier :: a
 @@ | | | | | Postfix Op :: ++

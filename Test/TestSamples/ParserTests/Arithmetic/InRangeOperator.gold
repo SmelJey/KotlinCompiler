@@ -1,5 +1,6 @@
 @@ Decl Block
-@@ | Fun Decl :: test
+@@ | Fun Decl
+@@ | | Identifier :: test
 @@ | | Params
 @@ | | Bin op :: &&
 @@ | | | Bin op :: in

@@ -2,11 +2,19 @@
 #include "ISyntaxNode.h"
 #include "SimpleNodes.h"
 
-class IDeclaration : public ILexemeNode {
+class IDeclaration : public ISyntaxNode {
 public:
-    explicit IDeclaration(const Lexeme& identifierLexeme);
+    IDeclaration() = default;
 
     std::string GetIdentifier() const;
+    const IdentifierNode& GetIdentifierNode() const;
+    void SetIdentifier(std::unique_ptr<IdentifierNode> identifier);
+
+protected:
+    void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
+
+private:
+    std::unique_ptr<IdentifierNode> myIdentifier;
 };
 
 class DeclarationBlock : public ISyntaxNode {
@@ -27,13 +35,11 @@ private:
 
 class ClassDeclaration : public IDeclaration {
 public:
-    ClassDeclaration(const Lexeme& lexeme);
+    ClassDeclaration() = default;
 
-    const DeclarationBlock* GetBody() const;
+    const DeclarationBlock& GetBody() const;
     void SetBody(std::unique_ptr<DeclarationBlock> body);
     bool HasBody() const;
-
-    const DeclarationBlock& GetClassBody() const;
 
 protected:
     std::string GetName() const override;
@@ -43,9 +49,12 @@ private:
     std::unique_ptr<DeclarationBlock> myClassBody;
 };
 
-class Variable : public ILexemeNode {
+class ParameterNode : public ISyntaxNode {
 public:
-    explicit Variable(const Lexeme& parameterLexeme);
+    ParameterNode() = default;
+
+    const IdentifierNode& GetIdentifier() const;
+    void SetIdentifier(std::unique_ptr<IdentifierNode> identifier);
 
     const ISyntaxNode& GetTypeNode() const;
     void SetTypeNode(std::unique_ptr<ISyntaxNode> typeNode);
@@ -59,28 +68,49 @@ protected:
     void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
 
 private:
+    std::unique_ptr<IdentifierNode> myIdentifierNode;
     std::unique_ptr<ISyntaxNode> myTypeNode;
     std::unique_ptr<ISyntaxNode> myDefaultNode;
+};
+
+class VariableNode : public ISyntaxNode {
+public:
+    VariableNode() = default;
+
+    const IdentifierNode& GetIdentifier() const;
+    void SetIdentifier(std::unique_ptr<IdentifierNode> identifier);
+
+    const ISyntaxNode& GetTypeNode() const;
+    void SetTypeNode(std::unique_ptr<ISyntaxNode> typeNode);
+    bool HasTypeNode() const;
+
+protected:
+    std::string GetName() const override;
+    void AcceptVisitor(NodeVisitor & visitor, int depth) const override;
+
+private:
+    std::unique_ptr<IdentifierNode> myIdentifierNode;
+    std::unique_ptr<ISyntaxNode> myTypeNode;
 };
 
 class ParameterList : public ISyntaxNode {
 public:
     ParameterList() = default;
 
-    const std::vector<std::unique_ptr<Variable>>& GetParameters() const;
-    void AddParameter(std::unique_ptr<Variable> param);
+    const std::vector<std::unique_ptr<ParameterNode>>& GetParameters() const;
+    void AddParameter(std::unique_ptr<ParameterNode> param);
 
 protected:
     std::string GetName() const override;
     void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
 
 private:
-    std::vector<std::unique_ptr<Variable>> myParameters;
+    std::vector<std::unique_ptr<ParameterNode>> myParameters;
 };
 
 class FunctionDeclaration : public IDeclaration {
 public:
-    explicit FunctionDeclaration(const Lexeme& lexeme);
+    FunctionDeclaration() = default;
 
     const ParameterList& GetParameters() const;
     void SetParameters(std::unique_ptr<ParameterList> parameters);
@@ -105,7 +135,7 @@ private:
 
 class PropertyDeclaration : public IDeclaration {
 public:
-    explicit PropertyDeclaration(const Lexeme& lexeme, const Lexeme& keyword);
+    explicit PropertyDeclaration(const Lexeme& keyword);
 
     bool IsMutable() const;
     std::string GetKeyword() const;

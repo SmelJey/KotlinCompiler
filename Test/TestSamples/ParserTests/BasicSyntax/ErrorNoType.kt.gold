@@ -1,7 +1,9 @@
 @@ Decl Block
-@@ | Fun Decl :: test
+@@ | Fun Decl
+@@ | | Identifier :: test
 @@ | | Params
-@@ | | | Param :: a
+@@ | | | Parameter
+@@ | | | | Identifier :: a
 @@ | | | | Error 0:10 :: A type annotation is required on a value parameter
 @@ | | Block
 @@ | | | Bin op :: +

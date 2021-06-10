@@ -1,2 +1,3 @@
 @@ Decl Block
-@@ | Var Decl :: d
+@@ | Var Decl
+@@ | | Identifier :: d

@@ -1,7 +1,7 @@
 #include "catch.hpp"
 #include "CompilerTest.h"
 
-TEST_CASE("Parser arithmetic", "[Parser]") {
+TEST_CASE("Parser Arithmetic", "[Parser]") {
     PARSER_TEST("Arithmetic/SimpleSum")
     PARSER_TEST("Arithmetic/MultipleSum")
     PARSER_TEST("Arithmetic/SumAndProd")
@@ -30,12 +30,7 @@ TEST_CASE("Parser arithmetic", "[Parser]") {
     PARSER_TEST("Arithmetic/BooleanOperators")
 }
 
-TEST_CASE("Parser basic syntax", "[Parser]") {
-    PARSER_TEST("BasicSyntax/EmptyFun.kt")
-    PARSER_TEST("BasicSyntax/FunParams1.kt")
-    PARSER_TEST("BasicSyntax/FunParams2.kt")
-    PARSER_TEST("BasicSyntax/FunDefaultParams.kt")
-
+TEST_CASE("Parser Basic Syntax", "[Parser]") {
     PARSER_TEST("BasicSyntax/MemberAccess1.kt")
     PARSER_TEST("BasicSyntax/MemberAccess2.kt")
     PARSER_TEST("BasicSyntax/FunctionCall1.kt")
@@ -47,13 +42,7 @@ TEST_CASE("Parser basic syntax", "[Parser]") {
     PARSER_TEST("BasicSyntax/IndexOperator3.kt")
     PARSER_TEST("BasicSyntax/PostfixOperators.kt")
 
-    PARSER_TEST("BasicSyntax/ErrorNoFunName.kt")
     PARSER_TEST("BasicSyntax/ErrorNoIndex.kt")
-    PARSER_TEST("BasicSyntax/ErrorNoMember.kt")
-    PARSER_TEST("BasicSyntax/ErrorNoParamName.kt")
-    PARSER_TEST("BasicSyntax/ErrorNoTypeName.kt")
-    PARSER_TEST("BasicSyntax/ErrorNoType.kt")
-    PARSER_TEST("BasicSyntax/ErrorNoPropName.kt")
 
     PARSER_TEST("BasicSyntax/Assignment1.kt")
     PARSER_TEST("BasicSyntax/Assignment2.kt")
@@ -64,6 +53,51 @@ TEST_CASE("Parser basic syntax", "[Parser]") {
     PARSER_TEST("BasicSyntax/ErrorAssignment3.kt")
     PARSER_TEST("BasicSyntax/ErrorAssignment4.kt")
 
+    PARSER_TEST("BasicSyntax/BreakStatement.kt")
+    PARSER_TEST("BasicSyntax/ContinueStatement.kt")
+    PARSER_TEST("BasicSyntax/ReturnStatement1.kt")
+    PARSER_TEST("BasicSyntax/ReturnStatement2.kt")
+    PARSER_TEST("BasicSyntax/ReturnStatement3.kt")
+
+    PARSER_TEST("BasicSyntax/SequenceCode1.kt")
+    PARSER_TEST("BasicSyntax/SequenceCode2.kt")
+    PARSER_TEST("BasicSyntax/SequenceCode3.kt")
+    PARSER_TEST("BasicSyntax/SequenceDeclarations1.kt")
+    PARSER_TEST("BasicSyntax/SequenceDeclarations2.kt")
+}
+
+TEST_CASE("Parser Declarations", "[Parser]") {
+    PARSER_TEST("BasicSyntax/EmptyFun.kt")
+    PARSER_TEST("BasicSyntax/FunParams1.kt")
+    PARSER_TEST("BasicSyntax/FunParams2.kt")
+    PARSER_TEST("BasicSyntax/FunDefaultParams.kt")
+
+    PARSER_TEST("BasicSyntax/PropDecl1.kt")
+    PARSER_TEST("BasicSyntax/PropDecl2.kt")
+    PARSER_TEST("BasicSyntax/PropDecl3.kt")
+    PARSER_TEST("BasicSyntax/PropFunDecl.kt")
+
+    PARSER_TEST("BasicSyntax/ErrorNoFunName.kt")
+    PARSER_TEST("BasicSyntax/ErrorNoMember.kt")
+    PARSER_TEST("BasicSyntax/ErrorNoParamName.kt")
+    PARSER_TEST("BasicSyntax/ErrorNoTypeName.kt")
+    PARSER_TEST("BasicSyntax/ErrorNoType.kt")
+    PARSER_TEST("BasicSyntax/ErrorNoPropName.kt")
+
+    PARSER_TEST("BasicSyntax/Class1.kt")
+    PARSER_TEST("BasicSyntax/Class2.kt")
+    PARSER_TEST("BasicSyntax/Class3.kt")
+    PARSER_TEST("BasicSyntax/Class4.kt")
+    PARSER_TEST("BasicSyntax/Class5.kt")
+    PARSER_TEST("BasicSyntax/Class6.kt")
+    PARSER_TEST("BasicSyntax/Class7.kt")
+
+    PARSER_TEST("BasicSyntax/ErrorClass1.kt")
+    PARSER_TEST("BasicSyntax/ErrorClass2.kt")
+    PARSER_TEST("BasicSyntax/ErrorClass3.kt")
+}
+
+TEST_CASE("Parser If Expression", "[Parser]") {
     PARSER_TEST("BasicSyntax/IfExpr1.kt")
     PARSER_TEST("BasicSyntax/IfExpr2.kt")
     PARSER_TEST("BasicSyntax/IfExpr3.kt")
@@ -80,12 +114,9 @@ TEST_CASE("Parser basic syntax", "[Parser]") {
     PARSER_TEST("BasicSyntax/ErrorIf3.kt")
     PARSER_TEST("BasicSyntax/ErrorIf4.kt")
     PARSER_TEST("BasicSyntax/ErrorIfElse1.kt")
+}
 
-    PARSER_TEST("BasicSyntax/PropDecl1.kt")
-    PARSER_TEST("BasicSyntax/PropDecl2.kt")
-    PARSER_TEST("BasicSyntax/PropDecl3.kt")
-    PARSER_TEST("BasicSyntax/PropFunDecl.kt")
-
+TEST_CASE("Parser Control Statements", "[Parser]") {
     PARSER_TEST("BasicSyntax/ForLoop1.kt")
     PARSER_TEST("BasicSyntax/ForLoop2.kt")
 
@@ -115,29 +146,4 @@ TEST_CASE("Parser basic syntax", "[Parser]") {
     PARSER_TEST("BasicSyntax/ErrorDoWhile4.kt")
     PARSER_TEST("BasicSyntax/ErrorDoWhile5.kt")
     PARSER_TEST("BasicSyntax/ErrorDoWhile6.kt")
-
-    PARSER_TEST("BasicSyntax/BreakStatement.kt")
-    PARSER_TEST("BasicSyntax/ContinueStatement.kt")
-    PARSER_TEST("BasicSyntax/ReturnStatement1.kt")
-    PARSER_TEST("BasicSyntax/ReturnStatement2.kt")
-    PARSER_TEST("BasicSyntax/ReturnStatement3.kt")
-
-    PARSER_TEST("BasicSyntax/Class1.kt")
-    PARSER_TEST("BasicSyntax/Class2.kt")
-    PARSER_TEST("BasicSyntax/Class3.kt")
-    PARSER_TEST("BasicSyntax/Class4.kt")
-    PARSER_TEST("BasicSyntax/Class5.kt")
-    PARSER_TEST("BasicSyntax/Class6.kt")
-    PARSER_TEST("BasicSyntax/Class7.kt")
-
-    PARSER_TEST("BasicSyntax/ErrorClass1.kt")
-    PARSER_TEST("BasicSyntax/ErrorClass2.kt")
-    PARSER_TEST("BasicSyntax/ErrorClass3.kt")
-
-    PARSER_TEST("BasicSyntax/SequenceCode1.kt")
-    PARSER_TEST("BasicSyntax/SequenceCode2.kt")
-    PARSER_TEST("BasicSyntax/SequenceCode3.kt")
-    PARSER_TEST("BasicSyntax/SequenceDeclarations1.kt")
-    PARSER_TEST("BasicSyntax/SequenceDeclarations2.kt")
-
 }
