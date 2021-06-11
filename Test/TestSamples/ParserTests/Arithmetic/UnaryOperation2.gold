@@ -1,17 +1,17 @@
 @@ Decl Block
-@@ | Fun Decl
-@@ | | Identifier :: test
-@@ | | Params
-@@ | | Bin op :: +
-@@ | | | Bin op :: +
-@@ | | | | Bin op :: +
-@@ | | | | | Integer :: 3
-@@ | | | | | Bin op :: *
-@@ | | | | | | Prefix Op :: -
-@@ | | | | | | | Integer :: 2
-@@ | | | | | | Prefix Op :: -
-@@ | | | | | | | Integer :: 3
-@@ | | | | Prefix Op :: -
-@@ | | | | | Integer :: 4
-@@ | | | Prefix Op :: +
-@@ | | | | Integer :: 2
+@@ |-Fun Decl
+@@   |-Identifier :: test
+@@   |-Params
+@@   |-Bin op :: +
+@@     |-Bin op :: +
+@@     | |-Bin op :: +
+@@     | | |-Integer :: 3
+@@     | | |-Bin op :: *
+@@     | |   |-Prefix Op :: -
+@@     | |   | |-Integer :: 2
+@@     | |   |-Prefix Op :: -
+@@     | |     |-Integer :: 3
+@@     | |-Prefix Op :: -
+@@     |   |-Integer :: 4
+@@     |-Prefix Op :: +
+@@       |-Integer :: 2

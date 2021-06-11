@@ -1,10 +1,10 @@
 @@ Decl Block
-@@ | Fun Decl
-@@ | | Identifier :: main
-@@ | | Params
-@@ | | Block
-@@ | | | MemberAccess
-@@ | | | | MemberAccess
-@@ | | | | | Identifier :: a
-@@ | | | | | Identifier :: b
-@@ | | | | Identifier :: c
+@@ |-Fun Decl
+@@   |-Identifier :: main
+@@   |-Params
+@@   |-Block
+@@     |-MemberAccess
+@@       |-MemberAccess
+@@       | |-Identifier :: a
+@@       | |-Identifier :: b
+@@       |-Identifier :: c

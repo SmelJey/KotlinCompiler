@@ -1,13 +1,13 @@
 @@ Decl Block
-@@ | Fun Decl
-@@ | | Identifier :: main
-@@ | | Params
-@@ | | Block
-@@ | | | While
-@@ | | | | Boolean :: true
-@@ | | | | Block
-@@ | | | | | Continue
-@@ | | | | | CallSuffix
-@@ | | | | | | Identifier :: println
-@@ | | | | | | Args
-@@ | | | | | | | String :: test
+@@ |-Fun Decl
+@@   |-Identifier :: main
+@@   |-Params
+@@   |-Block
+@@     |-While
+@@       |-Boolean :: true
+@@       |-Block
+@@         |-Continue
+@@         |-CallSuffix
+@@           |-Identifier :: println
+@@           |-Args
+@@             |-String :: test

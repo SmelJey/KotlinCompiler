@@ -1,11 +1,11 @@
 @@ Decl Block
-@@ | Fun Decl
-@@ | | Identifier :: test
-@@ | | Params
-@@ | | Bin op :: -
-@@ | | | Bin op :: +
-@@ | | | | Identifier :: x
-@@ | | | | Identifier :: y
-@@ | | | Bin op :: /
-@@ | | | | Integer :: 5
-@@ | | | | Identifier :: z
+@@ |-Fun Decl
+@@   |-Identifier :: test
+@@   |-Params
+@@   |-Bin op :: -
+@@     |-Bin op :: +
+@@     | |-Identifier :: x
+@@     | |-Identifier :: y
+@@     |-Bin op :: /
+@@       |-Integer :: 5
+@@       |-Identifier :: z

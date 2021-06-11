@@ -1,8 +1,8 @@
 @@ Decl Block
-@@ | Fun Decl
-@@ | | Identifier :: main
-@@ | | Params
-@@ | | Block
-@@ | | | MemberAccess
-@@ | | | | Identifier :: a
-@@ | | | | Identifier :: b
+@@ |-Fun Decl
+@@   |-Identifier :: main
+@@   |-Params
+@@   |-Block
+@@     |-MemberAccess
+@@       |-Identifier :: a
+@@       |-Identifier :: b

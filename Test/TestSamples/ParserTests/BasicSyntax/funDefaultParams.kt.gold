@@ -1,13 +1,13 @@
 @@ Decl Block
-@@ | Fun Decl
-@@ | | Identifier :: test
-@@ | | Params
-@@ | | | Parameter
-@@ | | | | Identifier :: a
-@@ | | | | Type :: Int
-@@ | | | | Integer :: 5
-@@ | | | Parameter
-@@ | | | | Identifier :: b
-@@ | | | | Type :: Int
-@@ | | | | Integer :: 3
-@@ | | Block
+@@ |-Fun Decl
+@@   |-Identifier :: test
+@@   |-Params
+@@   | |-Parameter
+@@   | | |-Identifier :: a
+@@   | | |-Type :: Int
+@@   | | |-Integer :: 5
+@@   | |-Parameter
+@@   |   |-Identifier :: b
+@@   |   |-Type :: Int
+@@   |   |-Integer :: 3
+@@   |-Block

@@ -1,8 +1,8 @@
 @@ Decl Block
-@@ | Fun Decl
-@@ | | Identifier :: main
-@@ | | Params
-@@ | | Block
-@@ | | | MemberAccess
-@@ | | | | Identifier :: a
-@@ | | | | Error 2:0 :: Name expected
+@@ |-Fun Decl
+@@   |-Identifier :: main
+@@   |-Params
+@@   |-Block
+@@     |-MemberAccess
+@@       |-Identifier :: a
+@@       |-Error 2:0 :: Name expected

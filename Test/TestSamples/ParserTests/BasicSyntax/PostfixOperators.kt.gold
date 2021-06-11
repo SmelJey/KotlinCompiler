@@ -1,19 +1,19 @@
 @@ Decl Block
-@@ | Fun Decl
-@@ | | Identifier :: main
-@@ | | Params
-@@ | | Block
-@@ | | | MemberAccess
-@@ | | | | CallSuffix
-@@ | | | | | IndexSuffix
-@@ | | | | | | CallSuffix
-@@ | | | | | | | MemberAccess
-@@ | | | | | | | | CallSuffix
-@@ | | | | | | | | | Identifier :: a
-@@ | | | | | | | | | Args
-@@ | | | | | | | | Identifier :: b
-@@ | | | | | | | Args
-@@ | | | | | | Args
-@@ | | | | | | | Integer :: 5
-@@ | | | | | Args
-@@ | | | | Identifier :: c
+@@ |-Fun Decl
+@@   |-Identifier :: main
+@@   |-Params
+@@   |-Block
+@@     |-MemberAccess
+@@       |-CallSuffix
+@@       | |-IndexSuffix
+@@       | | |-CallSuffix
+@@       | | | |-MemberAccess
+@@       | | | | |-CallSuffix
+@@       | | | | | |-Identifier :: a
+@@       | | | | | |-Args
+@@       | | | | |-Identifier :: b
+@@       | | | |-Args
+@@       | | |-Args
+@@       | |   |-Integer :: 5
+@@       | |-Args
+@@       |-Identifier :: c

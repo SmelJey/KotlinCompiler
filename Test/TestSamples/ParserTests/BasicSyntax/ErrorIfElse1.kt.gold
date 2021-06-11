@@ -1,12 +1,12 @@
 @@ Decl Block
-@@ | Fun Decl
-@@ | | Identifier :: main
-@@ | | Params
-@@ | | Block
-@@ | | | If Expr
-@@ | | | | Bin op :: >
-@@ | | | | | Integer :: 3
-@@ | | | | | Integer :: 2
-@@ | | | | Block
-@@ | | | | Error 3:0 :: Unexpected lexeme
-@@ | | | Error 3:1 :: Expecting '}'
+@@ |-Fun Decl
+@@   |-Identifier :: main
+@@   |-Params
+@@   |-Block
+@@     |-If Expr
+@@     | |-Bin op :: >
+@@     | | |-Integer :: 3
+@@     | | |-Integer :: 2
+@@     | |-Block
+@@     | |-Error 3:0 :: Unexpected lexeme
+@@     |-Error 3:1 :: Expecting '}'

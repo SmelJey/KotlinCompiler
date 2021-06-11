@@ -1,11 +1,11 @@
 @@ Decl Block
-@@ | Fun Decl
-@@ | | Identifier :: main
-@@ | | Params
-@@ | | Block
-@@ | | | If Expr
-@@ | | | | Bin op :: >
-@@ | | | | | Integer :: 3
-@@ | | | | | Integer :: 2
-@@ | | | | Block
-@@ | | | | Error 1:11 :: Expecting ')'
+@@ |-Fun Decl
+@@   |-Identifier :: main
+@@   |-Params
+@@   |-Block
+@@     |-If Expr
+@@       |-Bin op :: >
+@@       | |-Integer :: 3
+@@       | |-Integer :: 2
+@@       |-Block
+@@       |-Error 1:11 :: Expecting ')'

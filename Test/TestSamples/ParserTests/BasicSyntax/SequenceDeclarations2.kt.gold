@@ -1,20 +1,20 @@
 @@ Decl Block
-@@ | Val Decl
-@@ | | Identifier :: a
-@@ | | Integer :: 5
-@@ | Val Decl
-@@ | | Identifier :: b
-@@ | | Integer :: 3
-@@ | Fun Decl
-@@ | | Identifier :: c
-@@ | | Params
-@@ | | Integer :: 1
-@@ | Fun Decl
-@@ | | Identifier :: d
-@@ | | Params
-@@ | | Block
-@@ | Class Decl
-@@ | | Identifier :: E
-@@ | Class Decl
-@@ | | Identifier :: F
-@@ | | Decl Block
+@@ |-Val Decl
+@@ | |-Identifier :: a
+@@ | |-Integer :: 5
+@@ |-Val Decl
+@@ | |-Identifier :: b
+@@ | |-Integer :: 3
+@@ |-Fun Decl
+@@ | |-Identifier :: c
+@@ | |-Params
+@@ | |-Integer :: 1
+@@ |-Fun Decl
+@@ | |-Identifier :: d
+@@ | |-Params
+@@ | |-Block
+@@ |-Class Decl
+@@ | |-Identifier :: E
+@@ |-Class Decl
+@@   |-Identifier :: F
+@@   |-Decl Block

@@ -1,12 +1,12 @@
 @@ Decl Block
-@@ | Class Decl
-@@ | | Identifier :: A
-@@ | | Decl Block
-@@ | | | Val Decl
-@@ | | | | Identifier :: a
-@@ | | | | Type :: Int
-@@ | | | | Integer :: 1
-@@ | Fun Decl
-@@ | | Identifier :: main
-@@ | | Params
-@@ | | Block
+@@ |-Class Decl
+@@ | |-Identifier :: A
+@@ | |-Decl Block
+@@ |   |-Val Decl
+@@ |     |-Identifier :: a
+@@ |     |-Type :: Int
+@@ |     |-Integer :: 1
+@@ |-Fun Decl
+@@   |-Identifier :: main
+@@   |-Params
+@@   |-Block

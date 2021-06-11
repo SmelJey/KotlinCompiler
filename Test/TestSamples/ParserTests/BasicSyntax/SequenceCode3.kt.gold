@@ -1,17 +1,17 @@
 @@ Decl Block
-@@ | Fun Decl
-@@ | | Identifier :: main
-@@ | | Params
-@@ | | Block
-@@ | | | CallSuffix
-@@ | | | | Identifier :: println
-@@ | | | | Args
-@@ | | | | | String :: hello
-@@ | | | CallSuffix
-@@ | | | | Identifier :: println
-@@ | | | | Args
-@@ | | | | | String :: world
-@@ | | | CallSuffix
-@@ | | | | Identifier :: println
-@@ | | | | Args
-@@ | | | | | String :: !
+@@ |-Fun Decl
+@@   |-Identifier :: main
+@@   |-Params
+@@   |-Block
+@@     |-CallSuffix
+@@     | |-Identifier :: println
+@@     | |-Args
+@@     |   |-String :: hello
+@@     |-CallSuffix
+@@     | |-Identifier :: println
+@@     | |-Args
+@@     |   |-String :: world
+@@     |-CallSuffix
+@@       |-Identifier :: println
+@@       |-Args
+@@         |-String :: !

@@ -1,11 +1,11 @@
 @@ Decl Block
-@@ | Fun Decl
-@@ | | Identifier :: main
-@@ | | Params
-@@ | | Block
-@@ | | | Assignment :: =
-@@ | | | | IndexSuffix
-@@ | | | | | Identifier :: a
-@@ | | | | | Args
-@@ | | | | | | Integer :: 1
-@@ | | | | Integer :: 5
+@@ |-Fun Decl
+@@   |-Identifier :: main
+@@   |-Params
+@@   |-Block
+@@     |-Assignment :: =
+@@       |-IndexSuffix
+@@       | |-Identifier :: a
+@@       | |-Args
+@@       |   |-Integer :: 1
+@@       |-Integer :: 5

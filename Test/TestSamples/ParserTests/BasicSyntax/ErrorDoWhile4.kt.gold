@@ -1,8 +1,8 @@
 @@ Decl Block
-@@ | Fun Decl
-@@ | | Identifier :: main
-@@ | | Params
-@@ | | Block
-@@ | | | DoWhile
-@@ | | | | Boolean :: false
-@@ | | | | Error 2:1 :: Unexpected lexeme
+@@ |-Fun Decl
+@@   |-Identifier :: main
+@@   |-Params
+@@   |-Block
+@@     |-DoWhile
+@@       |-Boolean :: false
+@@       |-Error 2:1 :: Unexpected lexeme

@@ -1,13 +1,13 @@
 @@ Decl Block
-@@ | Fun Decl
-@@ | | Identifier :: main
-@@ | | Params
-@@ | | Block
-@@ | | | For
-@@ | | | | Variable
-@@ | | | | | Identifier :: c
-@@ | | | | Bin op :: ..
-@@ | | | | | Integer :: 1
-@@ | | | | | Integer :: 5
-@@ | | | | Error 2:0 :: Unexpected lexeme
-@@ | | | Error 2:1 :: Expecting '}'
+@@ |-Fun Decl
+@@   |-Identifier :: main
+@@   |-Params
+@@   |-Block
+@@     |-For
+@@     | |-Variable
+@@     | | |-Identifier :: c
+@@     | |-Bin op :: ..
+@@     | | |-Integer :: 1
+@@     | | |-Integer :: 5
+@@     | |-Error 2:0 :: Unexpected lexeme
+@@     |-Error 2:1 :: Expecting '}'

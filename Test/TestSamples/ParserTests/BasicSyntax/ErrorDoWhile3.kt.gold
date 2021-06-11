@@ -1,9 +1,9 @@
 @@ Decl Block
-@@ | Fun Decl
-@@ | | Identifier :: main
-@@ | | Params
-@@ | | Block
-@@ | | | DoWhile
-@@ | | | | Boolean :: false
-@@ | | | | Block
-@@ | | | | Error 2:4 :: Expecting 'while' followed by a post-condition
+@@ |-Fun Decl
+@@   |-Identifier :: main
+@@   |-Params
+@@   |-Block
+@@     |-DoWhile
+@@       |-Boolean :: false
+@@       |-Block
+@@       |-Error 2:4 :: Expecting 'while' followed by a post-condition

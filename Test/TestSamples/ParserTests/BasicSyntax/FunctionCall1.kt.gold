@@ -1,8 +1,8 @@
 @@ Decl Block
-@@ | Fun Decl
-@@ | | Identifier :: main
-@@ | | Params
-@@ | | Block
-@@ | | | CallSuffix
-@@ | | | | Identifier :: println
-@@ | | | | Args
+@@ |-Fun Decl
+@@   |-Identifier :: main
+@@   |-Params
+@@   |-Block
+@@     |-CallSuffix
+@@       |-Identifier :: println
+@@       |-Args

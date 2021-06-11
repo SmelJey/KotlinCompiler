@@ -1,8 +1,8 @@
 @@ Decl Block
-@@ | Val Decl
-@@ | | Identifier :: 
-@@ | | | Error 2:0 :: Expecting property name
-@@ | Fun Decl
-@@ | | Identifier :: test
-@@ | | Params
-@@ | | Integer :: 5
+@@ |-Val Decl
+@@ | |-Identifier :: 
+@@ |   |-Error 2:0 :: Expecting property name
+@@ |-Fun Decl
+@@   |-Identifier :: test
+@@   |-Params
+@@   |-Integer :: 5

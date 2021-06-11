@@ -1,10 +1,10 @@
 @@ Decl Block
-@@ | Fun Decl
-@@ | | Identifier :: main
-@@ | | Params
-@@ | | Block
-@@ | | | Return
-@@ | | | CallSuffix
-@@ | | | | Identifier :: println
-@@ | | | | Args
-@@ | | | | | String :: no way
+@@ |-Fun Decl
+@@   |-Identifier :: main
+@@   |-Params
+@@   |-Block
+@@     |-Return
+@@     |-CallSuffix
+@@       |-Identifier :: println
+@@       |-Args
+@@         |-String :: no way

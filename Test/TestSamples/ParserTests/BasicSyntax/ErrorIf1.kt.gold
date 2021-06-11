@@ -1,9 +1,9 @@
 @@ Decl Block
-@@ | Fun Decl
-@@ | | Identifier :: main
-@@ | | Params
-@@ | | Block
-@@ | | | If Expr
-@@ | | | | Error 1:5 :: Unexpected lexeme
-@@ | | | | Block
-@@ | | | | Error 1:7 :: Expecting ')'
+@@ |-Fun Decl
+@@   |-Identifier :: main
+@@   |-Params
+@@   |-Block
+@@     |-If Expr
+@@       |-Error 1:5 :: Unexpected lexeme
+@@       |-Block
+@@       |-Error 1:7 :: Expecting ')'

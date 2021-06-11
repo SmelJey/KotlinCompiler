@@ -1,24 +1,24 @@
 @@ Decl Block
-@@ | Class Decl
-@@ | | Identifier :: B
-@@ | | Decl Block
-@@ | | | Val Decl
-@@ | | | | Identifier :: d
-@@ | | | | Integer :: 5
-@@ | Class Decl
-@@ | | Identifier :: A
-@@ | | Decl Block
-@@ | | | Val Decl
-@@ | | | | Identifier :: a
-@@ | | | | Type :: Int
-@@ | | | | Integer :: 1
-@@ | | | Val Decl
-@@ | | | | Identifier :: b
-@@ | | | | Type :: B
-@@ | | | | CallSuffix
-@@ | | | | | Identifier :: B
-@@ | | | | | Args
-@@ | Fun Decl
-@@ | | Identifier :: main
-@@ | | Params
-@@ | | Block
+@@ |-Class Decl
+@@ | |-Identifier :: B
+@@ | |-Decl Block
+@@ |   |-Val Decl
+@@ |     |-Identifier :: d
+@@ |     |-Integer :: 5
+@@ |-Class Decl
+@@ | |-Identifier :: A
+@@ | |-Decl Block
+@@ |   |-Val Decl
+@@ |   | |-Identifier :: a
+@@ |   | |-Type :: Int
+@@ |   | |-Integer :: 1
+@@ |   |-Val Decl
+@@ |     |-Identifier :: b
+@@ |     |-Type :: B
+@@ |     |-CallSuffix
+@@ |       |-Identifier :: B
+@@ |       |-Args
+@@ |-Fun Decl
+@@   |-Identifier :: main
+@@   |-Params
+@@   |-Block

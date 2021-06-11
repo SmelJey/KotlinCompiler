@@ -1,7 +1,7 @@
 @@ Decl Block
-@@ | Class Decl
-@@ | | Identifier :: A
-@@ | Fun Decl
-@@ | | Identifier :: main
-@@ | | Params
-@@ | | Block
+@@ |-Class Decl
+@@ | |-Identifier :: A
+@@ |-Fun Decl
+@@   |-Identifier :: main
+@@   |-Params
+@@   |-Block

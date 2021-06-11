@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <stack>
 #include <vector>
 
 class ISyntaxNode;
@@ -11,15 +12,8 @@ public:
 
     void VisitNode(const ISyntaxNode& node, int depth);
 protected:
-    virtual void ProcessNode(const ISyntaxNode& node, int depth) = 0;
-};
-
-class PrintVisitor : public NodeVisitor {
-public:
-    PrintVisitor();
-
-protected:
-    void ProcessNode(const ISyntaxNode& node, int depth) override;
+    virtual void EnterNode(const ISyntaxNode& node, int depth) = 0;
+    virtual void ExitNode(const ISyntaxNode& node, int depth) = 0;
 };
 
 class ToStringVisitor : public NodeVisitor {
@@ -28,8 +22,26 @@ public:
 
     std::vector<std::string> GetStringData() const;
 protected:
-    void ProcessNode(const ISyntaxNode& node, int depth) override;
+    void EnterNode(const ISyntaxNode& node, int depth) override;
+    void ExitNode(const ISyntaxNode& node, int depth) override;
 
 private:
+    std::vector<std::string> myStringData;
+};
+
+class CuteToStringVisitor : public NodeVisitor {
+public:
+    CuteToStringVisitor();
+
+    std::vector<std::string> GetStringData() const;
+protected:
+    void EnterNode(const ISyntaxNode& node, int depth) override;
+    void ExitNode(const ISyntaxNode& node, int depth) override;
+
+private:
+    std::stack<std::vector<std::string>> myStack;
+    static const char LINK_CHAR = '|';
+    static const char CHILD_CHAR = '|';
+
     std::vector<std::string> myStringData;
 };

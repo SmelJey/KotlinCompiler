@@ -1,31 +1,31 @@
 @@ Decl Block
-@@ | Fun Decl
-@@ | | Identifier :: test
-@@ | | Params
-@@ | | Bin op :: -
-@@ | | | Bin op :: /
-@@ | | | | Bin op :: *
-@@ | | | | | Bin op :: +
-@@ | | | | | | Bin op :: +
-@@ | | | | | | | Integer :: 3
-@@ | | | | | | | Integer :: 5
-@@ | | | | | | Integer :: 2
-@@ | | | | | Bin op :: -
-@@ | | | | | | Integer :: 7
-@@ | | | | | | Integer :: 6
-@@ | | | | Bin op :: +
-@@ | | | | | Bin op :: +
-@@ | | | | | | Integer :: 1
-@@ | | | | | | Integer :: 2
-@@ | | | | | Bin op :: /
-@@ | | | | | | Integer :: 4
-@@ | | | | | | Integer :: 2
-@@ | | | Bin op :: /
-@@ | | | | Bin op :: *
-@@ | | | | | Bin op :: -
-@@ | | | | | | Integer :: 5
-@@ | | | | | | Integer :: 6
-@@ | | | | | Integer :: 1
-@@ | | | | Bin op :: -
-@@ | | | | | Integer :: 4
-@@ | | | | | Integer :: 3
+@@ |-Fun Decl
+@@   |-Identifier :: test
+@@   |-Params
+@@   |-Bin op :: -
+@@     |-Bin op :: /
+@@     | |-Bin op :: *
+@@     | | |-Bin op :: +
+@@     | | | |-Bin op :: +
+@@     | | | | |-Integer :: 3
+@@     | | | | |-Integer :: 5
+@@     | | | |-Integer :: 2
+@@     | | |-Bin op :: -
+@@     | |   |-Integer :: 7
+@@     | |   |-Integer :: 6
+@@     | |-Bin op :: +
+@@     |   |-Bin op :: +
+@@     |   | |-Integer :: 1
+@@     |   | |-Integer :: 2
+@@     |   |-Bin op :: /
+@@     |     |-Integer :: 4
+@@     |     |-Integer :: 2
+@@     |-Bin op :: /
+@@       |-Bin op :: *
+@@       | |-Bin op :: -
+@@       | | |-Integer :: 5
+@@       | | |-Integer :: 6
+@@       | |-Integer :: 1
+@@       |-Bin op :: -
+@@         |-Integer :: 4
+@@         |-Integer :: 3

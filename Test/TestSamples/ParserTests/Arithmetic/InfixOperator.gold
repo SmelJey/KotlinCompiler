@@ -1,7 +1,7 @@
 @@ Decl Block
-@@ | Fun Decl
-@@ | | Identifier :: test
-@@ | | Params
-@@ | | Bin op :: abc
-@@ | | | Integer :: 132
-@@ | | | Integer :: 35
+@@ |-Fun Decl
+@@   |-Identifier :: test
+@@   |-Params
+@@   |-Bin op :: abc
+@@     |-Integer :: 132
+@@     |-Integer :: 35

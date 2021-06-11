@@ -1,24 +1,24 @@
 @@ Decl Block
-@@ | Class Decl
-@@ | | Identifier :: A
-@@ | | Decl Block
-@@ | | | Val Decl
-@@ | | | | Identifier :: a
-@@ | | | | Type :: Int
-@@ | | | | Integer :: 1
-@@ | | | Fun Decl
-@@ | | | | Identifier :: test
-@@ | | | | Params
-@@ | | | | Integer :: 2
-@@ | | | Fun Decl
-@@ | | | | Identifier :: tmp
-@@ | | | | Params
-@@ | | | | Block
-@@ | | | | | CallSuffix
-@@ | | | | | | Identifier :: println
-@@ | | | | | | Args
-@@ | | | | | | | String :: Hi
-@@ | Fun Decl
-@@ | | Identifier :: main
-@@ | | Params
-@@ | | Block
+@@ |-Class Decl
+@@ | |-Identifier :: A
+@@ | |-Decl Block
+@@ |   |-Val Decl
+@@ |   | |-Identifier :: a
+@@ |   | |-Type :: Int
+@@ |   | |-Integer :: 1
+@@ |   |-Fun Decl
+@@ |   | |-Identifier :: test
+@@ |   | |-Params
+@@ |   | |-Integer :: 2
+@@ |   |-Fun Decl
+@@ |     |-Identifier :: tmp
+@@ |     |-Params
+@@ |     |-Block
+@@ |       |-CallSuffix
+@@ |         |-Identifier :: println
+@@ |         |-Args
+@@ |           |-String :: Hi
+@@ |-Fun Decl
+@@   |-Identifier :: main
+@@   |-Params
+@@   |-Block

@@ -1,9 +1,9 @@
 @@ Decl Block
-@@ | Fun Decl
-@@ | | Identifier :: main
-@@ | | Params
-@@ | | Block
-@@ | | | While
-@@ | | | | Boolean :: true
-@@ | | | | Block
-@@ | | | | Error 1:7 :: Expecting '('
+@@ |-Fun Decl
+@@   |-Identifier :: main
+@@   |-Params
+@@   |-Block
+@@     |-While
+@@       |-Boolean :: true
+@@       |-Block
+@@       |-Error 1:7 :: Expecting '('

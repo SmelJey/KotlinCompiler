@@ -1,9 +1,9 @@
 @@ Decl Block
-@@ | Fun Decl
-@@ | | Identifier :: main
-@@ | | Params
-@@ | | Block
-@@ | | | CallSuffix
-@@ | | | | Identifier :: println
-@@ | | | | Args
-@@ | | | | | String :: Hello world!
+@@ |-Fun Decl
+@@   |-Identifier :: main
+@@   |-Params
+@@   |-Block
+@@     |-CallSuffix
+@@       |-Identifier :: println
+@@       |-Args
+@@         |-String :: Hello world!

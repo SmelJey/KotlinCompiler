@@ -1,15 +1,15 @@
 @@ Decl Block
-@@ | Fun Decl
-@@ | | Identifier :: test
-@@ | | Params
-@@ | | Bin op :: &&
-@@ | | | Bin op :: in
-@@ | | | | Integer :: 123
-@@ | | | | Bin op :: ..
-@@ | | | | | Integer :: 5
-@@ | | | | | Integer :: 10
-@@ | | | Bin op :: !in
-@@ | | | | Integer :: 35
-@@ | | | | Bin op :: ..
-@@ | | | | | Integer :: 1
-@@ | | | | | Integer :: 100
+@@ |-Fun Decl
+@@   |-Identifier :: test
+@@   |-Params
+@@   |-Bin op :: &&
+@@     |-Bin op :: in
+@@     | |-Integer :: 123
+@@     | |-Bin op :: ..
+@@     |   |-Integer :: 5
+@@     |   |-Integer :: 10
+@@     |-Bin op :: !in
+@@       |-Integer :: 35
+@@       |-Bin op :: ..
+@@         |-Integer :: 1
+@@         |-Integer :: 100

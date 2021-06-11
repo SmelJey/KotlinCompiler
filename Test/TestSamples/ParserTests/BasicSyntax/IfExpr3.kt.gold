@@ -1,10 +1,10 @@
 @@ Decl Block
-@@ | Fun Decl
-@@ | | Identifier :: main
-@@ | | Params
-@@ | | Block
-@@ | | | If Expr
-@@ | | | | Bin op :: >
-@@ | | | | | Integer :: 2
-@@ | | | | | Integer :: 3
-@@ | | | | Empty Statement
+@@ |-Fun Decl
+@@   |-Identifier :: main
+@@   |-Params
+@@   |-Block
+@@     |-If Expr
+@@       |-Bin op :: >
+@@       | |-Integer :: 2
+@@       | |-Integer :: 3
+@@       |-Empty Statement

@@ -1,12 +1,12 @@
 @@ Decl Block
-@@ | Fun Decl
-@@ | | Identifier :: main
-@@ | | Params
-@@ | | Block
-@@ | | | Assignment :: =
-@@ | | | | Identifier :: a
-@@ | | | | Bin op :: +
-@@ | | | | | Integer :: 5
-@@ | | | | | Bin op :: /
-@@ | | | | | | Integer :: 3
-@@ | | | | | | Integer :: 4
+@@ |-Fun Decl
+@@   |-Identifier :: main
+@@   |-Params
+@@   |-Block
+@@     |-Assignment :: =
+@@       |-Identifier :: a
+@@       |-Bin op :: +
+@@         |-Integer :: 5
+@@         |-Bin op :: /
+@@           |-Integer :: 3
+@@           |-Integer :: 4

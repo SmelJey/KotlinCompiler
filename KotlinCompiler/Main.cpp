@@ -70,8 +70,12 @@ int main(int argc, char** argv) {
     Pointer<ISyntaxNode> syntaxTree = parser.Parse();
 
     if (configuration.GetParserDebug()) {
-        PrintVisitor visitor;
+        CuteToStringVisitor visitor;
         syntaxTree->RunVisitor(visitor);
+
+        for (auto& str : visitor.GetStringData()) {
+            std::cout << str << std::endl;
+        }
     }
 
     return 0;

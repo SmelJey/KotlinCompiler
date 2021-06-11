@@ -1,7 +1,7 @@
 @@ Decl Block
-@@ | Fun Decl
-@@ | | Identifier :: test
-@@ | | Params
-@@ | | Bin op :: +
-@@ | | | Integer :: 2
-@@ | | | Error 0:17 :: Unexpected lexeme
+@@ |-Fun Decl
+@@   |-Identifier :: test
+@@   |-Params
+@@   |-Bin op :: +
+@@     |-Integer :: 2
+@@     |-Error 0:17 :: Unexpected lexeme

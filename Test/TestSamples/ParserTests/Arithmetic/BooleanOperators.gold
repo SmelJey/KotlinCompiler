@@ -1,22 +1,22 @@
 @@ Decl Block
-@@ | Fun Decl
-@@ | | Identifier :: test
-@@ | | Params
-@@ | | Bin op :: ||
-@@ | | | Bin op :: ||
-@@ | | | | Boolean :: true
-@@ | | | | Bin op :: &&
-@@ | | | | | Boolean :: false
-@@ | | | | | Bin op :: ==
-@@ | | | | | | Integer :: 5
-@@ | | | | | | Integer :: 3
-@@ | | | Bin op :: ||
-@@ | | | | Bin op :: ===
-@@ | | | | | Identifier :: a
-@@ | | | | | Identifier :: g
-@@ | | | | Prefix Op :: !
-@@ | | | | | Bin op :: !=
-@@ | | | | | | Bin op :: +
-@@ | | | | | | | Integer :: 5
-@@ | | | | | | | Integer :: 3
-@@ | | | | | | Integer :: 7
+@@ |-Fun Decl
+@@   |-Identifier :: test
+@@   |-Params
+@@   |-Bin op :: ||
+@@     |-Bin op :: ||
+@@     | |-Boolean :: true
+@@     | |-Bin op :: &&
+@@     |   |-Boolean :: false
+@@     |   |-Bin op :: ==
+@@     |     |-Integer :: 5
+@@     |     |-Integer :: 3
+@@     |-Bin op :: ||
+@@       |-Bin op :: ===
+@@       | |-Identifier :: a
+@@       | |-Identifier :: g
+@@       |-Prefix Op :: !
+@@         |-Bin op :: !=
+@@           |-Bin op :: +
+@@           | |-Integer :: 5
+@@           | |-Integer :: 3
+@@           |-Integer :: 7

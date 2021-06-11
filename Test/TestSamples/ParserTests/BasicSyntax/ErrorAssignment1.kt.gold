@@ -1,15 +1,15 @@
 @@ Decl Block
-@@ | Fun Decl
-@@ | | Identifier :: main
-@@ | | Params
-@@ | | Block
-@@ | | | Assignment :: =
-@@ | | | | CallSuffix
-@@ | | | | | Identifier :: a
-@@ | | | | | Args
-@@ | | | | Bin op :: +
-@@ | | | | | Integer :: 5
-@@ | | | | | Bin op :: /
-@@ | | | | | | Integer :: 3
-@@ | | | | | | Integer :: 4
-@@ | | | | Error 1:5 :: Variable expected
+@@ |-Fun Decl
+@@   |-Identifier :: main
+@@   |-Params
+@@   |-Block
+@@     |-Assignment :: =
+@@       |-CallSuffix
+@@       | |-Identifier :: a
+@@       | |-Args
+@@       |-Bin op :: +
+@@       | |-Integer :: 5
+@@       | |-Bin op :: /
+@@       |   |-Integer :: 3
+@@       |   |-Integer :: 4
+@@       |-Error 1:5 :: Variable expected

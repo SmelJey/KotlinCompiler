@@ -1,7 +1,7 @@
 @@ Decl Block
-@@ | Fun Decl
-@@ | | Identifier :: test
-@@ | | Params
-@@ | | Prefix Op :: -
-@@ | | | Prefix Op :: -
-@@ | | | | Integer :: 2
+@@ |-Fun Decl
+@@   |-Identifier :: test
+@@   |-Params
+@@   |-Prefix Op :: -
+@@     |-Prefix Op :: -
+@@       |-Integer :: 2

@@ -1,8 +1,8 @@
 @@ Decl Block
-@@ | Fun Decl
-@@ | | Identifier :: main
-@@ | | Params
-@@ | | Block
-@@ | | | While
-@@ | | | | Boolean :: true
-@@ | | | | Empty Statement
+@@ |-Fun Decl
+@@   |-Identifier :: main
+@@   |-Params
+@@   |-Block
+@@     |-While
+@@       |-Boolean :: true
+@@       |-Empty Statement

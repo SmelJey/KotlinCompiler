@@ -1,10 +1,10 @@
 @@ Decl Block
-@@ | Fun Decl
-@@ | | Identifier :: main
-@@ | | Params
-@@ | | Block
-@@ | | | Assignment :: =
-@@ | | | | MemberAccess
-@@ | | | | | Identifier :: a
-@@ | | | | | Identifier :: b
-@@ | | | | Integer :: 5
+@@ |-Fun Decl
+@@   |-Identifier :: main
+@@   |-Params
+@@   |-Block
+@@     |-Assignment :: =
+@@       |-MemberAccess
+@@       | |-Identifier :: a
+@@       | |-Identifier :: b
+@@       |-Integer :: 5

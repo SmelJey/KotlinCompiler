@@ -1,6 +1,6 @@
 @@ Decl Block
-@@ | Val Decl
-@@ | | Identifier :: b
-@@ | | Bin op :: +
-@@ | | | Integer :: 5
-@@ | | | Integer :: 1
+@@ |-Val Decl
+@@   |-Identifier :: b
+@@   |-Bin op :: +
+@@     |-Integer :: 5
+@@     |-Integer :: 1

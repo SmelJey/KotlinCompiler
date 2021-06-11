@@ -1,11 +1,11 @@
 @@ Decl Block
-@@ | Fun Decl
-@@ | | Identifier :: main
-@@ | | Params
-@@ | | Block
-@@ | | | For
-@@ | | | | Variable
-@@ | | | | | Identifier :: c
-@@ | | | | Error 1:11 :: Unexpected lexeme
-@@ | | | | Block
-@@ | | | | Error 1:13 :: Expecting ')'
+@@ |-Fun Decl
+@@   |-Identifier :: main
+@@   |-Params
+@@   |-Block
+@@     |-For
+@@       |-Variable
+@@       | |-Identifier :: c
+@@       |-Error 1:11 :: Unexpected lexeme
+@@       |-Block
+@@       |-Error 1:13 :: Expecting ')'

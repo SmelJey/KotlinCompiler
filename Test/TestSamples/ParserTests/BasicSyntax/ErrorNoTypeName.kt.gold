@@ -1,11 +1,11 @@
 @@ Decl Block
-@@ | Fun Decl
-@@ | | Identifier :: test
-@@ | | Params
-@@ | | | Parameter
-@@ | | | | Identifier :: a
-@@ | | | | Error 0:12 :: Type expected
-@@ | | Block
-@@ | | | Bin op :: +
-@@ | | | | Integer :: 2
-@@ | | | | Integer :: 3
+@@ |-Fun Decl
+@@   |-Identifier :: test
+@@   |-Params
+@@   | |-Parameter
+@@   |   |-Identifier :: a
+@@   |   |-Error 0:12 :: Type expected
+@@   |-Block
+@@     |-Bin op :: +
+@@       |-Integer :: 2
+@@       |-Integer :: 3

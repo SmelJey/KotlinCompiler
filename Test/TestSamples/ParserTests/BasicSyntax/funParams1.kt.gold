@@ -1,8 +1,8 @@
 @@ Decl Block
-@@ | Fun Decl
-@@ | | Identifier :: test
-@@ | | Params
-@@ | | | Parameter
-@@ | | | | Identifier :: a
-@@ | | | | Type :: Int
-@@ | | Block
+@@ |-Fun Decl
+@@   |-Identifier :: test
+@@   |-Params
+@@   | |-Parameter
+@@   |   |-Identifier :: a
+@@   |   |-Type :: Int
+@@   |-Block

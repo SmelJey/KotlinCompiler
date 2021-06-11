@@ -1,6 +1,6 @@
 @@ Decl Block
-@@ | Fun Decl
-@@ | | Identifier :: test
-@@ | | Params
-@@ | | Prefix Op :: -
-@@ | | | Integer :: 4
+@@ |-Fun Decl
+@@   |-Identifier :: test
+@@   |-Params
+@@   |-Prefix Op :: -
+@@     |-Integer :: 4

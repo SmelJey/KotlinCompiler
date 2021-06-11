@@ -1,18 +1,18 @@
 @@ Decl Block
-@@ | Fun Decl
-@@ | | Identifier :: main
-@@ | | Params
-@@ | | Block
-@@ | | | If Expr
-@@ | | | | Bin op :: >
-@@ | | | | | Integer :: 2
-@@ | | | | | Integer :: 3
-@@ | | | | Block
-@@ | | | | | CallSuffix
-@@ | | | | | | Identifier :: println
-@@ | | | | | | Args
-@@ | | | | | | | String :: hello
-@@ | | | | | CallSuffix
-@@ | | | | | | Identifier :: println
-@@ | | | | | | Args
-@@ | | | | | | | String :: world
+@@ |-Fun Decl
+@@   |-Identifier :: main
+@@   |-Params
+@@   |-Block
+@@     |-If Expr
+@@       |-Bin op :: >
+@@       | |-Integer :: 2
+@@       | |-Integer :: 3
+@@       |-Block
+@@         |-CallSuffix
+@@         | |-Identifier :: println
+@@         | |-Args
+@@         |   |-String :: hello
+@@         |-CallSuffix
+@@           |-Identifier :: println
+@@           |-Args
+@@             |-String :: world

@@ -1,9 +1,9 @@
 @@ Decl Block
-@@ | Fun Decl
-@@ | | Identifier :: test
-@@ | | Params
-@@ | | Bin op :: +
-@@ | | | Integer :: 4
-@@ | | | Bin op :: *
-@@ | | | | Integer :: 3
-@@ | | | | Integer :: 2
+@@ |-Fun Decl
+@@   |-Identifier :: test
+@@   |-Params
+@@   |-Bin op :: +
+@@     |-Integer :: 4
+@@     |-Bin op :: *
+@@       |-Integer :: 3
+@@       |-Integer :: 2

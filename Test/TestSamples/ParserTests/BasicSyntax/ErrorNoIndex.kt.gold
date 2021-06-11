@@ -1,9 +1,9 @@
 @@ Decl Block
-@@ | Fun Decl
-@@ | | Identifier :: main
-@@ | | Params
-@@ | | Block
-@@ | | | IndexSuffix
-@@ | | | | Identifier :: a
-@@ | | | | Args
-@@ | | | | Error 1:2 :: Expecting an index
+@@ |-Fun Decl
+@@   |-Identifier :: main
+@@   |-Params
+@@   |-Block
+@@     |-IndexSuffix
+@@       |-Identifier :: a
+@@       |-Args
+@@       |-Error 1:2 :: Expecting an index
