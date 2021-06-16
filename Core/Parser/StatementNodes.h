@@ -14,6 +14,8 @@ class Assignment : public ILexemeNode {
 public:
     explicit Assignment(const Lexeme& lexeme);
 
+    std::string GetOperation() const;
+
     const ISyntaxNode& GetAssignable() const;
     void SetAssignable(std::unique_ptr<ISyntaxNode> assignable);
 

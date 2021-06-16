@@ -3,6 +3,6 @@
 @@   |-Identifier :: main
 @@   |-Params
 @@   |-Block
-@@     |-MemberAccess
+@@     |-MemberAccess :: .
 @@       |-Identifier :: a
 @@       |-Error 2:0 :: Name expected

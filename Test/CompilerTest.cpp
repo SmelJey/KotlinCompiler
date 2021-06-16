@@ -3,6 +3,10 @@
 #include "Parser/NodeVisitor.h"
 #include "Parser/Parser.h"
 
+std::string LexerTest::CreateTestPath(const std::string& path) {
+    return TestDirectory + LexerDirectory + path;
+}
+
 LexerTest::LexerTest(const std::string& filepath) : IOTest(LexerDirectory + filepath) {
     myLexer = std::make_unique<Lexer>(Lexer(GetFilepath()));
     myLexer->NextLexeme();
@@ -14,6 +18,10 @@ std::string LexerTest::NextToken() {
         return "";
     }
     return lexeme.ToString();
+}
+
+std::string ParserTest::CreateTestPath(const std::string& path) {
+    return TestDirectory + ParserDirectory + path;
 }
 
 ParserTest::ParserTest(const std::string& filepath) : IOTest(ParserDirectory + filepath) {

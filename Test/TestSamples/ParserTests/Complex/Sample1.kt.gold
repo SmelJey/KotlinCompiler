@@ -1,0 +1,80 @@
+@@ Decl Block
+@@ |-Val Decl
+@@ | |-Identifier :: n
+@@ | |-Integer :: 5
+@@ |-Val Decl
+@@ | |-Identifier :: m
+@@ | |-Integer :: 10
+@@ |-Fun Decl
+@@ | |-Identifier :: sqrDist
+@@ | |-Params
+@@ | | |-Parameter
+@@ | | | |-Identifier :: x1
+@@ | | | |-Type :: Float
+@@ | | |-Parameter
+@@ | | | |-Identifier :: y1
+@@ | | | |-Type :: Float
+@@ | | |-Parameter
+@@ | | | |-Identifier :: x2
+@@ | | | |-Type :: Float
+@@ | | |-Parameter
+@@ | |   |-Identifier :: y2
+@@ | |   |-Type :: Float
+@@ | |-Type :: Float
+@@ | |-Bin op :: +
+@@ |   |-Bin op :: *
+@@ |   | |-Bin op :: -
+@@ |   | | |-Identifier :: x2
+@@ |   | | |-Identifier :: x1
+@@ |   | |-Bin op :: -
+@@ |   |   |-Identifier :: x2
+@@ |   |   |-Identifier :: x1
+@@ |   |-Bin op :: *
+@@ |     |-Bin op :: -
+@@ |     | |-Identifier :: y2
+@@ |     | |-Identifier :: y1
+@@ |     |-Bin op :: -
+@@ |       |-Identifier :: y2
+@@ |       |-Identifier :: y1
+@@ |-Fun Decl
+@@   |-Identifier :: main
+@@   |-Params
+@@   |-Block
+@@     |-CallSuffix
+@@     | |-Identifier :: println
+@@     | |-Args
+@@     |   |-String :: Hello, world!!!
+@@     |-For
+@@       |-Variable
+@@       | |-Identifier :: i
+@@       |-Bin op :: ..
+@@       | |-Integer :: 0
+@@       | |-Identifier :: n
+@@       |-Block
+@@         |-For
+@@         | |-Variable
+@@         | | |-Identifier :: j
+@@         | |-Bin op :: ..
+@@         | | |-Integer :: 0
+@@         | | |-Identifier :: m
+@@         | |-CallSuffix
+@@         |   |-Identifier :: println
+@@         |   |-Args
+@@         |     |-CallSuffix
+@@         |       |-Identifier :: sqrDist
+@@         |       |-Args
+@@         |         |-Real :: 0.500000
+@@         |         |-Real :: 0.500000
+@@         |         |-Bin op :: *
+@@         |         | |-Bin op :: /
+@@         |         | | |-Real :: 1.000000
+@@         |         | | |-Identifier :: n
+@@         |         | |-Identifier :: i
+@@         |         |-Bin op :: *
+@@         |           |-Bin op :: /
+@@         |           | |-Real :: 1.000000
+@@         |           | |-Identifier :: m
+@@         |           |-Identifier :: j
+@@         |-CallSuffix
+@@           |-Identifier :: println
+@@           |-Args

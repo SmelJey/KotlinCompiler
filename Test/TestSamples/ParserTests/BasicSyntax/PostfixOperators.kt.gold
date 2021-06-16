@@ -3,11 +3,11 @@
 @@   |-Identifier :: main
 @@   |-Params
 @@   |-Block
-@@     |-MemberAccess
+@@     |-MemberAccess :: .
 @@       |-CallSuffix
 @@       | |-IndexSuffix
 @@       | | |-CallSuffix
-@@       | | | |-MemberAccess
+@@       | | | |-MemberAccess :: .
 @@       | | | | |-CallSuffix
 @@       | | | | | |-Identifier :: a
 @@       | | | | | |-Args

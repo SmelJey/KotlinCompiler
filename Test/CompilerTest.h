@@ -7,6 +7,8 @@ const static std::string LexerDirectory = "LexerTests/";
 
 class LexerTest : public IOTest {
 public:
+    static std::string CreateTestPath(const std::string& path);
+
     explicit LexerTest(const std::string& filepath);
 private:
     std::string NextToken() override;
@@ -21,6 +23,8 @@ const static std::string ParserDirectory = "ParserTests/";
 
 class ParserTest : public IOTest {
 public:
+    static std::string CreateTestPath(const std::string& path);
+
     explicit ParserTest(const std::string& filepath);
 private:
     std::string NextToken() override;

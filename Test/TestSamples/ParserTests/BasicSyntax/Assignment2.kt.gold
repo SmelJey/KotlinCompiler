@@ -4,7 +4,7 @@
 @@   |-Params
 @@   |-Block
 @@     |-Assignment :: =
-@@       |-MemberAccess
+@@       |-MemberAccess :: .
 @@       | |-Identifier :: a
 @@       | |-Identifier :: b
 @@       |-Integer :: 5

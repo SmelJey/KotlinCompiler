@@ -1,0 +1,14 @@
+@@ Decl Block
+@@ |-Fun Decl
+@@   |-Identifier :: main
+@@   |-Params
+@@   |-Block
+@@     |-Assignment :: =
+@@     | |-Identifier :: a
+@@     | |-Integer :: 3
+@@     |-Prefix Op :: +
+@@     | |-Integer :: 2
+@@     |-CallSuffix
+@@       |-Identifier :: println
+@@       |-Args
+@@         |-Identifier :: a

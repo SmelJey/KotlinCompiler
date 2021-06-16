@@ -4,6 +4,10 @@
 #include <iostream>
 #include <filesystem>
 
+std::string IOTest::CreateTestPath(const std::string& path) {
+    return TestDirectory + path;
+}
+
 IOTest::~IOTest() = default;
 
 IOTest::IOTest(const std::string& inputFilepath) : myFilepath(TestDirectory + inputFilepath) {
@@ -15,7 +19,8 @@ void IOTest::Run() {
     std::ofstream outputStream(myFilepath + ".gold.last");
 
     REQUIRE(std::filesystem::exists(myFilepath));
-    REQUIRE(!goldStream.eof());
+    CHECK(std::filesystem::exists(myFilepath + ".gold"));
+    CHECK(!goldStream.eof());
 
     std::string token1 = NextToken(), token2 = NextTokenFromGold(goldStream);
     while (!token1.empty() && !token2.empty()) {

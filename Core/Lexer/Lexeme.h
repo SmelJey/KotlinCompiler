@@ -110,6 +110,9 @@ public:
 
     template<typename T>
     T GetValue() const {
+        if (isError) {
+            return std::any_cast<T>(std::any_cast<std::pair<std::any, std::string>>(myValue).first);
+        }
         return std::any_cast<T>(myValue);
     }
 
@@ -129,5 +132,13 @@ private:
     LexemeType myType;
     bool isError;
 };
+
+template<>
+inline std::string Lexeme::GetValue() const {
+    if (isError) {
+        return std::any_cast<std::pair<std::any, std::string>>(myValue).second;
+    }
+    return std::any_cast<std::string>(myValue);
+}
 
 std::ostream& operator<<(std::ostream& out, const Lexeme& lexeme);

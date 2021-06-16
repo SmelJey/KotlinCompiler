@@ -7,6 +7,10 @@ std::string EmptyStatement::GetName() const {
 
 Assignment::Assignment(const Lexeme& lexeme) : ILexemeNode(lexeme) {}
 
+std::string Assignment::GetOperation() const {
+    return myLexeme.GetValue<std::string>();
+}
+
 const ISyntaxNode& Assignment::GetAssignable() const {
     return *myAssignable;
 }
@@ -24,7 +28,7 @@ void Assignment::SetExpression(std::unique_ptr<ISyntaxNode> expression) {
 }
 
 std::string Assignment::GetName() const {
-    return "Assignment :: =";
+    return "Assignment :: " + GetOperation();
 }
 
 void Assignment::AcceptVisitor(NodeVisitor& visitor, int depth) const {

@@ -54,8 +54,6 @@ std::string UnaryPostfixOperationNode::GetName() const {
     return "Postfix Op :: " + GetOperation();
 }
 
-IUnaryPostfix::IUnaryPostfix(const Lexeme& lexeme) : ILexemeNode(lexeme) {}
-
 const std::vector<std::unique_ptr<ISyntaxNode>>& CallArgumentsNode::GetArguments() const {
     return myArguments;
 }
@@ -74,7 +72,7 @@ void CallArgumentsNode::AcceptVisitor(NodeVisitor& visitor, int depth) const {
     }
 }
 
-IPostfixCallNode::IPostfixCallNode(const Lexeme& lexeme, std::unique_ptr<ISyntaxNode> expression) : IUnaryPostfix(lexeme), myExpression(std::move(expression)) {}
+IPostfixCallNode::IPostfixCallNode(std::unique_ptr<ISyntaxNode> expression) : myExpression(std::move(expression)) {}
 
 const CallArgumentsNode& IPostfixCallNode::GetArguments() const {
     return *myArgumentsNode;
@@ -93,19 +91,23 @@ void IPostfixCallNode::AcceptVisitor(NodeVisitor& visitor, int depth) const {
     visitor.VisitNode(*myArgumentsNode, depth);
 }
 
-IndexSuffixNode::IndexSuffixNode(const Lexeme& lexeme, std::unique_ptr<ISyntaxNode> expression) : IPostfixCallNode(lexeme, std::move(expression)) {}
+IndexSuffixNode::IndexSuffixNode(std::unique_ptr<ISyntaxNode> expression) : IPostfixCallNode(std::move(expression)) {}
 
 std::string IndexSuffixNode::GetName() const {
     return "IndexSuffix";
 }
 
-CallSuffixNode::CallSuffixNode(const Lexeme& lexeme, std::unique_ptr<ISyntaxNode> expression) : IPostfixCallNode(lexeme, std::move(expression)) {}
+CallSuffixNode::CallSuffixNode(std::unique_ptr<ISyntaxNode> expression) : IPostfixCallNode(std::move(expression)) {}
 
 std::string CallSuffixNode::GetName() const {
     return "CallSuffix";
 }
 
-MemberAccessNode::MemberAccessNode(const Lexeme& lexeme, std::unique_ptr<ISyntaxNode> expression) : IUnaryPostfix(lexeme), myExpression(std::move(expression)) {}
+MemberAccessNode::MemberAccessNode(const Lexeme& lexeme, std::unique_ptr<ISyntaxNode> expression) : myOperation(lexeme), myExpression(std::move(expression)) {}
+
+std::string MemberAccessNode::GetOperation() const {
+    return myOperation.GetValue<std::string>();
+}
 
 const ISyntaxNode* MemberAccessNode::GetExpression() const {
     return myExpression.get();
@@ -120,15 +122,13 @@ void MemberAccessNode::SetMember(std::unique_ptr<ISyntaxNode> member) {
 }
 
 std::string MemberAccessNode::GetName() const {
-    return "MemberAccess";
+    return "MemberAccess :: " + GetOperation();
 }
 
 void MemberAccessNode::AcceptVisitor(NodeVisitor& visitor, int depth) const {
     visitor.VisitNode(*myExpression, depth);
     visitor.VisitNode(*myMemberNode, depth);
 }
-
-IfExpression::IfExpression(const Lexeme& lexeme) : ILexemeNode(lexeme) {}
 
 const ISyntaxNode* IfExpression::GetExpression() const {
     return myExpression.get();

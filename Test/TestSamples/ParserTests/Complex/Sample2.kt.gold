@@ -1,0 +1,132 @@
+@@ Decl Block
+@@ |-Val Decl
+@@ | |-Identifier :: n
+@@ | |-Integer :: 5
+@@ |-Val Decl
+@@ | |-Identifier :: m
+@@ | |-Integer :: 10
+@@ |-Class Decl
+@@ | |-Identifier :: Point
+@@ | |-Decl Block
+@@ |   |-Var Decl
+@@ |   | |-Identifier :: x
+@@ |   | |-Type :: Float
+@@ |   | |-Real :: 0.000000
+@@ |   |-Var Decl
+@@ |     |-Identifier :: y
+@@ |     |-Type :: Float
+@@ |     |-Real :: 0.000000
+@@ |-Fun Decl
+@@ | |-Identifier :: sqr
+@@ | |-Params
+@@ | | |-Parameter
+@@ | |   |-Identifier :: x
+@@ | |   |-Type :: Float
+@@ | |-Type :: Float
+@@ | |-Block
+@@ |   |-Return
+@@ |     |-Bin op :: *
+@@ |       |-Identifier :: x
+@@ |       |-Identifier :: x
+@@ |-Fun Decl
+@@ | |-Identifier :: sqrDist
+@@ | |-Params
+@@ | | |-Parameter
+@@ | | | |-Identifier :: p1
+@@ | | | |-Type :: Point
+@@ | | |-Parameter
+@@ | |   |-Identifier :: p2
+@@ | |   |-Type :: Point
+@@ | |-Type :: Float
+@@ | |-Bin op :: +
+@@ |   |-CallSuffix
+@@ |   | |-Identifier :: sqr
+@@ |   | |-Args
+@@ |   |   |-Bin op :: -
+@@ |   |     |-MemberAccess :: .
+@@ |   |     | |-Identifier :: p2
+@@ |   |     | |-Identifier :: x
+@@ |   |     |-MemberAccess :: .
+@@ |   |       |-Identifier :: p1
+@@ |   |       |-Identifier :: x
+@@ |   |-CallSuffix
+@@ |     |-Identifier :: sqr
+@@ |     |-Args
+@@ |       |-Bin op :: -
+@@ |         |-MemberAccess :: .
+@@ |         | |-Identifier :: p2
+@@ |         | |-Identifier :: y
+@@ |         |-MemberAccess :: .
+@@ |           |-Identifier :: p1
+@@ |           |-Identifier :: y
+@@ |-Fun Decl
+@@   |-Identifier :: main
+@@   |-Params
+@@   |-Block
+@@     |-CallSuffix
+@@     | |-Identifier :: println
+@@     | |-Args
+@@     |   |-String :: Hello, world!!!
+@@     |-Val Decl
+@@     | |-Identifier :: p2
+@@     | |-CallSuffix
+@@     |   |-Identifier :: Point
+@@     |   |-Args
+@@     |-Assignment :: =
+@@     | |-MemberAccess :: .
+@@     | | |-Identifier :: p2
+@@     | | |-Identifier :: x
+@@     | |-Real :: 0.500000
+@@     |-Assignment :: =
+@@     | |-MemberAccess :: .
+@@     | | |-Identifier :: p2
+@@     | | |-Identifier :: y
+@@     | |-Real :: 0.500000
+@@     |-For
+@@       |-Variable
+@@       | |-Identifier :: i
+@@       |-Bin op :: ..
+@@       | |-Integer :: 0
+@@       | |-Identifier :: n
+@@       |-Block
+@@         |-For
+@@         | |-Variable
+@@         | | |-Identifier :: j
+@@         | |-Bin op :: ..
+@@         | | |-Integer :: 0
+@@         | | |-Identifier :: m
+@@         | |-Block
+@@         |   |-Val Decl
+@@         |   | |-Identifier :: p1
+@@         |   | |-CallSuffix
+@@         |   |   |-Identifier :: Point
+@@         |   |   |-Args
+@@         |   |-Assignment :: =
+@@         |   | |-MemberAccess :: .
+@@         |   | | |-Identifier :: p1
+@@         |   | | |-Identifier :: x
+@@         |   | |-Bin op :: *
+@@         |   |   |-Bin op :: /
+@@         |   |   | |-Real :: 1.000000
+@@         |   |   | |-Identifier :: n
+@@         |   |   |-Identifier :: i
+@@         |   |-Assignment :: =
+@@         |   | |-MemberAccess :: .
+@@         |   | | |-Identifier :: p2
+@@         |   | | |-Identifier :: y
+@@         |   | |-Bin op :: *
+@@         |   |   |-Bin op :: /
+@@         |   |   | |-Real :: 1.000000
+@@         |   |   | |-Identifier :: m
+@@         |   |   |-Identifier :: j
+@@         |   |-CallSuffix
+@@         |     |-Identifier :: println
+@@         |     |-Args
+@@         |       |-CallSuffix
+@@         |         |-Identifier :: sqrDist
+@@         |         |-Args
+@@         |           |-Identifier :: p1
+@@         |           |-Identifier :: p2
+@@         |-CallSuffix
+@@           |-Identifier :: println
+@@           |-Args

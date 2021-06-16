@@ -3,8 +3,8 @@
 @@   |-Identifier :: main
 @@   |-Params
 @@   |-Block
-@@     |-MemberAccess
-@@       |-MemberAccess
+@@     |-MemberAccess :: .
+@@       |-MemberAccess :: .
 @@       | |-Identifier :: a
 @@       | |-Identifier :: b
 @@       |-Identifier :: c

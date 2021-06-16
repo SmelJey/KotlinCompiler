@@ -4,6 +4,9 @@
 #include "ISyntaxNode.h"
 #include "../Lexer/Lexeme.h"
 
+template<typename T>
+using Pointer = std::unique_ptr<T>;
+
 class ParserUtils {
 public:
     static const std::vector<std::unordered_set<Lexeme::LexemeType>> OperationsPriority;

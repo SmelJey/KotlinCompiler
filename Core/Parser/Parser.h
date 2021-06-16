@@ -6,9 +6,7 @@
 #include "SimpleNodes.h"
 #include "StatementNodes.h"
 #include "../Lexer/Lexer.h"
-
-template<typename T>
-using Pointer = std::unique_ptr<T>;
+#include "ParserUtils.h"
 
 class Parser {
 public:
@@ -40,15 +38,15 @@ private:
     Pointer<VariableNode> ParseVariable();
     Pointer<IdentifierNode> ParseIdentifier(const std::string& errorMessage = "Identifier expected");
 
-    Pointer<ILexemeNode> ParseExpression();
-    Pointer<ILexemeNode> ParseLeftAssociative(size_t priority);
-    Pointer<ILexemeNode> ParsePrefix();
-    Pointer<ILexemeNode> ParsePostfix();
+    Pointer<ISyntaxNode> ParseExpression();
+    Pointer<ISyntaxNode> ParseLeftAssociative(size_t priority);
+    Pointer<ISyntaxNode> ParsePrefix();
+    Pointer<ISyntaxNode> ParsePostfix();
     Pointer<CallArgumentsNode> ParseArguments(Lexeme::LexemeType rParen);
 
-    Pointer<ILexemeNode> ParsePrimary();
+    Pointer<ISyntaxNode> ParsePrimary();
 
-    Pointer<ILexemeNode> ParseIfExpression();
+    Pointer<ISyntaxNode> ParseIfExpression();
 
     void AddError(ISyntaxNode& root, const Lexeme& location, const std::string& error) const;
 
@@ -57,11 +55,12 @@ private:
     void ConsumeSemicolons();
 
     template<typename T>
-    Pointer<ILexemeNode> CreateNodeOfType(const Lexeme& lexeme) {
+    Pointer<ILexemeNode> CreateLexemeNode(const Lexeme& lexeme) {
+        Pointer<ILexemeNode> node = std::make_unique<T>(T(lexeme));
         if (lexeme.IsError()) {
-            return std::make_unique<ErrorNode>(ErrorNode(lexeme, lexeme.GetValue<std::string>()));
+            AddError(*node, lexeme, lexeme.GetValue<std::string>());
         }
-        return std::make_unique<T>(T(lexeme));
+        return node;
     }
 
     Lexer& myLexer;

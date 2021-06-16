@@ -1,0 +1,13 @@
+@@ Decl Block
+@@ |-Fun Decl
+@@   |-Identifier :: main
+@@   |-Params
+@@   |-Block
+@@     |-For
+@@       |-Variable
+@@       | |-Identifier :: c
+@@       | |-Type :: Short
+@@       |-Bin op :: ..
+@@       | |-Integer :: 1
+@@       | |-Integer :: 5
+@@       |-Block

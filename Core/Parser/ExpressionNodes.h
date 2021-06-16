@@ -54,9 +54,9 @@ protected:
     std::string GetName() const override;
 };
 
-class IUnaryPostfix : public ILexemeNode {
+class IUnaryPostfix : public ISyntaxNode {
 public:
-    explicit IUnaryPostfix(const Lexeme& lexeme);
+    IUnaryPostfix() = default;
 };
 
 class CallArgumentsNode : public ISyntaxNode {
@@ -76,7 +76,7 @@ private:
 
 class IPostfixCallNode : public IUnaryPostfix {
 public:
-    explicit IPostfixCallNode(const Lexeme& lexeme, std::unique_ptr<ISyntaxNode> expression);
+    explicit IPostfixCallNode(std::unique_ptr<ISyntaxNode> expression);
 
     const CallArgumentsNode& GetArguments() const;
     void SetArguments(std::unique_ptr<CallArgumentsNode> arguments);
@@ -93,14 +93,14 @@ private:
 
 class IndexSuffixNode : public IPostfixCallNode {
 public:
-    explicit IndexSuffixNode(const Lexeme& lexeme, std::unique_ptr<ISyntaxNode> expression);
+    explicit IndexSuffixNode(std::unique_ptr<ISyntaxNode> expression);
 protected:
     std::string GetName() const override;
 };
 
 class CallSuffixNode : public IPostfixCallNode {
 public:
-    explicit CallSuffixNode(const Lexeme& lexeme, std::unique_ptr<ISyntaxNode> expression);
+    explicit CallSuffixNode(std::unique_ptr<ISyntaxNode> expression);
 protected:
     std::string GetName() const override;
 };
@@ -108,6 +108,8 @@ protected:
 class MemberAccessNode : public IUnaryPostfix {
 public:
     MemberAccessNode(const Lexeme& lexeme, std::unique_ptr<ISyntaxNode> expression);
+
+    std::string GetOperation() const;
 
     const ISyntaxNode* GetExpression() const;
 
@@ -119,13 +121,14 @@ protected:
     void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
 
 private:
+    Lexeme myOperation;
     std::unique_ptr<ISyntaxNode> myExpression;
     std::unique_ptr<ISyntaxNode> myMemberNode;
 };
 
-class IfExpression : public ILexemeNode {
+class IfExpression : public ISyntaxNode {
 public:
-    explicit IfExpression(const Lexeme& lexeme);
+    IfExpression() = default;
 
     const ISyntaxNode* GetExpression() const;
     void SetExpression(std::unique_ptr<ISyntaxNode> expression);

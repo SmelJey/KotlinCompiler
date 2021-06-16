@@ -23,23 +23,33 @@ Lexeme::Lexeme() : Lexeme(0, 0, "", LexemeType::Error, DEFAULT_LEXEME_ERROR, tru
 Lexeme::Lexeme(int col, int row, std::string text, LexemeType lexemeType, const std::string& valueRepresentation, bool isError)
     : myColumn(col), myRow(row), myText(std::move(text)), myType(lexemeType), isError(isError) {
 
-    if (isError) {
-        myValue = valueRepresentation;
-        return;
-    }
-
     switch (GetNumberType(lexemeType)) {
         case NumberType::Integer:
         case NumberType::UInteger: {
-            myValue.emplace<std::uint64_t>(std::stoull(valueRepresentation));
+            if (isError) {
+                myValue.emplace<std::pair<std::any, std::string>>(0ull, valueRepresentation);
+            } else {
+                myValue.emplace<std::uint64_t>(std::stoull(valueRepresentation));
+            }
+            
             break;
         }
             
         case NumberType::Real:
-            myValue.emplace<double>(std::stod(valueRepresentation));
+            if (isError) {
+                myValue.emplace<std::pair<std::any, std::string>>(0.0, valueRepresentation);
+            } else {
+                myValue.emplace<double>(std::stod(valueRepresentation));
+            }
+            
             break;
         default:
-            myValue = valueRepresentation;
+            if (isError) {
+                myValue.emplace<std::pair<std::any, std::string>>(text, valueRepresentation);
+            } else {
+                myValue = valueRepresentation;
+            }
+            
             break;
     }
 }
