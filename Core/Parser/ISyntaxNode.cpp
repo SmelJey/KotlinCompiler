@@ -28,7 +28,6 @@ void ISyntaxNode::InternalAcceptVisitor(NodeVisitor& visitor, int depth) const {
 void ISyntaxNode::AcceptVisitor(NodeVisitor& visitor, int depth) const {
 }
 
-
 std::ostream& operator<<(std::ostream& os, const ISyntaxNode& node) {
     return os << node.ToString();
 }

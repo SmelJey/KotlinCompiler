@@ -17,18 +17,18 @@ public:
     std::string GetOperation() const;
 
     const ISyntaxNode& GetAssignable() const;
-    void SetAssignable(std::unique_ptr<ISyntaxNode> assignable);
+    void SetAssignable(Pointer<ISyntaxNode> assignable);
 
     const ISyntaxNode& GetExpression() const;
-    void SetExpression(std::unique_ptr<ISyntaxNode> expression);
+    void SetExpression(Pointer<ISyntaxNode> expression);
 
 protected:
     std::string GetName() const override;
     void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
 
 private:
-    std::unique_ptr<ISyntaxNode> myAssignable;
-    std::unique_ptr<ISyntaxNode> myExpression;
+    Pointer<ISyntaxNode> myAssignable;
+    Pointer<ISyntaxNode> myExpression;
 };
 
 class ILoopNode : public ISyntaxNode {
@@ -36,17 +36,17 @@ public:
     ILoopNode() = default;
 
     const ISyntaxNode& GetExpression() const;
-    void SetExpression(std::unique_ptr<ISyntaxNode> expression);
+    void SetExpression(Pointer<ISyntaxNode> expression);
 
     const ISyntaxNode& GetBody() const;
-    void SetBody(std::unique_ptr<ISyntaxNode> body);
+    void SetBody(Pointer<ISyntaxNode> body);
 
 protected:
     void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
 
 private:
-    std::unique_ptr<ISyntaxNode> myExpression;
-    std::unique_ptr<ISyntaxNode> myBody;
+    Pointer<ISyntaxNode> myExpression;
+    Pointer<ISyntaxNode> myBody;
 };
 
 class WhileNode : public ILoopNode {
@@ -70,12 +70,12 @@ public:
     ForNode() = default;
 
     const VariableNode& GetVariable() const;
-    void SetVariable(std::unique_ptr<VariableNode> variable);
+    void SetVariable(Pointer<VariableNode> variable);
 
 protected:
     std::string GetName() const override;
     void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
 
 private:
-    std::unique_ptr<VariableNode> myVariable;
+    Pointer<VariableNode> myVariable;
 };

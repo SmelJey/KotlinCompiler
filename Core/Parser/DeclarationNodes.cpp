@@ -8,7 +8,7 @@ const IdentifierNode& IDeclaration::GetIdentifierNode() const {
     return *myIdentifier;
 }
 
-void IDeclaration::SetIdentifier(std::unique_ptr<IdentifierNode> identifier) {
+void IDeclaration::SetIdentifier(Pointer<IdentifierNode> identifier) {
     myIdentifier = std::move(identifier);
 }
 
@@ -16,13 +16,13 @@ void IDeclaration::AcceptVisitor(NodeVisitor& visitor, int depth) const {
     visitor.VisitNode(*myIdentifier, depth);
 }
 
-DeclarationBlock::DeclarationBlock(std::vector<std::unique_ptr<IDeclaration>> declarations) : myDeclarations(std::move(declarations)) {}
+DeclarationBlock::DeclarationBlock(std::vector<Pointer<IDeclaration>> declarations) : myDeclarations(std::move(declarations)) {}
 
-const std::vector<std::unique_ptr<IDeclaration>>& DeclarationBlock::GetDeclarations() const {
+const std::vector<Pointer<IDeclaration>>& DeclarationBlock::GetDeclarations() const {
     return myDeclarations;
 }
 
-void DeclarationBlock::AddDeclaration(std::unique_ptr<IDeclaration> declaration) {
+void DeclarationBlock::AddDeclaration(Pointer<IDeclaration> declaration) {
     myDeclarations.push_back(std::move(declaration));
 }
 
@@ -40,7 +40,7 @@ const DeclarationBlock& ClassDeclaration::GetBody() const {
     return *myClassBody;
 }
 
-void ClassDeclaration::SetBody(std::unique_ptr<DeclarationBlock> body) {
+void ClassDeclaration::SetBody(Pointer<DeclarationBlock> body) {
     myClassBody = std::move(body);
 }
 
@@ -61,31 +61,31 @@ void ClassDeclaration::AcceptVisitor(NodeVisitor& visitor, int depth) const {
 }
 
 const IdentifierNode& ParameterNode::GetIdentifier() const {
-    return *myIdentifierNode;
+    return *myIdentifier;
 }
 
-void ParameterNode::SetIdentifier(std::unique_ptr<IdentifierNode> identifier) {
-    myIdentifierNode = std::move(identifier);
+void ParameterNode::SetIdentifier(Pointer<IdentifierNode> identifier) {
+    myIdentifier = std::move(identifier);
 }
 
 const ISyntaxNode& ParameterNode::GetTypeNode() const {
-    return *myTypeNode;
+    return *myType;
 }
 
-void ParameterNode::SetTypeNode(std::unique_ptr<ISyntaxNode> typeNode) {
-    myTypeNode = std::move(typeNode);
+void ParameterNode::SetTypeNode(Pointer<ISyntaxNode> typeNode) {
+    myType = std::move(typeNode);
 }
 
 const ISyntaxNode& ParameterNode::GetDefaultNode() const {
-    return *myDefaultNode;
+    return *myDefault;
 }
 
-void ParameterNode::SetDefaultNode(std::unique_ptr<ISyntaxNode> defaultNode) {
-    myDefaultNode = std::move(defaultNode);
+void ParameterNode::SetDefaultNode(Pointer<ISyntaxNode> defaultNode) {
+    myDefault = std::move(defaultNode);
 }
 
 bool ParameterNode::HasDefaultNode() const {
-    return myDefaultNode != nullptr;
+    return myDefault != nullptr;
 }
 
 std::string ParameterNode::GetName() const {
@@ -93,31 +93,31 @@ std::string ParameterNode::GetName() const {
 }
 
 void ParameterNode::AcceptVisitor(NodeVisitor& visitor, int depth) const {
-    visitor.VisitNode(*myIdentifierNode, depth);
-    visitor.VisitNode(*myTypeNode, depth);
+    visitor.VisitNode(*myIdentifier, depth);
+    visitor.VisitNode(*myType, depth);
     if (HasDefaultNode()) {
-        visitor.VisitNode(*myDefaultNode, depth);
+        visitor.VisitNode(*myDefault, depth);
     }
 }
 
 const IdentifierNode& VariableNode::GetIdentifier() const {
-    return *myIdentifierNode;
+    return *myIdentifier;
 }
 
-void VariableNode::SetIdentifier(std::unique_ptr<IdentifierNode> identifier) {
-    myIdentifierNode = std::move(identifier);
+void VariableNode::SetIdentifier(Pointer<IdentifierNode> identifier) {
+    myIdentifier = std::move(identifier);
 }
 
 const ISyntaxNode& VariableNode::GetTypeNode() const {
-    return *myTypeNode;
+    return *myType;
 }
 
-void VariableNode::SetTypeNode(std::unique_ptr<ISyntaxNode> typeNode) {
-    myTypeNode = std::move(typeNode);
+void VariableNode::SetTypeNode(Pointer<ISyntaxNode> typeNode) {
+    myType = std::move(typeNode);
 }
 
 bool VariableNode::HasTypeNode() const {
-    return myTypeNode != nullptr;
+    return myType != nullptr;
 }
 
 std::string VariableNode::GetName() const {
@@ -125,17 +125,17 @@ std::string VariableNode::GetName() const {
 }
 
 void VariableNode::AcceptVisitor(NodeVisitor& visitor, int depth) const {
-    visitor.VisitNode(*myIdentifierNode, depth);
+    visitor.VisitNode(*myIdentifier, depth);
     if (HasTypeNode()) {
-        visitor.VisitNode(*myTypeNode, depth);
+        visitor.VisitNode(*myType, depth);
     }
 }
 
-const std::vector<std::unique_ptr<ParameterNode>>& ParameterList::GetParameters() const {
+const std::vector<Pointer<ParameterNode>>& ParameterList::GetParameters() const {
     return myParameters;
 }
 
-void ParameterList::AddParameter(std::unique_ptr<ParameterNode> param) {
+void ParameterList::AddParameter(Pointer<ParameterNode> param) {
     myParameters.push_back(std::move(param));
 }
 
@@ -153,7 +153,7 @@ const ParameterList& FunctionDeclaration::GetParameters() const {
     return *myParams;
 }
 
-void FunctionDeclaration::SetParameters(std::unique_ptr<ParameterList> parameters) {
+void FunctionDeclaration::SetParameters(Pointer<ParameterList> parameters) {
     myParams = std::move(parameters);
 }
 
@@ -161,20 +161,20 @@ const ISyntaxNode& FunctionDeclaration::GetBody() const {
     return *myBody;
 }
 
-void FunctionDeclaration::SetBody(std::unique_ptr<ISyntaxNode> body) {
+void FunctionDeclaration::SetBody(Pointer<ISyntaxNode> body) {
     myBody = std::move(body);
 }
 
 const ISyntaxNode& FunctionDeclaration::GetReturnNode() const {
-    return *myReturnNode;
+    return *myReturn;
 }
 
-void FunctionDeclaration::SetReturnNode(std::unique_ptr<ISyntaxNode> returnNode) {
-    myReturnNode = std::move(returnNode);
+void FunctionDeclaration::SetReturn(Pointer<ISyntaxNode> returnNode) {
+    myReturn = std::move(returnNode);
 }
 
 bool FunctionDeclaration::HasReturnNode() const {
-    return myReturnNode != nullptr;
+    return myReturn != nullptr;
 }
 
 std::string FunctionDeclaration::GetName() const {
@@ -186,7 +186,7 @@ void FunctionDeclaration::AcceptVisitor(NodeVisitor& visitor, int depth) const {
 
     visitor.VisitNode(*myParams, depth);
     if (HasReturnNode()) {
-        visitor.VisitNode(*myReturnNode, depth);
+        visitor.VisitNode(*myReturn, depth);
     }
     
     visitor.VisitNode(*myBody, depth);
@@ -203,22 +203,22 @@ std::string PropertyDeclaration::GetKeyword() const {
 }
 
 const ISyntaxNode& PropertyDeclaration::GetType() const {
-    return *myTypeNode;
+    return *myType;
 }
 
-void PropertyDeclaration::SetType(std::unique_ptr<ISyntaxNode> typeNode) {
-    myTypeNode = std::move(typeNode);
+void PropertyDeclaration::SetType(Pointer<ISyntaxNode> typeNode) {
+    myType = std::move(typeNode);
 }
 
 bool PropertyDeclaration::HasType() const {
-    return myTypeNode != nullptr;
+    return myType != nullptr;
 }
 
 const ISyntaxNode& PropertyDeclaration::GetInitialization() const {
     return *myInit;
 }
 
-void PropertyDeclaration::SetInitialization(std::unique_ptr<ISyntaxNode> initNode) {
+void PropertyDeclaration::SetInitialization(Pointer<ISyntaxNode> initNode) {
     myInit = std::move(initNode);
 }
 
@@ -234,7 +234,7 @@ void PropertyDeclaration::AcceptVisitor(NodeVisitor& visitor, int depth) const {
     IDeclaration::AcceptVisitor(visitor, depth);
 
     if (HasType()) {
-        visitor.VisitNode(*myTypeNode, depth);
+        visitor.VisitNode(*myType, depth);
     }
     if (HasInitialization()) {
         visitor.VisitNode(*myInit, depth);

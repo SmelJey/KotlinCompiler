@@ -1,10 +1,10 @@
 #include "Lexer.h"
 
 Lexer::Lexer(std::ifstream& input) : myInputBuffer(input.rdbuf()),
-    myCurrentLexeme(0, 0, "", Lexeme::LexemeType::EndOfFile, Lexeme::DEFAULT_LEXEME_ERROR) {}
+    myCurrentLexeme(0, 0, "", LexemeType::EndOfFile, Lexeme::DEFAULT_LEXEME_ERROR) {}
 
 Lexer::Lexer(const std::string& filepath) : myInputBuffer(filepath),
-    myCurrentLexeme(0, 0, "", Lexeme::LexemeType::EndOfFile, Lexeme::DEFAULT_LEXEME_ERROR) {}
+    myCurrentLexeme(0, 0, "", LexemeType::EndOfFile, Lexeme::DEFAULT_LEXEME_ERROR) {}
 
 Lexeme Lexer::GetLexeme() const {
     return myCurrentLexeme;
@@ -30,7 +30,7 @@ Lexeme Lexer::NextFromInput() {
     do {
         ResetLexeme();
         ProcessNextLexeme();
-    } while (myLexemeType == Lexeme::LexemeType::Ignored);
+    } while (myLexemeType == LexemeType::Ignored);
 
     return Lexeme(myStartCol, myStartRow, myLexemeText, myLexemeType, myLexemeValue, isError);
 }
@@ -106,7 +106,7 @@ void Lexer::ProcessNextLexeme() {
     }
 
     if (curChars[0] == BUFFER_EOF) {
-        myLexemeType = LexType::EndOfFile;
+        myLexemeType = LexemeType::EndOfFile;
         return;
     }
 
@@ -123,21 +123,21 @@ void Lexer::ProcessNextLexeme() {
 }
 
 void Lexer::ProcessWhitespaces() {
-    myLexemeType = LexType::Ignored;
+    myLexemeType = LexemeType::Ignored;
     while (myInputBuffer.GetChar() != BUFFER_EOF && LexerUtils::SpacingCharset.count(myInputBuffer.GetChar())) {
         GetNextChar();
     }
 }
 
 void Lexer::ProcessComment() {
-    myLexemeType = LexType::Ignored;
+    myLexemeType = LexemeType::Ignored;
     while (myInputBuffer.GetChar() != BUFFER_EOF && !LexerUtils::NewlineCharset.count(myInputBuffer.GetChar())) {
         AddNextChar();
     }
 }
 
 void Lexer::ProcessMultilineComment() {
-    myLexemeType = LexType::Ignored;
+    myLexemeType = LexemeType::Ignored;
     int nestedCnt = 0;
 
     while (myInputBuffer.GetChar() != BUFFER_EOF) {
@@ -159,7 +159,7 @@ void Lexer::ProcessMultilineComment() {
         AddNextChar();
     }
 
-    myLexemeType = LexType::Error;
+    myLexemeType = LexemeType::Error;
     MakeError("Unclosed comment");
 }
 
@@ -169,11 +169,11 @@ void Lexer::ProcessIdentifier() {
     }
 
     myLexemeValue = myLexemeText;
-    myLexemeType = LexerUtils::KeywordSet.count(myLexemeText) ? LexType::Keyword : LexType::Identifier;
+    myLexemeType = LexerUtils::KeywordSet.count(myLexemeText) ? LexemeType::Keyword : LexemeType::Identifier;
 }
 
 void Lexer::ProcessEscapedIdentifier() {
-    myLexemeType = LexType::Identifier;
+    myLexemeType = LexemeType::Identifier;
     AddNextChar();
     while (myInputBuffer.GetChar() != BUFFER_EOF && !LexerUtils::NewlineCharset.count(myInputBuffer.GetChar()) && myInputBuffer.GetChar() != '`') {
         AddNextChar();
@@ -189,7 +189,7 @@ void Lexer::ProcessEscapedIdentifier() {
 }
 
 void Lexer::ProcessNumber() {
-    myLexemeType = LexType::Int;
+    myLexemeType = LexemeType::Int;
 
     if (myInputBuffer.GetChar() != '.' && !ProcessIntegerNumber(&LexerUtils::IsDigit)) {
         MakeError("Illegal underscore");
@@ -197,7 +197,7 @@ void Lexer::ProcessNumber() {
     }
 
     if (myInputBuffer.GetChar() == '.' && myInputBuffer.LookAhead(1) != '.') {
-        myLexemeType = LexType::Double;
+        myLexemeType = LexemeType::Double;
 
         if (!LexerUtils::IsDigit(myInputBuffer.LookAhead(1))) {
             myLexemeValue = myLexemeText;
@@ -214,7 +214,7 @@ void Lexer::ProcessNumber() {
     }
 
     if (myInputBuffer.GetChar() == 'e') {
-        myLexemeType = LexType::Double;
+        myLexemeType = LexemeType::Double;
         AddNextChar();
 
         if (myInputBuffer.GetChar() == '+' || myInputBuffer.GetChar() == '-') {
@@ -234,17 +234,17 @@ void Lexer::ProcessNumber() {
 
     if (myInputBuffer.GetChar() == 'f' || myInputBuffer.GetChar() == 'F') {
         AddNextChar();
-        myLexemeType = LexType::Float;
+        myLexemeType = LexemeType::Float;
     }
 
-    if ((myInputBuffer.GetChar() == 'u' || myInputBuffer.GetChar() == 'U') && myLexemeType != LexType::Double && myLexemeType != LexType::Float) {
+    if ((myInputBuffer.GetChar() == 'u' || myInputBuffer.GetChar() == 'U') && myLexemeType != LexemeType::Double && myLexemeType != LexemeType::Float) {
         AddNextChar();
-        myLexemeType = LexType::UInt;
+        myLexemeType = LexemeType::UInt;
     }
 
-    if (myInputBuffer.GetChar() == 'L' && myLexemeType != LexType::Double && myLexemeType != LexType::Float) {
+    if (myInputBuffer.GetChar() == 'L' && myLexemeType != LexemeType::Double && myLexemeType != LexemeType::Float) {
         AddNextChar();
-        myLexemeType = (myLexemeType == LexType::UInt ? Lexeme::LexemeType::ULong : Lexeme::LexemeType::Long);
+        myLexemeType = (myLexemeType == LexemeType::UInt ? LexemeType::ULong : LexemeType::Long);
     }
 
     if (LexerUtils::IsAlphabetic(myInputBuffer.GetChar()) || LexerUtils::IsDigit(myInputBuffer.GetChar()) || myInputBuffer.GetChar() == '_') {
@@ -259,7 +259,7 @@ void Lexer::ProcessNumber() {
     myLexemeValue = myLexemeText;
     myLexemeValue.erase(std::remove(myLexemeValue.begin(), myLexemeValue.end(), '_'), myLexemeValue.end());
 
-    if ((myLexemeType == LexType::Double || myLexemeType == LexType::Float)) {
+    if ((myLexemeType == LexemeType::Double || myLexemeType == LexemeType::Float)) {
         if (!LexerUtils::TryGetReal(myLexemeValue)) {
             MakeError("The value is out of range");
         }
@@ -291,22 +291,22 @@ bool Lexer::ProcessIntegerNumber(std::function<bool(int)> isNumber) {
 }
 
 void Lexer::ProcessPrefixNumber(std::function<bool(int)> isNumber) {
-    myLexemeType = LexType::Int;
+    myLexemeType = LexemeType::Int;
     AddNextChar(2);
 
     bool isDigitEnd = ProcessIntegerNumber(isNumber);
 
     if (myInputBuffer.GetChar() == 'u' || myInputBuffer.GetChar() == 'U') {
-        myLexemeType = LexType::UInt;
+        myLexemeType = LexemeType::UInt;
         AddNextChar();
         isDigitEnd = true;
     }
 
     if (myInputBuffer.GetChar() == 'L') {
-        if (myLexemeType == LexType::UInt) {
-            myLexemeType = LexType::ULong;
+        if (myLexemeType == LexemeType::UInt) {
+            myLexemeType = LexemeType::ULong;
         } else {
-            myLexemeType = LexType::Long;
+            myLexemeType = LexemeType::Long;
         }
 
         AddNextChar();
@@ -335,7 +335,7 @@ void Lexer::ProcessPrefixNumber(std::function<bool(int)> isNumber) {
 }
 
 void Lexer::ProcessChar() {
-    myLexemeType = LexType::CharLiteral;
+    myLexemeType = LexemeType::CharLiteral;
     AddNextChar();
     bool isValidEscape = true;
 
@@ -389,7 +389,7 @@ void Lexer::ProcessString() {
     bool isValidEscape = true;
     while (myInputBuffer.GetChar() != BUFFER_EOF && !LexerUtils::NewlineCharset.count(myInputBuffer.GetChar()) && myInputBuffer.GetChar() != '\"') {
         if (myInputBuffer.GetChar() == '$') {
-            ProcessStringTemplate(Lexeme::LexemeType::String);
+            ProcessStringTemplate(LexemeType::String);
             continue;
         }
 
@@ -408,7 +408,7 @@ void Lexer::ProcessString() {
         AddNextChar();
     }
 
-    myLexemeType = LexType::String;
+    myLexemeType = LexemeType::String;
 
     if (myInputBuffer.GetChar() == '\"') {
         AddNextChar();
@@ -423,7 +423,7 @@ void Lexer::ProcessString() {
 }
 
 void Lexer::ProcessRawString() {
-    myLexemeType = Lexeme::LexemeType::RawString;
+    myLexemeType = LexemeType::RawString;
     bool needUnlock = false;
     if (!isInString) {
         isInString = true;
@@ -436,7 +436,7 @@ void Lexer::ProcessRawString() {
              || myInputBuffer.GetChar() == '\"' && myInputBuffer.LookAhead(1) == '\"' && myInputBuffer.LookAhead(2) == '\"'
              && myInputBuffer.LookAhead(3) != '\"')) {
         if (myInputBuffer.GetChar() == '$') {
-            ProcessStringTemplate(Lexeme::LexemeType::RawString);
+            ProcessStringTemplate(LexemeType::RawString);
             continue;
         }
 
@@ -453,19 +453,19 @@ void Lexer::ProcessRawString() {
     ReturnCurrentStringLexeme(needUnlock);
 }
 
-bool Lexer::ProcessStringTemplate(LexType stringType) {
+bool Lexer::ProcessStringTemplate(LexemeType stringType) {
     if (myInputBuffer.LookAhead(1) == '{' || LexerUtils::IsAlphabetic(myInputBuffer.LookAhead(1)) || myInputBuffer.LookAhead(1) == '_') {
         myLexemeBuffer.emplace_back(myStartCol, myStartRow, myLexemeText, stringType, myLexemeValue);
         ResetLexeme();
 
         if (myInputBuffer.LookAhead(1) == '{') {
             AddNextChar(2);
-            myLexemeBuffer.emplace_back(myCol - 2, myRow, myLexemeText, LexType::StringExpr, myLexemeText);
+            myLexemeBuffer.emplace_back(myCol - 2, myRow, myLexemeText, LexemeType::StringExpr, myLexemeText);
             ProcessStrExpression();
         } else {
             AddNextChar();
             ProcessIdentifier();
-            myLexemeBuffer.emplace_back(myStartCol, myStartRow, myLexemeText, LexType::StringRef, myLexemeValue.substr(1));
+            myLexemeBuffer.emplace_back(myStartCol, myStartRow, myLexemeText, LexemeType::StringRef, myLexemeValue.substr(1));
         }
 
         ResetLexeme();
@@ -482,7 +482,7 @@ void Lexer::ReturnCurrentStringLexeme(bool unlockString) {
         isInString = false;
     } else if (isInString) {
         myLexemeText.clear();
-        myLexemeType = LexType::Ignored;
+        myLexemeType = LexemeType::Ignored;
         return;
     }
 
@@ -497,7 +497,7 @@ void Lexer::ReturnCurrentStringLexeme(bool unlockString) {
 
 void Lexer::ProcessStrExpression() {
     Lexeme lexeme = NextFromInput();
-    while (lexeme.GetType() != LexType::EndOfFile) {
+    while (lexeme.GetType() != LexemeType::EndOfFile) {
         myLexemeBuffer.push_back(lexeme);
         if (lexeme.GetText() == "{") {
             ProcessStrExpression();
@@ -533,12 +533,12 @@ void Lexer::ProcessOperation() {
     }
 
     AddNextChar();
-    myLexemeType = LexType::Error;
+    myLexemeType = LexemeType::Error;
     MakeError("Unknown operator");
 }
 
 void Lexer::ProcessUnknown() {
-    myLexemeType = LexType::Error;
+    myLexemeType = LexemeType::Error;
     ConsumeLexeme();
     MakeError("Unknown lexeme");
 }

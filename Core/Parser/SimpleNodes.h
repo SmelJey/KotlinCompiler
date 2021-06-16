@@ -1,5 +1,6 @@
 #pragma once
 #include "ISyntaxNode.h"
+#include "ParserUtils.h"
 
 class ILexemeNode : public ISyntaxNode {
 public:
@@ -80,7 +81,7 @@ public:
     explicit ReturnNode(const Lexeme& lexeme);
 
     const ISyntaxNode* GetExpression() const;
-    void SetExpression(std::unique_ptr<ISyntaxNode> expression);
+    void SetExpression(Pointer<ISyntaxNode> expression);
     bool HasExpression() const;
 
 protected:
@@ -88,5 +89,5 @@ protected:
     void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
 
 private:
-    std::unique_ptr<ISyntaxNode> myExpression;
+    Pointer<ISyntaxNode> myExpression;
 };

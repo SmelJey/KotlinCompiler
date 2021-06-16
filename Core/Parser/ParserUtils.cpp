@@ -2,27 +2,27 @@
 
 #include "ExpressionNodes.h"
 
-const std::vector<std::unordered_set<Lexeme::LexemeType>> ParserUtils::OperationsPriority {
-    { Lexeme::LexemeType::OpOr},
-    { Lexeme::LexemeType::OpAnd},
-    { Lexeme::LexemeType::OpEqual, Lexeme::LexemeType::OpStrictEq, Lexeme::LexemeType::OpInequal, Lexeme::LexemeType::OpStrictIneq },
-    { Lexeme::LexemeType::OpGreater, Lexeme::LexemeType::OpLess, Lexeme::LexemeType::OpGreaterOrEq, Lexeme::LexemeType::OpLessOrEq },
-    { Lexeme::LexemeType::OpIn, Lexeme::LexemeType::OpNotIn },
+const std::vector<std::unordered_set<LexemeType>> ParserUtils::OperationsPriority {
+    { LexemeType::OpOr},
+    { LexemeType::OpAnd},
+    { LexemeType::OpEqual, LexemeType::OpStrictEq, LexemeType::OpInequal, LexemeType::OpStrictIneq },
+    { LexemeType::OpGreater, LexemeType::OpLess, LexemeType::OpGreaterOrEq, LexemeType::OpLessOrEq },
+    { LexemeType::OpIn, LexemeType::OpNotIn },
     // infixFunctionCall
     {},
-    { Lexeme::LexemeType::OpDDot },
-    { Lexeme::LexemeType::OpAdd, Lexeme::LexemeType::OpSub },
-    { Lexeme::LexemeType::OpMult, Lexeme::LexemeType::OpDiv },
+    { LexemeType::OpDDot },
+    { LexemeType::OpAdd, LexemeType::OpSub },
+    { LexemeType::OpMult, LexemeType::OpDiv },
 };
 
-const std::unordered_set<Lexeme::LexemeType> ParserUtils::PostfixOperations {
-    Lexeme::LexemeType::OpDec, Lexeme::LexemeType::OpInc, Lexeme::LexemeType::OpDot, Lexeme::LexemeType::LParen, Lexeme::LexemeType::LSquare
+const std::unordered_set<LexemeType> ParserUtils::PostfixOperations {
+    LexemeType::OpDec, LexemeType::OpInc, LexemeType::OpDot, LexemeType::LParen, LexemeType::LSquare
 };
 
-const std::unordered_set<Lexeme::LexemeType> ParserUtils::AssignmentOperations {
-    Lexeme::LexemeType::OpPlusAssign, Lexeme::LexemeType::OpMinusAssign,
-    Lexeme::LexemeType::OpMultAssign, Lexeme::LexemeType::OpDivAssign,
-    Lexeme::LexemeType::OpModAssign, Lexeme::LexemeType::OpAssign
+const std::unordered_set<LexemeType> ParserUtils::AssignmentOperations {
+    LexemeType::OpPlusAssign, LexemeType::OpMinusAssign,
+    LexemeType::OpMultAssign, LexemeType::OpDivAssign,
+    LexemeType::OpModAssign, LexemeType::OpAssign
 };
 
 // postfixUnaryExpression (indexingSuffix | navigationSuffix) | simpleIdentifier | parenthesizedDirectlyAssignableExpression

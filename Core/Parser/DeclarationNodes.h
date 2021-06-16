@@ -1,5 +1,6 @@
 #pragma once
 #include "ISyntaxNode.h"
+#include "ParserUtils.h"
 #include "SimpleNodes.h"
 
 class IDeclaration : public ISyntaxNode {
@@ -8,29 +9,29 @@ public:
 
     std::string GetIdentifier() const;
     const IdentifierNode& GetIdentifierNode() const;
-    void SetIdentifier(std::unique_ptr<IdentifierNode> identifier);
+    void SetIdentifier(Pointer<IdentifierNode> identifier);
 
 protected:
     void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
 
 private:
-    std::unique_ptr<IdentifierNode> myIdentifier;
+    Pointer<IdentifierNode> myIdentifier;
 };
 
 class DeclarationBlock : public ISyntaxNode {
 public:
-    DeclarationBlock(std::vector<std::unique_ptr<IDeclaration>> declarations = std::vector<std::unique_ptr<IDeclaration>>());
+    DeclarationBlock(std::vector<Pointer<IDeclaration>> declarations = std::vector<Pointer<IDeclaration>>());
 
-    const std::vector<std::unique_ptr<IDeclaration>>& GetDeclarations() const;
+    const std::vector<Pointer<IDeclaration>>& GetDeclarations() const;
 
-    void AddDeclaration(std::unique_ptr<IDeclaration> declaration);
+    void AddDeclaration(Pointer<IDeclaration> declaration);
 
 protected:
     std::string GetName() const override;
     void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
 
 private:
-    std::vector<std::unique_ptr<IDeclaration>> myDeclarations;
+    std::vector<Pointer<IDeclaration>> myDeclarations;
 };
 
 class ClassDeclaration : public IDeclaration {
@@ -38,7 +39,7 @@ public:
     ClassDeclaration() = default;
 
     const DeclarationBlock& GetBody() const;
-    void SetBody(std::unique_ptr<DeclarationBlock> body);
+    void SetBody(Pointer<DeclarationBlock> body);
     bool HasBody() const;
 
 protected:
@@ -46,7 +47,7 @@ protected:
     void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
 
 private:
-    std::unique_ptr<DeclarationBlock> myClassBody;
+    Pointer<DeclarationBlock> myClassBody;
 };
 
 class ParameterNode : public ISyntaxNode {
@@ -54,13 +55,13 @@ public:
     ParameterNode() = default;
 
     const IdentifierNode& GetIdentifier() const;
-    void SetIdentifier(std::unique_ptr<IdentifierNode> identifier);
+    void SetIdentifier(Pointer<IdentifierNode> identifier);
 
     const ISyntaxNode& GetTypeNode() const;
-    void SetTypeNode(std::unique_ptr<ISyntaxNode> typeNode);
+    void SetTypeNode(Pointer<ISyntaxNode> typeNode);
 
     const ISyntaxNode& GetDefaultNode() const;
-    void SetDefaultNode(std::unique_ptr<ISyntaxNode> defaultNode);
+    void SetDefaultNode(Pointer<ISyntaxNode> defaultNode);
     bool HasDefaultNode() const;
 
 protected:
@@ -68,9 +69,9 @@ protected:
     void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
 
 private:
-    std::unique_ptr<IdentifierNode> myIdentifierNode;
-    std::unique_ptr<ISyntaxNode> myTypeNode;
-    std::unique_ptr<ISyntaxNode> myDefaultNode;
+    Pointer<IdentifierNode> myIdentifier;
+    Pointer<ISyntaxNode> myType;
+    Pointer<ISyntaxNode> myDefault;
 };
 
 class VariableNode : public ISyntaxNode {
@@ -78,10 +79,10 @@ public:
     VariableNode() = default;
 
     const IdentifierNode& GetIdentifier() const;
-    void SetIdentifier(std::unique_ptr<IdentifierNode> identifier);
+    void SetIdentifier(Pointer<IdentifierNode> identifier);
 
     const ISyntaxNode& GetTypeNode() const;
-    void SetTypeNode(std::unique_ptr<ISyntaxNode> typeNode);
+    void SetTypeNode(Pointer<ISyntaxNode> typeNode);
     bool HasTypeNode() const;
 
 protected:
@@ -89,23 +90,23 @@ protected:
     void AcceptVisitor(NodeVisitor & visitor, int depth) const override;
 
 private:
-    std::unique_ptr<IdentifierNode> myIdentifierNode;
-    std::unique_ptr<ISyntaxNode> myTypeNode;
+    Pointer<IdentifierNode> myIdentifier;
+    Pointer<ISyntaxNode> myType;
 };
 
 class ParameterList : public ISyntaxNode {
 public:
     ParameterList() = default;
 
-    const std::vector<std::unique_ptr<ParameterNode>>& GetParameters() const;
-    void AddParameter(std::unique_ptr<ParameterNode> param);
+    const std::vector<Pointer<ParameterNode>>& GetParameters() const;
+    void AddParameter(Pointer<ParameterNode> param);
 
 protected:
     std::string GetName() const override;
     void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
 
 private:
-    std::vector<std::unique_ptr<ParameterNode>> myParameters;
+    std::vector<Pointer<ParameterNode>> myParameters;
 };
 
 class FunctionDeclaration : public IDeclaration {
@@ -113,13 +114,13 @@ public:
     FunctionDeclaration() = default;
 
     const ParameterList& GetParameters() const;
-    void SetParameters(std::unique_ptr<ParameterList> parameters);
+    void SetParameters(Pointer<ParameterList> parameters);
 
     const ISyntaxNode& GetBody() const;
-    void SetBody(std::unique_ptr<ISyntaxNode> body);
+    void SetBody(Pointer<ISyntaxNode> body);
 
     const ISyntaxNode& GetReturnNode() const;
-    void SetReturnNode(std::unique_ptr<ISyntaxNode> returnNode);
+    void SetReturn(Pointer<ISyntaxNode> returnNode);
 
     bool HasReturnNode() const;
 protected:
@@ -128,9 +129,9 @@ protected:
     void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
 
 private:
-    std::unique_ptr<ParameterList> myParams;
-    std::unique_ptr<ISyntaxNode> myBody;
-    std::unique_ptr<ISyntaxNode> myReturnNode;
+    Pointer<ParameterList> myParams;
+    Pointer<ISyntaxNode> myBody;
+    Pointer<ISyntaxNode> myReturn;
 };
 
 class PropertyDeclaration : public IDeclaration {
@@ -141,11 +142,11 @@ public:
     std::string GetKeyword() const;
 
     const ISyntaxNode& GetType() const;
-    void SetType(std::unique_ptr<ISyntaxNode> typeNode);
+    void SetType(Pointer<ISyntaxNode> typeNode);
     bool HasType() const;
 
     const ISyntaxNode& GetInitialization() const;
-    void SetInitialization(std::unique_ptr<ISyntaxNode> initNode);
+    void SetInitialization(Pointer<ISyntaxNode> initNode);
     bool HasInitialization() const;
 
 protected:
@@ -153,7 +154,7 @@ protected:
     void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
 
 private:
-    std::unique_ptr<ISyntaxNode> myTypeNode;
-    std::unique_ptr<ISyntaxNode> myInit;
+    Pointer<ISyntaxNode> myType;
+    Pointer<ISyntaxNode> myInit;
     Lexeme myKeyword;
 };

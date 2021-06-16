@@ -15,7 +15,7 @@ const ISyntaxNode& Assignment::GetAssignable() const {
     return *myAssignable;
 }
 
-void Assignment::SetAssignable(std::unique_ptr<ISyntaxNode> assignable) {
+void Assignment::SetAssignable(Pointer<ISyntaxNode> assignable) {
     myAssignable = std::move(assignable);
 }
 
@@ -23,7 +23,7 @@ const ISyntaxNode& Assignment::GetExpression() const {
     return *myExpression;
 }
 
-void Assignment::SetExpression(std::unique_ptr<ISyntaxNode> expression) {
+void Assignment::SetExpression(Pointer<ISyntaxNode> expression) {
     myExpression = std::move(expression);
 }
 
@@ -40,7 +40,7 @@ const ISyntaxNode& ILoopNode::GetExpression() const {
     return *myExpression;
 }
 
-void ILoopNode::SetExpression(std::unique_ptr<ISyntaxNode> expression) {
+void ILoopNode::SetExpression(Pointer<ISyntaxNode> expression) {
     myExpression = std::move(expression);
 }
 
@@ -48,7 +48,7 @@ const ISyntaxNode& ILoopNode::GetBody() const {
     return *myBody;
 }
 
-void ILoopNode::SetBody(std::unique_ptr<ISyntaxNode> body) {
+void ILoopNode::SetBody(Pointer<ISyntaxNode> body) {
     myBody = std::move(body);
 }
 
@@ -69,7 +69,7 @@ const VariableNode& ForNode::GetVariable() const {
     return *myVariable;
 }
 
-void ForNode::SetVariable(std::unique_ptr<VariableNode> variable) {
+void ForNode::SetVariable(Pointer<VariableNode> variable) {
     myVariable = std::move(variable);
 }
 

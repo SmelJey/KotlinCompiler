@@ -3,10 +3,10 @@
 #include "DeclarationNodes.h"
 #include "ExpressionNodes.h"
 #include "ISyntaxNode.h"
+#include "ParserUtils.h"
 #include "SimpleNodes.h"
 #include "StatementNodes.h"
 #include "../Lexer/Lexer.h"
-#include "ParserUtils.h"
 
 class Parser {
 public:
@@ -42,7 +42,7 @@ private:
     Pointer<ISyntaxNode> ParseLeftAssociative(size_t priority);
     Pointer<ISyntaxNode> ParsePrefix();
     Pointer<ISyntaxNode> ParsePostfix();
-    Pointer<CallArgumentsNode> ParseArguments(Lexeme::LexemeType rParen);
+    Pointer<CallArgumentsNode> ParseArguments(LexemeType rParen);
 
     Pointer<ISyntaxNode> ParsePrimary();
 
@@ -50,8 +50,8 @@ private:
 
     void AddError(ISyntaxNode& root, const Lexeme& location, const std::string& error) const;
 
-    bool ConsumeLexeme(Lexeme::LexemeType lexemeType, ISyntaxNode& host, const std::string& error);
-    bool ConsumeLexeme(Lexeme::LexemeType lexemeType, const std::string& text, ISyntaxNode& host, const std::string& error);
+    bool ConsumeLexeme(LexemeType lexemeType, ISyntaxNode& host, const std::string& error);
+    bool ConsumeLexeme(LexemeType lexemeType, const std::string& text, ISyntaxNode& host, const std::string& error);
     void ConsumeSemicolons();
 
     template<typename T>

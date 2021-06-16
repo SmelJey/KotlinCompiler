@@ -6,6 +6,8 @@
 #include <unordered_map>
 #include <unordered_set>
 
+using LexemeType = Lexeme::LexemeType;
+
 class LexerUtils {
 public:
     static const std::unordered_set<char> OperationsCharset;
@@ -15,7 +17,7 @@ public:
     static const std::unordered_set<char> EscapeCharset;
 
     static const std::unordered_set<std::string> KeywordSet;
-    static const std::unordered_map<std::string, Lexeme::LexemeType> OperationsSets[3];
+    static const std::unordered_map<std::string, LexemeType> OperationsSets[3];
 
     static const std::uint64_t IntegersLimits[];
 
@@ -28,13 +30,13 @@ public:
     static bool IsAlphabetic(int character);
 
     static bool TryGetReal(std::string& floatStr);
-    static bool TryGetInteger(std::string& intStr, Lexeme::LexemeType& initialType, int base = 10);
+    static bool TryGetInteger(std::string& intStr, LexemeType& initialType, int base = 10);
 
-    static bool GetLeastType(uint64_t value, Lexeme::LexemeType& initialType);
+    static bool GetLeastType(uint64_t value, LexemeType& initialType);
 
     static char EscapeToChar(char escapedChar);
 
-    static bool IsIntegerType(Lexeme::LexemeType type);
+    static bool IsIntegerType(LexemeType type);
 
-    static bool IsRealType(Lexeme::LexemeType type);
+    static bool IsRealType(LexemeType type);
 };

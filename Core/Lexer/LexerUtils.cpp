@@ -3,7 +3,7 @@
 #include <iomanip>
 #include <sstream>
 
-using LexType = Lexeme::LexemeType;
+using LexemeType = LexemeType;
 
 const std::unordered_set<char> LexerUtils::OperationsCharset { '+', '-', '*', '/', '=', '>', '<', '.',
         ',', ';', ':', '@', '$', '?', '!', '#', '|', '&', '%', '(', ')', '[', ']', '{', '}', '\"', '\'' };
@@ -24,23 +24,23 @@ const std::unordered_set<std::string> LexerUtils::KeywordSet {
         "noinline", "crossinline", "reified", "expect", "actual", "true", "false", "null"
 };
 
-const std::unordered_map<std::string, Lexeme::LexemeType> LexerUtils::OperationsSets[3]{
+const std::unordered_map<std::string, LexemeType> LexerUtils::OperationsSets[3]{
     {
-        {"+", LexType::OpAdd}, {"-", LexType::OpSub}, {"/", LexType::OpDiv}, {"*", LexType::OpMult},
-        {"%", LexType::OpMod}, {"!", LexType::OpExclMark}, {",", LexType::OpComma}, {".", LexType::OpDot},
-        {":", LexType::OpColon}, {";", LexType::OpSemicolon}, {"=", LexType::OpAssign}, {"#", LexType::OpHash},
-        {"@", LexType::OpAt}, {"?", LexType::OpQuestMark}, {"<", LexType::OpLess}, {">", LexType::OpGreater},
-        {"(", LexType::LParen}, {")", LexType::RParen}, {"[", LexType::LSquare}, {"]", LexType::RSquare},
-        {"{", LexType::LCurl}, {"}", LexType::RCurl}, {"\"", LexType::Quote}, {"\'", LexType::SingleQuote}
+        {"+", LexemeType::OpAdd}, {"-", LexemeType::OpSub}, {"/", LexemeType::OpDiv}, {"*", LexemeType::OpMult},
+        {"%", LexemeType::OpMod}, {"!", LexemeType::OpExclMark}, {",", LexemeType::OpComma}, {".", LexemeType::OpDot},
+        {":", LexemeType::OpColon}, {";", LexemeType::OpSemicolon}, {"=", LexemeType::OpAssign}, {"#", LexemeType::OpHash},
+        {"@", LexemeType::OpAt}, {"?", LexemeType::OpQuestMark}, {"<", LexemeType::OpLess}, {">", LexemeType::OpGreater},
+        {"(", LexemeType::LParen}, {")", LexemeType::RParen}, {"[", LexemeType::LSquare}, {"]", LexemeType::RSquare},
+        {"{", LexemeType::LCurl}, {"}", LexemeType::RCurl}, {"\"", LexemeType::Quote}, {"\'", LexemeType::SingleQuote}
     }, {
-        {"++", LexType::OpInc}, {"--", LexType::OpDec}, {"&&", LexType::OpAnd}, {"||", LexType::OpOr},
-        {"+=", LexType::OpPlusAssign}, {"-=", LexType::OpMinusAssign}, {"*=", LexType::OpMultAssign},
-        {"/=", LexType::OpDivAssign}, {"%=", LexType::OpModAssign}, {"->", LexType::OpArrow}, {"=>", LexType::OpDArrow},
-        {"..", LexType::OpDDot}, {"::", LexType::OpDColon}, {";;", LexType::OpDColon},
-        {"<=", LexType::OpLessOrEq}, {">=", LexType::OpGreaterOrEq}, {"!=", LexType::OpInequal}, {"==", LexType::OpEqual},
-        {"in", LexType::OpIn}
+        {"++", LexemeType::OpInc}, {"--", LexemeType::OpDec}, {"&&", LexemeType::OpAnd}, {"||", LexemeType::OpOr},
+        {"+=", LexemeType::OpPlusAssign}, {"-=", LexemeType::OpMinusAssign}, {"*=", LexemeType::OpMultAssign},
+        {"/=", LexemeType::OpDivAssign}, {"%=", LexemeType::OpModAssign}, {"->", LexemeType::OpArrow}, {"=>", LexemeType::OpDArrow},
+        {"..", LexemeType::OpDDot}, {"::", LexemeType::OpDColon}, {";;", LexemeType::OpDColon},
+        {"<=", LexemeType::OpLessOrEq}, {">=", LexemeType::OpGreaterOrEq}, {"!=", LexemeType::OpInequal}, {"==", LexemeType::OpEqual},
+        {"in", LexemeType::OpIn}
     }, {
-        {"...", LexType::OpTripleDot}, {"!==", LexType::OpStrictIneq}, {"===", LexType::OpStrictEq}, {"!in", LexType::OpNotIn}
+        {"...", LexemeType::OpTripleDot}, {"!==", LexemeType::OpStrictIneq}, {"===", LexemeType::OpStrictEq}, {"!in", LexemeType::OpNotIn}
     }
 };
 
@@ -83,7 +83,7 @@ bool LexerUtils::TryGetReal(std::string& floatStr) {
     return true;
 }
 
-bool LexerUtils::TryGetInteger(std::string& intStr, LexType& initialType, int base) {
+bool LexerUtils::TryGetInteger(std::string& intStr, LexemeType& initialType, int base) {
     std::uint64_t val;
     std::string prefix = (base == 16 ? "0x" : "");
     try {
@@ -99,37 +99,37 @@ bool LexerUtils::TryGetInteger(std::string& intStr, LexType& initialType, int ba
     return LexerUtils::GetLeastType(val, initialType);
 }
 
-bool LexerUtils::GetLeastType(uint64_t value, LexType& initialType) {
-    if (initialType == LexType::Long) {
-        return value <= IntegersLimits[(int)LexType::Long - (int)LexType::Byte];
+bool LexerUtils::GetLeastType(uint64_t value, LexemeType& initialType) {
+    if (initialType == LexemeType::Long) {
+        return value <= IntegersLimits[(int)LexemeType::Long - (int)LexemeType::Byte];
     }
-    if (initialType == LexType::ULong) {
+    if (initialType == LexemeType::ULong) {
         return true;
     }
 
     Lexeme::NumberType numType = Lexeme::GetNumberType(initialType);
-    LexType lowestType;
+    LexemeType lowestType;
     switch (numType) {
         case Lexeme::NumberType::Integer:
-            initialType = LexType::Long;
-            lowestType = LexType::Byte;
-            if (IntegersLimits[(int)initialType - (int)LexType::Byte] < value) {
+            initialType = LexemeType::Long;
+            lowestType = LexemeType::Byte;
+            if (IntegersLimits[(int)initialType - (int)LexemeType::Byte] < value) {
                 return false;
             }
             break;
         case Lexeme::NumberType::UInteger:
-            initialType = LexType::ULong;
-            lowestType = LexType::UByte;
+            initialType = LexemeType::ULong;
+            lowestType = LexemeType::UByte;
             break;
         default:
             throw std::invalid_argument("Not an integer lexeme type");
     }
 
     while (initialType > lowestType) {
-        if (IntegersLimits[(int)initialType - (int)LexType::Byte - 1] < value) {
+        if (IntegersLimits[(int)initialType - (int)LexemeType::Byte - 1] < value) {
             break;
         }
-        initialType = static_cast<LexType>((int)initialType - 1);
+        initialType = static_cast<LexemeType>((int)initialType - 1);
     }
 
     return true;
@@ -150,10 +150,10 @@ char LexerUtils::EscapeToChar(char escapedChar) {
     }
 }
 
-bool LexerUtils::IsIntegerType(Lexeme::LexemeType type) {
-    return type >= Lexeme::LexemeType::Byte && type <= Lexeme::LexemeType::ULong;
+bool LexerUtils::IsIntegerType(LexemeType type) {
+    return type >= LexemeType::Byte && type <= LexemeType::ULong;
 }
 
-bool LexerUtils::IsRealType(Lexeme::LexemeType type) {
-    return type == Lexeme::LexemeType::Float || type == Lexeme::LexemeType::Double;
+bool LexerUtils::IsRealType(LexemeType type) {
+    return type == LexemeType::Float || type == LexemeType::Double;
 }

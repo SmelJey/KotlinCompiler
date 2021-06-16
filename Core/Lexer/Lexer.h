@@ -7,8 +7,6 @@
 #include <queue>
 #include <string>
 
-using LexType = Lexeme::LexemeType;
-
 class Lexer {
 public:
     explicit Lexer(std::ifstream& input);
@@ -40,7 +38,7 @@ private:
 
     void ProcessString();
     void ProcessRawString();
-    bool ProcessStringTemplate(LexType stringType);
+    bool ProcessStringTemplate(LexemeType stringType);
     void ReturnCurrentStringLexeme(bool unlockString);
     void ProcessStrExpression();
 
@@ -71,7 +69,7 @@ private:
     std::string myLexemeText;
     std::string myLexemeValue;
 
-    LexType myLexemeType = LexType::Error;
+    LexemeType myLexemeType = LexemeType::Error;
     bool isError = false;
     bool isInString = false;
 };
