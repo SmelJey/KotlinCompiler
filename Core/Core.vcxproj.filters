@@ -42,7 +42,7 @@
     <ClInclude Include="Parser\Parser.h">
       <Filter>Header Files\Parser</Filter>
     </ClInclude>
-    <ClInclude Include="Parser\ISyntaxNode.h">
+    <ClInclude Include="Parser\AbstractNode.h">
       <Filter>Header Files\Parser</Filter>
     </ClInclude>
     <ClInclude Include="Parser\SimpleNodes.h">
@@ -80,7 +80,7 @@
     <ClCompile Include="Parser\Parser.cpp">
       <Filter>Source Files\Parser</Filter>
     </ClCompile>
-    <ClCompile Include="Parser\ISyntaxNode.cpp">
+    <ClCompile Include="Parser\AbstractNode.cpp">
       <Filter>Source Files\Parser</Filter>
     </ClCompile>
     <ClCompile Include="Parser\SimpleNodes.cpp">

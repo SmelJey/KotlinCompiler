@@ -1,52 +1,52 @@
 #pragma once
-#include "ISyntaxNode.h"
+#include "AbstractNode.h"
 #include "ParserUtils.h"
 
-class ILexemeNode : public ISyntaxNode {
+class LexemeNode : public AbstractNode {
 public:
-    ILexemeNode(const Lexeme& lexeme);
+    LexemeNode(const Lexeme& lexeme);
 
     Lexeme GetLexeme() const;
 protected:
     Lexeme myLexeme;
 };
 
-class IdentifierNode : public ILexemeNode {
+class IdentifierNode : public LexemeNode {
 public:
     explicit IdentifierNode(const Lexeme& lexeme);
 protected:
     std::string GetName() const override;
 };
 
-class IntegerNode : public ILexemeNode {
+class IntegerNode : public LexemeNode {
 public:
     explicit IntegerNode(const Lexeme& lexeme);
 protected:
     std::string GetName() const override;
 };
 
-class RealNode : public ILexemeNode {
+class RealNode : public LexemeNode {
 public:
     explicit RealNode(const Lexeme& lexeme);
 protected:
     std::string GetName() const override;
 };
 
-class BooleanNode : public ILexemeNode {
+class BooleanNode : public LexemeNode {
 public:
     explicit BooleanNode(const Lexeme& lexeme);
 protected:
     std::string GetName() const override;
 };
 
-class StringNode : public ILexemeNode {
+class StringNode : public LexemeNode {
 public:
     explicit StringNode(const Lexeme& lexeme);
 protected:
     std::string GetName() const override;
 };
 
-class ErrorNode : public ILexemeNode {
+class ErrorNode : public LexemeNode {
 public:
     ErrorNode(const Lexeme& lexeme, const std::string& error = "Unexpected lexeme");
 protected:
@@ -55,33 +55,33 @@ private:
     std::string myError;
 };
 
-class TypeNode : public ILexemeNode {
+class TypeNode : public LexemeNode {
 public:
     explicit TypeNode(const Lexeme& lexeme);
 protected:
     std::string GetName() const override;
 };
 
-class BreakNode : public ILexemeNode {
+class BreakNode : public LexemeNode {
 public:
     explicit BreakNode(const Lexeme& lexeme);
 protected:
     std::string GetName() const override;
 };
 
-class ContinueNode : public ILexemeNode {
+class ContinueNode : public LexemeNode {
 public:
     explicit ContinueNode(const Lexeme& lexeme);
 protected:
     std::string GetName() const override;
 };
 
-class ReturnNode : public ILexemeNode {
+class ReturnNode : public LexemeNode {
 public:
     explicit ReturnNode(const Lexeme& lexeme);
 
-    const ISyntaxNode* GetExpression() const;
-    void SetExpression(Pointer<ISyntaxNode> expression);
+    const AbstractNode* GetExpression() const;
+    void SetExpression(Pointer<AbstractNode> expression);
     bool HasExpression() const;
 
 protected:
@@ -89,5 +89,5 @@ protected:
     void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
 
 private:
-    Pointer<ISyntaxNode> myExpression;
+    Pointer<AbstractNode> myExpression;
 };

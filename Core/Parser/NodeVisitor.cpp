@@ -1,10 +1,10 @@
 #include "NodeVisitor.h"
 
-#include "ISyntaxNode.h"
+#include "AbstractNode.h"
 
 NodeVisitor::~NodeVisitor() = default;
 
-void NodeVisitor::VisitNode(const ISyntaxNode& node, int depth) {
+void NodeVisitor::VisitNode(const AbstractNode& node, int depth) {
     EnterNode(node, depth);
     node.InternalAcceptVisitor(*this, depth + 1);
     ExitNode(node, depth);
@@ -16,7 +16,7 @@ std::vector<std::string> ToStringVisitor::GetStringData() const {
     return myStringData;
 }
 
-void ToStringVisitor::EnterNode(const ISyntaxNode& node, int depth) {
+void ToStringVisitor::EnterNode(const AbstractNode& node, int depth) {
     std::string indent;
     for (int d = 0; d < depth; d++) {
         indent += "| ";
@@ -25,7 +25,7 @@ void ToStringVisitor::EnterNode(const ISyntaxNode& node, int depth) {
     myStringData.push_back(indent + node.ToString());
 }
 
-void ToStringVisitor::ExitNode(const ISyntaxNode& node, int depth) {}
+void ToStringVisitor::ExitNode(const AbstractNode& node, int depth) {}
 
 CuteToStringVisitor::CuteToStringVisitor() = default;
 
@@ -33,11 +33,11 @@ std::vector<std::string> CuteToStringVisitor::GetStringData() const {
     return myStringData;
 }
 
-void CuteToStringVisitor::EnterNode(const ISyntaxNode & node, int depth) {
+void CuteToStringVisitor::EnterNode(const AbstractNode & node, int depth) {
     myStack.push(std::vector<std::string>());
 }
 
-void CuteToStringVisitor::ExitNode(const ISyntaxNode & node, int depth) {
+void CuteToStringVisitor::ExitNode(const AbstractNode & node, int depth) {
     auto myVec = myStack.top();
     myStack.pop();
     std::vector<std::string>* topVec;

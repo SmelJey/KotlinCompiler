@@ -2,7 +2,7 @@
 
 #include "DeclarationNodes.h"
 #include "ExpressionNodes.h"
-#include "ISyntaxNode.h"
+#include "AbstractNode.h"
 #include "ParserUtils.h"
 #include "SimpleNodes.h"
 #include "StatementNodes.h"
@@ -17,46 +17,46 @@ public:
     Pointer<DeclarationBlock> Parse();
 private:
     Pointer<DeclarationBlock> ParseDeclarations(bool isClass);
-    Pointer<IDeclaration> ParseClass();
+    Pointer<AbstractDeclaration> ParseClass();
 
-    Pointer<IDeclaration> ParseFunction();
+    Pointer<AbstractDeclaration> ParseFunction();
     Pointer<ParameterList> ParseParameters();
     Pointer<ParameterNode> ParseParameter();
-    Pointer<ISyntaxNode> ParseType();
+    Pointer<AbstractNode> ParseType();
 
-    Pointer<ISyntaxNode> ParseStatement();
+    Pointer<AbstractNode> ParseStatement();
 
     Pointer<BlockNode> ParseBlock();
-    Pointer<ISyntaxNode> ParseControlStructureBody(bool acceptSemicolons);
+    Pointer<AbstractNode> ParseControlStructureBody(bool acceptSemicolons);
     Pointer<ForNode> ParseForLoop();
     Pointer<WhileNode> ParseWhileLoop();
     Pointer<DoWhileNode> ParseDoWhileLoop();
 
-    Pointer<ISyntaxNode> ParseAssignment();
+    Pointer<AbstractNode> ParseAssignment();
 
-    Pointer<IDeclaration> ParseProperty();
+    Pointer<AbstractDeclaration> ParseProperty();
     Pointer<VariableNode> ParseVariable();
     Pointer<IdentifierNode> ParseIdentifier(const std::string& errorMessage = "Identifier expected");
 
-    Pointer<ISyntaxNode> ParseExpression();
-    Pointer<ISyntaxNode> ParseLeftAssociative(size_t priority);
-    Pointer<ISyntaxNode> ParsePrefix();
-    Pointer<ISyntaxNode> ParsePostfix();
+    Pointer<AbstractNode> ParseExpression();
+    Pointer<AbstractNode> ParseLeftAssociative(size_t priority);
+    Pointer<AbstractNode> ParsePrefix();
+    Pointer<AbstractNode> ParsePostfix();
     Pointer<CallArgumentsNode> ParseArguments(LexemeType rParen);
 
-    Pointer<ISyntaxNode> ParsePrimary();
+    Pointer<AbstractNode> ParsePrimary();
 
-    Pointer<ISyntaxNode> ParseIfExpression();
+    Pointer<AbstractNode> ParseIfExpression();
 
-    void AddError(ISyntaxNode& root, const Lexeme& location, const std::string& error) const;
+    void AddError(AbstractNode& root, const Lexeme& location, const std::string& error) const;
 
-    bool ConsumeLexeme(LexemeType lexemeType, ISyntaxNode& host, const std::string& error);
-    bool ConsumeLexeme(LexemeType lexemeType, const std::string& text, ISyntaxNode& host, const std::string& error);
+    bool ConsumeLexeme(LexemeType lexemeType, AbstractNode& host, const std::string& error);
+    bool ConsumeLexeme(LexemeType lexemeType, const std::string& text, AbstractNode& host, const std::string& error);
     void ConsumeSemicolons();
 
     template<typename T>
-    Pointer<ILexemeNode> CreateLexemeNode(const Lexeme& lexeme) {
-        Pointer<ILexemeNode> node = std::make_unique<T>(T(lexeme));
+    Pointer<T> CreateLexemeNode(const Lexeme& lexeme) {
+        Pointer<T> node = std::make_unique<T>(T(lexeme));
         if (lexeme.IsError()) {
             AddError(*node, lexeme, lexeme.GetValue<std::string>());
         }

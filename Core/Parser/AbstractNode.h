@@ -3,25 +3,25 @@
 #include "NodeVisitor.h"
 #include "../Lexer/Lexeme.h"
 
-class ISyntaxNode {
+class AbstractNode {
 public:
-    ISyntaxNode();
+    AbstractNode();
 
-    ISyntaxNode(const ISyntaxNode& src) = delete;
+    AbstractNode(const AbstractNode& src) = delete;
 
-    ISyntaxNode(ISyntaxNode&& src) noexcept;
+    AbstractNode(AbstractNode&& src) noexcept;
 
-    virtual ~ISyntaxNode();
+    virtual ~AbstractNode();
 
     friend class NodeVisitor;
 
     std::string ToString() const;
 
-    friend std::ostream& operator<<(std::ostream& os, const ISyntaxNode& node);
+    friend std::ostream& operator<<(std::ostream& os, const AbstractNode& node);
 
     void RunVisitor(NodeVisitor& visitor) const;
 
-    void AddError(std::unique_ptr<ISyntaxNode>&& errorNode);
+    void AddError(std::unique_ptr<AbstractNode>&& errorNode);
 
 protected:
     void InternalAcceptVisitor(NodeVisitor& visitor, int depth) const;
@@ -31,5 +31,5 @@ protected:
     virtual std::string GetName() const = 0;
 
 private:
-    std::vector<std::unique_ptr<ISyntaxNode>> myErrors;
+    std::vector<std::unique_ptr<AbstractNode>> myErrors;
 };

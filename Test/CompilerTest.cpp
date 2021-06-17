@@ -28,7 +28,7 @@ ParserTest::ParserTest(const std::string& filepath) : IOTest(ParserDirectory + f
     Lexer lexer(GetFilepath());
     Parser parser(lexer);
 
-    Pointer<ISyntaxNode> tree = parser.Parse();
+    Pointer<AbstractNode> tree = parser.Parse();
     CuteToStringVisitor visitor;
     tree->RunVisitor(visitor);
 

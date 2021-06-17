@@ -1,17 +1,17 @@
 #pragma once
 #include <memory>
 
-#include "ISyntaxNode.h"
+#include "AbstractNode.h"
 #include "ParserUtils.h"
 #include "SimpleNodes.h"
 #include "../Lexer/Lexeme.h"
 
-class BinOperationNode : public ILexemeNode {
+class BinOperationNode : public LexemeNode {
 public:
-    BinOperationNode(const Lexeme& operation, Pointer<ISyntaxNode> left, Pointer<ISyntaxNode> right);
+    BinOperationNode(const Lexeme& operation, Pointer<AbstractNode> left, Pointer<AbstractNode> right);
 
-    const ISyntaxNode& GetLeftOperand() const;
-    const ISyntaxNode& GetRightOperand() const;
+    const AbstractNode& GetLeftOperand() const;
+    const AbstractNode& GetRightOperand() const;
 
     std::string GetOperation() const;
 
@@ -20,101 +20,101 @@ protected:
 
     void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
 private:
-    Pointer<ISyntaxNode> myLeftOperand;
-    Pointer<ISyntaxNode> myRightOperand;
+    Pointer<AbstractNode> myLeftOperand;
+    Pointer<AbstractNode> myRightOperand;
 };
 
-class IUnaryOperationNode : public ILexemeNode {
+class AbstractUnaryOperationNode : public LexemeNode {
 public:
-    IUnaryOperationNode(const Lexeme& operation, Pointer<ISyntaxNode> operand);
+    AbstractUnaryOperationNode(const Lexeme& operation, Pointer<AbstractNode> operand);
 
-    const ISyntaxNode& GetOperand() const;
+    const AbstractNode& GetOperand() const;
     std::string GetOperation() const;
 
 protected:
     void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
 
 private:
-    Pointer<ISyntaxNode> myOperand;
+    Pointer<AbstractNode> myOperand;
 };
 
-class UnaryPrefixOperationNode : public IUnaryOperationNode {
+class UnaryPrefixOperationNode : public AbstractUnaryOperationNode {
 public:
-    UnaryPrefixOperationNode(const Lexeme& operation, Pointer<ISyntaxNode> operand);
+    UnaryPrefixOperationNode(const Lexeme& operation, Pointer<AbstractNode> operand);
 
 protected:
     std::string GetName() const override;
 };
 
-class UnaryPostfixOperationNode : public IUnaryOperationNode {
+class UnaryPostfixOperationNode : public AbstractUnaryOperationNode {
 public:
-    UnaryPostfixOperationNode(const Lexeme& operation, Pointer<ISyntaxNode> operand);
+    UnaryPostfixOperationNode(const Lexeme& operation, Pointer<AbstractNode> operand);
 
 protected:
     std::string GetName() const override;
 };
 
-class IUnaryPostfix : public ISyntaxNode {
+class AbstractUnaryPostfixNode : public AbstractNode {
 public:
-    IUnaryPostfix() = default;
+    AbstractUnaryPostfixNode() = default;
 };
 
-class CallArgumentsNode : public ISyntaxNode {
+class CallArgumentsNode : public AbstractNode {
 public:
     CallArgumentsNode() = default;
 
-    const std::vector<Pointer<ISyntaxNode>>& GetArguments() const;
-    void AddArgument(Pointer<ISyntaxNode> argument);
+    const std::vector<Pointer<AbstractNode>>& GetArguments() const;
+    void AddArgument(Pointer<AbstractNode> argument);
 
 protected:
     std::string GetName() const override;
     void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
 
 private:
-    std::vector<Pointer<ISyntaxNode>> myArguments;
+    std::vector<Pointer<AbstractNode>> myArguments;
 };
 
-class IPostfixCallNode : public IUnaryPostfix {
+class PostfixCallNode : public AbstractUnaryPostfixNode {
 public:
-    explicit IPostfixCallNode(Pointer<ISyntaxNode> expression);
+    explicit PostfixCallNode(Pointer<AbstractNode> expression);
 
     const CallArgumentsNode& GetArguments() const;
     void SetArguments(Pointer<CallArgumentsNode> arguments);
 
-    const ISyntaxNode* GetExpression() const;
+    const AbstractNode* GetExpression() const;
 
 protected:
     void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
 
 private:
-    Pointer<ISyntaxNode> myExpression;
+    Pointer<AbstractNode> myExpression;
     Pointer<CallArgumentsNode> myArgumentsNode;
 };
 
-class IndexSuffixNode : public IPostfixCallNode {
+class IndexSuffixNode : public PostfixCallNode {
 public:
-    explicit IndexSuffixNode(Pointer<ISyntaxNode> expression);
+    explicit IndexSuffixNode(Pointer<AbstractNode> expression);
 protected:
     std::string GetName() const override;
 };
 
-class CallSuffixNode : public IPostfixCallNode {
+class CallSuffixNode : public PostfixCallNode {
 public:
-    explicit CallSuffixNode(Pointer<ISyntaxNode> expression);
+    explicit CallSuffixNode(Pointer<AbstractNode> expression);
 protected:
     std::string GetName() const override;
 };
 
-class MemberAccessNode : public IUnaryPostfix {
+class MemberAccessNode : public AbstractUnaryPostfixNode {
 public:
-    MemberAccessNode(const Lexeme& lexeme, Pointer<ISyntaxNode> expression);
+    MemberAccessNode(const Lexeme& lexeme, Pointer<AbstractNode> expression);
 
     std::string GetOperation() const;
 
-    const ISyntaxNode* GetExpression() const;
+    const AbstractNode* GetExpression() const;
 
-    const ISyntaxNode& GetMember() const;
-    void SetMember(Pointer<ISyntaxNode> member);
+    const AbstractNode& GetMember() const;
+    void SetMember(Pointer<AbstractNode> member);
 
 protected:
     std::string GetName() const override;
@@ -122,22 +122,22 @@ protected:
 
 private:
     Lexeme myOperation;
-    Pointer<ISyntaxNode> myExpression;
-    Pointer<ISyntaxNode> myMemberNode;
+    Pointer<AbstractNode> myExpression;
+    Pointer<AbstractNode> myMemberNode;
 };
 
-class IfExpression : public ISyntaxNode {
+class IfExpression : public AbstractNode {
 public:
     IfExpression() = default;
 
-    const ISyntaxNode* GetExpression() const;
-    void SetExpression(Pointer<ISyntaxNode> expression);
+    const AbstractNode* GetExpression() const;
+    void SetExpression(Pointer<AbstractNode> expression);
 
-    const ISyntaxNode* GetIfBody() const;
-    void SetIfBody(Pointer<ISyntaxNode> body);
+    const AbstractNode* GetIfBody() const;
+    void SetIfBody(Pointer<AbstractNode> body);
 
-    const ISyntaxNode* GetElseBody() const;
-    void SetElseBody(Pointer<ISyntaxNode> body);
+    const AbstractNode* GetElseBody() const;
+    void SetElseBody(Pointer<AbstractNode> body);
     bool HasElseBody() const;
 
 protected:
@@ -145,22 +145,22 @@ protected:
     void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
 
 private:
-    Pointer<ISyntaxNode> myExpression;
-    Pointer<ISyntaxNode> myIfBody;
-    Pointer<ISyntaxNode> myElseBody;
+    Pointer<AbstractNode> myExpression;
+    Pointer<AbstractNode> myIfBody;
+    Pointer<AbstractNode> myElseBody;
 };
 
-class BlockNode : public ISyntaxNode {
+class BlockNode : public AbstractNode {
 public:
     BlockNode() = default;
 
-    const std::vector<Pointer<ISyntaxNode>>& GetStatements() const;
-    void AddStatement(Pointer<ISyntaxNode> statement);
+    const std::vector<Pointer<AbstractNode>>& GetStatements() const;
+    void AddStatement(Pointer<AbstractNode> statement);
 
 protected:
     std::string GetName() const override;
     void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
 
 private:
-    std::vector<Pointer<ISyntaxNode>> myStatements;
+    std::vector<Pointer<AbstractNode>> myStatements;
 };

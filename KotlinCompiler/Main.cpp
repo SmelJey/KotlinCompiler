@@ -67,7 +67,7 @@ int main(int argc, char** argv) {
 
     Lexer lexer(configuration.GetPaths()[0]);
     Parser parser(lexer);
-    Pointer<ISyntaxNode> syntaxTree = parser.Parse();
+    Pointer<AbstractNode> syntaxTree = parser.Parse();
 
     if (configuration.GetParserDebug()) {
         CuteToStringVisitor visitor;

@@ -1,7 +1,7 @@
 #pragma once
 #include <unordered_set>
 
-#include "ISyntaxNode.h"
+#include "AbstractNode.h"
 #include "../Lexer/LexerUtils.h"
 #include "../Lexer/Lexeme.h"
 
@@ -17,6 +17,6 @@ public:
     static const std::unordered_set<LexemeType> AssignmentOperations;
 
 
-    static bool IsDirectlyAssignable(const ISyntaxNode* expression);
-    static bool IsPostfixUnaryExpression(const ISyntaxNode* expression);
+    static bool IsDirectlyAssignable(const AbstractNode* expression);
+    static bool IsPostfixUnaryExpression(const AbstractNode* expression);
 };

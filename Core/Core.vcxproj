@@ -168,7 +168,7 @@
     <ClInclude Include="Parser\ParserUtils.h" />
     <ClInclude Include="Parser\SimpleNodes.h" />
     <ClInclude Include="Parser\Parser.h" />
-    <ClInclude Include="Parser\ISyntaxNode.h" />
+    <ClInclude Include="Parser\AbstractNode.h" />
     <ClInclude Include="Parser\StatementNodes.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
@@ -180,7 +180,7 @@
     <ClCompile Include="Parser\ExpressionNodes.cpp" />
     <ClCompile Include="Parser\NodeVisitor.cpp" />
     <ClCompile Include="Parser\Parser.cpp" />
-    <ClCompile Include="Parser\ISyntaxNode.cpp" />
+    <ClCompile Include="Parser\AbstractNode.cpp" />
     <ClCompile Include="Parser\ParserUtils.cpp" />
     <ClCompile Include="Parser\SimpleNodes.cpp" />
     <ClCompile Include="Parser\StatementNodes.cpp" />

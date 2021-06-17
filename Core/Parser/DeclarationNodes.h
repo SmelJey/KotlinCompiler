@@ -1,11 +1,11 @@
 #pragma once
-#include "ISyntaxNode.h"
+#include "AbstractNode.h"
 #include "ParserUtils.h"
 #include "SimpleNodes.h"
 
-class IDeclaration : public ISyntaxNode {
+class AbstractDeclaration : public AbstractNode {
 public:
-    IDeclaration() = default;
+    AbstractDeclaration() = default;
 
     std::string GetIdentifier() const;
     const IdentifierNode& GetIdentifierNode() const;
@@ -18,23 +18,23 @@ private:
     Pointer<IdentifierNode> myIdentifier;
 };
 
-class DeclarationBlock : public ISyntaxNode {
+class DeclarationBlock : public AbstractNode {
 public:
-    DeclarationBlock(std::vector<Pointer<IDeclaration>> declarations = std::vector<Pointer<IDeclaration>>());
+    DeclarationBlock(std::vector<Pointer<AbstractDeclaration>> declarations = std::vector<Pointer<AbstractDeclaration>>());
 
-    const std::vector<Pointer<IDeclaration>>& GetDeclarations() const;
+    const std::vector<Pointer<AbstractDeclaration>>& GetDeclarations() const;
 
-    void AddDeclaration(Pointer<IDeclaration> declaration);
+    void AddDeclaration(Pointer<AbstractDeclaration> declaration);
 
 protected:
     std::string GetName() const override;
     void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
 
 private:
-    std::vector<Pointer<IDeclaration>> myDeclarations;
+    std::vector<Pointer<AbstractDeclaration>> myDeclarations;
 };
 
-class ClassDeclaration : public IDeclaration {
+class ClassDeclaration : public AbstractDeclaration {
 public:
     ClassDeclaration() = default;
 
@@ -50,18 +50,18 @@ private:
     Pointer<DeclarationBlock> myClassBody;
 };
 
-class ParameterNode : public ISyntaxNode {
+class ParameterNode : public AbstractNode {
 public:
     ParameterNode() = default;
 
     const IdentifierNode& GetIdentifier() const;
     void SetIdentifier(Pointer<IdentifierNode> identifier);
 
-    const ISyntaxNode& GetTypeNode() const;
-    void SetTypeNode(Pointer<ISyntaxNode> typeNode);
+    const AbstractNode& GetTypeNode() const;
+    void SetTypeNode(Pointer<AbstractNode> typeNode);
 
-    const ISyntaxNode& GetDefaultNode() const;
-    void SetDefaultNode(Pointer<ISyntaxNode> defaultNode);
+    const AbstractNode& GetDefaultNode() const;
+    void SetDefaultNode(Pointer<AbstractNode> defaultNode);
     bool HasDefaultNode() const;
 
 protected:
@@ -70,19 +70,19 @@ protected:
 
 private:
     Pointer<IdentifierNode> myIdentifier;
-    Pointer<ISyntaxNode> myType;
-    Pointer<ISyntaxNode> myDefault;
+    Pointer<AbstractNode> myType;
+    Pointer<AbstractNode> myDefault;
 };
 
-class VariableNode : public ISyntaxNode {
+class VariableNode : public AbstractNode {
 public:
     VariableNode() = default;
 
     const IdentifierNode& GetIdentifier() const;
     void SetIdentifier(Pointer<IdentifierNode> identifier);
 
-    const ISyntaxNode& GetTypeNode() const;
-    void SetTypeNode(Pointer<ISyntaxNode> typeNode);
+    const AbstractNode& GetTypeNode() const;
+    void SetTypeNode(Pointer<AbstractNode> typeNode);
     bool HasTypeNode() const;
 
 protected:
@@ -91,10 +91,10 @@ protected:
 
 private:
     Pointer<IdentifierNode> myIdentifier;
-    Pointer<ISyntaxNode> myType;
+    Pointer<AbstractNode> myType;
 };
 
-class ParameterList : public ISyntaxNode {
+class ParameterList : public AbstractNode {
 public:
     ParameterList() = default;
 
@@ -109,18 +109,18 @@ private:
     std::vector<Pointer<ParameterNode>> myParameters;
 };
 
-class FunctionDeclaration : public IDeclaration {
+class FunctionDeclaration : public AbstractDeclaration {
 public:
     FunctionDeclaration() = default;
 
     const ParameterList& GetParameters() const;
     void SetParameters(Pointer<ParameterList> parameters);
 
-    const ISyntaxNode& GetBody() const;
-    void SetBody(Pointer<ISyntaxNode> body);
+    const AbstractNode& GetBody() const;
+    void SetBody(Pointer<AbstractNode> body);
 
-    const ISyntaxNode& GetReturnNode() const;
-    void SetReturn(Pointer<ISyntaxNode> returnNode);
+    const AbstractNode& GetReturnNode() const;
+    void SetReturn(Pointer<AbstractNode> returnNode);
 
     bool HasReturnNode() const;
 protected:
@@ -130,23 +130,23 @@ protected:
 
 private:
     Pointer<ParameterList> myParams;
-    Pointer<ISyntaxNode> myBody;
-    Pointer<ISyntaxNode> myReturn;
+    Pointer<AbstractNode> myBody;
+    Pointer<AbstractNode> myReturn;
 };
 
-class PropertyDeclaration : public IDeclaration {
+class PropertyDeclaration : public AbstractDeclaration {
 public:
     explicit PropertyDeclaration(const Lexeme& keyword);
 
     bool IsMutable() const;
     std::string GetKeyword() const;
 
-    const ISyntaxNode& GetType() const;
-    void SetType(Pointer<ISyntaxNode> typeNode);
+    const AbstractNode& GetType() const;
+    void SetType(Pointer<AbstractNode> typeNode);
     bool HasType() const;
 
-    const ISyntaxNode& GetInitialization() const;
-    void SetInitialization(Pointer<ISyntaxNode> initNode);
+    const AbstractNode& GetInitialization() const;
+    void SetInitialization(Pointer<AbstractNode> initNode);
     bool HasInitialization() const;
 
 protected:
@@ -154,7 +154,7 @@ protected:
     void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
 
 private:
-    Pointer<ISyntaxNode> myType;
-    Pointer<ISyntaxNode> myInit;
+    Pointer<AbstractNode> myType;
+    Pointer<AbstractNode> myInit;
     Lexeme myKeyword;
 };

@@ -1,29 +1,29 @@
 #include "StatementNodes.h"
-#include "ISyntaxNode.h"
+#include "AbstractNode.h"
 
 std::string EmptyStatement::GetName() const {
     return "Empty Statement";
 }
 
-Assignment::Assignment(const Lexeme& lexeme) : ILexemeNode(lexeme) {}
+Assignment::Assignment(const Lexeme& lexeme) : LexemeNode(lexeme) {}
 
 std::string Assignment::GetOperation() const {
     return myLexeme.GetValue<std::string>();
 }
 
-const ISyntaxNode& Assignment::GetAssignable() const {
+const AbstractNode& Assignment::GetAssignable() const {
     return *myAssignable;
 }
 
-void Assignment::SetAssignable(Pointer<ISyntaxNode> assignable) {
+void Assignment::SetAssignable(Pointer<AbstractNode> assignable) {
     myAssignable = std::move(assignable);
 }
 
-const ISyntaxNode& Assignment::GetExpression() const {
+const AbstractNode& Assignment::GetExpression() const {
     return *myExpression;
 }
 
-void Assignment::SetExpression(Pointer<ISyntaxNode> expression) {
+void Assignment::SetExpression(Pointer<AbstractNode> expression) {
     myExpression = std::move(expression);
 }
 
@@ -36,23 +36,23 @@ void Assignment::AcceptVisitor(NodeVisitor& visitor, int depth) const {
     visitor.VisitNode(*myExpression, depth);
 }
 
-const ISyntaxNode& ILoopNode::GetExpression() const {
+const AbstractNode& LoopNode::GetExpression() const {
     return *myExpression;
 }
 
-void ILoopNode::SetExpression(Pointer<ISyntaxNode> expression) {
+void LoopNode::SetExpression(Pointer<AbstractNode> expression) {
     myExpression = std::move(expression);
 }
 
-const ISyntaxNode& ILoopNode::GetBody() const {
+const AbstractNode& LoopNode::GetBody() const {
     return *myBody;
 }
 
-void ILoopNode::SetBody(Pointer<ISyntaxNode> body) {
+void LoopNode::SetBody(Pointer<AbstractNode> body) {
     myBody = std::move(body);
 }
 
-void ILoopNode::AcceptVisitor(NodeVisitor& visitor, int depth) const {
+void LoopNode::AcceptVisitor(NodeVisitor& visitor, int depth) const {
     visitor.VisitNode(*myExpression, depth);
     visitor.VisitNode(*myBody, depth);
 }
@@ -79,5 +79,5 @@ std::string ForNode::GetName() const {
 
 void ForNode::AcceptVisitor(NodeVisitor& visitor, int depth) const {
     visitor.VisitNode(*myVariable, depth);
-    ILoopNode::AcceptVisitor(visitor, depth);
+    LoopNode::AcceptVisitor(visitor, depth);
 }
