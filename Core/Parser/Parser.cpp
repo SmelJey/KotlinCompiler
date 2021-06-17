@@ -132,7 +132,7 @@ Pointer<ParameterNode> Parser::ParseParameter() {
     curLexeme = myLexer.GetLexeme();
 
     if (curLexeme.GetType() != LexemeType::OpColon) {
-        param->SetTypeNode(std::make_unique<ErrorNode>(curLexeme.CopyEmptyOfType(LexemeType::Identifier),
+        param->SetType(std::make_unique<ErrorNode>(curLexeme.CopyEmptyOfType(LexemeType::Identifier),
                                                        "A type annotation is required on a value parameter"));
         if (isError) {
             myLexer.NextLexeme();
@@ -140,11 +140,11 @@ Pointer<ParameterNode> Parser::ParseParameter() {
         return param;
     }
     myLexer.NextLexeme();
-    param->SetTypeNode(std::move(ParseType()));
+    param->SetType(std::move(ParseType()));
 
     if (myLexer.GetLexeme().GetType() == LexemeType::OpAssign) {
         myLexer.NextLexeme();
-        param->SetDefaultNode(ParseExpression());
+        param->SetDefault(ParseExpression());
     }
 
     return param;
@@ -320,7 +320,7 @@ Pointer<VariableNode> Parser::ParseVariable() {
     variable->SetIdentifier(ParseIdentifier("Expecting a variable name"));
     if (myLexer.GetLexeme().GetType() == LexemeType::OpColon) {
         myLexer.NextLexeme();
-        variable->SetTypeNode(ParseType());
+        variable->SetType(ParseType());
     }
 
     return variable;

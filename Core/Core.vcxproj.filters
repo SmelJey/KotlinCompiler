@@ -25,6 +25,12 @@
     <Filter Include="Source Files\Parser">
       <UniqueIdentifier>{47aaa709-6439-433f-9b92-415a4a308d5f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Semantics">
+      <UniqueIdentifier>{fb755ee2-5a75-4a2b-9813-a860f5e81da1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Semantics">
+      <UniqueIdentifier>{5133731a-e73d-44e1-97a9-9633dc6c8dec}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -69,6 +75,9 @@
     <ClInclude Include="Parser\StatementNodes.h">
       <Filter>Header Files\Parser</Filter>
     </ClInclude>
+    <ClInclude Include="Symbol.h">
+      <Filter>Header Files\Semantics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -106,6 +115,9 @@
     </ClCompile>
     <ClCompile Include="Parser\StatementNodes.cpp">
       <Filter>Source Files\Parser</Filter>
+    </ClCompile>
+    <ClCompile Include="Symbol.cpp">
+      <Filter>Source Files\Semantics</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

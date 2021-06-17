@@ -7,8 +7,8 @@ class AbstractDeclaration : public AbstractNode {
 public:
     AbstractDeclaration() = default;
 
-    std::string GetIdentifier() const;
-    const IdentifierNode& GetIdentifierNode() const;
+    std::string GetIdentifierName() const;
+    const IdentifierNode& GetIdentifier() const;
     void SetIdentifier(Pointer<IdentifierNode> identifier);
 
 protected:
@@ -50,47 +50,39 @@ private:
     Pointer<DeclarationBlock> myClassBody;
 };
 
-class ParameterNode : public AbstractNode {
+class ParameterNode : public AbstractDeclaration {
 public:
     ParameterNode() = default;
 
-    const IdentifierNode& GetIdentifier() const;
-    void SetIdentifier(Pointer<IdentifierNode> identifier);
+    const AbstractNode& GetType() const;
+    void SetType(Pointer<AbstractNode> typeNode);
 
-    const AbstractNode& GetTypeNode() const;
-    void SetTypeNode(Pointer<AbstractNode> typeNode);
-
-    const AbstractNode& GetDefaultNode() const;
-    void SetDefaultNode(Pointer<AbstractNode> defaultNode);
-    bool HasDefaultNode() const;
+    const AbstractNode& GetDefault() const;
+    void SetDefault(Pointer<AbstractNode> defaultNode);
+    bool HasDefault() const;
 
 protected:
     std::string GetName() const override;
     void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
 
 private:
-    Pointer<IdentifierNode> myIdentifier;
     Pointer<AbstractNode> myType;
     Pointer<AbstractNode> myDefault;
 };
 
-class VariableNode : public AbstractNode {
+class VariableNode : public AbstractDeclaration {
 public:
     VariableNode() = default;
 
-    const IdentifierNode& GetIdentifier() const;
-    void SetIdentifier(Pointer<IdentifierNode> identifier);
-
-    const AbstractNode& GetTypeNode() const;
-    void SetTypeNode(Pointer<AbstractNode> typeNode);
-    bool HasTypeNode() const;
+    const AbstractNode& GetType() const;
+    void SetType(Pointer<AbstractNode> typeNode);
+    bool HasType() const;
 
 protected:
     std::string GetName() const override;
     void AcceptVisitor(NodeVisitor & visitor, int depth) const override;
 
 private:
-    Pointer<IdentifierNode> myIdentifier;
     Pointer<AbstractNode> myType;
 };
 
@@ -119,7 +111,7 @@ public:
     const AbstractNode& GetBody() const;
     void SetBody(Pointer<AbstractNode> body);
 
-    const AbstractNode& GetReturnNode() const;
+    const AbstractNode& GetReturn() const;
     void SetReturn(Pointer<AbstractNode> returnNode);
 
     bool HasReturnNode() const;
