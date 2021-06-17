@@ -135,6 +135,7 @@ public:
 
     const AbstractNode* GetIfBody() const;
     void SetIfBody(Pointer<AbstractNode> body);
+    bool HasIfBody() const;
 
     const AbstractNode* GetElseBody() const;
     void SetElseBody(Pointer<AbstractNode> body);

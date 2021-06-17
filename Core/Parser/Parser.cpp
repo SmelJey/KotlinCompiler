@@ -59,7 +59,7 @@ Pointer<DeclarationBlock> Parser::ParseDeclarations(bool isClass) {
 }
 
 // 'class' simpleIdentifier classBody?
-Pointer<AbstractDeclaration> Parser::ParseClass() {
+Pointer<ClassDeclaration> Parser::ParseClass() {
     myLexer.NextLexeme();
 
     Pointer<ClassDeclaration> classDecl = std::make_unique<ClassDeclaration>();
@@ -77,7 +77,7 @@ Pointer<AbstractDeclaration> Parser::ParseClass() {
 }
 
 // 'fun' simpleIdentifier functionValueParameters (':' type)? functionBody
-Pointer<AbstractDeclaration> Parser::ParseFunction() {
+Pointer<FunctionDeclaration> Parser::ParseFunction() {
     myLexer.NextLexeme();
 
     Pointer<FunctionDeclaration> functionDecl = std::make_unique<FunctionDeclaration>();
@@ -193,7 +193,10 @@ Pointer<AbstractNode> Parser::ParseStatement() {
         if (keyword == "do") {
             return ParseDoWhileLoop();
         }
-        if (keyword == "if" || keyword == "break" || keyword == "continue" || keyword == "return") {
+        if (keyword == "if") {
+            return ParseIfExpression();
+        }
+        if (keyword == "break" || keyword == "continue" || keyword == "return") {
             return ParsePrimary();
         }
         return std::make_unique<ErrorNode>(myLexer.NextLexeme(), "Unsupported keyword");
@@ -281,7 +284,7 @@ Pointer<AbstractNode> Parser::ParseAssignment() {
     Lexeme curLexeme = myLexer.GetLexeme();
     if (ParserUtils::AssignmentOperations.count(curLexeme.GetType())) {
         Pointer<Assignment> assignment = std::make_unique<Assignment>(myLexer.NextLexeme());
-
+        
         if (!ParserUtils::IsDirectlyAssignable(assignable.get())) {
             AddError(*assignment, curLexeme, "Variable expected");
         }
@@ -295,7 +298,7 @@ Pointer<AbstractNode> Parser::ParseAssignment() {
 }
 
 // ('val' | 'var') variableDeclaration ('=' expression)? ';'?
-Pointer<AbstractDeclaration> Parser::ParseProperty() {
+Pointer<PropertyDeclaration> Parser::ParseProperty() {
     Lexeme keyword = myLexer.NextLexeme();
     Pointer<PropertyDeclaration> propertyDecl = std::make_unique<PropertyDeclaration>(keyword);
     propertyDecl->SetIdentifier(ParseIdentifier("Expecting property name"));
@@ -474,7 +477,14 @@ Pointer<AbstractNode> Parser::ParsePrimary() {
             return returnNode;
         }
         if (keyword == "if") {
-            return ParseIfExpression();
+            Pointer<IfExpression> ifExpr = ParseIfExpression();
+            if (ifExpr != nullptr) {
+                if (!ifExpr->HasIfBody() || !ifExpr->HasElseBody()) {
+                    AddError(*ifExpr, myLexer.GetLexeme(), "'if' must have both main and 'else' branches if used as an expression");
+                }
+            }
+
+            return ifExpr;
         }
     }
 
@@ -501,7 +511,7 @@ Pointer<AbstractNode> Parser::ParsePrimary() {
 }
 
 // 'if' '(' expression ')' (controlStructureBody | (controlStructureBody? ';'? 'else' (controlStructureBody | ';')) | ';')
-Pointer<AbstractNode> Parser::ParseIfExpression() {
+Pointer<IfExpression> Parser::ParseIfExpression() {
     myLexer.NextLexeme();
     Pointer<IfExpression> ifExpr = std::make_unique<IfExpression>();
 
@@ -521,6 +531,8 @@ Pointer<AbstractNode> Parser::ParseIfExpression() {
     if (myLexer.GetLexeme().GetType() == LexemeType::Keyword && myLexer.GetLexeme().GetValue<std::string>() == "else") {
         myLexer.NextLexeme();
         ifExpr->SetElseBody(ParseControlStructureBody(true));
+    } else {
+        ifExpr->SetElseBody(std::make_unique<EmptyStatement>());
     }
 
     return ifExpr;

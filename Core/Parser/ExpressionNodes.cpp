@@ -1,6 +1,7 @@
 #include "ExpressionNodes.h"
 
 #include "AbstractNode.h"
+#include "StatementNodes.h"
 
 BinOperationNode::BinOperationNode(const Lexeme& operation, Pointer<AbstractNode> left,
                                    Pointer<AbstractNode> right)
@@ -146,6 +147,10 @@ void IfExpression::SetIfBody(Pointer<AbstractNode> body) {
     myIfBody = std::move(body);
 }
 
+bool IfExpression::HasIfBody() const {
+    return dynamic_cast<EmptyStatement*>(myIfBody.get()) == nullptr;
+}
+
 const AbstractNode* IfExpression::GetElseBody() const {
     return myElseBody.get();
 }
@@ -155,7 +160,7 @@ void IfExpression::SetElseBody(Pointer<AbstractNode> body) {
 }
 
 bool IfExpression::HasElseBody() const {
-    return myElseBody != nullptr;
+    return dynamic_cast<EmptyStatement*>(myElseBody.get()) == nullptr;
 }
 
 std::string IfExpression::GetName() const {
@@ -165,9 +170,7 @@ std::string IfExpression::GetName() const {
 void IfExpression::AcceptVisitor(NodeVisitor& visitor, int depth) const {
     visitor.VisitNode(*myExpression, depth);
     visitor.VisitNode(*myIfBody, depth);
-    if (HasElseBody()) {
-        visitor.VisitNode(*myElseBody, depth);
-    }
+    visitor.VisitNode(*myElseBody, depth);
 }
 
 const std::vector<Pointer<AbstractNode>>& BlockNode::GetStatements() const {

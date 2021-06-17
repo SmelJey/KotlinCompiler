@@ -17,9 +17,9 @@ public:
     Pointer<DeclarationBlock> Parse();
 private:
     Pointer<DeclarationBlock> ParseDeclarations(bool isClass);
-    Pointer<AbstractDeclaration> ParseClass();
+    Pointer<ClassDeclaration> ParseClass();
 
-    Pointer<AbstractDeclaration> ParseFunction();
+    Pointer<FunctionDeclaration> ParseFunction();
     Pointer<ParameterList> ParseParameters();
     Pointer<ParameterNode> ParseParameter();
     Pointer<AbstractNode> ParseType();
@@ -34,7 +34,7 @@ private:
 
     Pointer<AbstractNode> ParseAssignment();
 
-    Pointer<AbstractDeclaration> ParseProperty();
+    Pointer<PropertyDeclaration> ParseProperty();
     Pointer<VariableNode> ParseVariable();
     Pointer<IdentifierNode> ParseIdentifier(const std::string& errorMessage = "Identifier expected");
 
@@ -46,7 +46,7 @@ private:
 
     Pointer<AbstractNode> ParsePrimary();
 
-    Pointer<AbstractNode> ParseIfExpression();
+    Pointer<IfExpression> ParseIfExpression();
 
     void AddError(AbstractNode& root, const Lexeme& location, const std::string& error) const;
 

@@ -8,6 +8,7 @@
 @@       | |-Integer :: 2
 @@       | |-Integer :: 3
 @@       |-CallSuffix
-@@         |-Identifier :: println
-@@         |-Args
-@@           |-String :: hi
+@@       | |-Identifier :: println
+@@       | |-Args
+@@       |   |-String :: hi
+@@       |-Empty Statement
