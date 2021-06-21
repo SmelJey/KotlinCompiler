@@ -166,12 +166,15 @@
     <ClInclude Include="Parser\ExpressionNodes.h" />
     <ClInclude Include="Parser\NodeVisitor.h" />
     <ClInclude Include="Parser\ParserUtils.h" />
+    <ClInclude Include="Parser\Semantics\ClassSymbol.h" />
+    <ClInclude Include="Parser\Semantics\FunctionSymbol.h" />
+    <ClInclude Include="Parser\Semantics\Symbols.h" />
+    <ClInclude Include="Parser\Semantics\SymbolTable.h" />
     <ClInclude Include="Parser\SimpleNodes.h" />
     <ClInclude Include="Parser\Parser.h" />
     <ClInclude Include="Parser\AbstractNode.h" />
     <ClInclude Include="Parser\StatementNodes.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="Symbol.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Lexer\Lexeme.cpp" />
@@ -183,6 +186,10 @@
     <ClCompile Include="Parser\Parser.cpp" />
     <ClCompile Include="Parser\AbstractNode.cpp" />
     <ClCompile Include="Parser\ParserUtils.cpp" />
+    <ClCompile Include="Parser\Semantics\ClassSymbol.cpp" />
+    <ClCompile Include="Parser\Semantics\FunctionSymbol.cpp" />
+    <ClCompile Include="Parser\Semantics\Symbols.cpp" />
+    <ClCompile Include="Parser\Semantics\SymbolTable.cpp" />
     <ClCompile Include="Parser\SimpleNodes.cpp" />
     <ClCompile Include="Parser\StatementNodes.cpp" />
     <ClCompile Include="pch.cpp">
@@ -191,7 +198,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Symbol.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

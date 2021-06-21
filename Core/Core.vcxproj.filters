@@ -25,11 +25,11 @@
     <Filter Include="Source Files\Parser">
       <UniqueIdentifier>{47aaa709-6439-433f-9b92-415a4a308d5f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Semantics">
-      <UniqueIdentifier>{fb755ee2-5a75-4a2b-9813-a860f5e81da1}</UniqueIdentifier>
+    <Filter Include="Header Files\Parser\Semantics">
+      <UniqueIdentifier>{2d51bd10-5637-454c-ba86-bdb4cc214fca}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Semantics">
-      <UniqueIdentifier>{5133731a-e73d-44e1-97a9-9633dc6c8dec}</UniqueIdentifier>
+    <Filter Include="Source Files\Parser\Semantics">
+      <UniqueIdentifier>{bdcda25c-3992-41a3-9a9b-4bc78d4c39bb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -75,8 +75,17 @@
     <ClInclude Include="Parser\StatementNodes.h">
       <Filter>Header Files\Parser</Filter>
     </ClInclude>
-    <ClInclude Include="Symbol.h">
-      <Filter>Header Files\Semantics</Filter>
+    <ClInclude Include="Parser\Semantics\Symbols.h">
+      <Filter>Header Files\Parser\Semantics</Filter>
+    </ClInclude>
+    <ClInclude Include="Parser\Semantics\SymbolTable.h">
+      <Filter>Header Files\Parser\Semantics</Filter>
+    </ClInclude>
+    <ClInclude Include="Parser\Semantics\FunctionSymbol.h">
+      <Filter>Header Files\Parser\Semantics</Filter>
+    </ClInclude>
+    <ClInclude Include="Parser\Semantics\ClassSymbol.h">
+      <Filter>Header Files\Parser\Semantics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -116,8 +125,17 @@
     <ClCompile Include="Parser\StatementNodes.cpp">
       <Filter>Source Files\Parser</Filter>
     </ClCompile>
-    <ClCompile Include="Symbol.cpp">
-      <Filter>Source Files\Semantics</Filter>
+    <ClCompile Include="Parser\Semantics\Symbols.cpp">
+      <Filter>Source Files\Parser\Semantics</Filter>
+    </ClCompile>
+    <ClCompile Include="Parser\Semantics\SymbolTable.cpp">
+      <Filter>Source Files\Parser\Semantics</Filter>
+    </ClCompile>
+    <ClCompile Include="Parser\Semantics\FunctionSymbol.cpp">
+      <Filter>Source Files\Parser\Semantics</Filter>
+    </ClCompile>
+    <ClCompile Include="Parser\Semantics\ClassSymbol.cpp">
+      <Filter>Source Files\Parser\Semantics</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
