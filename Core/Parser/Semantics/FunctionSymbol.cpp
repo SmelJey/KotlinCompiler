@@ -1,7 +1,7 @@
 #include "FunctionSymbol.h"
 
 FunctionSymbol::FunctionSymbol(const std::string& name, const ITypeSymbol& returnType,
-    const std::vector<const ITypeSymbol&>& params, Pointer<SymbolTable> table)
+    const std::vector<const ITypeSymbol*>& params, Pointer<SymbolTable> table)
         : myName(name), myReturnType(returnType), myParameters(params), myTable(std::move(table)) {}
 
 std::string FunctionSymbol::GetName() const {
@@ -17,7 +17,7 @@ int FunctionSymbol::GetParametersCount() const {
 }
 
 const ITypeSymbol& FunctionSymbol::GetParameter(int idx) const {
-    return myParameters[idx];
+    return *myParameters[idx];
 }
 
 bool FunctionSymbol::CheckArgument(const ITypeSymbol& type, int idx) {
@@ -25,7 +25,7 @@ bool FunctionSymbol::CheckArgument(const ITypeSymbol& type, int idx) {
         return false;
     }
 
-    return type == myParameters[idx];
+    return type == *myParameters[idx];
 }
 
 bool FunctionSymbol::operator<(const ISymbol& rhs) const {
@@ -35,7 +35,7 @@ bool FunctionSymbol::operator<(const ISymbol& rhs) const {
         if (GetReturnType() == rhsFunc.GetReturnType()) {
             if (GetParametersCount() == rhsFunc.GetParametersCount()) {
                 for (int i = 0; i < myParameters.size(); i++) {
-                    if (myParameters[i] < rhsFunc.GetParameter(i)) {
+                    if (*myParameters[i] < rhsFunc.GetParameter(i)) {
                         return true;
                     }
                 }

@@ -7,7 +7,7 @@
 
 class FunctionSymbol : public ISymbol {
 public:
-    FunctionSymbol(const std::string& name, const ITypeSymbol& returnType, const std::vector<const ITypeSymbol&>& params, Pointer<SymbolTable> table);
+    FunctionSymbol(const std::string& name, const ITypeSymbol& returnType, const std::vector<const ITypeSymbol*>& params, Pointer<SymbolTable> table);
 
     std::string GetName() const override;
 
@@ -23,6 +23,6 @@ public:
 private:
     std::string myName;
     const ITypeSymbol& myReturnType;
-    std::vector<const ITypeSymbol&> myParameters;
+    std::vector<const ITypeSymbol*> myParameters;
     Pointer<SymbolTable> myTable;
 };

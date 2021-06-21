@@ -17,6 +17,7 @@ namespace prog_opt = boost::program_options;
 const char* FILES_KEY = "source-files";
 const char* LEXER_DEBUG_KEY = "lexer-debug";
 const char* PARSER_DEBUG_KEY = "parser-debug";
+const char* SEMANTICS_DEBUG_KEY = "semantics-debug";
 
 Configuration ParseCommandLineArgs(int argc, char** argv) {
     prog_opt::options_description optionsDesc("Allowed options");
@@ -24,7 +25,8 @@ Configuration ParseCommandLineArgs(int argc, char** argv) {
         ("help", "show help message")
         ("lexer-debug,l", "debug lexical analyser")
         ("source-files,f", prog_opt::value<std::vector<std::string>>(), "source files")
-        ("parser-debug,p", "debug syntax analyser");
+        ("parser-debug,p", "debug syntax analyser")
+        ("semantics,s", "debug semantics");
 
     prog_opt::positional_options_description positionalOptions;
     positionalOptions.add(FILES_KEY, -1);
@@ -46,6 +48,9 @@ Configuration ParseCommandLineArgs(int argc, char** argv) {
     }
     if (optionsMap.count(PARSER_DEBUG_KEY)) {
         builder.SetParserDebug();
+    }
+    if (optionsMap.count(SEMANTICS_DEBUG_KEY)) {
+        builder.SetSemanticsDebug();
     }
 
     return builder.Build();
@@ -76,6 +81,10 @@ int main(int argc, char** argv) {
         for (auto& str : visitor.GetStringData()) {
             std::cout << str << std::endl;
         }
+    }
+
+    if (configuration.GetSemanticsDebug()) {
+        // TODO: implement
     }
 
     return 0;

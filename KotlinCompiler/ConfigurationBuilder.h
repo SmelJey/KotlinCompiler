@@ -9,6 +9,7 @@ class ConfigurationBuilder {
 public:
     ConfigurationBuilder& SetLexerDebug();
     ConfigurationBuilder& SetParserDebug();
+    ConfigurationBuilder& SetSemanticsDebug();
     ConfigurationBuilder& AddPaths(const std::vector<std::string>& paths);
 
     Configuration Build() const;

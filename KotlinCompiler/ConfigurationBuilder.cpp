@@ -15,6 +15,11 @@ ConfigurationBuilder& ConfigurationBuilder::SetParserDebug() {
     return *this;
 }
 
+ConfigurationBuilder& ConfigurationBuilder::SetSemanticsDebug() {
+    myConfiguration.isSemanticsDebugOption = true;
+    return *this;
+}
+
 Configuration ConfigurationBuilder::Build() const {
     return myConfiguration;
 }

@@ -9,6 +9,8 @@ public:
 
     bool GetParserDebug() const;
 
+    bool GetSemanticsDebug() const;
+
     const std::vector<std::string>& GetPaths() const;
 
 private:
@@ -18,6 +20,7 @@ private:
 
     bool isLexerDebugOption = false;
     bool isParserDebugOption = false;
+    bool isSemanticsDebugOption = false;
 
     friend class ConfigurationBuilder;
 };
