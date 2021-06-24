@@ -1,20 +1,13 @@
 #pragma once
 
-#include "NodeVisitor.h"
+#include "IVisitable.h"
 #include "Semantics/Symbols.h"
 
-class ISyntaxNode {
+class ISyntaxNode : public IVisitable {
 public:
-    virtual ~ISyntaxNode();
-    friend class NodeVisitor;
-
-    std::string ToString() const;
-    void RunVisitor(NodeVisitor& visitor) const;
+    std::string ToString() const override;
 
 protected:
-    void InternalAcceptVisitor(NodeVisitor& visitor, int depth) const;
-    virtual void AcceptVisitor(NodeVisitor& visitor, int depth) const;
-
     virtual std::string GetName() const = 0;
 };
 

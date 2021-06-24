@@ -13,6 +13,11 @@ public:
     Pointer<ITypeSymbol> IsApplicable(LexemeType operation) const override;
     Pointer<ITypeSymbol> IsApplicable(LexemeType binaryOperation, const ITypeSymbol* rightOperand) const override;
 
+    std::string ToString() const override;
+
+protected:
+    void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
+
 private:
     std::string myName;
 

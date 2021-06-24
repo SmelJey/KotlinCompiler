@@ -57,11 +57,20 @@ ParserSemanticTest::ParserSemanticTest(const std::string& filepath) : IOTest(Sem
     Parser parser(lexer, &table);
 
     Pointer<AbstractNode> tree = parser.Parse();
-    CuteToStringVisitor visitor;
-    visitor.ShowSemanticsAnnotations();
-    tree->RunVisitor(visitor);
+    CuteToStringVisitor parserVisitor;
+    parserVisitor.ShowSemanticsAnnotations();
+    tree->RunVisitor(parserVisitor);
 
-    myTokens = visitor.GetStringData();
+    myTokens = parserVisitor.GetStringData();
+
+    CuteToStringVisitor semanticsVisitor;
+    table.RunVisitor(semanticsVisitor);
+
+    myTokens.push_back("====");
+    for (auto it : semanticsVisitor.GetStringData()) {
+        myTokens.push_back(it);
+    }
+
     for (auto& err : parser.GetParsingErrors()) {
         myTokens.push_back(err.ToString());
     }

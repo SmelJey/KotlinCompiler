@@ -1,7 +1,9 @@
 #include "FunctionSymbol.h"
 
+#include "../NodeVisitor.h"
+
 FunctionSymbol::FunctionSymbol(const std::string& name, const ITypeSymbol* returnType,
-    const std::vector<const ITypeSymbol*>& params, Pointer<SymbolTable> table)
+                               const std::vector<const ITypeSymbol*>& params, Pointer<SymbolTable> table)
         : myName(name), myReturnType(returnType), myParameters(params), myTable(std::move(table)) {}
 
 std::string FunctionSymbol::GetName() const {
@@ -50,4 +52,22 @@ bool FunctionSymbol::operator<(const ISymbol& rhs) const {
     }
 
     return res;
+}
+
+std::string FunctionSymbol::ToString() const {
+    std::string res = "Fun " + GetName() + "(";
+    for (auto param : myParameters) {
+        res += param->GetName();
+        res += ", ";
+    }
+    if (myParameters.size() > 0) {
+        res.pop_back();
+        res.pop_back();
+    }
+    res += ") -> " + GetReturnType()->GetName();
+    return res;
+}
+
+void FunctionSymbol::AcceptVisitor(NodeVisitor& visitor, int depth) const {
+    visitor.VisitNode(*myTable, depth);
 }

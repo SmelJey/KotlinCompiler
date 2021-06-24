@@ -3,15 +3,18 @@
 #include <memory>
 #include <string>
 #include "../../Lexer/LexerUtils.h"
+#include "../IVisitable.h"
 
 template<typename T>
 using Pointer = std::unique_ptr<T>;
 
-class ISymbol {
+class ISymbol : public IVisitable {
 public:
     virtual ~ISymbol() = default;
     virtual std::string GetName() const = 0;
     virtual bool operator<(const ISymbol& rhs) const;
+
+    std::string ToString() const override;
 };
 
 bool operator!=(const ISymbol& lhs, const ISymbol& rhs);
@@ -114,6 +117,11 @@ public:
 
     std::string GetName() const override;
     const ITypeSymbol* GetType() const;
+
+    std::string ToString() const override;
+
+protected:
+    void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
 
 private:
     std::string myName;

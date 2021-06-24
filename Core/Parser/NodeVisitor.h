@@ -4,16 +4,16 @@
 #include <stack>
 #include <vector>
 
-class ISyntaxNode;
+class IVisitable;
 
 class NodeVisitor {
 public:
     virtual ~NodeVisitor();
 
-    void VisitNode(const ISyntaxNode& node, int depth);
+    void VisitNode(const IVisitable& node, int depth);
 protected:
-    virtual void EnterNode(const ISyntaxNode& node, int depth) = 0;
-    virtual void ExitNode(const ISyntaxNode& node, int depth) = 0;
+    virtual void EnterNode(const IVisitable& node, int depth) = 0;
+    virtual void ExitNode(const IVisitable& node, int depth) = 0;
 };
 
 class ToStringVisitor : public NodeVisitor {
@@ -22,8 +22,8 @@ public:
 
     std::vector<std::string> GetStringData() const;
 protected:
-    void EnterNode(const ISyntaxNode& node, int depth) override;
-    void ExitNode(const ISyntaxNode& node, int depth) override;
+    void EnterNode(const IVisitable& node, int depth) override;
+    void ExitNode(const IVisitable& node, int depth) override;
 
 private:
     std::vector<std::string> myStringData;
@@ -37,8 +37,8 @@ public:
 
     void ShowSemanticsAnnotations();
 protected:
-    void EnterNode(const ISyntaxNode& node, int depth) override;
-    void ExitNode(const ISyntaxNode& node, int depth) override;
+    void EnterNode(const IVisitable& node, int depth) override;
+    void ExitNode(const IVisitable& node, int depth) override;
 
 private:
     std::stack<std::vector<std::string>> myStack;

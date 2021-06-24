@@ -1,20 +1,8 @@
 #include "ISyntaxNode.h"
 
-ISyntaxNode::~ISyntaxNode() = default;
-
 std::string ISyntaxNode::ToString() const {
     return GetName();
 }
-
-void ISyntaxNode::RunVisitor(NodeVisitor& visitor) const {
-    visitor.VisitNode(*this, 0);
-}
-
-void ISyntaxNode::InternalAcceptVisitor(NodeVisitor& visitor, int depth) const {
-    AcceptVisitor(visitor, depth);
-}
-
-void ISyntaxNode::AcceptVisitor(NodeVisitor& visitor, int depth) const {}
 
 AbstractNode::AbstractNode() = default;
 AbstractNode::AbstractNode(AbstractNode&& src) noexcept {}

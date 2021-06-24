@@ -8,7 +8,7 @@ public:
     AbstractDeclaration() = default;
 
     std::string GetIdentifierName() const;
-    const IdentifierNode& GetIdentifier() const;
+    IdentifierNode& GetIdentifier() const;
     void SetIdentifier(Pointer<IdentifierNode> identifier);
 
     const ISymbol* GetSymbol() const override;

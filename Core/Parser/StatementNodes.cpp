@@ -1,5 +1,6 @@
 #include "StatementNodes.h"
 #include "ISyntaxNode.h"
+#include "NodeVisitor.h"
 
 EmptyStatement::EmptyStatement(const UnitTypeSymbol* type) : myType(type) {}
 

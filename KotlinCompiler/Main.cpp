@@ -76,6 +76,7 @@ int main(int argc, char** argv) {
     Pointer<AbstractNode> syntaxTree = parser.Parse();
 
     if (configuration.GetParserDebug()) {
+        std::cout << std::endl;
         CuteToStringVisitor visitor;
 
         if (configuration.GetSemanticsDebug()) {
@@ -90,11 +91,21 @@ int main(int argc, char** argv) {
     }
 
     if (configuration.GetSemanticsDebug()) {
-        // TODO: implement
+        std::cout << std::endl;
+        CuteToStringVisitor visitor;
+        symTable.RunVisitor(visitor);
+        for (auto& str : visitor.GetStringData()) {
+            std::cout << str << std::endl;
+        }
     }
 
     for (auto& error : parser.GetParsingErrors()) {
         std::cout << error.ToString() << std::endl;
+    }
+    if (configuration.GetSemanticsDebug()) {
+        for (auto& error : parser.GetSemanticsErrors()) {
+            std::cout << error.ToString() << std::endl;
+        }
     }
 
     return 0;

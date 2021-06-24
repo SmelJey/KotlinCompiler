@@ -18,3 +18,19 @@
 @@     |-Val Decl :: d
 @@       |-Identifier :: d :: String
 @@       |-String :: aba :: String
+@@ ====
+@@ SymbolTable
+@@ |-Boolean
+@@ |-Double
+@@ |-Int
+@@ |-String
+@@ |-Fun main() -> Unit
+@@   |-SymbolTable
+@@     |-Val a
+@@     | |-Int
+@@     |-Val b
+@@     | |-Int
+@@     |-Val c
+@@     | |-Double
+@@     |-Val d
+@@       |-String

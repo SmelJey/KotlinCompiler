@@ -1,7 +1,11 @@
 #include "IVisitable.h"
+#include "NodeVisitor.h"
 
-void IVisitable::InternalAcceptVisitor(NodeVisitor& visitor, int depth) const {
-    AcceptVisitor(visitor, depth);
+IVisitable::~IVisitable() = default;
+
+void IVisitable::RunVisitor(NodeVisitor & visitor) const {
+    visitor.VisitNode(*this, 0);
 }
 
-void IVisitable::AcceptVisitor(NodeVisitor& visitor, int depth) const {}
+void IVisitable::AcceptVisitor(NodeVisitor & visitor, int depth) const {}
+

@@ -25,20 +25,20 @@ class IdentifierNode : public AbstractTypedNode {
 public:
     IdentifierNode(const Lexeme& lexeme, const ITypeSymbol* defaultSym, const std::vector<const ISymbol*>& candidates);
 
-    bool TryResolveVariable() const;
-    bool TryResolveType() const;
-    bool TryResolveFunc(const std::vector<const ITypeSymbol*>& arguments) const;
-    bool TryResolveArray(const std::vector<const ITypeSymbol*>& arguments) const;
+    bool TryResolveVariable();
+    bool TryResolveType();
+    bool TryResolveFunc(const std::vector<const ITypeSymbol*>& arguments);
+    bool TryResolveArray(const std::vector<const ITypeSymbol*>& arguments);
 
-    void UpdateCandidates(const std::vector<const ISymbol*>& candidates) const;
+    void UpdateCandidates(const std::vector<const ISymbol*>& candidates);
 
     const ITypeSymbol* GetType() const override;
 protected:
     std::string GetName() const override;
 
 private:
-    mutable std::vector<const ISymbol*> myCandidates;
-    mutable const ITypeSymbol* myType;
+    std::vector<const ISymbol*> myCandidates;
+    const ITypeSymbol* myType;
 };
 
 class IntegerNode : public AbstractTypedNode {

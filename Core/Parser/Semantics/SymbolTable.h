@@ -7,7 +7,7 @@
 class ClassSymbol;
 class FunctionSymbol;
 
-class SymbolTable {
+class SymbolTable : public IVisitable {
 public:
     SymbolTable(SymbolTable* parent = nullptr);
     SymbolTable(SymbolTable& src) = delete;
@@ -27,6 +27,13 @@ public:
 
     const UnresolvedSymbol* GetUnresolvedSymbol() const;
     const UnitTypeSymbol* GetUnitSymbol() const;
+
+    friend class NodeVisitor;
+
+    std::string ToString() const override;
+
+protected:
+    void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
 
 private:
     bool LocalContains(const ISymbol& symbol) const;

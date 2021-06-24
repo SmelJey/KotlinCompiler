@@ -1,10 +1,11 @@
 #include "DeclarationNodes.h"
+#include "NodeVisitor.h"
 
 std::string AbstractDeclaration::GetIdentifierName() const {
     return myIdentifier->GetLexeme().GetValue<std::string>();
 }
 
-const IdentifierNode& AbstractDeclaration::GetIdentifier() const {
+IdentifierNode& AbstractDeclaration::GetIdentifier() const {
     return *myIdentifier;
 }
 

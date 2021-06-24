@@ -19,7 +19,6 @@ const SymbolTable& Parser::GetSymbolTable() const {
     return myTable;
 }
 
-
 Pointer<DeclarationBlock> Parser::Parse() {
     return ParseDeclarations(false);
 }

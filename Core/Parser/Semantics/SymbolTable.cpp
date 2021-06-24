@@ -1,6 +1,7 @@
 #include "SymbolTable.h"
 #include "ClassSymbol.h"
 #include "FunctionSymbol.h"
+#include "../NodeVisitor.h"
 
 SymbolTable::SymbolTable(SymbolTable* parent) : myParentTable(parent) {
     myUnresolved = std::make_unique<UnresolvedSymbol>();
@@ -137,6 +138,18 @@ const UnresolvedSymbol* SymbolTable::GetUnresolvedSymbol() const {
 
 const UnitTypeSymbol* SymbolTable::GetUnitSymbol() const {
     return myUnitSymbol.get();
+}
+
+std::string SymbolTable::ToString() const {
+    return "SymbolTable";
+}
+
+void SymbolTable::AcceptVisitor(NodeVisitor& visitor, int depth) const {
+    for (auto& it : mySymbols) {
+        for (auto& sym : it.second) {
+            visitor.VisitNode(*sym, depth);
+        }
+    }
 }
 
 bool SymbolTable::LocalContains(const ISymbol& symbol) const {

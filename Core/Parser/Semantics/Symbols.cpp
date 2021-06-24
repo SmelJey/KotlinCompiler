@@ -1,11 +1,17 @@
 #include "Symbols.h"
 
+#include "../NodeVisitor.h"
+
 bool ISymbol::operator<(const ISymbol& rhs) const {
     if (typeid(*this) == typeid(rhs)) {
         return GetName() < rhs.GetName();
     }
 
     return typeid(*this).before(typeid(rhs));
+}
+
+std::string ISymbol::ToString() const {
+    return GetName();
 }
 
 bool operator!=(const ISymbol& lhs, const ISymbol& rhs) {
@@ -257,5 +263,13 @@ std::string VariableSymbol::GetName() const {
 
 const ITypeSymbol* VariableSymbol::GetType() const {
     return myType;
+}
+
+std::string VariableSymbol::ToString() const {
+    return (myMutability ? "Var " : "Val ") + GetName();
+}
+
+void VariableSymbol::AcceptVisitor(NodeVisitor& visitor, int depth) const {
+    visitor.VisitNode(*myType, depth);
 }
 

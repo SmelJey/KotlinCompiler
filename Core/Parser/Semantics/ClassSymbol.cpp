@@ -1,5 +1,7 @@
 #include "ClassSymbol.h"
 
+#include "../NodeVisitor.h"
+
 ClassSymbol::ClassSymbol(const std::string& name, Pointer<SymbolTable> table) : myName(name), myTable(std::move(table)) {}
 
 const SymbolTable& ClassSymbol::GetTable() const {
@@ -20,5 +22,13 @@ Pointer<ITypeSymbol> ClassSymbol::IsApplicable(LexemeType binaryOperation, const
     }
 
     return std::make_unique<UnresolvedSymbol>();
+}
+
+std::string ClassSymbol::ToString() const {
+    return "Class " + GetName();
+}
+
+void ClassSymbol::AcceptVisitor(NodeVisitor& visitor, int depth) const {
+    visitor.VisitNode(*myTable, depth);
 }
 

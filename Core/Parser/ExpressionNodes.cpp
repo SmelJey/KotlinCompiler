@@ -2,6 +2,7 @@
 
 #include "ISyntaxNode.h"
 #include "StatementNodes.h"
+#include "NodeVisitor.h"
 
 BinOperationNode::BinOperationNode(const Lexeme& operation, Pointer<ITypedNode> left,
                                    Pointer<ITypedNode> right, const ITypeSymbol* type)
