@@ -5,4 +5,4 @@
 @@   |-Block
 @@     |-MemberAccess :: .
 @@       |-Identifier :: a
-@@       |-Error 2:0 :: Name expected
+@@       |-Error 1:2 :: Name expected

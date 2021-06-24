@@ -3,20 +3,24 @@
 #include "AbstractNode.h"
 #include "StatementNodes.h"
 
-BinOperationNode::BinOperationNode(const Lexeme& operation, Pointer<AbstractNode> left,
-                                   Pointer<AbstractNode> right)
-    : LexemeNode(operation), myLeftOperand(std::move(left)), myRightOperand(std::move(right)) {}
+BinOperationNode::BinOperationNode(const Lexeme& operation, Pointer<ITypedNode> left,
+                                   Pointer<ITypedNode> right, const ITypeSymbol* type)
+    : LexemeNode(operation), myLeftOperand(std::move(left)), myRightOperand(std::move(right)), myType(type) {}
 
-const AbstractNode& BinOperationNode::GetLeftOperand() const {
+const ITypedNode& BinOperationNode::GetLeftOperand() const {
     return *myLeftOperand;
 }
 
-const AbstractNode& BinOperationNode::GetRightOperand() const {
+const ITypedNode& BinOperationNode::GetRightOperand() const {
     return *myRightOperand;
 }
 
 std::string BinOperationNode::GetOperation() const {
     return myLexeme.GetValue<std::string>();
+}
+
+const ISymbol* BinOperationNode::GetSymbol() const {
+    return myType;
 }
 
 std::string BinOperationNode::GetName() const {
@@ -28,10 +32,10 @@ void BinOperationNode::AcceptVisitor(NodeVisitor& visitor, int depth) const {
     visitor.VisitNode(GetRightOperand(), depth);
 }
 
-AbstractUnaryOperationNode::AbstractUnaryOperationNode(const Lexeme& operation, Pointer<AbstractNode> operand)
-    : LexemeNode(operation), myOperand(std::move(operand)) {}
+AbstractUnaryOperationNode::AbstractUnaryOperationNode(const Lexeme& operation, Pointer<ITypedNode> operand, const ITypeSymbol* type)
+    : LexemeNode(operation), myOperand(std::move(operand)), myType(type) {}
 
-const AbstractNode& AbstractUnaryOperationNode::GetOperand() const {
+const ITypedNode& AbstractUnaryOperationNode::GetOperand() const {
     return *myOperand;
 }
 
@@ -39,27 +43,33 @@ std::string AbstractUnaryOperationNode::GetOperation() const {
     return myLexeme.GetValue<std::string>();
 }
 
+const ISymbol* AbstractUnaryOperationNode::GetSymbol() const {
+    return myType;
+}
+
 void AbstractUnaryOperationNode::AcceptVisitor(NodeVisitor& visitor, int depth) const {
     visitor.VisitNode(*myOperand, depth);
 }
 
-UnaryPrefixOperationNode::UnaryPrefixOperationNode(const Lexeme& operation, Pointer<AbstractNode> operand) : AbstractUnaryOperationNode(operation, std::move(operand)) {}
+UnaryPrefixOperationNode::UnaryPrefixOperationNode(const Lexeme& operation, Pointer<ITypedNode> operand, const ITypeSymbol* type)
+    : AbstractUnaryOperationNode(operation, std::move(operand), type) {}
 
 std::string UnaryPrefixOperationNode::GetName() const {
     return "Prefix Op :: " + GetOperation();
 }
 
-UnaryPostfixOperationNode::UnaryPostfixOperationNode(const Lexeme& operation, Pointer<AbstractNode> operand) : AbstractUnaryOperationNode(operation, std::move(operand)) {}
+UnaryPostfixOperationNode::UnaryPostfixOperationNode(const Lexeme& operation, Pointer<ITypedNode> operand, const ITypeSymbol* type)
+    : AbstractUnaryOperationNode(operation, std::move(operand), type) {}
 
 std::string UnaryPostfixOperationNode::GetName() const {
     return "Postfix Op :: " + GetOperation();
 }
 
-const std::vector<Pointer<AbstractNode>>& CallArgumentsNode::GetArguments() const {
+const std::vector<Pointer<ITypedNode>>& CallArgumentsNode::GetArguments() const {
     return myArguments;
 }
 
-void CallArgumentsNode::AddArgument(Pointer<AbstractNode> argument) {
+void CallArgumentsNode::AddArgument(Pointer<ITypedNode> argument) {
     myArguments.push_back(std::move(argument));
 }
 
@@ -73,7 +83,8 @@ void CallArgumentsNode::AcceptVisitor(NodeVisitor& visitor, int depth) const {
     }
 }
 
-PostfixCallNode::PostfixCallNode(Pointer<AbstractNode> expression) : myExpression(std::move(expression)) {}
+PostfixCallNode::PostfixCallNode(Pointer<ITypedNode> expression, const ITypeSymbol* type)
+    : myExpression(std::move(expression)), myType(type)  {}
 
 const CallArgumentsNode& PostfixCallNode::GetArguments() const {
     return *myArgumentsNode;
@@ -83,8 +94,12 @@ void PostfixCallNode::SetArguments(Pointer<CallArgumentsNode> arguments) {
     myArgumentsNode = std::move(arguments);
 }
 
-const AbstractNode* PostfixCallNode::GetExpression() const {
+const ITypedNode* PostfixCallNode::GetExpression() const {
     return myExpression.get();
+}
+
+const ISymbol* PostfixCallNode::GetSymbol() const {
+    return myType;
 }
 
 void PostfixCallNode::AcceptVisitor(NodeVisitor& visitor, int depth) const {
@@ -92,34 +107,37 @@ void PostfixCallNode::AcceptVisitor(NodeVisitor& visitor, int depth) const {
     visitor.VisitNode(*myArgumentsNode, depth);
 }
 
-IndexSuffixNode::IndexSuffixNode(Pointer<AbstractNode> expression) : PostfixCallNode(std::move(expression)) {}
+IndexSuffixNode::IndexSuffixNode(Pointer<ITypedNode> expression, const ITypeSymbol* type)
+    : PostfixCallNode(std::move(expression), type) {}
 
 std::string IndexSuffixNode::GetName() const {
     return "IndexSuffix";
 }
 
-CallSuffixNode::CallSuffixNode(Pointer<AbstractNode> expression) : PostfixCallNode(std::move(expression)) {}
+CallSuffixNode::CallSuffixNode(Pointer<ITypedNode> expression, const ITypeSymbol* type)
+    : PostfixCallNode(std::move(expression), type) {}
 
 std::string CallSuffixNode::GetName() const {
     return "CallSuffix";
 }
 
-MemberAccessNode::MemberAccessNode(const Lexeme& lexeme, Pointer<AbstractNode> expression) : myOperation(lexeme), myExpression(std::move(expression)) {}
+MemberAccessNode::MemberAccessNode(const Lexeme& lexeme, Pointer<ITypedNode> expression, Pointer<ITypedNode> member)
+    : myOperation(lexeme), myExpression(std::move(expression)), myMemberNode(std::move(member)) {}
 
 std::string MemberAccessNode::GetOperation() const {
     return myOperation.GetValue<std::string>();
 }
 
-const AbstractNode* MemberAccessNode::GetExpression() const {
+const ITypedNode* MemberAccessNode::GetExpression() const {
     return myExpression.get();
 }
 
-const AbstractNode& MemberAccessNode::GetMember() const {
+const ITypedNode& MemberAccessNode::GetMember() const {
     return *myMemberNode;
 }
 
-void MemberAccessNode::SetMember(Pointer<AbstractNode> member) {
-    myMemberNode = std::move(member);
+const ISymbol* MemberAccessNode::GetSymbol() const {
+    return GetMember().GetSymbol();
 }
 
 std::string MemberAccessNode::GetName() const {
@@ -131,19 +149,21 @@ void MemberAccessNode::AcceptVisitor(NodeVisitor& visitor, int depth) const {
     visitor.VisitNode(*myMemberNode, depth);
 }
 
-const AbstractNode* IfExpression::GetExpression() const {
+IfExpression::IfExpression(const ITypeSymbol* type) : myType(type) {}
+
+const ITypedNode* IfExpression::GetExpression() const {
     return myExpression.get();
 }
 
-void IfExpression::SetExpression(Pointer<AbstractNode> expression) {
+void IfExpression::SetExpression(Pointer<ITypedNode> expression) {
     myExpression = std::move(expression);
 }
 
-const AbstractNode* IfExpression::GetIfBody() const {
+const ISyntaxNode* IfExpression::GetIfBody() const {
     return myIfBody.get();
 }
 
-void IfExpression::SetIfBody(Pointer<AbstractNode> body) {
+void IfExpression::SetIfBody(Pointer<ISyntaxNode> body) {
     myIfBody = std::move(body);
 }
 
@@ -151,16 +171,20 @@ bool IfExpression::HasIfBody() const {
     return dynamic_cast<EmptyStatement*>(myIfBody.get()) == nullptr;
 }
 
-const AbstractNode* IfExpression::GetElseBody() const {
+const ISyntaxNode* IfExpression::GetElseBody() const {
     return myElseBody.get();
 }
 
-void IfExpression::SetElseBody(Pointer<AbstractNode> body) {
+void IfExpression::SetElseBody(Pointer<ISyntaxNode> body) {
     myElseBody = std::move(body);
 }
 
 bool IfExpression::HasElseBody() const {
     return dynamic_cast<EmptyStatement*>(myElseBody.get()) == nullptr;
+}
+
+const ISymbol* IfExpression::GetSymbol() const {
+    return myType;
 }
 
 std::string IfExpression::GetName() const {
@@ -173,11 +197,11 @@ void IfExpression::AcceptVisitor(NodeVisitor& visitor, int depth) const {
     visitor.VisitNode(*myElseBody, depth);
 }
 
-const std::vector<Pointer<AbstractNode>>& BlockNode::GetStatements() const {
+const std::vector<Pointer<ISyntaxNode>>& BlockNode::GetStatements() const {
     return myStatements;
 }
 
-void BlockNode::AddStatement(Pointer<AbstractNode> statement) {
+void BlockNode::AddStatement(Pointer<ISyntaxNode> statement) {
     myStatements.push_back(std::move(statement));
 }
 

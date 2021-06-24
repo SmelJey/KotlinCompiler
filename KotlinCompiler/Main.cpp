@@ -71,7 +71,8 @@ int main(int argc, char** argv) {
     }
 
     Lexer lexer(configuration.GetPaths()[0]);
-    Parser parser(lexer);
+    SymbolTable symTable;
+    Parser parser(lexer, symTable);
     Pointer<AbstractNode> syntaxTree = parser.Parse();
 
     if (configuration.GetParserDebug()) {

@@ -3,10 +3,7 @@
 
 #include "AbstractNode.h"
 #include "../Lexer/LexerUtils.h"
-#include "../Lexer/Lexeme.h"
-
-template<typename T>
-using Pointer = std::unique_ptr<T>;
+#include "Semantics/SymbolTable.h"
 
 class ParserUtils {
 public:
@@ -16,7 +13,6 @@ public:
 
     static const std::unordered_set<LexemeType> AssignmentOperations;
 
-
-    static bool IsDirectlyAssignable(const AbstractNode* expression);
-    static bool IsPostfixUnaryExpression(const AbstractNode* expression);
+    static bool IsDirectlyAssignable(const ISyntaxNode* expression);
+    static bool IsPostfixUnaryExpression(const ISyntaxNode* expression);
 };

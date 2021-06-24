@@ -1,13 +1,17 @@
 #pragma once
 #include "DeclarationNodes.h"
-#include "ExpressionNodes.h"
 
-class EmptyStatement : public AbstractNode {
+class EmptyStatement : public AbstractNode, public virtual ITypedNode {
 public:
-    EmptyStatement() = default;
+    explicit EmptyStatement(const UnitTypeSymbol* type);
+
+    const ISymbol* GetSymbol() const override;
 
 protected:
     std::string GetName() const override;
+
+private:
+    const UnitTypeSymbol* myType;
 };
 
 class Assignment : public LexemeNode {
@@ -16,37 +20,37 @@ public:
 
     std::string GetOperation() const;
 
-    const AbstractNode& GetAssignable() const;
-    void SetAssignable(Pointer<AbstractNode> assignable);
+    const ITypedNode& GetAssignable() const;
+    void SetAssignable(Pointer<ITypedNode> assignable);
 
-    const AbstractNode& GetExpression() const;
-    void SetExpression(Pointer<AbstractNode> expression);
+    const ITypedNode& GetExpression() const;
+    void SetExpression(Pointer<ITypedNode> expression);
 
 protected:
     std::string GetName() const override;
     void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
 
 private:
-    Pointer<AbstractNode> myAssignable;
-    Pointer<AbstractNode> myExpression;
+    Pointer<ITypedNode> myAssignable;
+    Pointer<ITypedNode> myExpression;
 };
 
 class LoopNode : public AbstractNode {
 public:
     LoopNode() = default;
 
-    const AbstractNode& GetExpression() const;
-    void SetExpression(Pointer<AbstractNode> expression);
+    const ITypedNode& GetExpression() const;
+    void SetExpression(Pointer<ITypedNode> expression);
 
-    const AbstractNode& GetBody() const;
-    void SetBody(Pointer<AbstractNode> body);
+    const ISyntaxNode& GetBody() const;
+    void SetBody(Pointer<ISyntaxNode> body);
 
 protected:
     void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
 
 private:
-    Pointer<AbstractNode> myExpression;
-    Pointer<AbstractNode> myBody;
+    Pointer<ITypedNode> myExpression;
+    Pointer<ISyntaxNode> myBody;
 };
 
 class WhileNode : public LoopNode {

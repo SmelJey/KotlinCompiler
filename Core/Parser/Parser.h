@@ -3,16 +3,17 @@
 #include "DeclarationNodes.h"
 #include "ExpressionNodes.h"
 #include "AbstractNode.h"
-#include "ParserUtils.h"
 #include "SimpleNodes.h"
 #include "StatementNodes.h"
 #include "../Lexer/Lexer.h"
+#include "Semantics/SymbolTable.h"
 
 class Parser {
 public:
-    explicit Parser(Lexer& lexer);
+    explicit Parser(Lexer& lexer, SymbolTable& symbolTable);
 
-    Lexer& GetLexer();
+    const Lexer& GetLexer() const;
+    const SymbolTable& GetSymbolTable() const;
 
     Pointer<DeclarationBlock> Parse();
 private:
@@ -22,41 +23,58 @@ private:
     Pointer<FunctionDeclaration> ParseFunction();
     Pointer<ParameterList> ParseParameters();
     Pointer<ParameterNode> ParseParameter();
-    Pointer<AbstractNode> ParseType();
+    Pointer<ITypedNode> ParseType();
 
-    Pointer<AbstractNode> ParseStatement();
+    Pointer<ISyntaxNode> ParseStatement();
 
     Pointer<BlockNode> ParseBlock();
-    Pointer<AbstractNode> ParseControlStructureBody(bool acceptSemicolons);
+    Pointer<ISyntaxNode> ParseControlStructureBody(bool acceptSemicolons);
     Pointer<ForNode> ParseForLoop();
     Pointer<WhileNode> ParseWhileLoop();
     Pointer<DoWhileNode> ParseDoWhileLoop();
 
-    Pointer<AbstractNode> ParseAssignment();
+    Pointer<ISyntaxNode> ParseAssignment();
 
     Pointer<PropertyDeclaration> ParseProperty();
     Pointer<VariableNode> ParseVariable();
     Pointer<IdentifierNode> ParseIdentifier(const std::string& errorMessage = "Identifier expected");
 
-    Pointer<AbstractNode> ParseExpression();
-    Pointer<AbstractNode> ParseLeftAssociative(size_t priority);
-    Pointer<AbstractNode> ParsePrefix();
-    Pointer<AbstractNode> ParsePostfix();
+    Pointer<ITypedNode> ParseExpression();
+    Pointer<ITypedNode> ParseLeftAssociative(size_t priority);
+    Pointer<ITypedNode> ParsePrefix();
+    Pointer<ITypedNode> ParsePostfix();
     Pointer<CallArgumentsNode> ParseArguments(LexemeType rParen);
 
-    Pointer<AbstractNode> ParsePrimary();
+    Pointer<ITypedNode> ParsePrimary();
 
     Pointer<IfExpression> ParseIfExpression();
 
-    void AddError(AbstractNode& root, const Lexeme& location, const std::string& error) const;
+    void AddError(ISyntaxNode& root, const Lexeme& location, const std::string& error) const;
 
-    bool ConsumeLexeme(LexemeType lexemeType, AbstractNode& host, const std::string& error);
-    bool ConsumeLexeme(LexemeType lexemeType, const std::string& text, AbstractNode& host, const std::string& error);
+    bool ConsumeLexeme(LexemeType lexemeType, ISyntaxNode& host, const std::string& error);
+    bool ConsumeLexeme(LexemeType lexemeType, const std::string& text, ISyntaxNode& host, const std::string& error);
     void ConsumeSemicolons();
 
     template<typename T>
     Pointer<T> CreateLexemeNode(const Lexeme& lexeme) {
-        Pointer<T> node = std::make_unique<T>(T(lexeme));
+        Pointer<T> node = std::make_unique<T>(lexeme);
+        if (lexeme.IsError()) {
+            AddError(*node, lexeme, lexeme.GetValue<std::string>());
+        }
+        return node;
+    }
+
+    template<typename T>
+    Pointer<T> CreateLexemeNode(const Lexeme& lexeme, const ITypeSymbol* type) {
+        Pointer<T> node = std::make_unique<T>(lexeme, type);
+        if (lexeme.IsError()) {
+            AddError(*node, lexeme, lexeme.GetValue<std::string>());
+        }
+        return node;
+    }
+
+    Pointer<IdentifierNode> CreateLexemeNode(const Lexeme& lexeme, const ITypeSymbol* type, const std::vector<const ISymbol*>& candidates) {
+        Pointer<IdentifierNode> node = std::make_unique<IdentifierNode>(lexeme, type, candidates);
         if (lexeme.IsError()) {
             AddError(*node, lexeme, lexeme.GetValue<std::string>());
         }
@@ -64,4 +82,5 @@ private:
     }
 
     Lexer& myLexer;
+    SymbolTable& myTable;
 };

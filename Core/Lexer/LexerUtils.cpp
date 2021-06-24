@@ -157,3 +157,15 @@ bool LexerUtils::IsIntegerType(LexemeType type) {
 bool LexerUtils::IsRealType(LexemeType type) {
     return type == LexemeType::Float || type == LexemeType::Double;
 }
+
+bool LexerUtils::IsEqualityOperation(LexemeType type) {
+    return type == LexemeType::OpEqual || type == LexemeType::OpInequal || type == LexemeType::OpStrictEq || type == LexemeType::OpStrictIneq;
+}
+
+bool LexerUtils::IsBoolOperation(LexemeType type) {
+    return type >= LexemeType::OpLess && type <= LexemeType::OpStrictEq;
+}
+
+bool LexerUtils::IsArithmeticOperation(LexemeType type) {
+    return type >= LexemeType::OpAdd && type <= LexemeType::OpMod;
+}

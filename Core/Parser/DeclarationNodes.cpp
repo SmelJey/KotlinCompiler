@@ -60,19 +60,19 @@ void ClassDeclaration::AcceptVisitor(NodeVisitor& visitor, int depth) const {
     }
 }
 
-const AbstractNode& ParameterNode::GetType() const {
+const ITypedNode& ParameterNode::GetType() const {
     return *myType;
 }
 
-void ParameterNode::SetType(Pointer<AbstractNode> typeNode) {
+void ParameterNode::SetType(Pointer<ITypedNode> typeNode) {
     myType = std::move(typeNode);
 }
 
-const AbstractNode& ParameterNode::GetDefault() const {
+const ITypedNode& ParameterNode::GetDefault() const {
     return *myDefault;
 }
 
-void ParameterNode::SetDefault(Pointer<AbstractNode> defaultNode) {
+void ParameterNode::SetDefault(Pointer<ITypedNode> defaultNode) {
     myDefault = std::move(defaultNode);
 }
 
@@ -93,11 +93,11 @@ void ParameterNode::AcceptVisitor(NodeVisitor& visitor, int depth) const {
     }
 }
 
-const AbstractNode& VariableNode::GetType() const {
+const ITypedNode& VariableNode::GetType() const {
     return *myType;
 }
 
-void VariableNode::SetType(Pointer<AbstractNode> typeNode) {
+void VariableNode::SetType(Pointer<ITypedNode> typeNode) {
     myType = std::move(typeNode);
 }
 
@@ -143,19 +143,19 @@ void FunctionDeclaration::SetParameters(Pointer<ParameterList> parameters) {
     myParams = std::move(parameters);
 }
 
-const AbstractNode& FunctionDeclaration::GetBody() const {
+const ISyntaxNode& FunctionDeclaration::GetBody() const {
     return *myBody;
 }
 
-void FunctionDeclaration::SetBody(Pointer<AbstractNode> body) {
+void FunctionDeclaration::SetBody(Pointer<ISyntaxNode> body) {
     myBody = std::move(body);
 }
 
-const AbstractNode& FunctionDeclaration::GetReturn() const {
+const ITypedNode& FunctionDeclaration::GetReturn() const {
     return *myReturn;
 }
 
-void FunctionDeclaration::SetReturn(Pointer<AbstractNode> returnNode) {
+void FunctionDeclaration::SetReturn(Pointer<ITypedNode> returnNode) {
     myReturn = std::move(returnNode);
 }
 
@@ -188,11 +188,11 @@ std::string PropertyDeclaration::GetKeyword() const {
     return myKeyword.GetValue<std::string>();
 }
 
-const AbstractNode& PropertyDeclaration::GetType() const {
+const ITypedNode& PropertyDeclaration::GetType() const {
     return *myType;
 }
 
-void PropertyDeclaration::SetType(Pointer<AbstractNode> typeNode) {
+void PropertyDeclaration::SetType(Pointer<ITypedNode> typeNode) {
     myType = std::move(typeNode);
 }
 
@@ -200,11 +200,11 @@ bool PropertyDeclaration::HasType() const {
     return myType != nullptr;
 }
 
-const AbstractNode& PropertyDeclaration::GetInitialization() const {
+const ITypedNode& PropertyDeclaration::GetInitialization() const {
     return *myInit;
 }
 
-void PropertyDeclaration::SetInitialization(Pointer<AbstractNode> initNode) {
+void PropertyDeclaration::SetInitialization(Pointer<ITypedNode> initNode) {
     myInit = std::move(initNode);
 }
 

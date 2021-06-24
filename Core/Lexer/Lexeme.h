@@ -30,8 +30,9 @@ public:
         OpSub,
         OpMult,
         OpDiv,
-        OpAssign,
         OpMod,
+
+        OpAssign,
         OpExclMark,
         OpComma,
         OpDot,
@@ -40,8 +41,6 @@ public:
         OpHash,
         OpAt,
         OpQuestMark,
-        OpLess,
-        OpGreater,
         OpInc,
         OpDec,
         OpAnd,
@@ -56,13 +55,17 @@ public:
         OpDDot,
         OpDColon,
         OpDSemicolon,
+        OpTripleDot,
+
+        OpLess,
+        OpGreater,
         OpLessOrEq,
         OpGreaterOrEq,
         OpInequal,
         OpEqual,
-        OpTripleDot,
         OpStrictIneq,
         OpStrictEq,
+
         OpIn,
         OpNotIn,
 

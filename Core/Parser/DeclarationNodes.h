@@ -54,11 +54,11 @@ class ParameterNode : public AbstractDeclaration {
 public:
     ParameterNode() = default;
 
-    const AbstractNode& GetType() const;
-    void SetType(Pointer<AbstractNode> typeNode);
+    const ITypedNode& GetType() const;
+    void SetType(Pointer<ITypedNode> typeNode);
 
-    const AbstractNode& GetDefault() const;
-    void SetDefault(Pointer<AbstractNode> defaultNode);
+    const ITypedNode& GetDefault() const;
+    void SetDefault(Pointer<ITypedNode> defaultNode);
     bool HasDefault() const;
 
 protected:
@@ -66,16 +66,16 @@ protected:
     void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
 
 private:
-    Pointer<AbstractNode> myType;
-    Pointer<AbstractNode> myDefault;
+    Pointer<ITypedNode> myType;
+    Pointer<ITypedNode> myDefault;
 };
 
 class VariableNode : public AbstractDeclaration {
 public:
     VariableNode() = default;
 
-    const AbstractNode& GetType() const;
-    void SetType(Pointer<AbstractNode> typeNode);
+    const ITypedNode& GetType() const;
+    void SetType(Pointer<ITypedNode> typeNode);
     bool HasType() const;
 
 protected:
@@ -83,7 +83,7 @@ protected:
     void AcceptVisitor(NodeVisitor & visitor, int depth) const override;
 
 private:
-    Pointer<AbstractNode> myType;
+    Pointer<ITypedNode> myType;
 };
 
 class ParameterList : public AbstractNode {
@@ -108,11 +108,11 @@ public:
     const ParameterList& GetParameters() const;
     void SetParameters(Pointer<ParameterList> parameters);
 
-    const AbstractNode& GetBody() const;
-    void SetBody(Pointer<AbstractNode> body);
+    const ISyntaxNode& GetBody() const;
+    void SetBody(Pointer<ISyntaxNode> body);
 
-    const AbstractNode& GetReturn() const;
-    void SetReturn(Pointer<AbstractNode> returnNode);
+    const ITypedNode& GetReturn() const;
+    void SetReturn(Pointer<ITypedNode> returnNode);
 
     bool HasReturnNode() const;
 protected:
@@ -122,8 +122,8 @@ protected:
 
 private:
     Pointer<ParameterList> myParams;
-    Pointer<AbstractNode> myBody;
-    Pointer<AbstractNode> myReturn;
+    Pointer<ISyntaxNode> myBody;
+    Pointer<ITypedNode> myReturn;
 };
 
 class PropertyDeclaration : public AbstractDeclaration {
@@ -133,12 +133,12 @@ public:
     bool IsMutable() const;
     std::string GetKeyword() const;
 
-    const AbstractNode& GetType() const;
-    void SetType(Pointer<AbstractNode> typeNode);
+    const ITypedNode& GetType() const;
+    void SetType(Pointer<ITypedNode> typeNode);
     bool HasType() const;
 
-    const AbstractNode& GetInitialization() const;
-    void SetInitialization(Pointer<AbstractNode> initNode);
+    const ITypedNode& GetInitialization() const;
+    void SetInitialization(Pointer<ITypedNode> initNode);
     bool HasInitialization() const;
 
 protected:
@@ -146,7 +146,7 @@ protected:
     void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
 
 private:
-    Pointer<AbstractNode> myType;
-    Pointer<AbstractNode> myInit;
+    Pointer<ITypedNode> myType;
+    Pointer<ITypedNode> myInit;
     Lexeme myKeyword;
 };

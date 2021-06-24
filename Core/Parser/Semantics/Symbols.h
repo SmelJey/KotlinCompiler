@@ -1,7 +1,11 @@
 #pragma once
 
+#include <memory>
 #include <string>
-#include "../SimpleNodes.h"
+#include "../../Lexer/LexerUtils.h"
+
+template<typename T>
+using Pointer = std::unique_ptr<T>;
 
 class ISymbol {
 public:
@@ -13,66 +17,106 @@ public:
 bool operator!=(const ISymbol& lhs, const ISymbol& rhs);
 bool operator==(const ISymbol& lhs, const ISymbol& rhs);
 
-class ITypeSymbol : public ISymbol {};
-
 bool operator<(const Pointer<ISymbol>& lhs, const Pointer<ISymbol>& rhs);
 bool operator<(const ISymbol& lhs, const Pointer<ISymbol>& rhs);
 bool operator<(const Pointer<ISymbol>& lhs, const ISymbol& rhs);
 
-class AutoTypeSymbol : public ITypeSymbol {
+class ITypeSymbol : public ISymbol {
+public:
+    virtual Pointer<ITypeSymbol> IsApplicable(LexemeType operation) const = 0;
+    virtual Pointer<ITypeSymbol> IsApplicable(LexemeType binaryOperation, const ITypeSymbol* rightOperand) const = 0;
+};
+
+class UnresolvedSymbol : public ITypeSymbol {
 public:
     std::string GetName() const override;
+
+    Pointer<ITypeSymbol> IsApplicable(LexemeType operation) const override;
+    Pointer<ITypeSymbol> IsApplicable(LexemeType binaryOperation, const ITypeSymbol* rightOperand) const override;
 };
 
 class UnitTypeSymbol : public ITypeSymbol {
 public:
     std::string GetName() const override;
+
+    Pointer<ITypeSymbol> IsApplicable(LexemeType operation) const override;
+    Pointer<ITypeSymbol> IsApplicable(LexemeType binaryOperation, const ITypeSymbol* rightOperand) const override;
 };
 
-class UnresolvedTypeSymbol : public ITypeSymbol {
+class BooleanSymbol : public ITypeSymbol {
 public:
     std::string GetName() const override;
+
+    Pointer<ITypeSymbol> IsApplicable(LexemeType operation) const override;
+    Pointer<ITypeSymbol> IsApplicable(LexemeType binaryOperation, const ITypeSymbol* rightOperand) const override;
 };
 
 class IntegerSymbol : public ITypeSymbol {
 public:
     std::string GetName() const override;
+
+    Pointer<ITypeSymbol> IsApplicable(LexemeType operation) const override;
+    Pointer<ITypeSymbol> IsApplicable(LexemeType binaryOperation, const ITypeSymbol* rightOperand) const override;
 };
 
 class DoubleSymbol : public ITypeSymbol {
 public:
     std::string GetName() const override;
+
+    Pointer<ITypeSymbol> IsApplicable(LexemeType operation) const override;
+    Pointer<ITypeSymbol> IsApplicable(LexemeType binaryOperation, const ITypeSymbol* rightOperand) const override;
 };
 
 class StringSymbol : public ITypeSymbol {
 public:
     std::string GetName() const override;
+
+    Pointer<ITypeSymbol> IsApplicable(LexemeType operation) const override;
+    Pointer<ITypeSymbol> IsApplicable(LexemeType binaryOperation, const ITypeSymbol* rightOperand) const override;
 };
 
 class ArraySymbol : public ITypeSymbol {
 public:
-    ArraySymbol(const ITypeSymbol& type);
+    ArraySymbol(const ITypeSymbol* type);
 
     std::string GetName() const override;
 
-    const ITypeSymbol& GetType() const;
+    const ITypeSymbol* GetType() const;
 
     int GetSize() const;
     void SetSize(int size);
 
+    Pointer<ITypeSymbol> IsApplicable(LexemeType operation) const override;
+    Pointer<ITypeSymbol> IsApplicable(LexemeType binaryOperation, const ITypeSymbol* rightOperand) const override;
+
 private:
-    const ITypeSymbol& myType;
+    const ITypeSymbol* myType;
     int mySize;
 };
 
-class VariableSymbol : public ISymbol {
+class RangeSymbol : public ITypeSymbol {
 public:
-    VariableSymbol(const std::string& name, const ITypeSymbol& type);
+    RangeSymbol(const ITypeSymbol& type);
 
     std::string GetName() const override;
     const ITypeSymbol& GetType() const;
 
+    Pointer<ITypeSymbol> IsApplicable(LexemeType operation) const override;
+    Pointer<ITypeSymbol> IsApplicable(LexemeType binaryOperation, const ITypeSymbol* rightOperand) const override;
+
+private:
+    const ITypeSymbol& myType;
+};
+
+class VariableSymbol : public ISymbol {
+public:
+    VariableSymbol(const std::string& name, const ITypeSymbol* type, bool isMutable);
+
+    std::string GetName() const override;
+    const ITypeSymbol* GetType() const;
+
 private:
     std::string myName;
-    const ITypeSymbol& myType;
+    const ITypeSymbol* myType;
+    bool myMutability;
 };

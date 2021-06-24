@@ -39,4 +39,8 @@ public:
     static bool IsIntegerType(LexemeType type);
 
     static bool IsRealType(LexemeType type);
+
+    static bool IsEqualityOperation(LexemeType type);
+    static bool IsBoolOperation(LexemeType type);
+    static bool IsArithmeticOperation(LexemeType type);
 };

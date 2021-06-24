@@ -1,14 +1,14 @@
 #include "FunctionSymbol.h"
 
-FunctionSymbol::FunctionSymbol(const std::string& name, const ITypeSymbol& returnType,
+FunctionSymbol::FunctionSymbol(const std::string& name, const ITypeSymbol* returnType,
     const std::vector<const ITypeSymbol*>& params, Pointer<SymbolTable> table)
         : myName(name), myReturnType(returnType), myParameters(params), myTable(std::move(table)) {}
 
 std::string FunctionSymbol::GetName() const {
-    return myName;
+    return "Fun " + myName;
 }
 
-const ITypeSymbol& FunctionSymbol::GetReturnType() const {
+const ITypeSymbol* FunctionSymbol::GetReturnType() const {
     return myReturnType;
 }
 

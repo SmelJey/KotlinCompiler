@@ -1,4 +1,5 @@
 #include "SimpleNodes.h"
+#include "Semantics/FunctionSymbol.h"
 
 #include <sstream>
 
@@ -8,37 +9,119 @@ Lexeme LexemeNode::GetLexeme() const {
     return myLexeme;
 }
 
-IdentifierNode::IdentifierNode(const Lexeme& lexeme) : LexemeNode(lexeme) {}
+AbstractTypedNode::AbstractTypedNode(const Lexeme& lexeme, const ISymbol* symbol) : LexemeNode(lexeme), mySymbol(symbol) {}
+
+const ISymbol* AbstractTypedNode::GetSymbol() const {
+    return mySymbol;
+}
+
+IdentifierNode::IdentifierNode(const Lexeme& lexeme, const ITypeSymbol* defaultSym, const std::vector<const ISymbol*>& candidates)
+    : AbstractTypedNode(lexeme, defaultSym), myCandidates(candidates), myType(defaultSym) {}
+
+bool IdentifierNode::TryResolveVariable() {
+    for (auto it : myCandidates) {
+        auto varSym = dynamic_cast<const VariableSymbol*>(it);
+        if (varSym != nullptr) {
+            mySymbol = varSym;
+            myType = varSym->GetType();
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool IdentifierNode::TryResolveType() {
+    for (auto it : myCandidates) {
+        auto typeSym = dynamic_cast<const ITypeSymbol*>(it);
+        if (typeSym != nullptr) {
+            mySymbol = typeSym;
+            myType = typeSym;
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool IdentifierNode::TryResolveFunc(const std::vector<const ITypeSymbol*>& arguments) {
+    for (auto it : myCandidates) {
+        auto funcSym = dynamic_cast<const FunctionSymbol*>(it);
+        if (funcSym != nullptr && funcSym->GetParametersCount() == arguments.size()) {
+            bool isResolved = true;
+            for (int i = 0; i < arguments.size(); i++) {
+                if (funcSym->GetParameter(i) != *arguments[i]) {
+                    isResolved = false;
+                    break;
+                }
+            }
+
+            if (isResolved) {
+                mySymbol = funcSym;
+                myType = funcSym->GetReturnType();
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
+bool IdentifierNode::TryResolveArray(const std::vector<const ITypeSymbol*>& arguments) {
+    for (auto it : myCandidates) {
+        auto arraySym = dynamic_cast<const ArraySymbol*>(it);
+        if (arraySym != nullptr && arguments.size() == 1) {
+            if (*arguments[0] != IntegerSymbol()) {
+                return false;
+            }
+
+            mySymbol = arraySym;
+            myType = arraySym->GetType();
+            return true;
+        }
+    }
+
+    return false;
+}
+
+const ITypeSymbol* IdentifierNode::GetType() const {
+    return myType;
+}
 
 std::string IdentifierNode::GetName() const {
     return "Identifier :: " + myLexeme.GetValue<std::string>();
 }
 
-IntegerNode::IntegerNode(const Lexeme& lexeme) : LexemeNode(lexeme) {}
+IntegerNode::IntegerNode(const Lexeme& lexeme, const ISymbol* symbol) : AbstractTypedNode(lexeme, symbol) {}
 
 std::string IntegerNode::GetName() const {
     return "Integer :: " + std::to_string(myLexeme.GetValue<uint64_t>());
 }
 
-RealNode::RealNode(const Lexeme& lexeme) : LexemeNode(lexeme) {}
+DoubleNode::DoubleNode(const Lexeme& lexeme, const ISymbol* symbol) : AbstractTypedNode(lexeme, symbol) {}
 
-std::string RealNode::GetName() const {
+std::string DoubleNode::GetName() const {
     return "Real :: " + std::to_string(myLexeme.GetValue<double>());
 }
 
-BooleanNode::BooleanNode(const Lexeme& lexeme) : LexemeNode(lexeme) {}
+BooleanNode::BooleanNode(const Lexeme& lexeme, const ISymbol* symbol) : AbstractTypedNode(lexeme, symbol) {}
 
 std::string BooleanNode::GetName() const {
     return "Boolean :: " + myLexeme.GetValue<std::string>();
 }
 
-StringNode::StringNode(const Lexeme& lexeme) : LexemeNode(lexeme) {}
+StringNode::StringNode(const Lexeme& lexeme, const ISymbol* symbol) : AbstractTypedNode(lexeme, symbol) {}
 
 std::string StringNode::GetName() const {
     return "String :: " + myLexeme.GetValue<std::string>();
 }
 
-ErrorNode::ErrorNode(const Lexeme& lexeme, const std::string& error) : LexemeNode(lexeme), myError(error) {}
+ErrorNode::ErrorNode(const Lexeme& lexeme, const UnresolvedSymbol* type, const std::string& error)
+    : LexemeNode(lexeme), myError(error), myType(type) {}
+
+const ISymbol* ErrorNode::GetSymbol() const {
+    return myType;
+}
 
 std::string ErrorNode::GetName() const {
     std::stringstream ss;
@@ -46,7 +129,7 @@ std::string ErrorNode::GetName() const {
     return ss.str();
 }
 
-TypeNode::TypeNode(const Lexeme& lexeme) : LexemeNode(lexeme) {}
+TypeNode::TypeNode(const Lexeme& lexeme, const ISymbol* symbol) : AbstractTypedNode(lexeme, symbol) {}
 
 std::string TypeNode::GetName() const {
     return "Type :: " + myLexeme.GetValue<std::string>();
@@ -66,11 +149,11 @@ std::string ContinueNode::GetName() const {
 
 ReturnNode::ReturnNode(const Lexeme& lexeme) : LexemeNode(lexeme) {}
 
-const AbstractNode* ReturnNode::GetExpression() const {
+const ITypedNode* ReturnNode::GetExpression() const {
     return myExpression.get();
 }
 
-void ReturnNode::SetExpression(std::unique_ptr<AbstractNode> expression) {
+void ReturnNode::SetExpression(Pointer<ITypedNode> expression) {
     myExpression = std::move(expression);
 }
 

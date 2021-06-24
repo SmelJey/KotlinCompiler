@@ -1,6 +1,12 @@
 #include "StatementNodes.h"
 #include "AbstractNode.h"
 
+EmptyStatement::EmptyStatement(const UnitTypeSymbol* type) : myType(type) {}
+
+const ISymbol* EmptyStatement::GetSymbol() const {
+    return myType;
+}
+
 std::string EmptyStatement::GetName() const {
     return "Empty Statement";
 }
@@ -11,19 +17,19 @@ std::string Assignment::GetOperation() const {
     return myLexeme.GetValue<std::string>();
 }
 
-const AbstractNode& Assignment::GetAssignable() const {
+const ITypedNode& Assignment::GetAssignable() const {
     return *myAssignable;
 }
 
-void Assignment::SetAssignable(Pointer<AbstractNode> assignable) {
+void Assignment::SetAssignable(Pointer<ITypedNode> assignable) {
     myAssignable = std::move(assignable);
 }
 
-const AbstractNode& Assignment::GetExpression() const {
+const ITypedNode& Assignment::GetExpression() const {
     return *myExpression;
 }
 
-void Assignment::SetExpression(Pointer<AbstractNode> expression) {
+void Assignment::SetExpression(Pointer<ITypedNode> expression) {
     myExpression = std::move(expression);
 }
 
@@ -36,19 +42,19 @@ void Assignment::AcceptVisitor(NodeVisitor& visitor, int depth) const {
     visitor.VisitNode(*myExpression, depth);
 }
 
-const AbstractNode& LoopNode::GetExpression() const {
+const ITypedNode& LoopNode::GetExpression() const {
     return *myExpression;
 }
 
-void LoopNode::SetExpression(Pointer<AbstractNode> expression) {
+void LoopNode::SetExpression(Pointer<ITypedNode> expression) {
     myExpression = std::move(expression);
 }
 
-const AbstractNode& LoopNode::GetBody() const {
+const ISyntaxNode& LoopNode::GetBody() const {
     return *myBody;
 }
 
-void LoopNode::SetBody(Pointer<AbstractNode> body) {
+void LoopNode::SetBody(Pointer<ISyntaxNode> body) {
     myBody = std::move(body);
 }
 

@@ -26,7 +26,7 @@ const std::unordered_set<LexemeType> ParserUtils::AssignmentOperations {
 };
 
 // postfixUnaryExpression (indexingSuffix | navigationSuffix) | simpleIdentifier | parenthesizedDirectlyAssignableExpression
-bool ParserUtils::IsDirectlyAssignable(const AbstractNode* expression) {
+bool ParserUtils::IsDirectlyAssignable(const ISyntaxNode* expression) {
     const IndexSuffixNode* indexOp = dynamic_cast<const IndexSuffixNode*>(expression);
     if (indexOp != nullptr && IsPostfixUnaryExpression(indexOp->GetExpression())) {
         return true;
@@ -41,6 +41,6 @@ bool ParserUtils::IsDirectlyAssignable(const AbstractNode* expression) {
     return identifier != nullptr;
 }
 
-bool ParserUtils::IsPostfixUnaryExpression(const AbstractNode* expression) {
+bool ParserUtils::IsPostfixUnaryExpression(const ISyntaxNode* expression) {
     return dynamic_cast<const AbstractUnaryPostfixNode*>(expression) || dynamic_cast<const IdentifierNode*>(expression);
 }

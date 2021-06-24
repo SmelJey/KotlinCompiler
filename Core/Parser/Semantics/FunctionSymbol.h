@@ -5,13 +5,14 @@
 #include "SymbolTable.h"
 #include "../ParserUtils.h"
 
+
 class FunctionSymbol : public ISymbol {
 public:
-    FunctionSymbol(const std::string& name, const ITypeSymbol& returnType, const std::vector<const ITypeSymbol*>& params, Pointer<SymbolTable> table);
+    FunctionSymbol(const std::string& name, const ITypeSymbol* returnType, const std::vector<const ITypeSymbol*>& params, Pointer<SymbolTable> table);
 
     std::string GetName() const override;
 
-    const ITypeSymbol& GetReturnType() const;
+    const ITypeSymbol* GetReturnType() const;
 
     int GetParametersCount() const;
 
@@ -22,7 +23,7 @@ public:
 
 private:
     std::string myName;
-    const ITypeSymbol& myReturnType;
+    const ITypeSymbol* myReturnType;
     std::vector<const ITypeSymbol*> myParameters;
     Pointer<SymbolTable> myTable;
 };
