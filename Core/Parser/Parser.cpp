@@ -7,7 +7,7 @@
 #include "Semantics/ClassSymbol.h"
 #include "Semantics/FunctionSymbol.h"
 
-Parser::Parser(Lexer& lexer, SymbolTable* symbolTable) : myLexer(lexer), myTable(symbolTable) {
+Parser::Parser(Lexer& lexer, SymbolTable* symbolTable) : myLexer(lexer), myRootTable(symbolTable), myTable(symbolTable) {
     myLexer.NextLexeme();
 }
 
@@ -16,7 +16,7 @@ const Lexer& Parser::GetLexer() const {
 }
 
 const SymbolTable& Parser::GetSymbolTable() const {
-    return myTable;
+    return myRootTable;
 }
 
 Pointer<DeclarationBlock> Parser::Parse() {
@@ -446,8 +446,14 @@ Pointer<ITypedNode> Parser::ParseLeftAssociative(size_t priority) {
             resultType = leftType->IsApplicable(operation.GetType(), rightType);
         }
 
+        std::string typeName = resultType->GetName();
+
+        if (dynamic_cast<ArraySymbol*>(resultType.get()) != nullptr || dynamic_cast<RangeSymbol*>(resultType.get()) != nullptr) {
+            myRootTable->Add(std::move(resultType));    
+        }
+
         leftOperand = std::make_unique<BinOperationNode>(
-            operation, std::move(leftOperand), std::move(rightOperand), myTable->GetType(resultType->GetName()));
+            operation, std::move(leftOperand), std::move(rightOperand), myTable->GetType(typeName));
         operation = myLexer.GetLexeme();
     }
 

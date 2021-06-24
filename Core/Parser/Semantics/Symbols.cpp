@@ -205,7 +205,7 @@ Pointer<ITypeSymbol> StringSymbol::IsApplicable(LexemeType binaryOperation, cons
 ArraySymbol::ArraySymbol(const ITypeSymbol* type) : myType(type), mySize(0) {}
 
 std::string ArraySymbol::GetName() const {
-    return "Array";
+    return "Array<" + myType->GetName() + ">";
 }
 
 const ITypeSymbol* ArraySymbol::GetType() const {
@@ -235,7 +235,7 @@ Pointer<ITypeSymbol> ArraySymbol::IsApplicable(LexemeType binaryOperation, const
 RangeSymbol::RangeSymbol(const ITypeSymbol& type) : myType(type) {}
 
 std::string RangeSymbol::GetName() const {
-    return "ClosedRange";
+    return "ClosedRange<" + myType.GetName() + ">";
 }
 
 const ITypeSymbol& RangeSymbol::GetType() const {

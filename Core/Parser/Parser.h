@@ -87,6 +87,7 @@ private:
     }
 
     Lexer& myLexer;
+    SymbolTable* myRootTable;
     SymbolTable* myTable;
     std::vector<ErrorNode> myParsingErrors;
     std::vector<ErrorNode> mySemanticsErrors;
