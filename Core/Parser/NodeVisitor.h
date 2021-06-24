@@ -34,6 +34,8 @@ public:
     CuteToStringVisitor();
 
     std::vector<std::string> GetStringData() const;
+
+    void ShowSemanticsAnnotations();
 protected:
     void EnterNode(const ISyntaxNode& node, int depth) override;
     void ExitNode(const ISyntaxNode& node, int depth) override;
@@ -44,4 +46,5 @@ private:
     static const char CHILD_CHAR = '|';
 
     std::vector<std::string> myStringData;
+    bool myShowSemantics = false;
 };

@@ -77,6 +77,11 @@ int main(int argc, char** argv) {
 
     if (configuration.GetParserDebug()) {
         CuteToStringVisitor visitor;
+
+        if (configuration.GetSemanticsDebug()) {
+            visitor.ShowSemanticsAnnotations();
+        }
+
         syntaxTree->RunVisitor(visitor);
 
         for (auto& str : visitor.GetStringData()) {

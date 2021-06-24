@@ -33,6 +33,10 @@ std::vector<std::string> CuteToStringVisitor::GetStringData() const {
     return myStringData;
 }
 
+void CuteToStringVisitor::ShowSemanticsAnnotations() {
+    myShowSemantics = true;
+}
+
 void CuteToStringVisitor::EnterNode(const ISyntaxNode& node, int depth) {
     myStack.push(std::vector<std::string>());
 }
@@ -47,7 +51,12 @@ void CuteToStringVisitor::ExitNode(const ISyntaxNode& node, int depth) {
         topVec = &myStringData;
     }
 
-    topVec->push_back(node.ToString());
+    const ITypedNode* typeSym = dynamic_cast<const ITypedNode*>(&node);
+    std::string res = node.ToString();
+    if (typeSym != nullptr) {
+        res.append(" :: " + typeSym->GetType()->GetName());
+    }
+    topVec->push_back(res);
 
     int lastChild = 0;
     for (int i = 0; i < myVec.size(); i++) {
