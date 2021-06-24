@@ -4,8 +4,9 @@
 @@   |-Params
 @@   | |-Parameter
 @@   |   |-Identifier :: a
-@@   |   |-Error 0:12 :: Type expected
+@@   |   |-Type :: 
 @@   |-Block
 @@     |-Bin op :: +
 @@       |-Integer :: 2
 @@       |-Integer :: 3
+@@ Error 0:12 :: Type expected

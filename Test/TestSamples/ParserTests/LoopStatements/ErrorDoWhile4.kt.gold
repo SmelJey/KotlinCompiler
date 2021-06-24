@@ -5,4 +5,5 @@
 @@   |-Block
 @@     |-DoWhile
 @@       |-Boolean :: false
-@@       |-Error 2:1 :: Unexpected lexeme
+@@       |-Identifier :: 
+@@ Error 2:1 :: Unexpected lexeme

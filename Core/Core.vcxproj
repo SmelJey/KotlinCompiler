@@ -164,6 +164,7 @@
     <ClInclude Include="magic_enum.hpp" />
     <ClInclude Include="Parser\DeclarationNodes.h" />
     <ClInclude Include="Parser\ExpressionNodes.h" />
+    <ClInclude Include="Parser\IVisitable.h" />
     <ClInclude Include="Parser\NodeVisitor.h" />
     <ClInclude Include="Parser\ParserUtils.h" />
     <ClInclude Include="Parser\Semantics\ClassSymbol.h" />
@@ -172,7 +173,7 @@
     <ClInclude Include="Parser\Semantics\SymbolTable.h" />
     <ClInclude Include="Parser\SimpleNodes.h" />
     <ClInclude Include="Parser\Parser.h" />
-    <ClInclude Include="Parser\AbstractNode.h" />
+    <ClInclude Include="Parser\ISyntaxNode.h" />
     <ClInclude Include="Parser\StatementNodes.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
@@ -182,9 +183,10 @@
     <ClCompile Include="Lexer\LexerUtils.cpp" />
     <ClCompile Include="Parser\DeclarationNodes.cpp" />
     <ClCompile Include="Parser\ExpressionNodes.cpp" />
+    <ClCompile Include="Parser\IVisitable.cpp" />
     <ClCompile Include="Parser\NodeVisitor.cpp" />
     <ClCompile Include="Parser\Parser.cpp" />
-    <ClCompile Include="Parser\AbstractNode.cpp" />
+    <ClCompile Include="Parser\ISyntaxNode.cpp" />
     <ClCompile Include="Parser\ParserUtils.cpp" />
     <ClCompile Include="Parser\Semantics\ClassSymbol.cpp" />
     <ClCompile Include="Parser\Semantics\FunctionSymbol.cpp" />

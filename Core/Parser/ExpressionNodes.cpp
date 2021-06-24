@@ -1,6 +1,6 @@
 #include "ExpressionNodes.h"
 
-#include "AbstractNode.h"
+#include "ISyntaxNode.h"
 #include "StatementNodes.h"
 
 BinOperationNode::BinOperationNode(const Lexeme& operation, Pointer<ITypedNode> left,

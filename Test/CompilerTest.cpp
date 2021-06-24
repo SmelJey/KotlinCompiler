@@ -27,16 +27,50 @@ std::string ParserTest::CreateTestPath(const std::string& path) {
 ParserTest::ParserTest(const std::string& filepath) : IOTest(ParserDirectory + filepath) {
     Lexer lexer(GetFilepath());
     SymbolTable table;
-    Parser parser(lexer, table);
+    Parser parser(lexer, &table);
 
     Pointer<AbstractNode> tree = parser.Parse();
     CuteToStringVisitor visitor;
     tree->RunVisitor(visitor);
 
     myTokens = visitor.GetStringData();
+    for (auto& err : parser.GetParsingErrors()) {
+        myTokens.push_back(err.ToString());
+    }
 }
 
 std::string ParserTest::NextToken() {
+    if (myIdx >= myTokens.size()) {
+        return "";
+    }
+
+    return myTokens[myIdx++];
+}
+
+std::string ParserSemanticTest::CreateTestPath(const std::string& path) {
+    return TestDirectory + SemanticsDirectory + path;
+}
+
+ParserSemanticTest::ParserSemanticTest(const std::string& filepath) : IOTest(SemanticsDirectory + filepath) {
+    Lexer lexer(GetFilepath());
+    SymbolTable table;
+    Parser parser(lexer, &table);
+
+    Pointer<AbstractNode> tree = parser.Parse();
+    CuteToStringVisitor visitor;
+    visitor.ShowSemanticsAnnotations();
+    tree->RunVisitor(visitor);
+
+    myTokens = visitor.GetStringData();
+    for (auto& err : parser.GetParsingErrors()) {
+        myTokens.push_back(err.ToString());
+    }
+    for (auto& err : parser.GetSemanticsErrors()) {
+        myTokens.push_back(err.ToString());
+    }
+}
+
+std::string ParserSemanticTest::NextToken() {
     if (myIdx >= myTokens.size()) {
         return "";
     }

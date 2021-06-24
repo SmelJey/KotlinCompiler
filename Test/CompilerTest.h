@@ -35,3 +35,20 @@ private:
 
 #define PARSER_TEST(input) \
     IO_TEST(ParserTest, input)
+
+const static std::string SemanticsDirectory = "SemanticsTests/";
+
+class ParserSemanticTest : public IOTest {
+public:
+    static std::string CreateTestPath(const std::string& path);
+
+    explicit ParserSemanticTest(const std::string& filepath);
+private:
+    std::string NextToken() override;
+
+    std::vector<std::string> myTokens;
+    size_t myIdx = 0;
+};
+
+#define SEMANTIC_TEST(input) \
+    IO_TEST(ParserSemanticTest, input)

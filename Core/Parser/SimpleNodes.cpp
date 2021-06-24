@@ -18,7 +18,7 @@ const ISymbol* AbstractTypedNode::GetSymbol() const {
 IdentifierNode::IdentifierNode(const Lexeme& lexeme, const ITypeSymbol* defaultSym, const std::vector<const ISymbol*>& candidates)
     : AbstractTypedNode(lexeme, defaultSym), myCandidates(candidates), myType(defaultSym) {}
 
-bool IdentifierNode::TryResolveVariable() {
+bool IdentifierNode::TryResolveVariable() const {
     for (auto it : myCandidates) {
         auto varSym = dynamic_cast<const VariableSymbol*>(it);
         if (varSym != nullptr) {
@@ -31,7 +31,7 @@ bool IdentifierNode::TryResolveVariable() {
     return false;
 }
 
-bool IdentifierNode::TryResolveType() {
+bool IdentifierNode::TryResolveType() const {
     for (auto it : myCandidates) {
         auto typeSym = dynamic_cast<const ITypeSymbol*>(it);
         if (typeSym != nullptr) {
@@ -44,7 +44,7 @@ bool IdentifierNode::TryResolveType() {
     return false;
 }
 
-bool IdentifierNode::TryResolveFunc(const std::vector<const ITypeSymbol*>& arguments) {
+bool IdentifierNode::TryResolveFunc(const std::vector<const ITypeSymbol*>& arguments) const {
     for (auto it : myCandidates) {
         auto funcSym = dynamic_cast<const FunctionSymbol*>(it);
         if (funcSym != nullptr && funcSym->GetParametersCount() == arguments.size()) {
@@ -67,7 +67,7 @@ bool IdentifierNode::TryResolveFunc(const std::vector<const ITypeSymbol*>& argum
     return false;
 }
 
-bool IdentifierNode::TryResolveArray(const std::vector<const ITypeSymbol*>& arguments) {
+bool IdentifierNode::TryResolveArray(const std::vector<const ITypeSymbol*>& arguments) const {
     for (auto it : myCandidates) {
         auto arraySym = dynamic_cast<const ArraySymbol*>(it);
         if (arraySym != nullptr && arguments.size() == 1) {
@@ -82,6 +82,10 @@ bool IdentifierNode::TryResolveArray(const std::vector<const ITypeSymbol*>& argu
     }
 
     return false;
+}
+
+void IdentifierNode::UpdateCandidates(const std::vector<const ISymbol*>& candidates) const {
+    myCandidates = candidates;
 }
 
 const ITypeSymbol* IdentifierNode::GetType() const {

@@ -26,7 +26,7 @@ Configuration ParseCommandLineArgs(int argc, char** argv) {
         ("lexer-debug,l", "debug lexical analyser")
         ("source-files,f", prog_opt::value<std::vector<std::string>>(), "source files")
         ("parser-debug,p", "debug syntax analyser")
-        ("semantics,s", "debug semantics");
+        ("semantics-debug,s", "debug semantics");
 
     prog_opt::positional_options_description positionalOptions;
     positionalOptions.add(FILES_KEY, -1);
@@ -72,7 +72,7 @@ int main(int argc, char** argv) {
 
     Lexer lexer(configuration.GetPaths()[0]);
     SymbolTable symTable;
-    Parser parser(lexer, symTable);
+    Parser parser(lexer, &symTable);
     Pointer<AbstractNode> syntaxTree = parser.Parse();
 
     if (configuration.GetParserDebug()) {
@@ -91,6 +91,10 @@ int main(int argc, char** argv) {
 
     if (configuration.GetSemanticsDebug()) {
         // TODO: implement
+    }
+
+    for (auto& error : parser.GetParsingErrors()) {
+        std::cout << error.ToString() << std::endl;
     }
 
     return 0;

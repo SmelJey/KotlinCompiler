@@ -4,8 +4,8 @@
 @@   |-Params
 @@   | |-Parameter
 @@   |   |-Identifier :: 
-@@   |   | |-Error 0:9 :: Parameter name expected
 @@   |   |-Type :: Int
 @@   |-Bin op :: +
 @@     |-Integer :: 2
 @@     |-Integer :: 3
+@@ Error 0:9 :: Parameter name expected

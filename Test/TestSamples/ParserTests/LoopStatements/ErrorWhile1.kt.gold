@@ -4,6 +4,7 @@
 @@   |-Params
 @@   |-Block
 @@     |-While
-@@     | |-Boolean :: true
-@@     | |-Error 2:0 :: Unexpected lexeme
-@@     |-Error 2:1 :: Expecting '}'
+@@       |-Boolean :: true
+@@       |-Identifier :: 
+@@ Error 2:0 :: Unexpected lexeme
+@@ Error 2:1 :: Expecting '}'

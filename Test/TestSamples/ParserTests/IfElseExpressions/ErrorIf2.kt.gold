@@ -4,9 +4,10 @@
 @@   |-Params
 @@   |-Block
 @@     |-If Expr
-@@     | |-Bin op :: >
-@@     | | |-Integer :: 3
-@@     | | |-Integer :: 2
-@@     | |-Error 2:0 :: Unexpected lexeme
-@@     | |-Empty Statement
-@@     |-Error 2:1 :: Expecting '}'
+@@       |-Bin op :: >
+@@       | |-Integer :: 3
+@@       | |-Integer :: 2
+@@       |-Identifier :: 
+@@       |-Empty Statement
+@@ Error 2:0 :: Unexpected lexeme
+@@ Error 2:1 :: Expecting '}'

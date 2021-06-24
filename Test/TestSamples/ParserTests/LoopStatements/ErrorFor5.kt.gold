@@ -10,4 +10,4 @@
 @@       | |-Integer :: 1
 @@       | |-Integer :: 5
 @@       |-Block
-@@       |-Error 1:16 :: Expecting ')'
+@@ Error 1:16 :: Expecting ')'

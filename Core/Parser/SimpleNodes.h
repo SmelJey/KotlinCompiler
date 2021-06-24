@@ -1,5 +1,5 @@
 #pragma once
-#include "AbstractNode.h"
+#include "ISyntaxNode.h"
 #include "ParserUtils.h"
 
 class LexemeNode : public AbstractNode {
@@ -18,25 +18,27 @@ public:
     const ISymbol* GetSymbol() const override;
 
 protected:
-    const ISymbol* mySymbol;
+    mutable const ISymbol* mySymbol;
 };
 
 class IdentifierNode : public AbstractTypedNode {
 public:
     IdentifierNode(const Lexeme& lexeme, const ITypeSymbol* defaultSym, const std::vector<const ISymbol*>& candidates);
 
-    bool TryResolveVariable();
-    bool TryResolveType();
-    bool TryResolveFunc(const std::vector<const ITypeSymbol*>& arguments);
-    bool TryResolveArray(const std::vector<const ITypeSymbol*>& arguments);
+    bool TryResolveVariable() const;
+    bool TryResolveType() const;
+    bool TryResolveFunc(const std::vector<const ITypeSymbol*>& arguments) const;
+    bool TryResolveArray(const std::vector<const ITypeSymbol*>& arguments) const;
+
+    void UpdateCandidates(const std::vector<const ISymbol*>& candidates) const;
 
     const ITypeSymbol* GetType() const override;
 protected:
     std::string GetName() const override;
 
 private:
-    std::vector<const ISymbol*> myCandidates;
-    const ITypeSymbol* myType;
+    mutable std::vector<const ISymbol*> myCandidates;
+    mutable const ITypeSymbol* myType;
 };
 
 class IntegerNode : public AbstractTypedNode {

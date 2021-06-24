@@ -5,7 +5,7 @@ FunctionSymbol::FunctionSymbol(const std::string& name, const ITypeSymbol* retur
         : myName(name), myReturnType(returnType), myParameters(params), myTable(std::move(table)) {}
 
 std::string FunctionSymbol::GetName() const {
-    return "Fun " + myName;
+    return myName;
 }
 
 const ITypeSymbol* FunctionSymbol::GetReturnType() const {

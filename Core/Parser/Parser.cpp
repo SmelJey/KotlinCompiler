@@ -5,8 +5,9 @@
 #include "SimpleNodes.h"
 #include "StatementNodes.h"
 #include "Semantics/ClassSymbol.h"
+#include "Semantics/FunctionSymbol.h"
 
-Parser::Parser(Lexer& lexer, SymbolTable& symbolTable) : myLexer(lexer), myTable(symbolTable) {
+Parser::Parser(Lexer& lexer, SymbolTable* symbolTable) : myLexer(lexer), myTable(symbolTable) {
     myLexer.NextLexeme();
 }
 
@@ -23,6 +24,14 @@ Pointer<DeclarationBlock> Parser::Parse() {
     return ParseDeclarations(false);
 }
 
+const std::vector<ErrorNode>& Parser::GetParsingErrors() const {
+    return myParsingErrors;
+}
+
+const std::vector<ErrorNode>& Parser::GetSemanticsErrors() const {
+    return mySemanticsErrors;
+}
+
 // (classDeclaration | functionDeclaration | propertyDeclaration semis?)*
 Pointer<DeclarationBlock> Parser::ParseDeclarations(bool isClass) {
     Pointer<DeclarationBlock> declarations = std::make_unique<DeclarationBlock>();
@@ -32,8 +41,8 @@ Pointer<DeclarationBlock> Parser::ParseDeclarations(bool isClass) {
 
     while (curLexeme.GetType() != LexemeType::EndOfFile && !(curLexeme.GetType() == LexemeType::RCurl && isClass)) {
         if (curLexeme.GetType() != LexemeType::Keyword) {
-            AddError(*declarations, curLexeme, (isClass ? "Expecting member declaration"
-                                                           : "Expecting a top level declaration"));
+            AddParsingError(curLexeme, (isClass ? "Expecting member declaration"
+                : "Expecting a top level declaration"));
 
             myLexer.NextLexeme();
         } else {
@@ -42,7 +51,7 @@ Pointer<DeclarationBlock> Parser::ParseDeclarations(bool isClass) {
             if (keyword == "class") {
                 if (isClass) {
                     myLexer.NextLexeme();
-                    AddError(*declarations, curLexeme, "Class is not allowed here");
+                    AddParsingError(curLexeme, "Class is not allowed here");
                 } else {
                     declarations->AddDeclaration(ParseClass());
                 }
@@ -51,7 +60,7 @@ Pointer<DeclarationBlock> Parser::ParseDeclarations(bool isClass) {
             } else if (keyword == "var" || keyword == "val") {
                 declarations->AddDeclaration(ParseProperty());
             } else {
-                AddError(*declarations, curLexeme, "Unsupported keyword");
+                AddParsingError(curLexeme, "Unsupported keyword");
                 myLexer.NextLexeme();
             }
         }
@@ -94,12 +103,35 @@ Pointer<FunctionDeclaration> Parser::ParseFunction() {
         functionDecl->SetReturn(ParseType());
     }
 
+    Pointer<SymbolTable> functionSymbols = std::make_unique<SymbolTable>(myTable);
+    myTable = functionSymbols.get();
+
     if (myLexer.GetLexeme().GetType() == LexemeType::OpAssign) {
         myLexer.NextLexeme();
         functionDecl->SetBody(ParseExpression());
     } else {
         functionDecl->SetBody(ParseBlock());
     }
+
+    myTable = functionSymbols->GetParent();
+
+    const ITypeSymbol* returnType = myTable->GetUnitSymbol();
+    if (functionDecl->HasReturnNode()) {
+        returnType = functionDecl->GetReturn().GetType();
+    }
+
+    std::vector<const ITypeSymbol*> params;
+    for (auto& it : functionDecl->GetParameters().GetParameters()) {
+        params.push_back(it->GetType().GetType());
+    }
+
+    Pointer<FunctionSymbol> funcSym = std::make_unique<FunctionSymbol>(functionDecl->GetIdentifierName(), returnType,
+        params, std::move(functionSymbols));
+
+    myTable->Add(std::move(funcSym));
+    functionDecl->SetSymbol(myTable->GetFunction(functionDecl->GetIdentifierName(), params));
+    functionDecl->GetIdentifier().UpdateCandidates(myTable->GetSymbols(functionDecl->GetIdentifierName()));
+    functionDecl->GetIdentifier().TryResolveFunc(params);
 
     return functionDecl;
 }
@@ -117,7 +149,7 @@ Pointer<ParameterList> Parser::ParseParameters() {
                 break;
             }
 
-            AddError(*params, myLexer.GetLexeme(), "Expecting ','");
+            AddParsingError(myLexer.GetLexeme(), "Expecting ','");
         } else {
             myLexer.NextLexeme();
         }
@@ -137,8 +169,8 @@ Pointer<ParameterNode> Parser::ParseParameter() {
     curLexeme = myLexer.GetLexeme();
 
     if (curLexeme.GetType() != LexemeType::OpColon) {
-        param->SetType(std::make_unique<ErrorNode>(curLexeme.CopyEmptyOfType(LexemeType::Identifier), myTable.GetUnresolvedSymbol(),
-            "A type annotation is required on a value parameter"));
+        AddParsingError(curLexeme, "A type annotation is required on a value parameter");
+        param->SetType(CreateEmptyIdentifier(curLexeme));
         if (isError) {
             myLexer.NextLexeme();
         }
@@ -167,11 +199,12 @@ Pointer<ITypedNode> Parser::ParseType() {
 
     Lexeme curLexeme = myLexer.GetLexeme();
     if (curLexeme.GetType() != LexemeType::Identifier) {
-        return std::make_unique<ErrorNode>(curLexeme, myTable.GetUnresolvedSymbol(), "Type expected");
+        AddParsingError(curLexeme, "Type expected");
+        return std::make_unique<TypeNode>(curLexeme.CopyEmpty(), myTable->GetUnresolvedSymbol());
     }
 
     myLexer.NextLexeme();
-    return std::make_unique<TypeNode>(curLexeme, myTable.GetType(curLexeme.GetValue<std::string>()));
+    return std::make_unique<TypeNode>(curLexeme, myTable->GetType(curLexeme.GetValue<std::string>()));
 }
 
 Pointer<ISyntaxNode> Parser::ParseStatement() {
@@ -217,7 +250,9 @@ Pointer<ISyntaxNode> Parser::ParseStatement() {
 
             return returnNode;
         }
-        return std::make_unique<ErrorNode>(myLexer.NextLexeme(), myTable.GetUnresolvedSymbol(), "Unsupported keyword");
+
+        AddParsingError(myLexer.NextLexeme(), "Unsupported keyword");
+        return std::make_unique<EmptyStatement>(myTable->GetUnitSymbol());
     }
 
     return ParseAssignment();
@@ -244,7 +279,7 @@ Pointer<ISyntaxNode> Parser::ParseControlStructureBody(bool acceptSemicolons = f
     }
     if (myLexer.GetLexeme().GetType() == LexemeType::OpSemicolon && acceptSemicolons) {
         myLexer.NextLexeme();
-        return std::make_unique<EmptyStatement>(myTable.GetUnitSymbol());
+        return std::make_unique<EmptyStatement>(myTable->GetUnitSymbol());
     }
 
     return ParseStatement();
@@ -304,7 +339,7 @@ Pointer<ISyntaxNode> Parser::ParseAssignment() {
         Pointer<Assignment> assignment = std::make_unique<Assignment>(myLexer.NextLexeme());
         
         if (!ParserUtils::IsDirectlyAssignable(assignable.get())) {
-            AddError(*assignment, curLexeme, "Variable expected");
+            AddParsingError(curLexeme, "Variable expected");
         }
         
         assignment->SetAssignable(std::move(assignable));
@@ -326,9 +361,30 @@ Pointer<PropertyDeclaration> Parser::ParseProperty() {
         propertyDecl->SetType(ParseType());
     }
 
+    bool isFailed = false;
     if (myLexer.GetLexeme().GetType() == LexemeType::OpAssign) {
         myLexer.NextLexeme();
         propertyDecl->SetInitialization(ParseExpression());
+    } else {
+        AddParsingError(myLexer.GetLexeme(), "Property must be initialized");
+        isFailed = true;
+        propertyDecl->SetInitialization(CreateEmptyIdentifier(myLexer.GetLexeme()));
+    }
+
+    if (!isFailed && propertyDecl->HasType() && propertyDecl->HasInitialization()
+        && propertyDecl->GetType().GetType() != propertyDecl->GetInitialization().GetType()) {
+        AddSemanticsError(myLexer.GetLexeme(), propertyDecl->GetInitialization().GetType()->GetName()
+                          + " does not conform to the expected type " + propertyDecl->GetType().GetType()->GetName());
+    }
+    auto propertySym = std::make_unique<VariableSymbol>(propertyDecl->GetIdentifierName(),
+        propertyDecl->GetInitialization().GetType(), propertyDecl->IsMutable());
+    bool res = myTable->Add(std::move(propertySym));
+    propertyDecl->SetSymbol(myTable->GetVariable(propertyDecl->GetIdentifierName()));
+    propertyDecl->GetIdentifier().UpdateCandidates(myTable->GetSymbols(propertyDecl->GetIdentifierName()));
+    propertyDecl->GetIdentifier().TryResolveVariable();
+
+    if (!res) {
+        AddSemanticsError(myLexer.GetLexeme(), "Conflicting declarations");
     }
 
     return propertyDecl;
@@ -353,7 +409,7 @@ Pointer<IdentifierNode> Parser::ParseIdentifier(const std::string& errorMessage)
         curLexeme = curLexeme.CopyEmptyOfType(LexemeType::Identifier);
     }
 
-    Pointer<IdentifierNode> identifier = CreateLexemeNode(curLexeme, myTable.GetUnresolvedSymbol(), myTable.GetSymbols(curLexeme.GetText()));
+    Pointer<IdentifierNode> identifier = CreateLexemeNode(curLexeme, myTable->GetUnresolvedSymbol(), myTable->GetSymbols(curLexeme.GetText()));
     ConsumeLexeme(LexemeType::Identifier, *identifier, errorMessage);
     return identifier;
 }
@@ -392,7 +448,7 @@ Pointer<ITypedNode> Parser::ParseLeftAssociative(size_t priority) {
         }
 
         leftOperand = std::make_unique<BinOperationNode>(
-            operation, std::move(leftOperand), std::move(rightOperand), myTable.GetType(resultType->GetName()));
+            operation, std::move(leftOperand), std::move(rightOperand), myTable->GetType(resultType->GetName()));
         operation = myLexer.GetLexeme();
     }
 
@@ -408,7 +464,7 @@ Pointer<ITypedNode> Parser::ParsePrefix() {
         myLexer.NextLexeme();
         Pointer<ITypedNode> prefix = ParsePrefix();
         Pointer<ITypeSymbol> resultType = prefix->GetType()->IsApplicable(curLexeme.GetType());
-        return std::make_unique<UnaryPrefixOperationNode>(curLexeme, std::move(prefix), myTable.GetType(resultType->GetName()));
+        return std::make_unique<UnaryPrefixOperationNode>(curLexeme, std::move(prefix), myTable->GetType(resultType->GetName()));
     }
 
     return ParsePostfix();
@@ -424,10 +480,10 @@ Pointer<ITypedNode> Parser::ParsePostfix() {
         myLexer.NextLexeme();
         if (curLexeme.GetType() == LexemeType::OpInc || curLexeme.GetType() == LexemeType::OpDec) {
             Pointer<ITypeSymbol> resultType = operand->GetType()->IsApplicable(curLexeme.GetType());
-            operand = std::make_unique<UnaryPostfixOperationNode>(curLexeme, std::move(operand), myTable.GetType(resultType->GetName()));
+            operand = std::make_unique<UnaryPostfixOperationNode>(curLexeme, std::move(operand), myTable->GetType(resultType->GetName()));
 
         } else if (curLexeme.GetType() == LexemeType::OpDot) {
-            Pointer<ITypedNode> member = std::make_unique<ErrorNode>(curLexeme, myTable.GetUnresolvedSymbol(), "Name expected");
+            Pointer<ITypedNode> member = CreateEmptyIdentifier(curLexeme);
             if (myLexer.GetLexeme().GetType() == LexemeType::Identifier) {
                 IdentifierNode* identifier = dynamic_cast<IdentifierNode*>(operand.get());
                 if (identifier != nullptr) {
@@ -438,8 +494,10 @@ Pointer<ITypedNode> Parser::ParsePostfix() {
                 if (classSym != nullptr) {
                     candidates = classSym->GetTable().GetSymbols(myLexer.GetLexeme().GetValue<std::string>());
                 }
-                member = CreateLexemeNode(myLexer.GetLexeme(), myTable.GetUnresolvedSymbol(), candidates);
+                member = CreateLexemeNode(myLexer.GetLexeme(), myTable->GetUnresolvedSymbol(), candidates);
                 myLexer.NextLexeme();
+            } else {
+                AddParsingError(curLexeme, "Name expected");
             }
 
             std::unique_ptr<MemberAccessNode> memberAccess = std::make_unique<MemberAccessNode>(curLexeme, std::move(operand), std::move(member));
@@ -447,7 +505,7 @@ Pointer<ITypedNode> Parser::ParsePostfix() {
 
         } else if (curLexeme.GetType() == LexemeType::LParen) {
             Pointer<CallArgumentsNode> args = ParseArguments(LexemeType::RParen);
-            const ITypeSymbol* resType = myTable.GetUnresolvedSymbol();
+            const ITypeSymbol* resType = myTable->GetUnresolvedSymbol();
 
             IdentifierNode* identifier = dynamic_cast<IdentifierNode*>(operand.get());
             if (identifier != nullptr) {
@@ -468,7 +526,7 @@ Pointer<ITypedNode> Parser::ParsePostfix() {
 
         } else if (curLexeme.GetType() == LexemeType::LSquare) {
             Pointer<CallArgumentsNode> args = ParseArguments(LexemeType::RSquare);
-            const ITypeSymbol* resType = myTable.GetUnresolvedSymbol();
+            const ITypeSymbol* resType = myTable->GetUnresolvedSymbol();
 
             IdentifierNode* identifier = dynamic_cast<IdentifierNode*>(operand.get());
             if (identifier != nullptr) {
@@ -484,7 +542,7 @@ Pointer<ITypedNode> Parser::ParsePostfix() {
             Pointer<IndexSuffixNode> indexNode = std::make_unique<IndexSuffixNode>(std::move(operand), resType);
 
             if (args->GetArguments().empty()) {
-                AddError(*indexNode, curLexeme, "Expecting an index");
+                AddParsingError(curLexeme, "Expecting an index");
             }
             indexNode->SetArguments(std::move(args));
 
@@ -508,7 +566,7 @@ Pointer<CallArgumentsNode> Parser::ParseArguments(LexemeType rParen) {
                 break;
             }
 
-            AddError(*arguments, myLexer.GetLexeme(), "Expecting ','");
+            AddParsingError(myLexer.GetLexeme(), "Expecting ','");
         } else {
             myLexer.NextLexeme();
         }
@@ -523,14 +581,14 @@ Pointer<ITypedNode> Parser::ParsePrimary() {
     if (curLexeme.GetType() == LexemeType::Keyword) {
         std::string keyword = curLexeme.GetValue<std::string>();
         if (keyword == "true" || keyword == "false") {
-            Pointer<BooleanNode> node = CreateLexemeNode<BooleanNode>(myLexer.NextLexeme(), myTable.GetType(BooleanSymbol().GetName()));
+            Pointer<BooleanNode> node = CreateLexemeNode<BooleanNode>(myLexer.NextLexeme(), myTable->GetType(BooleanSymbol().GetName()));
             return node;
         }
         if (keyword == "if") {
             Pointer<IfExpression> ifExpr = ParseIfExpression();
             if (ifExpr != nullptr) {
                 if (!ifExpr->HasIfBody() || !ifExpr->HasElseBody()) {
-                    AddError(*ifExpr, myLexer.GetLexeme(), "'if' must have both main and 'else' branches if used as an expression");
+                    AddParsingError(myLexer.GetLexeme(), "'if' must have both main and 'else' branches if used as an expression");
                 }
             }
 
@@ -546,37 +604,38 @@ Pointer<ITypedNode> Parser::ParsePrimary() {
     }
     if (curLexeme.GetType() == LexemeType::Identifier) {
         Pointer<IdentifierNode> node = CreateLexemeNode(curLexeme,
-            myTable.GetUnresolvedSymbol(), myTable.GetSymbols(curLexeme.GetValue<std::string>()));
+            myTable->GetUnresolvedSymbol(), myTable->GetSymbols(curLexeme.GetValue<std::string>()));
         return node;
     }
     if (LexerUtils::IsIntegerType(curLexeme.GetType())) {
-        Pointer<IntegerNode> node = CreateLexemeNode<IntegerNode>(curLexeme, myTable.GetType(IntegerSymbol().GetName()));
+        Pointer<IntegerNode> node = CreateLexemeNode<IntegerNode>(curLexeme, myTable->GetType(IntegerSymbol().GetName()));
         return node;
     }
     if (LexerUtils::IsRealType(curLexeme.GetType())) {
-        Pointer<DoubleNode> node = CreateLexemeNode<DoubleNode>(curLexeme, myTable.GetType(DoubleSymbol().GetName()));
+        Pointer<DoubleNode> node = CreateLexemeNode<DoubleNode>(curLexeme, myTable->GetType(DoubleSymbol().GetName()));
         return node;
     }
     if (curLexeme.GetType() == LexemeType::String || curLexeme.GetType() == LexemeType::RawString) {
-        Pointer<StringNode> node = CreateLexemeNode<StringNode>(curLexeme, myTable.GetType(StringSymbol().GetName()));
+        Pointer<StringNode> node = CreateLexemeNode<StringNode>(curLexeme, myTable->GetType(StringSymbol().GetName()));
         return node;
     }
 
-    return std::make_unique<ErrorNode>(curLexeme, myTable.GetUnresolvedSymbol());
+    AddParsingError(curLexeme, "Unexpected lexeme");
+    return CreateEmptyIdentifier(curLexeme);
 }
 
 // 'if' '(' expression ')' (controlStructureBody | (controlStructureBody? ';'? 'else' (controlStructureBody | ';')) | ';')
 Pointer<IfExpression> Parser::ParseIfExpression() {
     myLexer.NextLexeme();
     // TODO: make it work
-    Pointer<IfExpression> ifExpr = std::make_unique<IfExpression>(myTable.GetUnitSymbol());
+    Pointer<IfExpression> ifExpr = std::make_unique<IfExpression>(myTable->GetUnitSymbol());
 
     ConsumeLexeme(LexemeType::LParen, *ifExpr, "Expecting '('");
     ifExpr->SetExpression(ParseExpression());
     ConsumeLexeme(LexemeType::RParen, *ifExpr, "Expecting ')'");
 
     if (myLexer.GetLexeme().GetType() == LexemeType::Keyword && myLexer.GetLexeme().GetValue<std::string>() == "else") {
-        ifExpr->SetIfBody(std::make_unique<EmptyStatement>(myTable.GetUnitSymbol()));
+        ifExpr->SetIfBody(std::make_unique<EmptyStatement>(myTable->GetUnitSymbol()));
         myLexer.NextLexeme();
         ifExpr->SetElseBody(ParseControlStructureBody(true));
         return ifExpr;
@@ -588,19 +647,27 @@ Pointer<IfExpression> Parser::ParseIfExpression() {
         myLexer.NextLexeme();
         ifExpr->SetElseBody(ParseControlStructureBody(true));
     } else {
-        ifExpr->SetElseBody(std::make_unique<EmptyStatement>(myTable.GetUnitSymbol()));
+        ifExpr->SetElseBody(std::make_unique<EmptyStatement>(myTable->GetUnitSymbol()));
     }
 
     return ifExpr;
 }
 
-void Parser::AddError(ISyntaxNode& root, const Lexeme& location, const std::string& error) const {
-    root.AddError(std::make_unique<ErrorNode>(location, myTable.GetUnresolvedSymbol(), error));
+Pointer<IdentifierNode> Parser::CreateEmptyIdentifier(const Lexeme& lexeme) {
+    return std::make_unique<IdentifierNode>(lexeme.CopyEmptyOfType(LexemeType::Error), myTable->GetUnresolvedSymbol(), std::vector<const ISymbol*>());
+}
+
+void Parser::AddParsingError(const Lexeme& location, const std::string& error) {
+    myParsingErrors.emplace_back(location, myTable->GetUnresolvedSymbol(), error);
+}
+
+void Parser::AddSemanticsError(const Lexeme& location, const std::string& error) {
+    mySemanticsErrors.emplace_back(location, myTable->GetUnresolvedSymbol(), error);
 }
 
 bool Parser::ConsumeLexeme(LexemeType lexemeType, ISyntaxNode& host, const std::string& error) {
     if (myLexer.GetLexeme().GetType() != lexemeType) {
-        AddError(host, myLexer.GetLexeme(), error);
+        AddParsingError(myLexer.GetLexeme(), error);
         return false;
     }
 
@@ -611,7 +678,7 @@ bool Parser::ConsumeLexeme(LexemeType lexemeType, ISyntaxNode& host, const std::
 bool Parser::ConsumeLexeme(LexemeType lexemeType, const std::string& text, ISyntaxNode& host,
         const std::string& error) {
     if (myLexer.GetLexeme().GetText() != text) {
-        AddError(host, myLexer.GetLexeme(), error);
+        AddParsingError(myLexer.GetLexeme(), error);
         return false;
     }
 

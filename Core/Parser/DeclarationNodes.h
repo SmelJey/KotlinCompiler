@@ -1,9 +1,9 @@
 #pragma once
-#include "AbstractNode.h"
+#include "ISyntaxNode.h"
 #include "ParserUtils.h"
 #include "SimpleNodes.h"
 
-class AbstractDeclaration : public AbstractNode {
+class AbstractDeclaration : public AbstractNode, public virtual ISymbolAnnotatedNode {
 public:
     AbstractDeclaration() = default;
 
@@ -11,11 +11,15 @@ public:
     const IdentifierNode& GetIdentifier() const;
     void SetIdentifier(Pointer<IdentifierNode> identifier);
 
+    const ISymbol* GetSymbol() const override;
+    void SetSymbol(const ISymbol* symbol);
+
 protected:
     void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
 
 private:
     Pointer<IdentifierNode> myIdentifier;
+    const ISymbol* mySymbol = nullptr;
 };
 
 class DeclarationBlock : public AbstractNode {

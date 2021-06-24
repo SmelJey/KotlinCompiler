@@ -1,6 +1,6 @@
 #include "NodeVisitor.h"
 
-#include "AbstractNode.h"
+#include "ISyntaxNode.h"
 
 NodeVisitor::~NodeVisitor() = default;
 
@@ -51,11 +51,20 @@ void CuteToStringVisitor::ExitNode(const ISyntaxNode& node, int depth) {
         topVec = &myStringData;
     }
 
-    const ITypedNode* typeSym = dynamic_cast<const ITypedNode*>(&node);
     std::string res = node.ToString();
-    if (typeSym != nullptr) {
-        res.append(" :: " + typeSym->GetType()->GetName());
+    if (myShowSemantics) {
+        const ITypedNode* typeSym = dynamic_cast<const ITypedNode*>(&node);
+
+        if (typeSym != nullptr) {
+            res.append(" :: " + typeSym->GetType()->GetName());
+        } else {
+            const ISymbolAnnotatedNode* symbolAnnotated = dynamic_cast<const ISymbolAnnotatedNode*>(&node);
+            if (symbolAnnotated != nullptr) {
+                res.append(" :: " + symbolAnnotated->GetSymbol()->GetName());
+            }
+        }
     }
+
     topVec->push_back(res);
 
     int lastChild = 0;

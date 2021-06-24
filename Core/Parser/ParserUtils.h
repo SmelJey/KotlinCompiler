@@ -1,7 +1,7 @@
 #pragma once
 #include <unordered_set>
 
-#include "AbstractNode.h"
+#include "ISyntaxNode.h"
 #include "../Lexer/LexerUtils.h"
 #include "Semantics/SymbolTable.h"
 

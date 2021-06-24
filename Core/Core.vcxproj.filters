@@ -48,7 +48,7 @@
     <ClInclude Include="Parser\Parser.h">
       <Filter>Header Files\Parser</Filter>
     </ClInclude>
-    <ClInclude Include="Parser\AbstractNode.h">
+    <ClInclude Include="Parser\ISyntaxNode.h">
       <Filter>Header Files\Parser</Filter>
     </ClInclude>
     <ClInclude Include="Parser\SimpleNodes.h">
@@ -87,6 +87,9 @@
     <ClInclude Include="Parser\Semantics\ClassSymbol.h">
       <Filter>Header Files\Parser\Semantics</Filter>
     </ClInclude>
+    <ClInclude Include="Parser\IVisitable.h">
+      <Filter>Header Files\Parser</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -98,7 +101,7 @@
     <ClCompile Include="Parser\Parser.cpp">
       <Filter>Source Files\Parser</Filter>
     </ClCompile>
-    <ClCompile Include="Parser\AbstractNode.cpp">
+    <ClCompile Include="Parser\ISyntaxNode.cpp">
       <Filter>Source Files\Parser</Filter>
     </ClCompile>
     <ClCompile Include="Parser\SimpleNodes.cpp">
@@ -136,6 +139,9 @@
     </ClCompile>
     <ClCompile Include="Parser\Semantics\ClassSymbol.cpp">
       <Filter>Source Files\Parser\Semantics</Filter>
+    </ClCompile>
+    <ClCompile Include="Parser\IVisitable.cpp">
+      <Filter>Source Files\Parser</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

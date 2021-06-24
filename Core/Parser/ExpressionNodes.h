@@ -1,7 +1,7 @@
 #pragma once
 #include <memory>
 
-#include "AbstractNode.h"
+#include "ISyntaxNode.h"
 #include "ParserUtils.h"
 #include "SimpleNodes.h"
 #include "../Lexer/Lexeme.h"

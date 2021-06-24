@@ -2,7 +2,7 @@
 
 #include "DeclarationNodes.h"
 #include "ExpressionNodes.h"
-#include "AbstractNode.h"
+#include "ISyntaxNode.h"
 #include "SimpleNodes.h"
 #include "StatementNodes.h"
 #include "../Lexer/Lexer.h"
@@ -10,12 +10,15 @@
 
 class Parser {
 public:
-    explicit Parser(Lexer& lexer, SymbolTable& symbolTable);
+    explicit Parser(Lexer& lexer, SymbolTable* symbolTable);
 
     const Lexer& GetLexer() const;
     const SymbolTable& GetSymbolTable() const;
 
     Pointer<DeclarationBlock> Parse();
+
+    const std::vector<ErrorNode>& GetParsingErrors() const;
+    const std::vector<ErrorNode>& GetSemanticsErrors() const;
 private:
     Pointer<DeclarationBlock> ParseDeclarations(bool isClass);
     Pointer<ClassDeclaration> ParseClass();
@@ -49,7 +52,9 @@ private:
 
     Pointer<IfExpression> ParseIfExpression();
 
-    void AddError(ISyntaxNode& root, const Lexeme& location, const std::string& error) const;
+    Pointer<IdentifierNode> CreateEmptyIdentifier(const Lexeme& lexeme);
+    void AddParsingError(const Lexeme& location, const std::string& error);
+    void AddSemanticsError(const Lexeme& location, const std::string& error);
 
     bool ConsumeLexeme(LexemeType lexemeType, ISyntaxNode& host, const std::string& error);
     bool ConsumeLexeme(LexemeType lexemeType, const std::string& text, ISyntaxNode& host, const std::string& error);
@@ -59,7 +64,7 @@ private:
     Pointer<T> CreateLexemeNode(const Lexeme& lexeme) {
         Pointer<T> node = std::make_unique<T>(lexeme);
         if (lexeme.IsError()) {
-            AddError(*node, lexeme, lexeme.GetValue<std::string>());
+            AddParsingError(lexeme, lexeme.GetValue<std::string>());
         }
         return node;
     }
@@ -68,7 +73,7 @@ private:
     Pointer<T> CreateLexemeNode(const Lexeme& lexeme, const ITypeSymbol* type) {
         Pointer<T> node = std::make_unique<T>(lexeme, type);
         if (lexeme.IsError()) {
-            AddError(*node, lexeme, lexeme.GetValue<std::string>());
+            AddParsingError(lexeme, lexeme.GetValue<std::string>());
         }
         return node;
     }
@@ -76,11 +81,13 @@ private:
     Pointer<IdentifierNode> CreateLexemeNode(const Lexeme& lexeme, const ITypeSymbol* type, const std::vector<const ISymbol*>& candidates) {
         Pointer<IdentifierNode> node = std::make_unique<IdentifierNode>(lexeme, type, candidates);
         if (lexeme.IsError()) {
-            AddError(*node, lexeme, lexeme.GetValue<std::string>());
+            AddParsingError(lexeme, lexeme.GetValue<std::string>());
         }
         return node;
     }
 
     Lexer& myLexer;
-    SymbolTable& myTable;
+    SymbolTable* myTable;
+    std::vector<ErrorNode> myParsingErrors;
+    std::vector<ErrorNode> mySemanticsErrors;
 };

@@ -4,4 +4,5 @@
 @@   |-Params
 @@   |-Bin op :: +
 @@     |-Integer :: 2
-@@     |-Error 0:17 :: Unexpected lexeme
+@@     |-Identifier :: 
+@@ Error 0:17 :: Unexpected lexeme

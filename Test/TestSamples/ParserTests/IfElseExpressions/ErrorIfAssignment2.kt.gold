@@ -11,4 +11,4 @@
 @@         | |-Integer :: 2
 @@         |-Empty Statement
 @@         |-Integer :: 3
-@@         |-Error 2:0 :: 'if' must have both main and 'else' branches if used as an expression
+@@ Error 2:0 :: 'if' must have both main and 'else' branches if used as an expression

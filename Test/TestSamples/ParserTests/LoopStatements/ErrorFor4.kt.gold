@@ -6,6 +6,7 @@
 @@     |-For
 @@       |-Variable
 @@       | |-Identifier :: c
-@@       |-Error 1:11 :: Unexpected lexeme
+@@       |-Identifier :: 
 @@       |-Block
-@@       |-Error 1:13 :: Expecting ')'
+@@ Error 1:11 :: Unexpected lexeme
+@@ Error 1:13 :: Expecting ')'

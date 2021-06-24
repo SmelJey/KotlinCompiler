@@ -6,4 +6,4 @@
 @@     |-DoWhile
 @@       |-Boolean :: false
 @@       |-Block
-@@       |-Error 2:9 :: Expecting '('
+@@ Error 2:9 :: Expecting '('

@@ -168,6 +168,7 @@
     <ClCompile Include="IOTest.cpp" />
     <ClCompile Include="LexerTests.cpp" />
     <ClCompile Include="ParserTests.cpp" />
+    <ClCompile Include="SemanticsTests.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="catch.hpp" />

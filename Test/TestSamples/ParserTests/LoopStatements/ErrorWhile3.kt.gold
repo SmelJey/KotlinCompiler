@@ -4,6 +4,7 @@
 @@   |-Params
 @@   |-Block
 @@     |-While
-@@       |-Error 1:8 :: Unexpected lexeme
+@@       |-Identifier :: 
 @@       |-Block
-@@       |-Error 1:10 :: Expecting ')'
+@@ Error 1:8 :: Unexpected lexeme
+@@ Error 1:10 :: Expecting ')'

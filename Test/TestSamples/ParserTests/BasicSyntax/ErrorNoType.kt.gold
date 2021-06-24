@@ -4,8 +4,9 @@
 @@   |-Params
 @@   | |-Parameter
 @@   |   |-Identifier :: a
-@@   |   |-Error 0:10 :: A type annotation is required on a value parameter
+@@   |   |-Identifier :: 
 @@   |-Block
 @@     |-Bin op :: +
 @@       |-Integer :: 2
 @@       |-Integer :: 3
+@@ Error 0:10 :: A type annotation is required on a value parameter

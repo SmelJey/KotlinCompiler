@@ -1,3 +1,7 @@
 @@ Decl Block
 @@ |-Var Decl
+@@ | |-Identifier :: d
+@@ | |-Integer :: 5
+@@ |-Var Decl
+@@   |-Identifier :: c
 @@   |-Identifier :: d

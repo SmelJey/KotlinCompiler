@@ -6,4 +6,4 @@
 @@     |-While
 @@       |-Boolean :: true
 @@       |-Block
-@@       |-Error 1:7 :: Expecting '('
+@@ Error 1:7 :: Expecting '('

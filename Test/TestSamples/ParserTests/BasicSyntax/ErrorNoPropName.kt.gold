@@ -1,8 +1,10 @@
 @@ Decl Block
 @@ |-Val Decl
 @@ | |-Identifier :: 
-@@ |   |-Error 2:0 :: Expecting property name
+@@ | |-Identifier :: 
 @@ |-Fun Decl
 @@   |-Identifier :: test
 @@   |-Params
 @@   |-Integer :: 5
+@@ Error 2:0 :: Expecting property name
+@@ Error 2:0 :: Property must be initialized

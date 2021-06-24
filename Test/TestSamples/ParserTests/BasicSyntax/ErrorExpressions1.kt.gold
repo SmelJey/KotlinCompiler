@@ -6,9 +6,10 @@
 @@     |-Assignment :: =
 @@     | |-Identifier :: a
 @@     | |-Integer :: 3
-@@     |-Error 2:1 :: Unexpected lexeme
+@@     |-Identifier :: 
 @@     |-Integer :: 2
 @@     |-CallSuffix
 @@       |-Identifier :: println
 @@       |-Args
 @@         |-Identifier :: a
+@@ Error 2:1 :: Unexpected lexeme

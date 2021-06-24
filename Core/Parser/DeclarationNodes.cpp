@@ -12,6 +12,14 @@ void AbstractDeclaration::SetIdentifier(Pointer<IdentifierNode> identifier) {
     myIdentifier = std::move(identifier);
 }
 
+const ISymbol* AbstractDeclaration::GetSymbol() const {
+    return mySymbol;
+}
+
+void AbstractDeclaration::SetSymbol(const ISymbol* symbol) {
+    mySymbol = symbol;
+}
+
 void AbstractDeclaration::AcceptVisitor(NodeVisitor& visitor, int depth) const {
     visitor.VisitNode(*myIdentifier, depth);
 }

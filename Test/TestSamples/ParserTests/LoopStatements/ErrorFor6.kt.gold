@@ -4,10 +4,11 @@
 @@   |-Params
 @@   |-Block
 @@     |-For
-@@     | |-Variable
-@@     | | |-Identifier :: c
-@@     | |-Bin op :: ..
-@@     | | |-Integer :: 1
-@@     | | |-Integer :: 5
-@@     | |-Error 2:0 :: Unexpected lexeme
-@@     |-Error 2:1 :: Expecting '}'
+@@       |-Variable
+@@       | |-Identifier :: c
+@@       |-Bin op :: ..
+@@       | |-Integer :: 1
+@@       | |-Integer :: 5
+@@       |-Identifier :: 
+@@ Error 2:0 :: Unexpected lexeme
+@@ Error 2:1 :: Expecting '}'

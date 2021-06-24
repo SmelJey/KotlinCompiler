@@ -7,7 +7,7 @@ const SymbolTable& ClassSymbol::GetTable() const {
 }
 
 std::string ClassSymbol::GetName() const {
-    return "Class " + myName;
+    return myName;
 }
 
 Pointer<ITypeSymbol> ClassSymbol::IsApplicable(LexemeType operation) const {
