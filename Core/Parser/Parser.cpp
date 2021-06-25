@@ -187,10 +187,10 @@ Pointer<ParameterNode> Parser::ParseParameter() {
 }
 
 // ( ('(' type ')') | (simpleIdentifier ('.' simpleIdentifier)*) )
-Pointer<ITypedNode> Parser::ParseType() {
+Pointer<TypeNode> Parser::ParseType() {
     if (myLexer.GetLexeme().GetType() == LexemeType::LParen) {
         myLexer.NextLexeme();
-        Pointer<ITypedNode> typeNode = ParseType();
+        Pointer<TypeNode> typeNode = ParseType();
         ConsumeLexeme(LexemeType::RParen, *typeNode, "Expecting ')'");
 
         return typeNode;
@@ -508,7 +508,19 @@ Pointer<ITypedNode> Parser::ParsePostfix() {
             std::unique_ptr<MemberAccessNode> memberAccess = std::make_unique<MemberAccessNode>(curLexeme, std::move(operand), std::move(member));
             operand = std::move(memberAccess);
 
-        } else if (curLexeme.GetType() == LexemeType::LParen) {
+        } else if (curLexeme.GetType() == LexemeType::LParen || curLexeme.GetType() == LexemeType::OpLess) {
+            Pointer<TypeArgumentsNode> typeArgs;
+            if (curLexeme.GetType() == LexemeType::OpLess) {
+                typeArgs = ParseTypeArguments();
+                myLexer.NextLexeme();
+
+                if (myLexer.GetLexeme().GetType() != LexemeType::LParen) {
+                    AddParsingError(myLexer.GetLexeme(), "Type arguments currently are only supported for function calls");
+                } else {
+                    myLexer.NextLexeme();
+                }
+            }
+
             Pointer<CallArgumentsNode> args = ParseArguments(LexemeType::RParen);
             const ITypeSymbol* resType = myTable->GetUnresolvedSymbol();
 
@@ -520,6 +532,19 @@ Pointer<ITypedNode> Parser::ParsePostfix() {
                 }
 
                 identifier->TryResolveFunc(argsTypes);
+
+                if (typeArgs != nullptr && typeArgs->GetArguments().size() == 1 && identifier->GetLexeme().GetText() == "arrayOf") {
+                    Pointer<ArraySymbol> arrayType = std::make_unique<ArraySymbol>(typeArgs->GetArguments()[0]->GetType());
+                    std::string arrayTypeName = arrayType->GetName();
+                    myRootTable->Add(std::move(arrayType));
+
+                    Pointer<FunctionSymbol> arrayInitFunc = std::make_unique<FunctionSymbol>("arrayOf", myRootTable->GetType(arrayTypeName), argsTypes, std::make_unique<SymbolTable>(myRootTable));
+                    std::string funcName = arrayInitFunc->GetName();
+                    myRootTable->Add(std::move(arrayInitFunc));
+                    identifier->UpdateCandidates(myTable->GetSymbols(funcName));
+                    identifier->TryResolveFunc(argsTypes);
+                }
+
                 resType = identifier->GetType();
             }
 
@@ -559,6 +584,25 @@ Pointer<ITypedNode> Parser::ParsePostfix() {
     }
 
     return operand;
+}
+
+Pointer<TypeArgumentsNode> Parser::ParseTypeArguments() {
+    Pointer<TypeArgumentsNode> arguments = std::make_unique<TypeArgumentsNode>();
+    while (myLexer.GetLexeme().GetType() != LexemeType::OpGreater && myLexer.GetLexeme().GetType() != LexemeType::EndOfFile) {
+        arguments->AddArgument(ParseType());
+
+        if (myLexer.GetLexeme().GetType() != LexemeType::OpComma) {
+            if (myLexer.GetLexeme().GetType() == LexemeType::OpGreater || myLexer.GetLexeme().GetType() == LexemeType::EndOfFile) {
+                break;
+            }
+
+            AddParsingError(myLexer.GetLexeme(), "Expecting ','");
+        } else {
+            myLexer.NextLexeme();
+        }
+    }
+
+    return arguments;
 }
 
 Pointer<CallArgumentsNode> Parser::ParseArguments(LexemeType rParen) {

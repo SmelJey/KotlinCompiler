@@ -26,7 +26,7 @@ private:
     Pointer<FunctionDeclaration> ParseFunction();
     Pointer<ParameterList> ParseParameters();
     Pointer<ParameterNode> ParseParameter();
-    Pointer<ITypedNode> ParseType();
+    Pointer<TypeNode> ParseType();
 
     Pointer<ISyntaxNode> ParseStatement();
 
@@ -46,6 +46,8 @@ private:
     Pointer<ITypedNode> ParseLeftAssociative(size_t priority);
     Pointer<ITypedNode> ParsePrefix();
     Pointer<ITypedNode> ParsePostfix();
+
+    Pointer<TypeArgumentsNode> ParseTypeArguments();
     Pointer<CallArgumentsNode> ParseArguments(LexemeType rParen);
 
     Pointer<ITypedNode> ParsePrimary();

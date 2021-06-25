@@ -56,11 +56,11 @@ void CuteToStringVisitor::ExitNode(const IVisitable& node, int depth) {
         const ITypedNode* typeSym = dynamic_cast<const ITypedNode*>(&node);
 
         if (typeSym != nullptr) {
-            res.append(" :: " + typeSym->GetType()->GetName());
+            res.append(" \t\t\t :: " + typeSym->GetType()->GetName());
         } else {
             const ISymbolAnnotatedNode* symbolAnnotated = dynamic_cast<const ISymbolAnnotatedNode*>(&node);
             if (symbolAnnotated != nullptr) {
-                res.append(" :: " + symbolAnnotated->GetSymbol()->GetName());
+                res.append(" \t\t\t :: " + symbolAnnotated->GetSymbol()->GetName());
             }
         }
     }

@@ -84,6 +84,24 @@ void CallArgumentsNode::AcceptVisitor(NodeVisitor& visitor, int depth) const {
     }
 }
 
+const std::vector<Pointer<TypeNode>>& TypeArgumentsNode::GetArguments() const {
+    return myArguments;
+}
+
+void TypeArgumentsNode::AddArgument(Pointer<TypeNode> argument) {
+    myArguments.push_back(std::move(argument));
+}
+
+std::string TypeArgumentsNode::GetName() const {
+    return "TypeArgs";
+}
+
+void TypeArgumentsNode::AcceptVisitor(NodeVisitor& visitor, int depth) const {
+    for (auto& arg : myArguments) {
+        visitor.VisitNode(*arg, depth);
+    }
+}
+
 PostfixCallNode::PostfixCallNode(Pointer<ITypedNode> expression, const ITypeSymbol* type)
     : myExpression(std::move(expression)), myType(type)  {}
 
@@ -117,6 +135,25 @@ std::string IndexSuffixNode::GetName() const {
 
 CallSuffixNode::CallSuffixNode(Pointer<ITypedNode> expression, const ITypeSymbol* type)
     : PostfixCallNode(std::move(expression), type) {}
+
+const TypeArgumentsNode& CallSuffixNode::GetTypeArguments() const {
+    return *myTypeArguments;
+}
+
+void CallSuffixNode::SetTypeArguments(Pointer<TypeArgumentsNode> arguments) {
+    myTypeArguments = std::move(arguments);
+}
+
+bool CallSuffixNode::HasTypeArguments() const {
+    return myTypeArguments != nullptr;
+}
+
+void CallSuffixNode::AcceptVisitor(NodeVisitor& visitor, int depth) const {
+    PostfixCallNode::AcceptVisitor(visitor, depth);
+    if (HasTypeArguments()) {
+        visitor.VisitNode(*myTypeArguments, depth);
+    }
+}
 
 std::string CallSuffixNode::GetName() const {
     return "CallSuffix";

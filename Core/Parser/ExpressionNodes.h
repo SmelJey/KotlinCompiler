@@ -80,6 +80,21 @@ private:
     std::vector<Pointer<ITypedNode>> myArguments;
 };
 
+class TypeArgumentsNode : public AbstractNode {
+public:
+    TypeArgumentsNode() = default;
+
+    const std::vector<Pointer<TypeNode>>& GetArguments() const;
+    void AddArgument(Pointer<TypeNode> argument);
+
+protected:
+    std::string GetName() const override;
+    void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
+
+private:
+    std::vector<Pointer<TypeNode>> myArguments;
+};
+
 class PostfixCallNode : public AbstractUnaryPostfixNode {
 public:
     PostfixCallNode(Pointer<ITypedNode> expression, const ITypeSymbol* type);
@@ -112,8 +127,18 @@ protected:
 class CallSuffixNode : public PostfixCallNode {
 public:
     CallSuffixNode(Pointer<ITypedNode> expression, const ITypeSymbol* type);
+
+    const TypeArgumentsNode& GetTypeArguments() const;
+    void SetTypeArguments(Pointer<TypeArgumentsNode> arguments);
+    bool HasTypeArguments() const;
+
 protected:
+    void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
+
     std::string GetName() const override;
+
+private:
+    Pointer<TypeArgumentsNode> myTypeArguments;
 };
 
 class MemberAccessNode : public AbstractUnaryPostfixNode {

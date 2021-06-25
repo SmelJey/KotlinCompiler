@@ -153,5 +153,12 @@ void SymbolTable::AcceptVisitor(NodeVisitor& visitor, int depth) const {
 }
 
 bool SymbolTable::LocalContains(const ISymbol& symbol) const {
-    return mySymbols.count(symbol.GetName());
+    if (mySymbols.count(symbol.GetName())) {
+        for (auto& it : mySymbols.at(symbol.GetName())) {
+            if (*it == symbol) {
+                return true;
+            }
+        }
+    }
+    return false;
 }

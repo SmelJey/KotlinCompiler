@@ -1,0 +1,31 @@
+@@ Decl Block
+@@ |-Fun Decl 			 :: test1
+@@ | |-Identifier :: test1 			 :: Unit
+@@ | |-Params
+@@ | |-Block
+@@ |-Fun Decl 			 :: test2
+@@ | |-Identifier :: test2 			 :: Unit
+@@ | |-Params
+@@ | |-Block
+@@ |-Fun Decl 			 :: test
+@@   |-Identifier :: test 			 :: Unit
+@@   |-Params
+@@   |-Bin op :: == 			 :: Boolean
+@@     |-CallSuffix 			 :: Unit
+@@     | |-Identifier :: test1 			 :: Unit
+@@     | |-Args
+@@     |-CallSuffix 			 :: Unit
+@@       |-Identifier :: test2 			 :: Unit
+@@       |-Args
+@@ ====
+@@ SymbolTable
+@@ |-Boolean
+@@ |-Double
+@@ |-Int
+@@ |-String
+@@ |-Fun test() -> Unit
+@@ | |-SymbolTable
+@@ |-Fun test1() -> Unit
+@@ | |-SymbolTable
+@@ |-Fun test2() -> Unit
+@@   |-SymbolTable

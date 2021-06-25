@@ -16,7 +16,7 @@ const std::vector<std::unordered_set<LexemeType>> ParserUtils::OperationsPriorit
 };
 
 const std::unordered_set<LexemeType> ParserUtils::PostfixOperations {
-    LexemeType::OpDec, LexemeType::OpInc, LexemeType::OpDot, LexemeType::LParen, LexemeType::LSquare
+    LexemeType::OpDec, LexemeType::OpInc, LexemeType::OpDot, LexemeType::LParen, LexemeType::LSquare, LexemeType::OpLess
 };
 
 const std::unordered_set<LexemeType> ParserUtils::AssignmentOperations {
