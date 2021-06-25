@@ -122,14 +122,14 @@ bool SymbolTable::Contains(const ISymbol& symbol) const {
     return false;
 }
 
-bool SymbolTable::Add(Pointer<ISymbol> symbol) {
+const ISymbol* SymbolTable::Add(Pointer<ISymbol> symbol) {
     if (LocalContains(*symbol)) {
-        return false;
+        return myUnresolved.get();
     }
 
     std::string name = symbol->GetName();
     mySymbols[name].push_back(std::move(symbol));
-    return true;
+    return mySymbols[name].rbegin()->get();
 }
 
 const UnresolvedSymbol* SymbolTable::GetUnresolvedSymbol() const {

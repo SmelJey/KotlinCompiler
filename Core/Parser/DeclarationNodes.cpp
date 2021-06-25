@@ -69,24 +69,33 @@ void ClassDeclaration::AcceptVisitor(NodeVisitor& visitor, int depth) const {
     }
 }
 
-const ITypedNode& ParameterNode::GetType() const {
+const IAnnotatedNode& ParameterNode::GetTypeNode() const {
     return *myType;
 }
 
-void ParameterNode::SetType(Pointer<ITypedNode> typeNode) {
+void ParameterNode::SetTypeNode(Pointer<IAnnotatedNode> typeNode) {
     myType = std::move(typeNode);
 }
 
-const ITypedNode& ParameterNode::GetDefault() const {
+const IAnnotatedNode& ParameterNode::GetDefault() const {
     return *myDefault;
 }
 
-void ParameterNode::SetDefault(Pointer<ITypedNode> defaultNode) {
+void ParameterNode::SetDefault(Pointer<IAnnotatedNode> defaultNode) {
     myDefault = std::move(defaultNode);
 }
 
 bool ParameterNode::HasDefault() const {
     return myDefault != nullptr;
+}
+
+const ITypeSymbol* ParameterNode::GetType() const {
+    auto varSym = dynamic_cast<const VariableSymbol*>(GetSymbol());
+    if (varSym != nullptr) {
+        return varSym->GetType();
+    }
+
+    return dynamic_cast<const UnresolvedSymbol*>(GetSymbol());
 }
 
 std::string ParameterNode::GetName() const {
@@ -102,15 +111,15 @@ void ParameterNode::AcceptVisitor(NodeVisitor& visitor, int depth) const {
     }
 }
 
-const ITypedNode& VariableNode::GetType() const {
+const IAnnotatedNode& VariableNode::GetTypeNode() const {
     return *myType;
 }
 
-void VariableNode::SetType(Pointer<ITypedNode> typeNode) {
+void VariableNode::SetTypeNode(Pointer<IAnnotatedNode> typeNode) {
     myType = std::move(typeNode);
 }
 
-bool VariableNode::HasType() const {
+bool VariableNode::HasTypeNode() const {
     return myType != nullptr;
 }
 
@@ -121,7 +130,7 @@ std::string VariableNode::GetName() const {
 void VariableNode::AcceptVisitor(NodeVisitor& visitor, int depth) const {
     AbstractDeclaration::AcceptVisitor(visitor, depth);
 
-    if (HasType()) {
+    if (HasTypeNode()) {
         visitor.VisitNode(*myType, depth);
     }
 }
@@ -152,19 +161,19 @@ void FunctionDeclaration::SetParameters(Pointer<ParameterList> parameters) {
     myParams = std::move(parameters);
 }
 
-const ITypedNode& FunctionDeclaration::GetBody() const {
+const IAnnotatedNode& FunctionDeclaration::GetBody() const {
     return *myBody;
 }
 
-void FunctionDeclaration::SetBody(Pointer<ITypedNode> body) {
+void FunctionDeclaration::SetBody(Pointer<IAnnotatedNode> body) {
     myBody = std::move(body);
 }
 
-const ITypedNode& FunctionDeclaration::GetReturn() const {
+const IAnnotatedNode& FunctionDeclaration::GetReturn() const {
     return *myReturn;
 }
 
-void FunctionDeclaration::SetReturn(Pointer<ITypedNode> returnNode) {
+void FunctionDeclaration::SetReturn(Pointer<IAnnotatedNode> returnNode) {
     myReturn = std::move(returnNode);
 }
 
@@ -197,23 +206,23 @@ std::string PropertyDeclaration::GetKeyword() const {
     return myKeyword.GetValue<std::string>();
 }
 
-const ITypedNode& PropertyDeclaration::GetType() const {
+const IAnnotatedNode& PropertyDeclaration::GetTypeNode() const {
     return *myType;
 }
 
-void PropertyDeclaration::SetType(Pointer<ITypedNode> typeNode) {
+void PropertyDeclaration::SetTypeNode(Pointer<IAnnotatedNode> typeNode) {
     myType = std::move(typeNode);
 }
 
-bool PropertyDeclaration::HasType() const {
+bool PropertyDeclaration::HasTypeNode() const {
     return myType != nullptr;
 }
 
-const ITypedNode& PropertyDeclaration::GetInitialization() const {
+const IAnnotatedNode& PropertyDeclaration::GetInitialization() const {
     return *myInit;
 }
 
-void PropertyDeclaration::SetInitialization(Pointer<ITypedNode> initNode) {
+void PropertyDeclaration::SetInitialization(Pointer<IAnnotatedNode> initNode) {
     myInit = std::move(initNode);
 }
 
@@ -228,7 +237,7 @@ std::string PropertyDeclaration::GetName() const {
 void PropertyDeclaration::AcceptVisitor(NodeVisitor& visitor, int depth) const {
     AbstractDeclaration::AcceptVisitor(visitor, depth);
 
-    if (HasType()) {
+    if (HasTypeNode()) {
         visitor.VisitNode(*myType, depth);
     }
     if (HasInitialization()) {

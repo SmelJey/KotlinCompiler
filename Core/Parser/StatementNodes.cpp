@@ -8,6 +8,10 @@ const ISymbol* EmptyStatement::GetSymbol() const {
     return myType;
 }
 
+const ITypeSymbol* EmptyStatement::GetType() const {
+    return myType;
+}
+
 std::string EmptyStatement::GetName() const {
     return "Empty Statement";
 }
@@ -18,19 +22,19 @@ std::string Assignment::GetOperation() const {
     return myLexeme.GetValue<std::string>();
 }
 
-const ITypedNode& Assignment::GetAssignable() const {
+const IAnnotatedNode& Assignment::GetAssignable() const {
     return *myAssignable;
 }
 
-void Assignment::SetAssignable(Pointer<ITypedNode> assignable) {
+void Assignment::SetAssignable(Pointer<IAnnotatedNode> assignable) {
     myAssignable = std::move(assignable);
 }
 
-const ITypedNode& Assignment::GetExpression() const {
+const IAnnotatedNode& Assignment::GetExpression() const {
     return *myExpression;
 }
 
-void Assignment::SetExpression(Pointer<ITypedNode> expression) {
+void Assignment::SetExpression(Pointer<IAnnotatedNode> expression) {
     myExpression = std::move(expression);
 }
 
@@ -43,11 +47,11 @@ void Assignment::AcceptVisitor(NodeVisitor& visitor, int depth) const {
     visitor.VisitNode(*myExpression, depth);
 }
 
-const ITypedNode& LoopNode::GetExpression() const {
+const IAnnotatedNode& LoopNode::GetExpression() const {
     return *myExpression;
 }
 
-void LoopNode::SetExpression(Pointer<ITypedNode> expression) {
+void LoopNode::SetExpression(Pointer<IAnnotatedNode> expression) {
     myExpression = std::move(expression);
 }
 

@@ -1,11 +1,12 @@
 #pragma once
 #include "DeclarationNodes.h"
 
-class EmptyStatement : public AbstractNode, public virtual ITypedNode {
+class EmptyStatement : public AbstractNode, public virtual IAnnotatedNode {
 public:
     explicit EmptyStatement(const UnitTypeSymbol* type);
 
     const ISymbol* GetSymbol() const override;
+    const ITypeSymbol* GetType() const override;
 
 protected:
     std::string GetName() const override;
@@ -20,27 +21,27 @@ public:
 
     std::string GetOperation() const;
 
-    const ITypedNode& GetAssignable() const;
-    void SetAssignable(Pointer<ITypedNode> assignable);
+    const IAnnotatedNode& GetAssignable() const;
+    void SetAssignable(Pointer<IAnnotatedNode> assignable);
 
-    const ITypedNode& GetExpression() const;
-    void SetExpression(Pointer<ITypedNode> expression);
+    const IAnnotatedNode& GetExpression() const;
+    void SetExpression(Pointer<IAnnotatedNode> expression);
 
 protected:
     std::string GetName() const override;
     void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
 
 private:
-    Pointer<ITypedNode> myAssignable;
-    Pointer<ITypedNode> myExpression;
+    Pointer<IAnnotatedNode> myAssignable;
+    Pointer<IAnnotatedNode> myExpression;
 };
 
 class LoopNode : public AbstractNode {
 public:
     LoopNode() = default;
 
-    const ITypedNode& GetExpression() const;
-    void SetExpression(Pointer<ITypedNode> expression);
+    const IAnnotatedNode& GetExpression() const;
+    void SetExpression(Pointer<IAnnotatedNode> expression);
 
     const ISyntaxNode& GetBody() const;
     void SetBody(Pointer<ISyntaxNode> body);
@@ -49,7 +50,7 @@ protected:
     void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
 
 private:
-    Pointer<ITypedNode> myExpression;
+    Pointer<IAnnotatedNode> myExpression;
     Pointer<ISyntaxNode> myBody;
 };
 

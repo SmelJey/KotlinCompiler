@@ -1,22 +1,22 @@
 @@ Decl Block
 @@ |-Fun Decl                                                  :: main
-@@   |-Identifier :: main                                      :: Unit
+@@   |-Identifier :: main                                      :: main
 @@   |-Params
 @@   |-Block                                                   :: Unit
 @@     |-Val Decl                                              :: a
-@@     | |-Identifier :: a                                     :: Int
+@@     | |-Identifier :: a                                     :: a
 @@     | |-Integer :: 5                                        :: Int
 @@     |-Val Decl                                              :: b
-@@     | |-Identifier :: b                                     :: Int
+@@     | |-Identifier :: b                                     :: b
 @@     | |-Bin op :: +                                         :: Int
 @@     |   |-Integer :: 3                                      :: Int
 @@     |   |-Integer :: 2                                      :: Int
 @@     |-Val Decl                                              :: c
-@@     | |-Identifier :: c                                     :: Double
+@@     | |-Identifier :: c                                     :: c
 @@     | |-Type :: Double                                      :: Double
 @@     | |-Real :: 2.500000                                    :: Double
 @@     |-Val Decl                                              :: d
-@@       |-Identifier :: d                                     :: String
+@@       |-Identifier :: d                                     :: d
 @@       |-String :: aba                                       :: String
 @@ ====
 @@ SymbolTable

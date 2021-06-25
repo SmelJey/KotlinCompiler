@@ -16,16 +16,11 @@ public:
     AbstractNode();
     AbstractNode(const AbstractNode& src) = delete;
     AbstractNode(AbstractNode&& src) noexcept;
-
-    virtual ~AbstractNode();
 };
 
-class ISymbolAnnotatedNode : public virtual ISyntaxNode {
+class IAnnotatedNode : public virtual ISyntaxNode {
 public:
     virtual const ISymbol* GetSymbol() const = 0;
-};
-
-class ITypedNode : public ISymbolAnnotatedNode {
-public:
     virtual const ITypeSymbol* GetType() const;
+    virtual bool IsAssignable() const;
 };

@@ -7,10 +7,12 @@ std::string ISyntaxNode::ToString() const {
 AbstractNode::AbstractNode() = default;
 AbstractNode::AbstractNode(AbstractNode&& src) noexcept {}
 
-AbstractNode::~AbstractNode() = default;
+const ITypeSymbol* IAnnotatedNode::GetType() const {
+    return nullptr;
+}
 
-const ITypeSymbol* ITypedNode::GetType() const {
-    return dynamic_cast<const ITypeSymbol*>(GetSymbol());
+bool IAnnotatedNode::IsAssignable() const {
+    return false;
 }
 
 std::ostream& operator<<(std::ostream& os, const AbstractNode& node) {

@@ -1,27 +1,27 @@
 @@ Decl Block
 @@ |-Fun Decl                                                  :: main
-@@   |-Identifier :: main                                      :: Unit
+@@   |-Identifier :: main                                      :: main
 @@   |-Params
 @@   |-Block                                                   :: Unit
 @@     |-Val Decl                                              :: a
-@@     | |-Identifier :: a                                     :: Array<Int>
+@@     | |-Identifier :: a                                     :: a
 @@     | |-CallSuffix                                          :: Array<Int>
-@@     |   |-Identifier :: arrayOf                             :: Array<Int>
+@@     |   |-Identifier :: arrayOf                             :: arrayOf
 @@     |   |-Args
 @@     |     |-Integer :: 1                                    :: Int
 @@     |     |-Integer :: 2                                    :: Int
 @@     |     |-Integer :: 3                                    :: Int
 @@     |-Val Decl                                              :: b
-@@     | |-Identifier :: b                                     :: Array<Double>
+@@     | |-Identifier :: b                                     :: b
 @@     | |-CallSuffix                                          :: Array<Double>
-@@     |   |-Identifier :: arrayOf                             :: Array<Double>
+@@     |   |-Identifier :: arrayOf                             :: arrayOf
 @@     |   |-Args
 @@     |     |-Real :: 1.000000                                :: Double
 @@     |     |-Real :: 2.000000                                :: Double
 @@     |-Val Decl                                              :: c
-@@       |-Identifier :: c                                     :: Array<String>
+@@       |-Identifier :: c                                     :: c
 @@       |-CallSuffix                                          :: Array<String>
-@@         |-Identifier :: arrayOf                             :: Array<String>
+@@         |-Identifier :: arrayOf                             :: arrayOf
 @@         |-Args
 @@ ====
 @@ SymbolTable

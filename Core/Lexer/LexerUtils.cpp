@@ -158,6 +158,10 @@ bool LexerUtils::IsRealType(LexemeType type) {
     return type == LexemeType::Float || type == LexemeType::Double;
 }
 
+bool LexerUtils::IsArithmAssignOperation(LexemeType type) {
+    return type >= LexemeType::OpPlusAssign && type <= LexemeType::OpModAssign;
+}
+
 bool LexerUtils::IsEqualityOperation(LexemeType type) {
     return type == LexemeType::OpEqual || type == LexemeType::OpInequal || type == LexemeType::OpStrictEq || type == LexemeType::OpStrictIneq;
 }

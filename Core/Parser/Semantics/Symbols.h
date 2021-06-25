@@ -28,6 +28,7 @@ class ITypeSymbol : public ISymbol {
 public:
     virtual Pointer<ITypeSymbol> IsApplicable(LexemeType operation) const = 0;
     virtual Pointer<ITypeSymbol> IsApplicable(LexemeType binaryOperation, const ITypeSymbol* rightOperand) const = 0;
+    virtual bool IsAssignable(LexemeType assignOperation, const ITypeSymbol* rightOperand) const;
 };
 
 class UnresolvedSymbol : public ITypeSymbol {
@@ -60,6 +61,7 @@ public:
 
     Pointer<ITypeSymbol> IsApplicable(LexemeType operation) const override;
     Pointer<ITypeSymbol> IsApplicable(LexemeType binaryOperation, const ITypeSymbol* rightOperand) const override;
+    bool IsAssignable(LexemeType assignOperation, const ITypeSymbol* rightOperand) const override;
 };
 
 class DoubleSymbol : public ITypeSymbol {
@@ -68,6 +70,7 @@ public:
 
     Pointer<ITypeSymbol> IsApplicable(LexemeType operation) const override;
     Pointer<ITypeSymbol> IsApplicable(LexemeType binaryOperation, const ITypeSymbol* rightOperand) const override;
+    bool IsAssignable(LexemeType assignOperation, const ITypeSymbol* rightOperand) const override;
 };
 
 class StringSymbol : public ITypeSymbol {

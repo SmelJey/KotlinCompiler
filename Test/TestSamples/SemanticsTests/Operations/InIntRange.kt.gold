@@ -1,6 +1,6 @@
 @@ Decl Block
 @@ |-Fun Decl                                                  :: main
-@@   |-Identifier :: main                                      :: Unit
+@@   |-Identifier :: main                                      :: main
 @@   |-Params
 @@   |-Block                                                   :: Unit
 @@     |-Bin op :: in                                          :: Boolean

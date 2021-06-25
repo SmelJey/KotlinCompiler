@@ -1,0 +1,79 @@
+@@ Decl Block
+@@ |-Fun Decl                                                  :: test4
+@@ | |-Identifier :: test4                                     :: test4
+@@ | |-Params
+@@ | |-Type :: Int                                             :: Int
+@@ | |-Block                                                   :: Int
+@@ |   |-Return
+@@ |     |-Integer :: 3                                        :: Int
+@@ |-Fun Decl                                                  :: main
+@@   |-Identifier :: main                                      :: main
+@@   |-Params
+@@   |-Block                                                   :: Unit
+@@     |-Fun Decl                                              :: test1
+@@     | |-Identifier :: test1                                 :: test1
+@@     | |-Params
+@@     | |-Integer :: 5                                        :: Int
+@@     |-Fun Decl                                              :: test3
+@@     | |-Identifier :: test3                                 :: test3
+@@     | |-Params
+@@     | |-Type :: Int                                         :: Int
+@@     | |-Block                                               :: Int
+@@     |   |-Fun Decl                                          :: test2
+@@     |   | |-Identifier :: test2                             :: test2
+@@     |   | |-Params
+@@     |   | |-Type :: Int                                     :: Int
+@@     |   | |-Integer :: 3                                    :: Int
+@@     |   |-Val Decl                                          :: a
+@@     |   | |-Identifier :: a                                 :: a
+@@     |   | |-CallSuffix                                      :: Int
+@@     |   |   |-Identifier :: test1                           :: test1
+@@     |   |   |-Args
+@@     |   |-Val Decl                                          :: b
+@@     |   | |-Identifier :: b                                 :: b
+@@     |   | |-CallSuffix                                      :: Int
+@@     |   |   |-Identifier :: test4                           :: test4
+@@     |   |   |-Args
+@@     |   |-Return
+@@     |     |-Integer :: 5                                    :: Int
+@@     |-Val Decl                                              :: a
+@@     | |-Identifier :: a                                     :: a
+@@     | |-CallSuffix                                          :: Int
+@@     |   |-Identifier :: test1                               :: test1
+@@     |   |-Args
+@@     |-Val Decl                                              :: b
+@@     | |-Identifier :: b                                     :: b
+@@     | |-CallSuffix                                          :: Int
+@@     |   |-Identifier :: test4                               :: test4
+@@     |   |-Args
+@@     |-Val Decl                                              :: c
+@@       |-Identifier :: c                                     :: c
+@@       |-CallSuffix                                          :: Int
+@@         |-Identifier :: test3                               :: test3
+@@         |-Args
+@@ ====
+@@ SymbolTable
+@@ |-Boolean
+@@ |-Double
+@@ |-Int
+@@ |-String
+@@ |-Fun main() -> Unit
+@@ | |-SymbolTable
+@@ |   |-Val a
+@@ |   | |-Int
+@@ |   |-Val b
+@@ |   | |-Int
+@@ |   |-Val c
+@@ |   | |-Int
+@@ |   |-Fun test1() -> Int
+@@ |   | |-SymbolTable
+@@ |   |-Fun test3() -> Int
+@@ |     |-SymbolTable
+@@ |       |-Val a
+@@ |       | |-Int
+@@ |       |-Val b
+@@ |       | |-Int
+@@ |       |-Fun test2() -> Int
+@@ |         |-SymbolTable
+@@ |-Fun test4() -> Int
+@@   |-SymbolTable

@@ -11,11 +11,12 @@ protected:
     Lexeme myLexeme;
 };
 
-class AbstractTypedNode : public LexemeNode, public ITypedNode {
+class AbstractTypedNode : public LexemeNode, public IAnnotatedNode {
 public:
     AbstractTypedNode(const Lexeme& lexeme, const ISymbol* symbol);
 
     const ISymbol* GetSymbol() const override;
+    const ITypeSymbol* GetType() const override;
 
 protected:
     mutable const ISymbol* mySymbol;
@@ -25,21 +26,23 @@ class IdentifierNode : public AbstractTypedNode {
 public:
     IdentifierNode(const Lexeme& lexeme, const ITypeSymbol* defaultSym, const std::vector<const ISymbol*>& candidates);
 
+    std::string GetIdentifier() const;
+
     bool TryResolveVariable();
     bool TryResolveType();
     bool TryResolveFunc(const std::vector<const ITypeSymbol*>& arguments);
-    bool TryResolveArray(const std::vector<const ITypeSymbol*>& arguments);
+    void Resolve(const ISymbol* symbol);
 
-    void UpdateCandidates(const std::vector<const ISymbol*>& candidates);
 
+    const ISymbol* GetSymbol() const override;
     const ITypeSymbol* GetType() const override;
-    bool IsMutable() const;
+
+    bool IsAssignable() const override;
 protected:
     std::string GetName() const override;
 
 private:
     std::vector<const ISymbol*> myCandidates;
-    const ITypeSymbol* myType;
 };
 
 class IntegerNode : public AbstractTypedNode {
@@ -95,8 +98,8 @@ class ReturnNode : public LexemeNode {
 public:
     explicit ReturnNode(const Lexeme& lexeme);
 
-    const ITypedNode* GetExpression() const;
-    void SetExpression(Pointer<ITypedNode> expression);
+    const IAnnotatedNode* GetExpression() const;
+    void SetExpression(Pointer<IAnnotatedNode> expression);
     bool HasExpression() const;
 
 protected:
@@ -104,10 +107,11 @@ protected:
     void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
 
 private:
-    Pointer<ITypedNode> myExpression;
+    Pointer<IAnnotatedNode> myExpression;
 };
 
-class ErrorNode : public LexemeNode, public virtual ITypedNode {
+// TODO : remove it from node hierarchy
+class ErrorNode : public LexemeNode, public virtual IAnnotatedNode {
 public:
     ErrorNode(const Lexeme& lexeme, const UnresolvedSymbol* type, const std::string& error = "Unexpected lexeme");
 

@@ -58,12 +58,20 @@ Pointer<ITypeSymbol> UnitTypeSymbol::IsApplicable(LexemeType operation) const {
 }
 
 Pointer<ITypeSymbol> UnitTypeSymbol::IsApplicable(LexemeType binaryOperation, const ITypeSymbol* rightOperand) const {
-    if (*rightOperand == *this && (binaryOperation == LexemeType::OpEqual || binaryOperation == LexemeType::OpInequal
-        || binaryOperation == LexemeType::OpStrictEq || binaryOperation == LexemeType::OpStrictIneq)) {
-        return std::make_unique<BooleanSymbol>();
+    if (*rightOperand == *this) {
+        if (LexerUtils::IsEqualityOperation(binaryOperation)) {
+            return std::make_unique<BooleanSymbol>();
+        }
+        if (binaryOperation == LexemeType::OpAssign) {
+            return std::make_unique<UnitTypeSymbol>(*this);
+        }
     }
 
     return std::make_unique<UnresolvedSymbol>();
+}
+
+bool ITypeSymbol::IsAssignable(LexemeType assignOperation, const ITypeSymbol* rightOperand) const {
+    return assignOperation == LexemeType::OpAssign && *this == *rightOperand;
 }
 
 std::string UnresolvedSymbol::GetName() const {
@@ -98,6 +106,9 @@ Pointer<ITypeSymbol> BooleanSymbol::IsApplicable(LexemeType binaryOperation, con
         }
         if (binaryOperation == LexemeType::OpDDot) {
             return std::make_unique<RangeSymbol>(*this);
+        }
+        if (binaryOperation == LexemeType::OpAssign) {
+            return std::make_unique<BooleanSymbol>();
         }
     }
 
@@ -146,6 +157,14 @@ Pointer<ITypeSymbol> IntegerSymbol::IsApplicable(LexemeType binaryOperation, con
     return std::make_unique<UnresolvedSymbol>();
 }
 
+bool IntegerSymbol::IsAssignable(LexemeType assignOperation, const ITypeSymbol* rightOperand) const {
+    bool res = ITypeSymbol::IsAssignable(assignOperation, rightOperand);
+    if (!res) {
+        res = LexerUtils::IsArithmAssignOperation(assignOperation) && *this == *rightOperand;
+    }
+    return res;
+}
+
 std::string DoubleSymbol::GetName() const {
     return "Double";
 }
@@ -165,6 +184,9 @@ Pointer<ITypeSymbol> DoubleSymbol::IsApplicable(LexemeType binaryOperation, cons
         if (binaryOperation == LexemeType::OpDDot) {
             return std::make_unique<RangeSymbol>(*this);
         }
+        if (binaryOperation == LexemeType::OpAssign || LexerUtils::IsArithmAssignOperation(binaryOperation)) {
+            return std::make_unique<DoubleSymbol>();
+        }
     }
 
     if (dynamic_cast<const IntegerSymbol*>(rightOperand) != nullptr && LexerUtils::IsArithmeticOperation(binaryOperation)) {
@@ -179,6 +201,14 @@ Pointer<ITypeSymbol> DoubleSymbol::IsApplicable(LexemeType binaryOperation, cons
     }
 
     return std::make_unique<UnresolvedSymbol>();
+}
+
+bool DoubleSymbol::IsAssignable(LexemeType assignOperation, const ITypeSymbol* rightOperand) const {
+    if (*this == *rightOperand || dynamic_cast<const IntegerSymbol*>(rightOperand) != nullptr) {
+        return assignOperation == LexemeType::OpAssign || LexerUtils::IsArithmAssignOperation(assignOperation);
+    }
+
+    return false;
 }
 
 std::string StringSymbol::GetName() const {

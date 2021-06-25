@@ -23,7 +23,7 @@ public:
     const ISymbol* GetFunction(const std::string& name, const std::vector<const ITypeSymbol*>& params) const;
 
     bool Contains(const ISymbol& symbol) const;
-    bool Add(Pointer<ISymbol> symbol);
+    const ISymbol* Add(Pointer<ISymbol> symbol);
 
     const UnresolvedSymbol* GetUnresolvedSymbol() const;
     const UnitTypeSymbol* GetUnitSymbol() const;

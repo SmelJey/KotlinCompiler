@@ -1,6 +1,6 @@
 @@ Decl Block
 @@ |-Fun Decl                                                  :: test
-@@   |-Identifier :: test                                      :: Boolean
+@@   |-Identifier :: test                                      :: test
 @@   |-Params
 @@   |-Bin op :: ||                                            :: Boolean
 @@     |-Bin op :: ||                                          :: Boolean

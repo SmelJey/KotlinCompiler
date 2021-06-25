@@ -1,10 +1,10 @@
 @@ Decl Block
 @@ |-Fun Decl                                                  :: main
-@@   |-Identifier :: main                                      :: Unit
+@@   |-Identifier :: main                                      :: main
 @@   |-Params
 @@   |-Block                                                   :: Unit
 @@     |-Val Decl                                              :: a
-@@       |-Identifier :: a                                     :: Unresolved type
+@@       |-Identifier :: a                                     :: a
 @@       |-CallSuffix                                          :: Unresolved type
 @@         |-Identifier :: arrayOf                             :: Unresolved type
 @@         |-Args

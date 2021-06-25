@@ -1,0 +1,18 @@
+@@ Decl Block
+@@ |-Val Decl                                                  :: a
+@@ | |-Identifier :: a                                         :: a
+@@ | |-Type :: Double                                          :: Double
+@@ | |-Real :: 1.000000                                        :: Double
+@@ |-Val Decl                                                  :: Unresolved type
+@@   |-Identifier :: a                                         :: Unresolved type
+@@   |-Type :: Int                                             :: Int
+@@   |-Integer :: 2                                            :: Int
+@@ ====
+@@ SymbolTable
+@@ |-Boolean
+@@ |-Double
+@@ |-Int
+@@ |-String
+@@ |-Val a
+@@   |-Double
+@@ Error 1:15 :: Conflicting declarations: a

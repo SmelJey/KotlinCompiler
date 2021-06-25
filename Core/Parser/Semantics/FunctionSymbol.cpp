@@ -34,21 +34,18 @@ bool FunctionSymbol::operator<(const ISymbol& rhs) const {
     bool res = ISymbol::operator<(rhs);
     if (!res) {
         const auto& rhsFunc = dynamic_cast<const FunctionSymbol&>(rhs);
-        if (GetReturnType() == rhsFunc.GetReturnType()) {
-            if (GetParametersCount() == rhsFunc.GetParametersCount()) {
-                for (int i = 0; i < myParameters.size(); i++) {
-                    if (*myParameters[i] < rhsFunc.GetParameter(i)) {
-                        return true;
-                    }
-                }
 
-                return false;
+        if (GetParametersCount() == rhsFunc.GetParametersCount()) {
+            for (int i = 0; i < myParameters.size(); i++) {
+                if (*myParameters[i] < rhsFunc.GetParameter(i)) {
+                    return true;
+                }
             }
 
-            return GetParametersCount() < rhsFunc.GetParametersCount();
+            return false;
         }
 
-        return GetReturnType() < rhsFunc.GetReturnType();
+        return GetParametersCount() < rhsFunc.GetParametersCount();
     }
 
     return res;

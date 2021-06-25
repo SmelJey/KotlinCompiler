@@ -6,47 +6,48 @@
 #include "SimpleNodes.h"
 #include "../Lexer/Lexeme.h"
 
-class BinOperationNode : public LexemeNode, public virtual ITypedNode {
+class BinOperationNode : public LexemeNode, public virtual IAnnotatedNode {
 public:
-    BinOperationNode(const Lexeme& operation, Pointer<ITypedNode> left, Pointer<ITypedNode> right, const ITypeSymbol* type);
+    BinOperationNode(const Lexeme& operation, Pointer<IAnnotatedNode> left, Pointer<IAnnotatedNode> right, const ITypeSymbol* type);
 
-    const ITypedNode& GetLeftOperand() const;
-    const ITypedNode& GetRightOperand() const;
+    const IAnnotatedNode& GetLeftOperand() const;
+    const IAnnotatedNode& GetRightOperand() const;
 
     std::string GetOperation() const;
 
     const ISymbol* GetSymbol() const override;
-
+    const ITypeSymbol* GetType() const override;
 protected:
     std::string GetName() const override;
 
     void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
 private:
-    Pointer<ITypedNode> myLeftOperand;
-    Pointer<ITypedNode> myRightOperand;
+    Pointer<IAnnotatedNode> myLeftOperand;
+    Pointer<IAnnotatedNode> myRightOperand;
     const ITypeSymbol* myType;
 };
 
-class AbstractUnaryOperationNode : public LexemeNode, public virtual ITypedNode {
+class AbstractUnaryOperationNode : public LexemeNode, public virtual IAnnotatedNode {
 public:
-    AbstractUnaryOperationNode(const Lexeme& operation, Pointer<ITypedNode> operand, const ITypeSymbol* type);
+    AbstractUnaryOperationNode(const Lexeme& operation, Pointer<IAnnotatedNode> operand, const ITypeSymbol* type);
 
-    const ITypedNode& GetOperand() const;
+    const IAnnotatedNode& GetOperand() const;
     std::string GetOperation() const;
 
     const ISymbol* GetSymbol() const override;
+    const ITypeSymbol* GetType() const override;
 
 protected:
     void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
 
 private:
-    Pointer<ITypedNode> myOperand;
+    Pointer<IAnnotatedNode> myOperand;
     const ITypeSymbol* myType;
 };
 
 class UnaryPrefixOperationNode : public AbstractUnaryOperationNode {
 public:
-    UnaryPrefixOperationNode(const Lexeme& operation, Pointer<ITypedNode> operand, const ITypeSymbol* type);
+    UnaryPrefixOperationNode(const Lexeme& operation, Pointer<IAnnotatedNode> operand, const ITypeSymbol* type);
 
 protected:
     std::string GetName() const override;
@@ -54,13 +55,13 @@ protected:
 
 class UnaryPostfixOperationNode : public AbstractUnaryOperationNode {
 public:
-    UnaryPostfixOperationNode(const Lexeme& operation, Pointer<ITypedNode> operand, const ITypeSymbol* type);
+    UnaryPostfixOperationNode(const Lexeme& operation, Pointer<IAnnotatedNode> operand, const ITypeSymbol* type);
 
 protected:
     std::string GetName() const override;
 };
 
-class AbstractUnaryPostfixNode : public AbstractNode, public virtual ITypedNode {
+class AbstractUnaryPostfixNode : public AbstractNode, public virtual IAnnotatedNode {
 public:
     AbstractUnaryPostfixNode() = default;
 };
@@ -69,15 +70,15 @@ class CallArgumentsNode : public AbstractNode {
 public:
     CallArgumentsNode() = default;
 
-    const std::vector<Pointer<ITypedNode>>& GetArguments() const;
-    void AddArgument(Pointer<ITypedNode> argument);
+    const std::vector<Pointer<IAnnotatedNode>>& GetArguments() const;
+    void AddArgument(Pointer<IAnnotatedNode> argument);
 
 protected:
     std::string GetName() const override;
     void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
 
 private:
-    std::vector<Pointer<ITypedNode>> myArguments;
+    std::vector<Pointer<IAnnotatedNode>> myArguments;
 };
 
 class TypeArgumentsNode : public AbstractNode {
@@ -97,28 +98,29 @@ private:
 
 class PostfixCallNode : public AbstractUnaryPostfixNode {
 public:
-    PostfixCallNode(Pointer<ITypedNode> expression, const ITypeSymbol* type);
+    PostfixCallNode(Pointer<IAnnotatedNode> expression, const ITypeSymbol* type);
 
     const CallArgumentsNode& GetArguments() const;
     void SetArguments(Pointer<CallArgumentsNode> arguments);
 
-    const ITypedNode* GetExpression() const;
+    const IAnnotatedNode* GetExpression() const;
 
     const ISymbol* GetSymbol() const override;
-
+    const ITypeSymbol* GetType() const override;
 protected:
     void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
 
 private:
-    Pointer<ITypedNode> myExpression;
+    Pointer<IAnnotatedNode> myExpression;
     Pointer<CallArgumentsNode> myArgumentsNode;
     const ITypeSymbol* myType;
 };
 
 class IndexSuffixNode : public PostfixCallNode {
 public:
-    IndexSuffixNode(Pointer<ITypedNode> expression, const ITypeSymbol* type);
+    IndexSuffixNode(Pointer<IAnnotatedNode> expression, const ITypeSymbol* type);
 
+    bool IsAssignable() const override;
 protected:
     std::string GetName() const override;
 
@@ -126,7 +128,7 @@ protected:
 
 class CallSuffixNode : public PostfixCallNode {
 public:
-    CallSuffixNode(Pointer<ITypedNode> expression, const ITypeSymbol* type);
+    CallSuffixNode(Pointer<IAnnotatedNode> expression, const ITypeSymbol* type);
 
     const TypeArgumentsNode& GetTypeArguments() const;
     void SetTypeArguments(Pointer<TypeArgumentsNode> arguments);
@@ -143,14 +145,16 @@ private:
 
 class MemberAccessNode : public AbstractUnaryPostfixNode {
 public:
-    MemberAccessNode(const Lexeme& lexeme, Pointer<ITypedNode> expression, Pointer<ITypedNode> member);
+    MemberAccessNode(const Lexeme& lexeme, Pointer<IAnnotatedNode> expression, Pointer<IAnnotatedNode> member);
 
     std::string GetOperation() const;
 
-    const ITypedNode* GetExpression() const;
-    const ITypedNode& GetMember() const;
+    const IAnnotatedNode* GetExpression() const;
+    const IAnnotatedNode& GetMember() const;
 
     const ISymbol* GetSymbol() const override;
+    const ITypeSymbol* GetType() const override;
+    bool IsAssignable() const override;
 
 protected:
     std::string GetName() const override;
@@ -158,16 +162,16 @@ protected:
 
 private:
     Lexeme myOperation;
-    Pointer<ITypedNode> myExpression;
-    Pointer<ITypedNode> myMemberNode;
+    Pointer<IAnnotatedNode> myExpression;
+    Pointer<IAnnotatedNode> myMemberNode;
 };
 
-class IfExpression : public AbstractNode, public virtual ITypedNode {
+class IfExpression : public AbstractNode, public virtual IAnnotatedNode {
 public:
     IfExpression(const ITypeSymbol* type);
 
-    const ITypedNode* GetExpression() const;
-    void SetExpression(Pointer<ITypedNode> expression);
+    const IAnnotatedNode* GetExpression() const;
+    void SetExpression(Pointer<IAnnotatedNode> expression);
 
     const ISyntaxNode* GetIfBody() const;
     void SetIfBody(Pointer<ISyntaxNode> body);
@@ -178,20 +182,21 @@ public:
     bool HasElseBody() const;
 
     const ISymbol* GetSymbol() const override;
+    const ITypeSymbol* GetType() const override;
 
 protected:
     std::string GetName() const override;
     void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
 
 private:
-    Pointer<ITypedNode> myExpression;
+    Pointer<IAnnotatedNode> myExpression;
     Pointer<ISyntaxNode> myIfBody;
     Pointer<ISyntaxNode> myElseBody;
 
     const ITypeSymbol* myType;
 };
 
-class BlockNode : public AbstractNode, public virtual ITypedNode {
+class BlockNode : public AbstractNode, public virtual IAnnotatedNode {
 public:
     BlockNode() = default;
 
@@ -199,6 +204,7 @@ public:
     void AddStatement(Pointer<ISyntaxNode> statement);
 
     const ISymbol* GetSymbol() const override;
+    const ITypeSymbol* GetType() const override;
     void SetSymbol(const ITypeSymbol* returnSym);
 
 protected:

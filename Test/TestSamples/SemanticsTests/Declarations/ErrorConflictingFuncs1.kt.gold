@@ -1,0 +1,18 @@
+@@ Decl Block
+@@ |-Fun Decl                                                  :: test
+@@ | |-Identifier :: test                                      :: test
+@@ | |-Params
+@@ | |-Block                                                   :: Unit
+@@ |-Fun Decl                                                  :: Unresolved type
+@@   |-Identifier :: test                                      :: Unresolved type
+@@   |-Params
+@@   |-Block                                                   :: Unit
+@@ ====
+@@ SymbolTable
+@@ |-Boolean
+@@ |-Double
+@@ |-Int
+@@ |-String
+@@ |-Fun test() -> Unit
+@@   |-SymbolTable
+@@ Error 1:13 :: Conflicting function overloads: test

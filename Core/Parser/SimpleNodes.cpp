@@ -16,15 +16,22 @@ const ISymbol* AbstractTypedNode::GetSymbol() const {
     return mySymbol;
 }
 
+const ITypeSymbol* AbstractTypedNode::GetType() const {
+    return dynamic_cast<const ITypeSymbol*>(GetSymbol());
+}
+
 IdentifierNode::IdentifierNode(const Lexeme& lexeme, const ITypeSymbol* defaultSym, const std::vector<const ISymbol*>& candidates)
-    : AbstractTypedNode(lexeme, defaultSym), myCandidates(candidates), myType(defaultSym) {}
+    : AbstractTypedNode(lexeme, defaultSym), myCandidates(candidates) {}
+
+std::string IdentifierNode::GetIdentifier() const {
+    return myLexeme.GetValue<std::string>();
+}
 
 bool IdentifierNode::TryResolveVariable() {
     for (auto it : myCandidates) {
         auto varSym = dynamic_cast<const VariableSymbol*>(it);
         if (varSym != nullptr) {
             mySymbol = varSym;
-            myType = varSym->GetType();
             return true;
         }
     }
@@ -37,7 +44,6 @@ bool IdentifierNode::TryResolveType() {
         auto typeSym = dynamic_cast<const ITypeSymbol*>(it);
         if (typeSym != nullptr) {
             mySymbol = typeSym;
-            myType = typeSym;
             return true;
         }
     }
@@ -59,7 +65,6 @@ bool IdentifierNode::TryResolveFunc(const std::vector<const ITypeSymbol*>& argum
 
             if (isResolved) {
                 mySymbol = funcSym;
-                myType = funcSym->GetReturnType();
                 return true;
             }
         }
@@ -68,38 +73,35 @@ bool IdentifierNode::TryResolveFunc(const std::vector<const ITypeSymbol*>& argum
     return false;
 }
 
-bool IdentifierNode::TryResolveArray(const std::vector<const ITypeSymbol*>& arguments) {
-    for (auto it : myCandidates) {
-        auto arraySym = dynamic_cast<const ArraySymbol*>(it);
-        if (arraySym != nullptr && arguments.size() == 1) {
-            if (*arguments[0] != IntegerSymbol()) {
-                return false;
-            }
-
-            mySymbol = arraySym;
-            myType = arraySym->GetType();
-            return true;
-        }
-    }
-
-    return false;
+void IdentifierNode::Resolve(const ISymbol* symbol) {
+    mySymbol = symbol;
 }
 
-void IdentifierNode::UpdateCandidates(const std::vector<const ISymbol*>& candidates) {
-    myCandidates = candidates;
+const ISymbol* IdentifierNode::GetSymbol() const {
+    return mySymbol;
 }
 
 const ITypeSymbol* IdentifierNode::GetType() const {
-    return myType;
-}
-
-bool IdentifierNode::IsMutable() const {
-    const VariableSymbol* symbol = dynamic_cast<const VariableSymbol*>(mySymbol);
-    if (symbol != nullptr) {
-        return symbol->IsMutable();
+    auto varSym = dynamic_cast<const VariableSymbol*>(mySymbol);
+    if (varSym != nullptr) {
+        return varSym->GetType();
     }
 
-    return false;
+    auto funcSym = dynamic_cast<const FunctionSymbol*>(mySymbol);
+    if (funcSym != nullptr) {
+        return funcSym->GetReturnType();
+    }
+
+    return dynamic_cast<const ITypeSymbol*>(mySymbol);
+}
+
+bool IdentifierNode::IsAssignable() const {
+    auto varSym = dynamic_cast<const VariableSymbol*>(mySymbol);
+    if (varSym == nullptr) {
+        return false;
+    }
+
+    return varSym->IsMutable();
 }
 
 std::string IdentifierNode::GetName() const {
@@ -163,11 +165,11 @@ std::string ContinueNode::GetName() const {
 
 ReturnNode::ReturnNode(const Lexeme& lexeme) : LexemeNode(lexeme) {}
 
-const ITypedNode* ReturnNode::GetExpression() const {
+const IAnnotatedNode* ReturnNode::GetExpression() const {
     return myExpression.get();
 }
 
-void ReturnNode::SetExpression(Pointer<ITypedNode> expression) {
+void ReturnNode::SetExpression(Pointer<IAnnotatedNode> expression) {
     myExpression = std::move(expression);
 }
 

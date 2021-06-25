@@ -42,15 +42,15 @@ private:
     Pointer<VariableNode> ParseVariable();
     Pointer<IdentifierNode> ParseIdentifier(const std::string& errorMessage = "Identifier expected");
 
-    Pointer<ITypedNode> ParseExpression();
-    Pointer<ITypedNode> ParseLeftAssociative(size_t priority);
-    Pointer<ITypedNode> ParsePrefix();
-    Pointer<ITypedNode> ParsePostfix();
+    Pointer<IAnnotatedNode> ParseExpression();
+    Pointer<IAnnotatedNode> ParseLeftAssociative(size_t priority);
+    Pointer<IAnnotatedNode> ParsePrefix();
+    Pointer<IAnnotatedNode> ParsePostfix();
 
     Pointer<TypeArgumentsNode> ParseTypeArguments();
     Pointer<CallArgumentsNode> ParseArguments(LexemeType rParen);
 
-    Pointer<ITypedNode> ParsePrimary();
+    Pointer<IAnnotatedNode> ParsePrimary();
 
     Pointer<IfExpression> ParseIfExpression();
 

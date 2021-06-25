@@ -53,7 +53,7 @@ void CuteToStringVisitor::ExitNode(const IVisitable& node, int depth) {
 
     std::string res = node.ToString();
     if (myShowSemantics) {
-        const ITypedNode* typeSym = dynamic_cast<const ITypedNode*>(&node);
+        const IAnnotatedNode* typeSym = dynamic_cast<const IAnnotatedNode*>(&node);
 
         int spacingRequired = 60 - depth * 2 - res.size();
         std::string spacing = "";
@@ -61,12 +61,7 @@ void CuteToStringVisitor::ExitNode(const IVisitable& node, int depth) {
             spacing += " ";
         }
         if (typeSym != nullptr) {
-            res.append(spacing + ":: " + typeSym->GetType()->GetName());
-        } else {
-            const ISymbolAnnotatedNode* symbolAnnotated = dynamic_cast<const ISymbolAnnotatedNode*>(&node);
-            if (symbolAnnotated != nullptr) {
-                res.append(spacing + ":: " + symbolAnnotated->GetSymbol()->GetName());
-            }
+            res.append(spacing + ":: " + typeSym->GetSymbol()->GetName());
         }
     }
 

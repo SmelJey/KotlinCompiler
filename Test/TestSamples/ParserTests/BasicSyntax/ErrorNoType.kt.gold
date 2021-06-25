@@ -4,7 +4,7 @@
 @@   |-Params
 @@   | |-Parameter
 @@   |   |-Identifier :: a
-@@   |   |-Identifier :: 
+@@   |   |-Type :: 
 @@   |-Block
 @@     |-Bin op :: +
 @@       |-Integer :: 2
