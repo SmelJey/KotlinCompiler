@@ -93,6 +93,15 @@ const ITypeSymbol* IdentifierNode::GetType() const {
     return myType;
 }
 
+bool IdentifierNode::IsMutable() const {
+    const VariableSymbol* symbol = dynamic_cast<const VariableSymbol*>(mySymbol);
+    if (symbol != nullptr) {
+        return symbol->IsMutable();
+    }
+
+    return false;
+}
+
 std::string IdentifierNode::GetName() const {
     return "Identifier :: " + myLexeme.GetValue<std::string>();
 }

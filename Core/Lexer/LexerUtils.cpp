@@ -163,7 +163,7 @@ bool LexerUtils::IsEqualityOperation(LexemeType type) {
 }
 
 bool LexerUtils::IsBoolOperation(LexemeType type) {
-    return type >= LexemeType::OpLess && type <= LexemeType::OpStrictEq;
+    return type >= LexemeType::OpLess && type <= LexemeType::OpStrictEq || type == LexemeType::OpAnd || type == LexemeType::OpOr;
 }
 
 bool LexerUtils::IsArithmeticOperation(LexemeType type) {

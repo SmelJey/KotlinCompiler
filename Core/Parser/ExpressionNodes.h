@@ -191,12 +191,15 @@ private:
     const ITypeSymbol* myType;
 };
 
-class BlockNode : public AbstractNode {
+class BlockNode : public AbstractNode, public virtual ITypedNode {
 public:
     BlockNode() = default;
 
     const std::vector<Pointer<ISyntaxNode>>& GetStatements() const;
     void AddStatement(Pointer<ISyntaxNode> statement);
+
+    const ISymbol* GetSymbol() const override;
+    void SetSymbol(const ITypeSymbol* returnSym);
 
 protected:
     std::string GetName() const override;
@@ -204,4 +207,5 @@ protected:
 
 private:
     std::vector<Pointer<ISyntaxNode>> myStatements;
+    const ITypeSymbol* myReturn;
 };

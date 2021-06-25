@@ -152,11 +152,11 @@ void FunctionDeclaration::SetParameters(Pointer<ParameterList> parameters) {
     myParams = std::move(parameters);
 }
 
-const ISyntaxNode& FunctionDeclaration::GetBody() const {
+const ITypedNode& FunctionDeclaration::GetBody() const {
     return *myBody;
 }
 
-void FunctionDeclaration::SetBody(Pointer<ISyntaxNode> body) {
+void FunctionDeclaration::SetBody(Pointer<ITypedNode> body) {
     myBody = std::move(body);
 }
 

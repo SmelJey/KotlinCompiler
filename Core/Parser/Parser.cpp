@@ -114,8 +114,12 @@ Pointer<FunctionDeclaration> Parser::ParseFunction() {
 
     myTable = functionSymbols->GetParent();
 
-    const ITypeSymbol* returnType = myTable->GetUnitSymbol();
+    const ITypeSymbol* returnType = functionDecl->GetBody().GetType();
     if (functionDecl->HasReturnNode()) {
+        if (*functionDecl->GetReturn().GetType() != *returnType) {
+            AddSemanticsError(myLexer.GetLexeme(), returnType->GetName() + " does not conform to the expected type " + functionDecl->GetReturn().GetType()->GetName());
+        }
+
         returnType = functionDecl->GetReturn().GetType();
     }
 
@@ -245,6 +249,8 @@ Pointer<ISyntaxNode> Parser::ParseStatement() {
             if (nextLexeme.GetRow() == curLexeme.GetRow() && nextLexeme.GetType() != LexemeType::RCurl
                 && nextLexeme.GetType() != LexemeType::EndOfFile) {
                 returnNode->SetExpression(ParseExpression());
+            } else {
+                returnNode->SetExpression(std::make_unique<EmptyStatement>(myTable->GetUnitSymbol()));
             }
 
             return returnNode;
@@ -264,11 +270,26 @@ Pointer<BlockNode> Parser::ParseBlock() {
     ConsumeSemicolons();
 
     while (myLexer.GetLexeme().GetType() != LexemeType::EndOfFile && myLexer.GetLexeme().GetType() != LexemeType::RCurl) {
-        blockNode->AddStatement(ParseStatement());
+        Pointer<ISyntaxNode> stmt = ParseStatement();
+        ReturnNode* returnNode = dynamic_cast<ReturnNode*>(stmt.get());
+
+        if (returnNode != nullptr) {
+            if (blockNode->GetSymbol() == nullptr) {
+                blockNode->SetSymbol(returnNode->GetExpression()->GetType());
+            } else if (*blockNode->GetType() != *returnNode->GetExpression()->GetType()) {
+                AddSemanticsError(myLexer.GetLexeme(), returnNode->GetExpression()->GetType()->GetName() +  " does not conform to expected type" + blockNode->GetType()->GetName());
+            }
+        }
+
+        blockNode->AddStatement(std::move(stmt));
         ConsumeSemicolons();
     }
 
     ConsumeLexeme(LexemeType::RCurl, *blockNode, "Expecting '}'");
+
+    if (blockNode->GetSymbol() == nullptr) {
+        blockNode->SetSymbol(myTable->GetUnitSymbol());
+    }
     return blockNode;
 }
 
@@ -480,8 +501,7 @@ Pointer<ITypedNode> Parser::ParsePostfix() {
     Pointer<ITypedNode> operand = ParsePrimary();
     Lexeme curLexeme = myLexer.GetLexeme();
 
-    // TODO: Fix it
-    while (ParserUtils::PostfixOperations.count(curLexeme.GetType())) {
+    while (ParserUtils::PostfixOperations.count(curLexeme.GetType()) || curLexeme.GetType() == LexemeType::OpLess && dynamic_cast<IdentifierNode*>(operand.get()) != nullptr) {
         myLexer.NextLexeme();
         if (curLexeme.GetType() == LexemeType::OpInc || curLexeme.GetType() == LexemeType::OpDec) {
             Pointer<ITypeSymbol> resultType = operand->GetType()->IsApplicable(curLexeme.GetType());
@@ -499,7 +519,11 @@ Pointer<ITypedNode> Parser::ParsePostfix() {
                 if (classSym != nullptr) {
                     candidates = classSym->GetTable().GetSymbols(myLexer.GetLexeme().GetValue<std::string>());
                 }
-                member = CreateLexemeNode(myLexer.GetLexeme(), myTable->GetUnresolvedSymbol(), candidates);
+
+                Pointer<IdentifierNode> memberIdentifier = CreateLexemeNode(myLexer.GetLexeme(), myTable->GetUnresolvedSymbol(), candidates);
+                memberIdentifier->TryResolveVariable();
+                member = std::move(memberIdentifier);
+                
                 myLexer.NextLexeme();
             } else {
                 AddParsingError(curLexeme, "Name expected");
@@ -535,14 +559,27 @@ Pointer<ITypedNode> Parser::ParsePostfix() {
 
                 if (typeArgs != nullptr && typeArgs->GetArguments().size() == 1 && identifier->GetLexeme().GetText() == "arrayOf") {
                     Pointer<ArraySymbol> arrayType = std::make_unique<ArraySymbol>(typeArgs->GetArguments()[0]->GetType());
-                    std::string arrayTypeName = arrayType->GetName();
-                    myRootTable->Add(std::move(arrayType));
 
-                    Pointer<FunctionSymbol> arrayInitFunc = std::make_unique<FunctionSymbol>("arrayOf", myRootTable->GetType(arrayTypeName), argsTypes, std::make_unique<SymbolTable>(myRootTable));
-                    std::string funcName = arrayInitFunc->GetName();
-                    myRootTable->Add(std::move(arrayInitFunc));
-                    identifier->UpdateCandidates(myTable->GetSymbols(funcName));
-                    identifier->TryResolveFunc(argsTypes);
+                    bool isFailed = false;
+
+                    for (auto& arg : args->GetArguments()) {
+                        if (*arg->GetType() != *typeArgs->GetArguments()[0]->GetType()) {
+                            AddSemanticsError(myLexer.GetLexeme(), arg->GetType()->GetName() + " does not conform to the expected type " + typeArgs->GetArguments()[0]->GetType()->GetName());
+                            isFailed = true;
+                            break;
+                        }
+                    }
+
+                    if (!isFailed) {
+                        std::string arrayTypeName = arrayType->GetName();
+                        myRootTable->Add(std::move(arrayType));
+
+                        Pointer<FunctionSymbol> arrayInitFunc = std::make_unique<FunctionSymbol>("arrayOf", myRootTable->GetType(arrayTypeName), argsTypes, std::make_unique<SymbolTable>(myRootTable));
+                        std::string funcName = arrayInitFunc->GetName();
+                        myRootTable->Add(std::move(arrayInitFunc));
+                        identifier->UpdateCandidates(myTable->GetSymbols(funcName));
+                        identifier->TryResolveFunc(argsTypes);
+                    }
                 }
 
                 resType = identifier->GetType();

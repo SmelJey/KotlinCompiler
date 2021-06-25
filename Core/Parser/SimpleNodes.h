@@ -33,6 +33,7 @@ public:
     void UpdateCandidates(const std::vector<const ISymbol*>& candidates);
 
     const ITypeSymbol* GetType() const override;
+    bool IsMutable() const;
 protected:
     std::string GetName() const override;
 

@@ -13,6 +13,6 @@ public:
 
     static const std::unordered_set<LexemeType> AssignmentOperations;
 
-    static bool IsDirectlyAssignable(const ISyntaxNode* expression);
-    static bool IsPostfixUnaryExpression(const ISyntaxNode* expression);
+    static bool IsDirectlyAssignable(const ITypedNode* expression);
+    static bool IsPostfixUnaryExpression(const ITypedNode* expression);
 };

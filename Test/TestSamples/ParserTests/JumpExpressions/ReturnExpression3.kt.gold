@@ -4,6 +4,7 @@
 @@   |-Params
 @@   |-Block
 @@     |-Return
+@@     | |-Empty Statement
 @@     |-CallSuffix
 @@       |-Identifier :: println
 @@       |-Args

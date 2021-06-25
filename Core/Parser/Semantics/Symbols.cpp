@@ -199,6 +199,11 @@ Pointer<ITypeSymbol> StringSymbol::IsApplicable(LexemeType binaryOperation, cons
         }
     }
 
+    auto arr = dynamic_cast<const ArraySymbol*>(rightOperand);
+    if ((binaryOperation == LexemeType::OpIn || binaryOperation == LexemeType::OpNotIn) && (arr != nullptr)) {
+        return std::make_unique<BooleanSymbol>();
+    }
+
     return std::make_unique<UnresolvedSymbol>();
 }
 
@@ -267,6 +272,10 @@ const ITypeSymbol* VariableSymbol::GetType() const {
 
 std::string VariableSymbol::ToString() const {
     return (myMutability ? "Var " : "Val ") + GetName();
+}
+
+bool VariableSymbol::IsMutable() const {
+    return myMutability;
 }
 
 void VariableSymbol::AcceptVisitor(NodeVisitor& visitor, int depth) const {

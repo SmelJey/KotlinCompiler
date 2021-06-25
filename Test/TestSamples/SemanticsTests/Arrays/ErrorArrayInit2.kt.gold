@@ -1,0 +1,24 @@
+@@ Decl Block
+@@ |-Fun Decl                                                  :: main
+@@   |-Identifier :: main                                      :: Unit
+@@   |-Params
+@@   |-Block                                                   :: Unit
+@@     |-Val Decl                                              :: a
+@@       |-Identifier :: a                                     :: Unresolved type
+@@       |-CallSuffix                                          :: Unresolved type
+@@         |-Identifier :: arrayOf                             :: Unresolved type
+@@         |-Args
+@@           |-Integer :: 1                                    :: Int
+@@           |-Real :: 2.000000                                :: Double
+@@           |-Integer :: 3                                    :: Int
+@@ ====
+@@ SymbolTable
+@@ |-Boolean
+@@ |-Double
+@@ |-Int
+@@ |-String
+@@ |-Fun main() -> Unit
+@@   |-SymbolTable
+@@     |-Val a
+@@       |-Unresolved type
+@@ Error 1:32 :: Int does not conform to the expected type Double

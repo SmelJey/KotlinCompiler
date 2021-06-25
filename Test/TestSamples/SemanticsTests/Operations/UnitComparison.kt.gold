@@ -1,21 +1,21 @@
 @@ Decl Block
-@@ |-Fun Decl 			 :: test1
-@@ | |-Identifier :: test1 			 :: Unit
+@@ |-Fun Decl                                                  :: test1
+@@ | |-Identifier :: test1                                     :: Unit
 @@ | |-Params
-@@ | |-Block
-@@ |-Fun Decl 			 :: test2
-@@ | |-Identifier :: test2 			 :: Unit
+@@ | |-Block                                                   :: Unit
+@@ |-Fun Decl                                                  :: test2
+@@ | |-Identifier :: test2                                     :: Unit
 @@ | |-Params
-@@ | |-Block
-@@ |-Fun Decl 			 :: test
-@@   |-Identifier :: test 			 :: Unit
+@@ | |-Block                                                   :: Unit
+@@ |-Fun Decl                                                  :: test
+@@   |-Identifier :: test                                      :: Boolean
 @@   |-Params
-@@   |-Bin op :: == 			 :: Boolean
-@@     |-CallSuffix 			 :: Unit
-@@     | |-Identifier :: test1 			 :: Unit
+@@   |-Bin op :: ==                                            :: Boolean
+@@     |-CallSuffix                                            :: Unit
+@@     | |-Identifier :: test1                                 :: Unit
 @@     | |-Args
-@@     |-CallSuffix 			 :: Unit
-@@       |-Identifier :: test2 			 :: Unit
+@@     |-CallSuffix                                            :: Unit
+@@       |-Identifier :: test2                                 :: Unit
 @@       |-Args
 @@ ====
 @@ SymbolTable
@@ -23,7 +23,7 @@
 @@ |-Double
 @@ |-Int
 @@ |-String
-@@ |-Fun test() -> Unit
+@@ |-Fun test() -> Boolean
 @@ | |-SymbolTable
 @@ |-Fun test1() -> Unit
 @@ | |-SymbolTable

@@ -16,7 +16,7 @@ const std::vector<std::unordered_set<LexemeType>> ParserUtils::OperationsPriorit
 };
 
 const std::unordered_set<LexemeType> ParserUtils::PostfixOperations {
-    LexemeType::OpDec, LexemeType::OpInc, LexemeType::OpDot, LexemeType::LParen, LexemeType::LSquare, LexemeType::OpLess
+    LexemeType::OpDec, LexemeType::OpInc, LexemeType::OpDot, LexemeType::LParen, LexemeType::LSquare
 };
 
 const std::unordered_set<LexemeType> ParserUtils::AssignmentOperations {
@@ -26,7 +26,7 @@ const std::unordered_set<LexemeType> ParserUtils::AssignmentOperations {
 };
 
 // postfixUnaryExpression (indexingSuffix | navigationSuffix) | simpleIdentifier | parenthesizedDirectlyAssignableExpression
-bool ParserUtils::IsDirectlyAssignable(const ISyntaxNode* expression) {
+bool ParserUtils::IsDirectlyAssignable(const ITypedNode* expression) {
     const IndexSuffixNode* indexOp = dynamic_cast<const IndexSuffixNode*>(expression);
     if (indexOp != nullptr && IsPostfixUnaryExpression(indexOp->GetExpression())) {
         return true;
@@ -41,6 +41,6 @@ bool ParserUtils::IsDirectlyAssignable(const ISyntaxNode* expression) {
     return identifier != nullptr;
 }
 
-bool ParserUtils::IsPostfixUnaryExpression(const ISyntaxNode* expression) {
+bool ParserUtils::IsPostfixUnaryExpression(const ITypedNode* expression) {
     return dynamic_cast<const AbstractUnaryPostfixNode*>(expression) || dynamic_cast<const IdentifierNode*>(expression);
 }

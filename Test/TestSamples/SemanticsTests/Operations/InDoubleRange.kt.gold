@@ -1,18 +1,18 @@
 @@ Decl Block
-@@ |-Fun Decl 			 :: main
-@@   |-Identifier :: main 			 :: Unit
+@@ |-Fun Decl                                                  :: main
+@@   |-Identifier :: main                                      :: Unit
 @@   |-Params
-@@   |-Block
-@@     |-Bin op :: in 			 :: Boolean
-@@     | |-Real :: 5.500000 			 :: Double
-@@     | |-Bin op :: .. 			 :: ClosedRange<Double>
-@@     |   |-Real :: 3.000000 			 :: Double
-@@     |   |-Real :: 6.000000 			 :: Double
-@@     |-Bin op :: !in 			 :: Boolean
-@@       |-Real :: 3.200000 			 :: Double
-@@       |-Bin op :: .. 			 :: ClosedRange<Double>
-@@         |-Real :: 3.100000 			 :: Double
-@@         |-Real :: 6.125000 			 :: Double
+@@   |-Block                                                   :: Unit
+@@     |-Bin op :: in                                          :: Boolean
+@@     | |-Real :: 5.500000                                    :: Double
+@@     | |-Bin op :: ..                                        :: ClosedRange<Double>
+@@     |   |-Real :: 3.000000                                  :: Double
+@@     |   |-Real :: 6.000000                                  :: Double
+@@     |-Bin op :: !in                                         :: Boolean
+@@       |-Real :: 3.200000                                    :: Double
+@@       |-Bin op :: ..                                        :: ClosedRange<Double>
+@@         |-Real :: 3.100000                                  :: Double
+@@         |-Real :: 6.125000                                  :: Double
 @@ ====
 @@ SymbolTable
 @@ |-Boolean

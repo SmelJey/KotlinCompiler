@@ -55,12 +55,17 @@ void CuteToStringVisitor::ExitNode(const IVisitable& node, int depth) {
     if (myShowSemantics) {
         const ITypedNode* typeSym = dynamic_cast<const ITypedNode*>(&node);
 
+        int spacingRequired = 60 - depth * 2 - res.size();
+        std::string spacing = "";
+        for (int i = 0; i < spacingRequired; i++) {
+            spacing += " ";
+        }
         if (typeSym != nullptr) {
-            res.append(" \t\t\t :: " + typeSym->GetType()->GetName());
+            res.append(spacing + ":: " + typeSym->GetType()->GetName());
         } else {
             const ISymbolAnnotatedNode* symbolAnnotated = dynamic_cast<const ISymbolAnnotatedNode*>(&node);
             if (symbolAnnotated != nullptr) {
-                res.append(" \t\t\t :: " + symbolAnnotated->GetSymbol()->GetName());
+                res.append(spacing + ":: " + symbolAnnotated->GetSymbol()->GetName());
             }
         }
     }

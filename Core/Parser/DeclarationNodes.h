@@ -112,8 +112,8 @@ public:
     const ParameterList& GetParameters() const;
     void SetParameters(Pointer<ParameterList> parameters);
 
-    const ISyntaxNode& GetBody() const;
-    void SetBody(Pointer<ISyntaxNode> body);
+    const ITypedNode& GetBody() const;
+    void SetBody(Pointer<ITypedNode> body);
 
     const ITypedNode& GetReturn() const;
     void SetReturn(Pointer<ITypedNode> returnNode);
@@ -126,7 +126,7 @@ protected:
 
 private:
     Pointer<ParameterList> myParams;
-    Pointer<ISyntaxNode> myBody;
+    Pointer<ITypedNode> myBody;
     Pointer<ITypedNode> myReturn;
 };
 

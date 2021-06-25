@@ -120,6 +120,8 @@ public:
 
     std::string ToString() const override;
 
+    bool IsMutable() const;
+
 protected:
     void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
 

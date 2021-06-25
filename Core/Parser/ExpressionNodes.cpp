@@ -243,6 +243,14 @@ void BlockNode::AddStatement(Pointer<ISyntaxNode> statement) {
     myStatements.push_back(std::move(statement));
 }
 
+const ISymbol* BlockNode::GetSymbol() const {
+    return myReturn;
+}
+
+void BlockNode::SetSymbol(const ITypeSymbol* returnSym) {
+    myReturn = returnSym;
+}
+
 std::string BlockNode::GetName() const {
     return "Block";
 }
