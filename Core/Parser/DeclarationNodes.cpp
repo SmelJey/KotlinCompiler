@@ -17,6 +17,7 @@ const ISymbol* AbstractDeclaration::GetSymbol() const {
 
 void AbstractDeclaration::SetSymbol(const ISymbol* symbol) {
     mySymbol = symbol;
+    myIdentifier->Resolve(symbol);
 }
 
 Lexeme AbstractDeclaration::GetLexeme() const {

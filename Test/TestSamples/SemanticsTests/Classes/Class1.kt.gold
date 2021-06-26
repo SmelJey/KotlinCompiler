@@ -1,0 +1,11 @@
+@@ Decl Block
+@@ |-Class Decl                                                :: A
+@@   |-Identifier :: A                                         :: A
+@@ ====
+@@ SymbolTable
+@@ |-Class A
+@@ | |-SymbolTable
+@@ |-Boolean
+@@ |-Double
+@@ |-Int
+@@ |-String

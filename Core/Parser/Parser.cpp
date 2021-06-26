@@ -77,15 +77,24 @@ Pointer<ClassDeclaration> Parser::ParseClass() {
     myLexer.NextLexeme();
 
     Pointer<ClassDeclaration> classDecl = std::make_unique<ClassDeclaration>(ParseIdentifier("Class declaration must have a name"));
+    Pointer<SymbolTable> classTable = std::make_unique<SymbolTable>(myTable);
+    myTable = classTable.get();
 
-    if (myLexer.GetLexeme().GetType() != LexemeType::LCurl) {
-        return classDecl;
+    if (myLexer.GetLexeme().GetType() == LexemeType::LCurl) {
+        myLexer.NextLexeme();
+        classDecl->SetBody(ParseDeclarations(true));
+        ConsumeLexeme(LexemeType::RCurl, "Expecting '}'");
     }
 
-    myLexer.NextLexeme();
+    myTable = classTable->GetParent();
 
-    classDecl->SetBody(ParseDeclarations(true));
-    ConsumeLexeme(LexemeType::RCurl, "Expecting '}'");
+    Pointer<ClassSymbol> classSym = std::make_unique<ClassSymbol>(classDecl->GetIdentifierName(), std::move(classTable));
+    const ISymbol* sym = myTable->Add(std::move(classSym));
+    if (*sym == UnresolvedSymbol()) {
+        AddSemanticsError(classDecl->GetIdentifier().GetLexeme(), "Conflicting declarations: " + classDecl->GetIdentifierName());
+    }
+
+    classDecl->SetSymbol(sym);
     return classDecl;
 }
 
@@ -143,7 +152,6 @@ Pointer<FunctionDeclaration> Parser::ParseFunction() {
     }
 
     functionDecl->SetSymbol(sym);
-    functionDecl->GetIdentifier().Resolve(sym);
     return functionDecl;
 }
 
@@ -194,8 +202,6 @@ Pointer<ParameterNode> Parser::ParseParameter() {
     if (*resSym == UnresolvedSymbol()) {
         AddSemanticsError(curLexeme, "Conflicting declarations: " + identifier->GetIdentifier());
     }
-
-    identifier->Resolve(resSym);
 
     Pointer<ParameterNode> param = std::make_unique<ParameterNode>(std::move(identifier), std::move(typeNode));
     param->SetSymbol(resSym);
@@ -442,7 +448,6 @@ Pointer<PropertyDeclaration> Parser::ParseProperty() {
     }
 
     propertyDecl->SetSymbol(sym);
-    propertyDecl->GetIdentifier().Resolve(sym);
     return propertyDecl;
 }
 
@@ -772,7 +777,7 @@ Pointer<IfExpression> Parser::ParseIfExpression() {
     return ifExpr;
 }
 
-Pointer<IdentifierNode> Parser::CreateEmptyIdentifier(const Lexeme& lexeme) {
+Pointer<IdentifierNode> Parser::CreateEmptyIdentifier(const Lexeme& lexeme) const {
     return std::make_unique<IdentifierNode>(lexeme.CopyEmptyOfType(LexemeType::Error), myRootTable->GetUnresolvedSymbol(), std::vector<const ISymbol*>());
 }
 

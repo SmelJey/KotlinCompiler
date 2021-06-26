@@ -1,0 +1,23 @@
+@@ Decl Block
+@@ |-Class Decl                                                :: A
+@@   |-Identifier :: A                                         :: A
+@@   |-Decl Block
+@@     |-Val Decl                                              :: a
+@@     | |-Identifier :: a                                     :: a
+@@     | |-Integer :: 1                                        :: Int
+@@     |-Fun Decl                                              :: test
+@@       |-Identifier :: test                                  :: test
+@@       |-Params
+@@       |-Integer :: 2                                        :: Int
+@@ ====
+@@ SymbolTable
+@@ |-Class A
+@@ | |-SymbolTable
+@@ |   |-Val a
+@@ |   | |-Int
+@@ |   |-Fun test() -> Int
+@@ |     |-SymbolTable
+@@ |-Boolean
+@@ |-Double
+@@ |-Int
+@@ |-String

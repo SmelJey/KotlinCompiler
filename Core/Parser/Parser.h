@@ -56,7 +56,7 @@ private:
 
     Pointer<IfExpression> ParseIfExpression();
 
-    Pointer<IdentifierNode> CreateEmptyIdentifier(const Lexeme& lexeme);
+    Pointer<IdentifierNode> CreateEmptyIdentifier(const Lexeme& lexeme) const;
     void AddParsingError(const Lexeme& location, const std::string& error);
     void AddSemanticsError(const Lexeme& location, const std::string& error);
 

@@ -1,0 +1,14 @@
+@@ Decl Block
+@@ |-Class Decl                                                :: A
+@@ | |-Identifier :: A                                         :: A
+@@ |-Class Decl                                                :: Unresolved type
+@@   |-Identifier :: A                                         :: Unresolved type
+@@ ====
+@@ SymbolTable
+@@ |-Class A
+@@ | |-SymbolTable
+@@ |-Boolean
+@@ |-Double
+@@ |-Int
+@@ |-String
+@@ Error 1:6 :: Conflicting declarations: A
