@@ -6,9 +6,9 @@
 
 class IVisitable;
 
-class NodeVisitor {
+class INodeVisitor {
 public:
-    virtual ~NodeVisitor();
+    virtual ~INodeVisitor();
 
     void VisitNode(const IVisitable& node, int depth);
 protected:
@@ -16,7 +16,7 @@ protected:
     virtual void ExitNode(const IVisitable& node, int depth) = 0;
 };
 
-class ToStringVisitor : public NodeVisitor {
+class ToStringVisitor : public INodeVisitor {
 public:
     ToStringVisitor();
 
@@ -29,7 +29,7 @@ private:
     std::vector<std::string> myStringData;
 };
 
-class CuteToStringVisitor : public NodeVisitor {
+class CuteToStringVisitor : public INodeVisitor {
 public:
     CuteToStringVisitor();
 

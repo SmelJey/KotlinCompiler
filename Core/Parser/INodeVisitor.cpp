@@ -1,10 +1,10 @@
-#include "NodeVisitor.h"
+#include "INodeVisitor.h"
 
 #include "ISyntaxNode.h"
 
-NodeVisitor::~NodeVisitor() = default;
+INodeVisitor::~INodeVisitor() = default;
 
-void NodeVisitor::VisitNode(const IVisitable & node, int depth) {
+void INodeVisitor::VisitNode(const IVisitable & node, int depth) {
     EnterNode(node, depth);
     node.AcceptVisitor(*this, depth + 1);
     ExitNode(node, depth);

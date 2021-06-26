@@ -1,6 +1,6 @@
 #include "ClassSymbol.h"
 
-#include "../NodeVisitor.h"
+#include "../INodeVisitor.h"
 
 ClassSymbol::ClassSymbol(const std::string& name, Pointer<SymbolTable> table) : myName(name), myTable(std::move(table)) {}
 
@@ -28,7 +28,7 @@ std::string ClassSymbol::ToString() const {
     return "Class " + GetName();
 }
 
-void ClassSymbol::AcceptVisitor(NodeVisitor& visitor, int depth) const {
+void ClassSymbol::AcceptVisitor(INodeVisitor& visitor, int depth) const {
     visitor.VisitNode(*myTable, depth);
 }
 

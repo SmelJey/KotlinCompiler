@@ -1,7 +1,7 @@
 #include "SymbolTable.h"
 #include "ClassSymbol.h"
 #include "FunctionSymbol.h"
-#include "../NodeVisitor.h"
+#include "../INodeVisitor.h"
 
 SymbolTable::SymbolTable(SymbolTable* parent) : myParentTable(parent) {
     myUnresolved = std::make_unique<UnresolvedSymbol>();
@@ -144,7 +144,7 @@ std::string SymbolTable::ToString() const {
     return "SymbolTable";
 }
 
-void SymbolTable::AcceptVisitor(NodeVisitor& visitor, int depth) const {
+void SymbolTable::AcceptVisitor(INodeVisitor& visitor, int depth) const {
     for (auto& it : mySymbols) {
         for (auto& sym : it.second) {
             visitor.VisitNode(*sym, depth);

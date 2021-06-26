@@ -15,7 +15,7 @@ public:
     void SetSymbol(const ISymbol* symbol);
 
 protected:
-    void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
+    void AcceptVisitor(INodeVisitor& visitor, int depth) const override;
 
     const ISymbol* mySymbol = nullptr;
 
@@ -33,7 +33,7 @@ public:
 
 protected:
     std::string GetName() const override;
-    void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
+    void AcceptVisitor(INodeVisitor& visitor, int depth) const override;
 
 private:
     std::vector<Pointer<AbstractDeclaration>> myDeclarations;
@@ -49,7 +49,7 @@ public:
 
 protected:
     std::string GetName() const override;
-    void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
+    void AcceptVisitor(INodeVisitor& visitor, int depth) const override;
 
 private:
     Pointer<DeclarationBlock> myClassBody;
@@ -70,7 +70,7 @@ public:
 
 protected:
     std::string GetName() const override;
-    void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
+    void AcceptVisitor(INodeVisitor& visitor, int depth) const override;
 
 private:
     Pointer<IAnnotatedNode> myType;
@@ -87,7 +87,7 @@ public:
 
 protected:
     std::string GetName() const override;
-    void AcceptVisitor(NodeVisitor & visitor, int depth) const override;
+    void AcceptVisitor(INodeVisitor & visitor, int depth) const override;
 
 private:
     Pointer<IAnnotatedNode> myType;
@@ -102,7 +102,7 @@ public:
 
 protected:
     std::string GetName() const override;
-    void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
+    void AcceptVisitor(INodeVisitor& visitor, int depth) const override;
 
 private:
     std::vector<Pointer<ParameterNode>> myParameters;
@@ -125,7 +125,7 @@ public:
 protected:
     std::string GetName() const override;
 
-    void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
+    void AcceptVisitor(INodeVisitor& visitor, int depth) const override;
 
 private:
     Pointer<ParameterList> myParams;
@@ -150,7 +150,7 @@ public:
 
 protected:
     std::string GetName() const override;
-    void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
+    void AcceptVisitor(INodeVisitor& visitor, int depth) const override;
 
 private:
     Pointer<IAnnotatedNode> myType;

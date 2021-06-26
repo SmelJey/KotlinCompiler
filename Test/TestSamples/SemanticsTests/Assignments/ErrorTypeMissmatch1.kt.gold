@@ -1,0 +1,23 @@
+@@ Decl Block
+@@ |-Fun Decl                                                  :: main
+@@   |-Identifier :: main                                      :: main
+@@   |-Params
+@@   |-Block                                                   :: Unit
+@@     |-Var Decl                                              :: a
+@@     | |-Identifier :: a                                     :: a
+@@     | |-Type :: Double                                      :: Double
+@@     | |-Real :: 1.200000                                    :: Double
+@@     |-Assignment :: =
+@@       |-Identifier :: a                                     :: a
+@@       |-Integer :: 6                                        :: Int
+@@ ====
+@@ SymbolTable
+@@ |-Boolean
+@@ |-Double
+@@ |-Int
+@@ |-String
+@@ |-Fun main() -> Unit
+@@   |-SymbolTable
+@@     |-Var a
+@@       |-Double
+@@ Error 2:3 :: Int does not conform to the exprected type Double

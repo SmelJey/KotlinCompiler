@@ -1,6 +1,6 @@
 #include "Symbols.h"
 
-#include "../NodeVisitor.h"
+#include "../INodeVisitor.h"
 
 bool ISymbol::operator<(const ISymbol& rhs) const {
     if (typeid(*this) == typeid(rhs)) {
@@ -204,7 +204,7 @@ Pointer<ITypeSymbol> DoubleSymbol::IsApplicable(LexemeType binaryOperation, cons
 }
 
 bool DoubleSymbol::IsAssignable(LexemeType assignOperation, const ITypeSymbol* rightOperand) const {
-    if (*this == *rightOperand || dynamic_cast<const IntegerSymbol*>(rightOperand) != nullptr) {
+    if (*this == *rightOperand) {
         return assignOperation == LexemeType::OpAssign || LexerUtils::IsArithmAssignOperation(assignOperation);
     }
 
@@ -308,7 +308,7 @@ bool VariableSymbol::IsMutable() const {
     return myMutability;
 }
 
-void VariableSymbol::AcceptVisitor(NodeVisitor& visitor, int depth) const {
+void VariableSymbol::AcceptVisitor(INodeVisitor& visitor, int depth) const {
     visitor.VisitNode(*myType, depth);
 }
 

@@ -1,5 +1,5 @@
 #include "DeclarationNodes.h"
-#include "NodeVisitor.h"
+#include "INodeVisitor.h"
 
 std::string AbstractDeclaration::GetIdentifierName() const {
     return myIdentifier->GetLexeme().GetValue<std::string>();
@@ -21,7 +21,7 @@ void AbstractDeclaration::SetSymbol(const ISymbol* symbol) {
     mySymbol = symbol;
 }
 
-void AbstractDeclaration::AcceptVisitor(NodeVisitor& visitor, int depth) const {
+void AbstractDeclaration::AcceptVisitor(INodeVisitor& visitor, int depth) const {
     visitor.VisitNode(*myIdentifier, depth);
 }
 
@@ -39,7 +39,7 @@ std::string DeclarationBlock::GetName() const {
     return "Decl Block";
 }
 
-void DeclarationBlock::AcceptVisitor(NodeVisitor& visitor, int depth) const {
+void DeclarationBlock::AcceptVisitor(INodeVisitor& visitor, int depth) const {
     for (auto& declaration : myDeclarations) {
         visitor.VisitNode(*declaration, depth);
     }
@@ -61,7 +61,7 @@ std::string ClassDeclaration::GetName() const {
     return "Class Decl";
 }
 
-void ClassDeclaration::AcceptVisitor(NodeVisitor& visitor, int depth) const {
+void ClassDeclaration::AcceptVisitor(INodeVisitor& visitor, int depth) const {
     AbstractDeclaration::AcceptVisitor(visitor, depth);
 
     if (HasBody()) {
@@ -102,7 +102,7 @@ std::string ParameterNode::GetName() const {
     return "Parameter";
 }
 
-void ParameterNode::AcceptVisitor(NodeVisitor& visitor, int depth) const {
+void ParameterNode::AcceptVisitor(INodeVisitor& visitor, int depth) const {
     AbstractDeclaration::AcceptVisitor(visitor, depth);
 
     visitor.VisitNode(*myType, depth);
@@ -127,7 +127,7 @@ std::string VariableNode::GetName() const {
     return "Variable";
 }
 
-void VariableNode::AcceptVisitor(NodeVisitor& visitor, int depth) const {
+void VariableNode::AcceptVisitor(INodeVisitor& visitor, int depth) const {
     AbstractDeclaration::AcceptVisitor(visitor, depth);
 
     if (HasTypeNode()) {
@@ -147,7 +147,7 @@ std::string ParameterList::GetName() const {
     return "Params";
 }
 
-void ParameterList::AcceptVisitor(NodeVisitor& visitor, int depth) const {
+void ParameterList::AcceptVisitor(INodeVisitor& visitor, int depth) const {
     for (auto& param : myParameters) {
         visitor.VisitNode(*param, depth);
     }
@@ -185,7 +185,7 @@ std::string FunctionDeclaration::GetName() const {
     return "Fun Decl";
 }
 
-void FunctionDeclaration::AcceptVisitor(NodeVisitor& visitor, int depth) const {
+void FunctionDeclaration::AcceptVisitor(INodeVisitor& visitor, int depth) const {
     AbstractDeclaration::AcceptVisitor(visitor, depth);
 
     visitor.VisitNode(*myParams, depth);
@@ -234,7 +234,7 @@ std::string PropertyDeclaration::GetName() const {
     return "V" + GetKeyword().substr(1) + " Decl";
 }
 
-void PropertyDeclaration::AcceptVisitor(NodeVisitor& visitor, int depth) const {
+void PropertyDeclaration::AcceptVisitor(INodeVisitor& visitor, int depth) const {
     AbstractDeclaration::AcceptVisitor(visitor, depth);
 
     if (HasTypeNode()) {

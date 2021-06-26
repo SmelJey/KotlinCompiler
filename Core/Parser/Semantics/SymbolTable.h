@@ -28,12 +28,12 @@ public:
     const UnresolvedSymbol* GetUnresolvedSymbol() const;
     const UnitTypeSymbol* GetUnitSymbol() const;
 
-    friend class NodeVisitor;
+    friend class INodeVisitor;
 
     std::string ToString() const override;
 
 protected:
-    void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
+    void AcceptVisitor(INodeVisitor& visitor, int depth) const override;
 
 private:
     bool LocalContains(const ISymbol& symbol) const;

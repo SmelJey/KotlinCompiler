@@ -2,7 +2,7 @@
 
 #include "ISyntaxNode.h"
 #include "StatementNodes.h"
-#include "NodeVisitor.h"
+#include "INodeVisitor.h"
 #include "Semantics/FunctionSymbol.h"
 
 BinOperationNode::BinOperationNode(const Lexeme& operation, Pointer<IAnnotatedNode> left,
@@ -33,7 +33,7 @@ std::string BinOperationNode::GetName() const {
     return "Bin op :: " + GetOperation();
 }
 
-void BinOperationNode::AcceptVisitor(NodeVisitor& visitor, int depth) const {
+void BinOperationNode::AcceptVisitor(INodeVisitor& visitor, int depth) const {
     visitor.VisitNode(GetLeftOperand(), depth);
     visitor.VisitNode(GetRightOperand(), depth);
 }
@@ -57,7 +57,7 @@ const ITypeSymbol* AbstractUnaryOperationNode::GetType() const {
     return myType;
 }
 
-void AbstractUnaryOperationNode::AcceptVisitor(NodeVisitor& visitor, int depth) const {
+void AbstractUnaryOperationNode::AcceptVisitor(INodeVisitor& visitor, int depth) const {
     visitor.VisitNode(*myOperand, depth);
 }
 
@@ -87,7 +87,7 @@ std::string CallArgumentsNode::GetName() const {
     return "Args";
 }
 
-void CallArgumentsNode::AcceptVisitor(NodeVisitor& visitor, int depth) const {
+void CallArgumentsNode::AcceptVisitor(INodeVisitor& visitor, int depth) const {
     for (auto& arg : myArguments) {
         visitor.VisitNode(*arg, depth);
     }
@@ -105,7 +105,7 @@ std::string TypeArgumentsNode::GetName() const {
     return "TypeArgs";
 }
 
-void TypeArgumentsNode::AcceptVisitor(NodeVisitor& visitor, int depth) const {
+void TypeArgumentsNode::AcceptVisitor(INodeVisitor& visitor, int depth) const {
     for (auto& arg : myArguments) {
         visitor.VisitNode(*arg, depth);
     }
@@ -134,7 +134,7 @@ const ITypeSymbol* PostfixCallNode::GetType() const {
     return myType;
 }
 
-void PostfixCallNode::AcceptVisitor(NodeVisitor& visitor, int depth) const {
+void PostfixCallNode::AcceptVisitor(INodeVisitor& visitor, int depth) const {
     visitor.VisitNode(*myExpression, depth);
     visitor.VisitNode(*myArgumentsNode, depth);
 }
@@ -165,7 +165,7 @@ bool CallSuffixNode::HasTypeArguments() const {
     return myTypeArguments != nullptr;
 }
 
-void CallSuffixNode::AcceptVisitor(NodeVisitor& visitor, int depth) const {
+void CallSuffixNode::AcceptVisitor(INodeVisitor& visitor, int depth) const {
     PostfixCallNode::AcceptVisitor(visitor, depth);
     if (HasTypeArguments()) {
         visitor.VisitNode(*myTypeArguments, depth);
@@ -221,7 +221,7 @@ std::string MemberAccessNode::GetName() const {
     return "MemberAccess :: " + GetOperation();
 }
 
-void MemberAccessNode::AcceptVisitor(NodeVisitor& visitor, int depth) const {
+void MemberAccessNode::AcceptVisitor(INodeVisitor& visitor, int depth) const {
     visitor.VisitNode(*myExpression, depth);
     visitor.VisitNode(*myMemberNode, depth);
 }
@@ -272,7 +272,7 @@ std::string IfExpression::GetName() const {
     return "If Expr";
 }
 
-void IfExpression::AcceptVisitor(NodeVisitor& visitor, int depth) const {
+void IfExpression::AcceptVisitor(INodeVisitor& visitor, int depth) const {
     visitor.VisitNode(*myExpression, depth);
     visitor.VisitNode(*myIfBody, depth);
     visitor.VisitNode(*myElseBody, depth);
@@ -302,7 +302,7 @@ std::string BlockNode::GetName() const {
     return "Block";
 }
 
-void BlockNode::AcceptVisitor(NodeVisitor& visitor, int depth) const {
+void BlockNode::AcceptVisitor(INodeVisitor& visitor, int depth) const {
     for (auto& statement : myStatements) {
         visitor.VisitNode(*statement, depth);
     }

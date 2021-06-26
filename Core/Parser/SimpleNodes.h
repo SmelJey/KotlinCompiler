@@ -104,7 +104,7 @@ public:
 
 protected:
     std::string GetName() const override;
-    void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
+    void AcceptVisitor(INodeVisitor& visitor, int depth) const override;
 
 private:
     Pointer<IAnnotatedNode> myExpression;

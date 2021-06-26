@@ -1,0 +1,32 @@
+@@ Decl Block
+@@ |-Fun Decl                                                  :: test
+@@ | |-Identifier :: test                                      :: test
+@@ | |-Params
+@@ | |-Type :: Int                                             :: Int
+@@ | |-Block                                                   :: Int
+@@ |   |-Return
+@@ |     |-Integer :: 2                                        :: Int
+@@ |-Fun Decl                                                  :: main
+@@   |-Identifier :: main                                      :: main
+@@   |-Params
+@@   |-Block                                                   :: Unit
+@@     |-Var Decl                                              :: a
+@@     | |-Identifier :: a                                     :: a
+@@     | |-Integer :: 5                                        :: Int
+@@     |-Assignment :: =
+@@       |-Identifier :: a                                     :: a
+@@       |-CallSuffix                                          :: Int
+@@         |-Identifier :: test                                :: test
+@@         |-Args
+@@ ====
+@@ SymbolTable
+@@ |-Boolean
+@@ |-Double
+@@ |-Int
+@@ |-String
+@@ |-Fun main() -> Unit
+@@ | |-SymbolTable
+@@ |   |-Var a
+@@ |     |-Int
+@@ |-Fun test() -> Int
+@@   |-SymbolTable

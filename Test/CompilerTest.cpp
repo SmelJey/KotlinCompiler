@@ -1,6 +1,6 @@
 #include "CompilerTest.h"
 
-#include "Parser/NodeVisitor.h"
+#include "Parser/INodeVisitor.h"
 #include "Parser/Parser.h"
 
 std::string LexerTest::CreateTestPath(const std::string& path) {

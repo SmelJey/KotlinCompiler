@@ -1,6 +1,6 @@
 #include "FunctionSymbol.h"
 
-#include "../NodeVisitor.h"
+#include "../INodeVisitor.h"
 
 FunctionSymbol::FunctionSymbol(const std::string& name, const ITypeSymbol* returnType,
                                const std::vector<const ITypeSymbol*>& params, Pointer<SymbolTable> table)
@@ -65,6 +65,6 @@ std::string FunctionSymbol::ToString() const {
     return res;
 }
 
-void FunctionSymbol::AcceptVisitor(NodeVisitor& visitor, int depth) const {
+void FunctionSymbol::AcceptVisitor(INodeVisitor& visitor, int depth) const {
     visitor.VisitNode(*myTable, depth);
 }

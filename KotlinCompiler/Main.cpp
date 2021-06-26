@@ -10,7 +10,7 @@
 #include <boost/program_options/variables_map.hpp>
 
 #include "Parser/Parser.h"
-#include "Parser/NodeVisitor.h"
+#include "Parser/INodeVisitor.h"
 
 namespace prog_opt = boost::program_options;
 

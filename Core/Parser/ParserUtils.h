@@ -3,7 +3,6 @@
 
 #include "ISyntaxNode.h"
 #include "../Lexer/LexerUtils.h"
-#include "Semantics/SymbolTable.h"
 
 class ParserUtils {
 public:

@@ -1,6 +1,6 @@
 #include "SimpleNodes.h"
 #include "Semantics/FunctionSymbol.h"
-#include "NodeVisitor.h"
+#include "INodeVisitor.h"
 
 #include <sstream>
 
@@ -181,7 +181,7 @@ std::string ReturnNode::GetName() const {
     return "Return";
 }
 
-void ReturnNode::AcceptVisitor(NodeVisitor& visitor, int depth) const {
+void ReturnNode::AcceptVisitor(INodeVisitor& visitor, int depth) const {
     if (HasExpression()) {
         visitor.VisitNode(*myExpression, depth);
     }

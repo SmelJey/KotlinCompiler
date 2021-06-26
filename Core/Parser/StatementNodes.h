@@ -29,7 +29,7 @@ public:
 
 protected:
     std::string GetName() const override;
-    void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
+    void AcceptVisitor(INodeVisitor& visitor, int depth) const override;
 
 private:
     Pointer<IAnnotatedNode> myAssignable;
@@ -47,7 +47,7 @@ public:
     void SetBody(Pointer<ISyntaxNode> body);
 
 protected:
-    void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
+    void AcceptVisitor(INodeVisitor& visitor, int depth) const override;
 
 private:
     Pointer<IAnnotatedNode> myExpression;
@@ -79,7 +79,7 @@ public:
 
 protected:
     std::string GetName() const override;
-    void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
+    void AcceptVisitor(INodeVisitor& visitor, int depth) const override;
 
 private:
     Pointer<VariableNode> myVariable;

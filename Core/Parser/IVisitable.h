@@ -1,17 +1,17 @@
 #pragma once
 #include <string>
 
-class NodeVisitor;
+class INodeVisitor;
 
 class IVisitable {
 public:
     virtual ~IVisitable();
 
-    friend class NodeVisitor;
+    friend class INodeVisitor;
 
     virtual std::string ToString() const = 0;
-    void RunVisitor(NodeVisitor& visitor) const;
+    void RunVisitor(INodeVisitor& visitor) const;
 
 protected:
-    virtual void AcceptVisitor(NodeVisitor& visitor, int depth) const;
+    virtual void AcceptVisitor(INodeVisitor& visitor, int depth) const;
 };

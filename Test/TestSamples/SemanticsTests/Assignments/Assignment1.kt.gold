@@ -1,0 +1,21 @@
+@@ Decl Block
+@@ |-Fun Decl                                                  :: main
+@@   |-Identifier :: main                                      :: main
+@@   |-Params
+@@   |-Block                                                   :: Unit
+@@     |-Var Decl                                              :: a
+@@     | |-Identifier :: a                                     :: a
+@@     | |-Integer :: 5                                        :: Int
+@@     |-Assignment :: =
+@@       |-Identifier :: a                                     :: a
+@@       |-Integer :: 2                                        :: Int
+@@ ====
+@@ SymbolTable
+@@ |-Boolean
+@@ |-Double
+@@ |-Int
+@@ |-String
+@@ |-Fun main() -> Unit
+@@   |-SymbolTable
+@@     |-Var a
+@@       |-Int

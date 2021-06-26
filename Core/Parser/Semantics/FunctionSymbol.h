@@ -24,7 +24,7 @@ public:
     std::string ToString() const override;
 
 protected:
-    void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
+    void AcceptVisitor(INodeVisitor& visitor, int depth) const override;
 
 private:
     std::string myName;

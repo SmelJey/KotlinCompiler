@@ -20,7 +20,7 @@ public:
 protected:
     std::string GetName() const override;
 
-    void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
+    void AcceptVisitor(INodeVisitor& visitor, int depth) const override;
 private:
     Pointer<IAnnotatedNode> myLeftOperand;
     Pointer<IAnnotatedNode> myRightOperand;
@@ -38,7 +38,7 @@ public:
     const ITypeSymbol* GetType() const override;
 
 protected:
-    void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
+    void AcceptVisitor(INodeVisitor& visitor, int depth) const override;
 
 private:
     Pointer<IAnnotatedNode> myOperand;
@@ -75,7 +75,7 @@ public:
 
 protected:
     std::string GetName() const override;
-    void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
+    void AcceptVisitor(INodeVisitor& visitor, int depth) const override;
 
 private:
     std::vector<Pointer<IAnnotatedNode>> myArguments;
@@ -90,7 +90,7 @@ public:
 
 protected:
     std::string GetName() const override;
-    void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
+    void AcceptVisitor(INodeVisitor& visitor, int depth) const override;
 
 private:
     std::vector<Pointer<TypeNode>> myArguments;
@@ -108,7 +108,7 @@ public:
     const ISymbol* GetSymbol() const override;
     const ITypeSymbol* GetType() const override;
 protected:
-    void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
+    void AcceptVisitor(INodeVisitor& visitor, int depth) const override;
 
 private:
     Pointer<IAnnotatedNode> myExpression;
@@ -135,7 +135,7 @@ public:
     bool HasTypeArguments() const;
 
 protected:
-    void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
+    void AcceptVisitor(INodeVisitor& visitor, int depth) const override;
 
     std::string GetName() const override;
 
@@ -158,7 +158,7 @@ public:
 
 protected:
     std::string GetName() const override;
-    void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
+    void AcceptVisitor(INodeVisitor& visitor, int depth) const override;
 
 private:
     Lexeme myOperation;
@@ -186,7 +186,7 @@ public:
 
 protected:
     std::string GetName() const override;
-    void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
+    void AcceptVisitor(INodeVisitor& visitor, int depth) const override;
 
 private:
     Pointer<IAnnotatedNode> myExpression;
@@ -209,7 +209,7 @@ public:
 
 protected:
     std::string GetName() const override;
-    void AcceptVisitor(NodeVisitor& visitor, int depth) const override;
+    void AcceptVisitor(INodeVisitor& visitor, int depth) const override;
 
 private:
     std::vector<Pointer<ISyntaxNode>> myStatements;

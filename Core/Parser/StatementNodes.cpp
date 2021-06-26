@@ -1,6 +1,6 @@
 #include "StatementNodes.h"
 #include "ISyntaxNode.h"
-#include "NodeVisitor.h"
+#include "INodeVisitor.h"
 
 EmptyStatement::EmptyStatement(const UnitTypeSymbol* type) : myType(type) {}
 
@@ -42,7 +42,7 @@ std::string Assignment::GetName() const {
     return "Assignment :: " + GetOperation();
 }
 
-void Assignment::AcceptVisitor(NodeVisitor& visitor, int depth) const {
+void Assignment::AcceptVisitor(INodeVisitor& visitor, int depth) const {
     visitor.VisitNode(*myAssignable, depth);
     visitor.VisitNode(*myExpression, depth);
 }
@@ -63,7 +63,7 @@ void LoopNode::SetBody(Pointer<ISyntaxNode> body) {
     myBody = std::move(body);
 }
 
-void LoopNode::AcceptVisitor(NodeVisitor& visitor, int depth) const {
+void LoopNode::AcceptVisitor(INodeVisitor& visitor, int depth) const {
     visitor.VisitNode(*myExpression, depth);
     visitor.VisitNode(*myBody, depth);
 }
@@ -88,7 +88,7 @@ std::string ForNode::GetName() const {
     return "For";
 }
 
-void ForNode::AcceptVisitor(NodeVisitor& visitor, int depth) const {
+void ForNode::AcceptVisitor(INodeVisitor& visitor, int depth) const {
     visitor.VisitNode(*myVariable, depth);
     LoopNode::AcceptVisitor(visitor, depth);
 }
