@@ -65,6 +65,9 @@ private:
     void ConsumeSemicolons();
 
     Pointer<EmptyStatement> CreateEmptyStatement(const Lexeme& lexeme);
+    Pointer<ITypeSymbol> IsApplicable(LexemeType operation, const ITypeSymbol* left, const ITypeSymbol* right);
+    Pointer<ITypeSymbol> IsApplicable(LexemeType operation, const ITypeSymbol* left);
+    const ITypeSymbol* GetType(const std::string& name);
 
     template<typename T>
     Pointer<T> CreateLexemeNode(const Lexeme& lexeme) {
@@ -97,4 +100,5 @@ private:
     SymbolTable* myTable;
     std::vector<ParserError> myParsingErrors;
     std::vector<ParserError> mySemanticsErrors;
+    bool wasError = false;
 };

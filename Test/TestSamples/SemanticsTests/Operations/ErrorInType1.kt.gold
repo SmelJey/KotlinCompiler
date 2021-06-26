@@ -1,0 +1,20 @@
+@@ Decl Block
+@@ |-Fun Decl                                                  :: main
+@@   |-Identifier :: main                                      :: main
+@@   |-Params
+@@   |-Block                                                   :: Unit
+@@     |-Bin op :: in                                          :: Unresolved type
+@@       |-Integer :: 5                                        :: Int
+@@       |-Bin op :: ..                                        :: ClosedRange<Double>
+@@         |-Real :: 3.000000                                  :: Double
+@@         |-Real :: 6.000000                                  :: Double
+@@ ====
+@@ SymbolTable
+@@ |-Boolean
+@@ |-ClosedRange<Double>
+@@ |-Double
+@@ |-Int
+@@ |-String
+@@ |-Fun main() -> Unit
+@@   |-SymbolTable
+@@ Error 2:0 :: Operation is not applicable to types Int and ClosedRange<Double>

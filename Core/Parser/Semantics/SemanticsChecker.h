@@ -5,7 +5,7 @@
 
 class SemanticsChecker : public INodeVisitor {
 public:
-    explicit SemanticsChecker(std::vector<ParserError>& errors);
+    SemanticsChecker(std::vector<ParserError>& errors, bool wasError);
 
 protected:
     void EnterNode(const IVisitable& node, int depth) override;
@@ -13,5 +13,5 @@ protected:
 
 private:
     std::vector<ParserError>& myErrors;
-
+    bool isError = false;
 };

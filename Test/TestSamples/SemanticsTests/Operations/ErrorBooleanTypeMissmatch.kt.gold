@@ -1,0 +1,16 @@
+@@ Decl Block
+@@ |-Fun Decl                                                  :: test
+@@   |-Identifier :: test                                      :: test
+@@   |-Params
+@@   |-Bin op :: >                                             :: Unresolved type
+@@     |-String :: a                                           :: String
+@@     |-String :: b                                           :: String
+@@ ====
+@@ SymbolTable
+@@ |-Boolean
+@@ |-Double
+@@ |-Int
+@@ |-String
+@@ |-Fun test() -> Unresolved type
+@@   |-SymbolTable
+@@ Error 0:22 :: Operation is not applicable to types String and String
