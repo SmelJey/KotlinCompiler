@@ -8,6 +8,8 @@
 #include "../Lexer/Lexer.h"
 #include "Semantics/SymbolTable.h"
 
+class ParserError;
+
 class Parser {
 public:
     explicit Parser(Lexer& lexer, SymbolTable* symbolTable);
@@ -17,8 +19,8 @@ public:
 
     Pointer<DeclarationBlock> Parse();
 
-    const std::vector<ErrorNode>& GetParsingErrors() const;
-    const std::vector<ErrorNode>& GetSemanticsErrors() const;
+    const std::vector<ParserError>& GetParsingErrors() const;
+    const std::vector<ParserError>& GetSemanticsErrors() const;
 private:
     Pointer<DeclarationBlock> ParseDeclarations(bool isClass);
     Pointer<ClassDeclaration> ParseClass();
@@ -91,6 +93,6 @@ private:
     Lexer& myLexer;
     SymbolTable* myRootTable;
     SymbolTable* myTable;
-    std::vector<ErrorNode> myParsingErrors;
-    std::vector<ErrorNode> mySemanticsErrors;
+    std::vector<ParserError> myParsingErrors;
+    std::vector<ParserError> mySemanticsErrors;
 };

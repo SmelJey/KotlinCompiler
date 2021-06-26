@@ -6,6 +6,7 @@
 #include "StatementNodes.h"
 #include "Semantics/ClassSymbol.h"
 #include "Semantics/FunctionSymbol.h"
+#include "ParserError.h"
 
 Parser::Parser(Lexer& lexer, SymbolTable* symbolTable) : myLexer(lexer), myRootTable(symbolTable), myTable(symbolTable) {
     myLexer.NextLexeme();
@@ -23,11 +24,11 @@ Pointer<DeclarationBlock> Parser::Parse() {
     return ParseDeclarations(false);
 }
 
-const std::vector<ErrorNode>& Parser::GetParsingErrors() const {
+const std::vector<ParserError>& Parser::GetParsingErrors() const {
     return myParsingErrors;
 }
 
-const std::vector<ErrorNode>& Parser::GetSemanticsErrors() const {
+const std::vector<ParserError>& Parser::GetSemanticsErrors() const {
     return mySemanticsErrors;
 }
 
@@ -771,11 +772,11 @@ Pointer<IdentifierNode> Parser::CreateEmptyIdentifier(const Lexeme& lexeme) {
 }
 
 void Parser::AddParsingError(const Lexeme& location, const std::string& error) {
-    myParsingErrors.emplace_back(location, myRootTable->GetUnresolvedSymbol(), error);
+    myParsingErrors.emplace_back(location, error);
 }
 
 void Parser::AddSemanticsError(const Lexeme& location, const std::string& error) {
-    mySemanticsErrors.emplace_back(location, myRootTable->GetUnresolvedSymbol(), error);
+    mySemanticsErrors.emplace_back(location, error);
 }
 
 bool Parser::ConsumeLexeme(LexemeType lexemeType, ISyntaxNode& host, const std::string& error) {

@@ -132,19 +132,6 @@ std::string StringNode::GetName() const {
     return "String :: " + myLexeme.GetValue<std::string>();
 }
 
-ErrorNode::ErrorNode(const Lexeme& lexeme, const UnresolvedSymbol* type, const std::string& error)
-    : LexemeNode(lexeme), myError(error), myType(type) {}
-
-const ISymbol* ErrorNode::GetSymbol() const {
-    return myType;
-}
-
-std::string ErrorNode::GetName() const {
-    std::stringstream ss;
-    ss << "Error " << myLexeme.GetRow() << ":" << myLexeme.GetColumn() << " :: " + myError;
-    return ss.str();
-}
-
 TypeNode::TypeNode(const Lexeme& lexeme, const ISymbol* symbol) : AbstractTypedNode(lexeme, symbol) {}
 
 std::string TypeNode::GetName() const {

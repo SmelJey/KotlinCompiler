@@ -166,6 +166,7 @@
     <ClInclude Include="Parser\ExpressionNodes.h" />
     <ClInclude Include="Parser\IVisitable.h" />
     <ClInclude Include="Parser\INodeVisitor.h" />
+    <ClInclude Include="Parser\ParserError.h" />
     <ClInclude Include="Parser\ParserUtils.h" />
     <ClInclude Include="Parser\Semantics\ClassSymbol.h" />
     <ClInclude Include="Parser\Semantics\FunctionSymbol.h" />
@@ -188,6 +189,7 @@
     <ClCompile Include="Parser\INodeVisitor.cpp" />
     <ClCompile Include="Parser\Parser.cpp" />
     <ClCompile Include="Parser\ISyntaxNode.cpp" />
+    <ClCompile Include="Parser\ParserError.cpp" />
     <ClCompile Include="Parser\ParserUtils.cpp" />
     <ClCompile Include="Parser\Semantics\ClassSymbol.cpp" />
     <ClCompile Include="Parser\Semantics\FunctionSymbol.cpp" />

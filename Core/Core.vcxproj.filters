@@ -93,6 +93,9 @@
     <ClInclude Include="Parser\Semantics\SemanticsChecker.h">
       <Filter>Header Files\Parser\Semantics</Filter>
     </ClInclude>
+    <ClInclude Include="Parser\ParserError.h">
+      <Filter>Header Files\Parser</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -148,6 +151,9 @@
     </ClCompile>
     <ClCompile Include="Parser\Semantics\Symbols.cpp">
       <Filter>Source Files\Parser\Semantics</Filter>
+    </ClCompile>
+    <ClCompile Include="Parser\ParserError.cpp">
+      <Filter>Source Files\Parser</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

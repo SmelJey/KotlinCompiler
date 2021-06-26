@@ -2,6 +2,7 @@
 
 #include "Parser/INodeVisitor.h"
 #include "Parser/Parser.h"
+#include "Parser/ParserError.h"
 
 std::string LexerTest::CreateTestPath(const std::string& path) {
     return TestDirectory + LexerDirectory + path;

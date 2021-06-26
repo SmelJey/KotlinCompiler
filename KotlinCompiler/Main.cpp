@@ -11,6 +11,7 @@
 
 #include "Parser/Parser.h"
 #include "Parser/INodeVisitor.h"
+#include "Parser/ParserError.h"
 
 namespace prog_opt = boost::program_options;
 
@@ -100,11 +101,11 @@ int main(int argc, char** argv) {
     }
 
     for (auto& error : parser.GetParsingErrors()) {
-        std::cout << error.ToString() << std::endl;
+        std::cout << error << std::endl;
     }
     if (configuration.GetSemanticsDebug()) {
         for (auto& error : parser.GetSemanticsErrors()) {
-            std::cout << error.ToString() << std::endl;
+            std::cout << error << std::endl;
         }
     }
 

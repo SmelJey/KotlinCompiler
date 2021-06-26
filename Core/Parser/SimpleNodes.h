@@ -109,18 +109,3 @@ protected:
 private:
     Pointer<IAnnotatedNode> myExpression;
 };
-
-// TODO : remove it from node hierarchy
-class ErrorNode : public LexemeNode, public virtual IAnnotatedNode {
-public:
-    ErrorNode(const Lexeme& lexeme, const UnresolvedSymbol* type, const std::string& error = "Unexpected lexeme");
-
-    const ISymbol* GetSymbol() const override;
-
-protected:
-    std::string GetName() const override;
-
-private:
-    std::string myError;
-    const UnresolvedSymbol* myType;
-};
