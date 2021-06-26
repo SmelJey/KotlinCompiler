@@ -7,7 +7,7 @@
 
 BinOperationNode::BinOperationNode(const Lexeme& operation, Pointer<IAnnotatedNode> left,
                                    Pointer<IAnnotatedNode> right, const ITypeSymbol* type)
-    : LexemeNode(operation), myLeftOperand(std::move(left)), myRightOperand(std::move(right)), myType(type) {}
+    : AbstractNode(operation), myLeftOperand(std::move(left)), myRightOperand(std::move(right)), myType(type) {}
 
 const IAnnotatedNode& BinOperationNode::GetLeftOperand() const {
     return *myLeftOperand;
@@ -18,7 +18,7 @@ const IAnnotatedNode& BinOperationNode::GetRightOperand() const {
 }
 
 std::string BinOperationNode::GetOperation() const {
-    return myLexeme.GetValue<std::string>();
+    return GetLexeme().GetValue<std::string>();
 }
 
 const ISymbol* BinOperationNode::GetSymbol() const {
@@ -39,14 +39,14 @@ void BinOperationNode::AcceptVisitor(INodeVisitor& visitor, int depth) const {
 }
 
 AbstractUnaryOperationNode::AbstractUnaryOperationNode(const Lexeme& operation, Pointer<IAnnotatedNode> operand, const ITypeSymbol* type)
-    : LexemeNode(operation), myOperand(std::move(operand)), myType(type) {}
+    : AbstractNode(operation), myOperand(std::move(operand)), myType(type) {}
 
 const IAnnotatedNode& AbstractUnaryOperationNode::GetOperand() const {
     return *myOperand;
 }
 
 std::string AbstractUnaryOperationNode::GetOperation() const {
-    return myLexeme.GetValue<std::string>();
+    return GetLexeme().GetValue<std::string>();
 }
 
 const ISymbol* AbstractUnaryOperationNode::GetSymbol() const {
@@ -75,6 +75,10 @@ std::string UnaryPostfixOperationNode::GetName() const {
     return "Postfix Op :: " + GetOperation();
 }
 
+AbstractUnaryPostfixNode::AbstractUnaryPostfixNode(const Lexeme& lexeme) : AbstractNode(lexeme) {}
+
+CallArgumentsNode::CallArgumentsNode(const Lexeme& lexeme) : AbstractNode(lexeme.CopyEmptyOfType(LexemeType::Ignored)) {}
+
 const std::vector<Pointer<IAnnotatedNode>>& CallArgumentsNode::GetArguments() const {
     return myArguments;
 }
@@ -92,6 +96,8 @@ void CallArgumentsNode::AcceptVisitor(INodeVisitor& visitor, int depth) const {
         visitor.VisitNode(*arg, depth);
     }
 }
+
+TypeArgumentsNode::TypeArgumentsNode(const Lexeme& lexeme) : AbstractNode(lexeme.CopyEmptyOfType(LexemeType::Ignored)) {}
 
 const std::vector<Pointer<TypeNode>>& TypeArgumentsNode::GetArguments() const {
     return myArguments;
@@ -111,15 +117,12 @@ void TypeArgumentsNode::AcceptVisitor(INodeVisitor& visitor, int depth) const {
     }
 }
 
-PostfixCallNode::PostfixCallNode(Pointer<IAnnotatedNode> expression, const ITypeSymbol* type)
-    : myExpression(std::move(expression)), myType(type)  {}
+PostfixCallNode::PostfixCallNode(Pointer<IAnnotatedNode> expression, Pointer<CallArgumentsNode> arguments, const ITypeSymbol* type)
+    : AbstractUnaryPostfixNode(expression->GetLexeme().CopyEmptyOfType(LexemeType::Ignored)), myExpression(std::move(expression)),
+        myArgumentsNode(std::move(arguments)), myType(type) {}
 
 const CallArgumentsNode& PostfixCallNode::GetArguments() const {
     return *myArgumentsNode;
-}
-
-void PostfixCallNode::SetArguments(Pointer<CallArgumentsNode> arguments) {
-    myArgumentsNode = std::move(arguments);
 }
 
 const IAnnotatedNode* PostfixCallNode::GetExpression() const {
@@ -139,8 +142,8 @@ void PostfixCallNode::AcceptVisitor(INodeVisitor& visitor, int depth) const {
     visitor.VisitNode(*myArgumentsNode, depth);
 }
 
-IndexSuffixNode::IndexSuffixNode(Pointer<IAnnotatedNode> expression, const ITypeSymbol* type)
-    : PostfixCallNode(std::move(expression), type) {}
+IndexSuffixNode::IndexSuffixNode(Pointer<IAnnotatedNode> expression, Pointer<CallArgumentsNode> arguments, const ITypeSymbol* type)
+    : PostfixCallNode(std::move(expression), std::move(arguments), type) {}
 
 bool IndexSuffixNode::IsAssignable() const {
     return true;
@@ -150,8 +153,8 @@ std::string IndexSuffixNode::GetName() const {
     return "IndexSuffix";
 }
 
-CallSuffixNode::CallSuffixNode(Pointer<IAnnotatedNode> expression, const ITypeSymbol* type)
-    : PostfixCallNode(std::move(expression), type) {}
+CallSuffixNode::CallSuffixNode(Pointer<IAnnotatedNode> expression, Pointer<CallArgumentsNode> arguments, const ITypeSymbol* type)
+    : PostfixCallNode(std::move(expression), std::move(arguments), type) {}
 
 const TypeArgumentsNode& CallSuffixNode::GetTypeArguments() const {
     return *myTypeArguments;
@@ -177,10 +180,10 @@ std::string CallSuffixNode::GetName() const {
 }
 
 MemberAccessNode::MemberAccessNode(const Lexeme& lexeme, Pointer<IAnnotatedNode> expression, Pointer<IAnnotatedNode> member)
-    : myOperation(lexeme), myExpression(std::move(expression)), myMemberNode(std::move(member)) {}
+    : AbstractUnaryPostfixNode(lexeme), myExpression(std::move(expression)), myMemberNode(std::move(member)) {}
 
 std::string MemberAccessNode::GetOperation() const {
-    return myOperation.GetValue<std::string>();
+    return GetLexeme().GetValue<std::string>();
 }
 
 const IAnnotatedNode* MemberAccessNode::GetExpression() const {
@@ -226,14 +229,11 @@ void MemberAccessNode::AcceptVisitor(INodeVisitor& visitor, int depth) const {
     visitor.VisitNode(*myMemberNode, depth);
 }
 
-IfExpression::IfExpression(const ITypeSymbol* type) : myType(type) {}
+IfExpression::IfExpression(const Lexeme& lexeme, const ITypeSymbol* type, Pointer<IAnnotatedNode> expression)
+    : AbstractNode(lexeme), myType(type), myExpression(std::move(expression)) {}
 
 const IAnnotatedNode* IfExpression::GetExpression() const {
     return myExpression.get();
-}
-
-void IfExpression::SetExpression(Pointer<IAnnotatedNode> expression) {
-    myExpression = std::move(expression);
 }
 
 const ISyntaxNode* IfExpression::GetIfBody() const {
@@ -277,6 +277,8 @@ void IfExpression::AcceptVisitor(INodeVisitor& visitor, int depth) const {
     visitor.VisitNode(*myIfBody, depth);
     visitor.VisitNode(*myElseBody, depth);
 }
+
+BlockNode::BlockNode(const Lexeme& lexeme) : AbstractNode(lexeme) {}
 
 const std::vector<Pointer<ISyntaxNode>>& BlockNode::GetStatements() const {
     return myStatements;

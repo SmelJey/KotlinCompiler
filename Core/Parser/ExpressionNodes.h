@@ -6,7 +6,7 @@
 #include "SimpleNodes.h"
 #include "../Lexer/Lexeme.h"
 
-class BinOperationNode : public LexemeNode, public virtual IAnnotatedNode {
+class BinOperationNode : public AbstractNode, public virtual IAnnotatedNode {
 public:
     BinOperationNode(const Lexeme& operation, Pointer<IAnnotatedNode> left, Pointer<IAnnotatedNode> right, const ITypeSymbol* type);
 
@@ -27,7 +27,7 @@ private:
     const ITypeSymbol* myType;
 };
 
-class AbstractUnaryOperationNode : public LexemeNode, public virtual IAnnotatedNode {
+class AbstractUnaryOperationNode : public AbstractNode, public virtual IAnnotatedNode {
 public:
     AbstractUnaryOperationNode(const Lexeme& operation, Pointer<IAnnotatedNode> operand, const ITypeSymbol* type);
 
@@ -63,12 +63,12 @@ protected:
 
 class AbstractUnaryPostfixNode : public AbstractNode, public virtual IAnnotatedNode {
 public:
-    AbstractUnaryPostfixNode() = default;
+    explicit AbstractUnaryPostfixNode(const Lexeme& lexeme);
 };
 
 class CallArgumentsNode : public AbstractNode {
 public:
-    CallArgumentsNode() = default;
+    explicit CallArgumentsNode(const Lexeme& lexeme);
 
     const std::vector<Pointer<IAnnotatedNode>>& GetArguments() const;
     void AddArgument(Pointer<IAnnotatedNode> argument);
@@ -83,7 +83,7 @@ private:
 
 class TypeArgumentsNode : public AbstractNode {
 public:
-    TypeArgumentsNode() = default;
+    explicit TypeArgumentsNode(const Lexeme& lexeme);
 
     const std::vector<Pointer<TypeNode>>& GetArguments() const;
     void AddArgument(Pointer<TypeNode> argument);
@@ -98,10 +98,9 @@ private:
 
 class PostfixCallNode : public AbstractUnaryPostfixNode {
 public:
-    PostfixCallNode(Pointer<IAnnotatedNode> expression, const ITypeSymbol* type);
+    PostfixCallNode(Pointer<IAnnotatedNode> expression, Pointer<CallArgumentsNode> arguments, const ITypeSymbol* type);
 
     const CallArgumentsNode& GetArguments() const;
-    void SetArguments(Pointer<CallArgumentsNode> arguments);
 
     const IAnnotatedNode* GetExpression() const;
 
@@ -118,7 +117,7 @@ private:
 
 class IndexSuffixNode : public PostfixCallNode {
 public:
-    IndexSuffixNode(Pointer<IAnnotatedNode> expression, const ITypeSymbol* type);
+    IndexSuffixNode(Pointer<IAnnotatedNode> expression, Pointer<CallArgumentsNode> arguments, const ITypeSymbol* type);
 
     bool IsAssignable() const override;
 protected:
@@ -128,7 +127,7 @@ protected:
 
 class CallSuffixNode : public PostfixCallNode {
 public:
-    CallSuffixNode(Pointer<IAnnotatedNode> expression, const ITypeSymbol* type);
+    CallSuffixNode(Pointer<IAnnotatedNode> expression, Pointer<CallArgumentsNode> arguments, const ITypeSymbol* type);
 
     const TypeArgumentsNode& GetTypeArguments() const;
     void SetTypeArguments(Pointer<TypeArgumentsNode> arguments);
@@ -161,17 +160,15 @@ protected:
     void AcceptVisitor(INodeVisitor& visitor, int depth) const override;
 
 private:
-    Lexeme myOperation;
     Pointer<IAnnotatedNode> myExpression;
     Pointer<IAnnotatedNode> myMemberNode;
 };
 
 class IfExpression : public AbstractNode, public virtual IAnnotatedNode {
 public:
-    IfExpression(const ITypeSymbol* type);
+    IfExpression(const Lexeme& lexeme, const ITypeSymbol* type, Pointer<IAnnotatedNode> expression);
 
     const IAnnotatedNode* GetExpression() const;
-    void SetExpression(Pointer<IAnnotatedNode> expression);
 
     const ISyntaxNode* GetIfBody() const;
     void SetIfBody(Pointer<ISyntaxNode> body);
@@ -198,7 +195,7 @@ private:
 
 class BlockNode : public AbstractNode, public virtual IAnnotatedNode {
 public:
-    BlockNode() = default;
+    explicit BlockNode(const Lexeme& lexeme);
 
     const std::vector<Pointer<ISyntaxNode>>& GetStatements() const;
     void AddStatement(Pointer<ISyntaxNode> statement);

@@ -3,7 +3,7 @@
 
 class EmptyStatement : public AbstractNode, public virtual IAnnotatedNode {
 public:
-    explicit EmptyStatement(const UnitTypeSymbol* type);
+    EmptyStatement(const Lexeme& lexeme, const UnitTypeSymbol* type);
 
     const ISymbol* GetSymbol() const override;
     const ITypeSymbol* GetType() const override;
@@ -15,17 +15,14 @@ private:
     const UnitTypeSymbol* myType;
 };
 
-class Assignment : public LexemeNode {
+class Assignment : public AbstractNode {
 public:
-    explicit Assignment(const Lexeme& lexeme);
+    Assignment(const Lexeme& lexeme, Pointer<IAnnotatedNode> assignable, Pointer<IAnnotatedNode> expression);
 
     std::string GetOperation() const;
 
     const IAnnotatedNode& GetAssignable() const;
-    void SetAssignable(Pointer<IAnnotatedNode> assignable);
-
     const IAnnotatedNode& GetExpression() const;
-    void SetExpression(Pointer<IAnnotatedNode> expression);
 
 protected:
     std::string GetName() const override;
@@ -38,13 +35,10 @@ private:
 
 class LoopNode : public AbstractNode {
 public:
-    LoopNode() = default;
+    LoopNode(const Lexeme& lexeme, Pointer<IAnnotatedNode> expression, Pointer<ISyntaxNode> body);
 
     const IAnnotatedNode& GetExpression() const;
-    void SetExpression(Pointer<IAnnotatedNode> expression);
-
     const ISyntaxNode& GetBody() const;
-    void SetBody(Pointer<ISyntaxNode> body);
 
 protected:
     void AcceptVisitor(INodeVisitor& visitor, int depth) const override;
@@ -56,7 +50,7 @@ private:
 
 class WhileNode : public LoopNode {
 public:
-    WhileNode() = default;
+    WhileNode(const Lexeme& lexeme, Pointer<IAnnotatedNode> expression, Pointer<ISyntaxNode> body);
 
 protected:
     std::string GetName() const override;
@@ -64,7 +58,7 @@ protected:
 
 class DoWhileNode : public LoopNode {
 public:
-    DoWhileNode() = default;
+    DoWhileNode(const Lexeme& lexeme, Pointer<IAnnotatedNode> expression, Pointer<ISyntaxNode> body);
 
 protected:
     std::string GetName() const override;
@@ -72,10 +66,9 @@ protected:
 
 class ForNode : public LoopNode {
 public:
-    ForNode() = default;
+    ForNode(const Lexeme& lexeme, Pointer<IAnnotatedNode> expression, Pointer<ISyntaxNode> body, Pointer<VariableNode> variable);
 
     const VariableNode& GetVariable() const;
-    void SetVariable(Pointer<VariableNode> variable);
 
 protected:
     std::string GetName() const override;

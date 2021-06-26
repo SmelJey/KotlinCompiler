@@ -5,14 +5,15 @@
 
 class AbstractDeclaration : public AbstractNode, public virtual IAnnotatedNode {
 public:
-    AbstractDeclaration() = default;
+    explicit AbstractDeclaration(Pointer<IdentifierNode> identifier);
 
     std::string GetIdentifierName() const;
     IdentifierNode& GetIdentifier() const;
-    void SetIdentifier(Pointer<IdentifierNode> identifier);
 
     const ISymbol* GetSymbol() const override;
     void SetSymbol(const ISymbol* symbol);
+
+    Lexeme GetLexeme() const override;
 
 protected:
     void AcceptVisitor(INodeVisitor& visitor, int depth) const override;
@@ -25,12 +26,11 @@ private:
 
 class DeclarationBlock : public AbstractNode {
 public:
-    DeclarationBlock(std::vector<Pointer<AbstractDeclaration>> declarations = std::vector<Pointer<AbstractDeclaration>>());
+    DeclarationBlock(const Lexeme& lexeme, std::vector<Pointer<AbstractDeclaration>> declarations = std::vector<Pointer<AbstractDeclaration>>());
 
     const std::vector<Pointer<AbstractDeclaration>>& GetDeclarations() const;
 
     void AddDeclaration(Pointer<AbstractDeclaration> declaration);
-
 protected:
     std::string GetName() const override;
     void AcceptVisitor(INodeVisitor& visitor, int depth) const override;
@@ -41,7 +41,7 @@ private:
 
 class ClassDeclaration : public AbstractDeclaration {
 public:
-    ClassDeclaration() = default;
+    explicit ClassDeclaration(Pointer<IdentifierNode> identifier);
 
     const DeclarationBlock& GetBody() const;
     void SetBody(Pointer<DeclarationBlock> body);
@@ -57,10 +57,9 @@ private:
 
 class ParameterNode : public AbstractDeclaration {
 public:
-    ParameterNode() = default;
+    ParameterNode(Pointer<IdentifierNode> identifier, Pointer<IAnnotatedNode> typeNode);
 
     const IAnnotatedNode& GetTypeNode() const;
-    void SetTypeNode(Pointer<IAnnotatedNode> typeNode);
 
     const IAnnotatedNode& GetDefault() const;
     void SetDefault(Pointer<IAnnotatedNode> defaultNode);
@@ -79,7 +78,7 @@ private:
 
 class VariableNode : public AbstractDeclaration {
 public:
-    VariableNode() = default;
+    explicit VariableNode(Pointer<IdentifierNode> identifier);
 
     const IAnnotatedNode& GetTypeNode() const;
     void SetTypeNode(Pointer<IAnnotatedNode> typeNode);
@@ -95,11 +94,10 @@ private:
 
 class ParameterList : public AbstractNode {
 public:
-    ParameterList() = default;
+    explicit ParameterList(const Lexeme& lexeme);
 
     const std::vector<Pointer<ParameterNode>>& GetParameters() const;
     void AddParameter(Pointer<ParameterNode> param);
-
 protected:
     std::string GetName() const override;
     void AcceptVisitor(INodeVisitor& visitor, int depth) const override;
@@ -110,17 +108,14 @@ private:
 
 class FunctionDeclaration : public AbstractDeclaration {
 public:
-    FunctionDeclaration() = default;
+    FunctionDeclaration(Pointer<IdentifierNode> identifier, Pointer<ParameterList> parameters, Pointer<IAnnotatedNode> body);
 
     const ParameterList& GetParameters() const;
-    void SetParameters(Pointer<ParameterList> parameters);
 
     const IAnnotatedNode& GetBody() const;
-    void SetBody(Pointer<IAnnotatedNode> body);
 
     const IAnnotatedNode& GetReturn() const;
     void SetReturn(Pointer<IAnnotatedNode> returnNode);
-
     bool HasReturnNode() const;
 protected:
     std::string GetName() const override;
@@ -135,7 +130,7 @@ private:
 
 class PropertyDeclaration : public AbstractDeclaration {
 public:
-    explicit PropertyDeclaration(const Lexeme& keyword);
+    PropertyDeclaration(Pointer<IdentifierNode> identifier, const Lexeme& keyword);
 
     bool IsMutable() const;
     std::string GetKeyword() const;

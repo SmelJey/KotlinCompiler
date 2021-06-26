@@ -4,13 +4,7 @@
 
 #include <sstream>
 
-LexemeNode::LexemeNode(const Lexeme& lexeme) : myLexeme(lexeme) {}
-
-Lexeme LexemeNode::GetLexeme() const {
-    return myLexeme;
-}
-
-AbstractTypedNode::AbstractTypedNode(const Lexeme& lexeme, const ISymbol* symbol) : LexemeNode(lexeme), mySymbol(symbol) {}
+AbstractTypedNode::AbstractTypedNode(const Lexeme& lexeme, const ISymbol* symbol) : AbstractNode(lexeme), mySymbol(symbol) {}
 
 const ISymbol* AbstractTypedNode::GetSymbol() const {
     return mySymbol;
@@ -24,7 +18,7 @@ IdentifierNode::IdentifierNode(const Lexeme& lexeme, const ITypeSymbol* defaultS
     : AbstractTypedNode(lexeme, defaultSym), myCandidates(candidates) {}
 
 std::string IdentifierNode::GetIdentifier() const {
-    return myLexeme.GetValue<std::string>();
+    return GetLexeme().GetValue<std::string>();
 }
 
 bool IdentifierNode::TryResolveVariable() {
@@ -105,52 +99,52 @@ bool IdentifierNode::IsAssignable() const {
 }
 
 std::string IdentifierNode::GetName() const {
-    return "Identifier :: " + myLexeme.GetValue<std::string>();
+    return "Identifier :: " + GetLexeme().GetValue<std::string>();
 }
 
 IntegerNode::IntegerNode(const Lexeme& lexeme, const ISymbol* symbol) : AbstractTypedNode(lexeme, symbol) {}
 
 std::string IntegerNode::GetName() const {
-    return "Integer :: " + std::to_string(myLexeme.GetValue<uint64_t>());
+    return "Integer :: " + std::to_string(GetLexeme().GetValue<uint64_t>());
 }
 
 DoubleNode::DoubleNode(const Lexeme& lexeme, const ISymbol* symbol) : AbstractTypedNode(lexeme, symbol) {}
 
 std::string DoubleNode::GetName() const {
-    return "Real :: " + std::to_string(myLexeme.GetValue<double>());
+    return "Real :: " + std::to_string(GetLexeme().GetValue<double>());
 }
 
 BooleanNode::BooleanNode(const Lexeme& lexeme, const ISymbol* symbol) : AbstractTypedNode(lexeme, symbol) {}
 
 std::string BooleanNode::GetName() const {
-    return "Boolean :: " + myLexeme.GetValue<std::string>();
+    return "Boolean :: " + GetLexeme().GetValue<std::string>();
 }
 
 StringNode::StringNode(const Lexeme& lexeme, const ISymbol* symbol) : AbstractTypedNode(lexeme, symbol) {}
 
 std::string StringNode::GetName() const {
-    return "String :: " + myLexeme.GetValue<std::string>();
+    return "String :: " + GetLexeme().GetValue<std::string>();
 }
 
 TypeNode::TypeNode(const Lexeme& lexeme, const ISymbol* symbol) : AbstractTypedNode(lexeme, symbol) {}
 
 std::string TypeNode::GetName() const {
-    return "Type :: " + myLexeme.GetValue<std::string>();
+    return "Type :: " + GetLexeme().GetValue<std::string>();
 }
 
-BreakNode::BreakNode(const Lexeme& lexeme) : LexemeNode(lexeme) {}
+BreakNode::BreakNode(const Lexeme& lexeme) : AbstractNode(lexeme) {}
 
 std::string BreakNode::GetName() const {
     return "Break";
 }
 
-ContinueNode::ContinueNode(const Lexeme& lexeme) : LexemeNode(lexeme) {}
+ContinueNode::ContinueNode(const Lexeme& lexeme) : AbstractNode(lexeme) {}
 
 std::string ContinueNode::GetName() const {
     return "Continue";
 }
 
-ReturnNode::ReturnNode(const Lexeme& lexeme) : LexemeNode(lexeme) {}
+ReturnNode::ReturnNode(const Lexeme& lexeme) : AbstractNode(lexeme) {}
 
 const IAnnotatedNode* ReturnNode::GetExpression() const {
     return myExpression.get();

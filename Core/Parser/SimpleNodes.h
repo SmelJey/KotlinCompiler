@@ -2,16 +2,7 @@
 #include "ISyntaxNode.h"
 #include "ParserUtils.h"
 
-class LexemeNode : public AbstractNode {
-public:
-    LexemeNode(const Lexeme& lexeme);
-
-    Lexeme GetLexeme() const;
-protected:
-    Lexeme myLexeme;
-};
-
-class AbstractTypedNode : public LexemeNode, public IAnnotatedNode {
+class AbstractTypedNode : public AbstractNode, public IAnnotatedNode {
 public:
     AbstractTypedNode(const Lexeme& lexeme, const ISymbol* symbol);
 
@@ -80,21 +71,21 @@ protected:
     std::string GetName() const override;
 };
 
-class BreakNode : public LexemeNode {
+class BreakNode : public AbstractNode {
 public:
     explicit BreakNode(const Lexeme& lexeme);
 protected:
     std::string GetName() const override;
 };
 
-class ContinueNode : public LexemeNode {
+class ContinueNode : public AbstractNode {
 public:
     explicit ContinueNode(const Lexeme& lexeme);
 protected:
     std::string GetName() const override;
 };
 
-class ReturnNode : public LexemeNode {
+class ReturnNode : public AbstractNode {
 public:
     explicit ReturnNode(const Lexeme& lexeme);
 

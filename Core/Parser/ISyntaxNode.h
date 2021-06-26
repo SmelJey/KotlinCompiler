@@ -6,6 +6,7 @@
 class ISyntaxNode : public IVisitable {
 public:
     std::string ToString() const override;
+    virtual Lexeme GetLexeme() const = 0;
 
 protected:
     virtual std::string GetName() const = 0;
@@ -13,9 +14,14 @@ protected:
 
 class AbstractNode : public virtual ISyntaxNode {
 public:
-    AbstractNode();
+    AbstractNode(const Lexeme& lexeme);
     AbstractNode(const AbstractNode& src) = delete;
     AbstractNode(AbstractNode&& src) noexcept;
+
+    Lexeme GetLexeme() const override;
+
+private:
+    Lexeme myLexeme;
 };
 
 class IAnnotatedNode : public virtual ISyntaxNode {

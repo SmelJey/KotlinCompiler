@@ -1,16 +1,14 @@
 #include "DeclarationNodes.h"
 #include "INodeVisitor.h"
 
+AbstractDeclaration::AbstractDeclaration(Pointer<IdentifierNode> identifier) : AbstractNode(identifier->GetLexeme()), myIdentifier(std::move(identifier)) {}
+
 std::string AbstractDeclaration::GetIdentifierName() const {
     return myIdentifier->GetLexeme().GetValue<std::string>();
 }
 
 IdentifierNode& AbstractDeclaration::GetIdentifier() const {
     return *myIdentifier;
-}
-
-void AbstractDeclaration::SetIdentifier(Pointer<IdentifierNode> identifier) {
-    myIdentifier = std::move(identifier);
 }
 
 const ISymbol* AbstractDeclaration::GetSymbol() const {
@@ -21,11 +19,16 @@ void AbstractDeclaration::SetSymbol(const ISymbol* symbol) {
     mySymbol = symbol;
 }
 
+Lexeme AbstractDeclaration::GetLexeme() const {
+    return myIdentifier->GetLexeme();
+}
+
 void AbstractDeclaration::AcceptVisitor(INodeVisitor& visitor, int depth) const {
     visitor.VisitNode(*myIdentifier, depth);
 }
 
-DeclarationBlock::DeclarationBlock(std::vector<Pointer<AbstractDeclaration>> declarations) : myDeclarations(std::move(declarations)) {}
+DeclarationBlock::DeclarationBlock(const Lexeme& lexeme, std::vector<Pointer<AbstractDeclaration>> declarations)
+    : AbstractNode(lexeme.CopyEmptyOfType(LexemeType::Ignored)), myDeclarations(std::move(declarations)) {}
 
 const std::vector<Pointer<AbstractDeclaration>>& DeclarationBlock::GetDeclarations() const {
     return myDeclarations;
@@ -44,6 +47,8 @@ void DeclarationBlock::AcceptVisitor(INodeVisitor& visitor, int depth) const {
         visitor.VisitNode(*declaration, depth);
     }
 }
+
+ClassDeclaration::ClassDeclaration(Pointer<IdentifierNode> identifier) : AbstractDeclaration(std::move(identifier)) {}
 
 const DeclarationBlock& ClassDeclaration::GetBody() const {
     return *myClassBody;
@@ -69,12 +74,11 @@ void ClassDeclaration::AcceptVisitor(INodeVisitor& visitor, int depth) const {
     }
 }
 
+ParameterNode::ParameterNode(Pointer<IdentifierNode> identifier, Pointer<IAnnotatedNode> typeNode)
+    : AbstractDeclaration(std::move(identifier)), myType(std::move(typeNode)) {}
+
 const IAnnotatedNode& ParameterNode::GetTypeNode() const {
     return *myType;
-}
-
-void ParameterNode::SetTypeNode(Pointer<IAnnotatedNode> typeNode) {
-    myType = std::move(typeNode);
 }
 
 const IAnnotatedNode& ParameterNode::GetDefault() const {
@@ -111,6 +115,8 @@ void ParameterNode::AcceptVisitor(INodeVisitor& visitor, int depth) const {
     }
 }
 
+VariableNode::VariableNode(Pointer<IdentifierNode> identifier) : AbstractDeclaration(std::move(identifier)) {}
+
 const IAnnotatedNode& VariableNode::GetTypeNode() const {
     return *myType;
 }
@@ -135,6 +141,8 @@ void VariableNode::AcceptVisitor(INodeVisitor& visitor, int depth) const {
     }
 }
 
+ParameterList::ParameterList(const Lexeme& lexeme) : AbstractNode(lexeme) {}
+
 const std::vector<Pointer<ParameterNode>>& ParameterList::GetParameters() const {
     return myParameters;
 }
@@ -153,20 +161,15 @@ void ParameterList::AcceptVisitor(INodeVisitor& visitor, int depth) const {
     }
 }
 
+FunctionDeclaration::FunctionDeclaration(Pointer<IdentifierNode> identifier, Pointer<ParameterList> parameters, Pointer<IAnnotatedNode> body)
+    : AbstractDeclaration(std::move(identifier)), myParams(std::move(parameters)), myBody(std::move(body)) {}
+
 const ParameterList& FunctionDeclaration::GetParameters() const {
     return *myParams;
 }
 
-void FunctionDeclaration::SetParameters(Pointer<ParameterList> parameters) {
-    myParams = std::move(parameters);
-}
-
 const IAnnotatedNode& FunctionDeclaration::GetBody() const {
     return *myBody;
-}
-
-void FunctionDeclaration::SetBody(Pointer<IAnnotatedNode> body) {
-    myBody = std::move(body);
 }
 
 const IAnnotatedNode& FunctionDeclaration::GetReturn() const {
@@ -196,7 +199,7 @@ void FunctionDeclaration::AcceptVisitor(INodeVisitor& visitor, int depth) const 
     visitor.VisitNode(*myBody, depth);
 }
 
-PropertyDeclaration::PropertyDeclaration(const Lexeme& keyword) : myKeyword(keyword) {}
+PropertyDeclaration::PropertyDeclaration(Pointer<IdentifierNode> identifier, const Lexeme& keyword) : AbstractDeclaration(std::move(identifier)), myKeyword(keyword) {}
 
 bool PropertyDeclaration::IsMutable() const {
     return GetKeyword() == "var";

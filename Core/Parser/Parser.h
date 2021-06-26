@@ -60,9 +60,11 @@ private:
     void AddParsingError(const Lexeme& location, const std::string& error);
     void AddSemanticsError(const Lexeme& location, const std::string& error);
 
-    bool ConsumeLexeme(LexemeType lexemeType, ISyntaxNode& host, const std::string& error);
-    bool ConsumeLexeme(LexemeType lexemeType, const std::string& text, ISyntaxNode& host, const std::string& error);
+    bool ConsumeLexeme(LexemeType lexemeType, const std::string& error);
+    bool ConsumeLexeme(LexemeType lexemeType, const std::string& text, const std::string& error);
     void ConsumeSemicolons();
+
+    Pointer<EmptyStatement> CreateEmptyStatement(const Lexeme& lexeme);
 
     template<typename T>
     Pointer<T> CreateLexemeNode(const Lexeme& lexeme) {

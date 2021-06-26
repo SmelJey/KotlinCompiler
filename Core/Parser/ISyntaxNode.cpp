@@ -4,8 +4,13 @@ std::string ISyntaxNode::ToString() const {
     return GetName();
 }
 
-AbstractNode::AbstractNode() = default;
+AbstractNode::AbstractNode(const Lexeme& lexeme) : myLexeme(lexeme) {}
+
 AbstractNode::AbstractNode(AbstractNode&& src) noexcept {}
+
+Lexeme AbstractNode::GetLexeme() const {
+    return myLexeme;
+}
 
 const ITypeSymbol* IAnnotatedNode::GetType() const {
     return nullptr;
