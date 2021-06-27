@@ -34,13 +34,13 @@ private:
 
     Pointer<BlockNode> ParseBlock();
     Pointer<IAnnotatedNode> ParseControlStructureBody(bool acceptSemicolons);
-    Pointer<ForNode> ParseForLoop();
-    Pointer<WhileNode> ParseWhileLoop();
-    Pointer<DoWhileNode> ParseDoWhileLoop();
+    Pointer<ForNode> ParseForLoop(const Lexeme& lexeme);
+    Pointer<WhileNode> ParseWhileLoop(const Lexeme& lexeme);
+    Pointer<DoWhileNode> ParseDoWhileLoop(const Lexeme& lexeme);
 
     Pointer<IAnnotatedNode> ParseAssignment();
 
-    Pointer<PropertyDeclaration> ParseProperty();
+    Pointer<PropertyDeclaration> ParseProperty(const Lexeme& keyword);
     Pointer<VariableNode> ParseVariable();
     Pointer<IdentifierNode> ParseIdentifier(const std::string& errorMessage = "Identifier expected");
 
@@ -57,14 +57,14 @@ private:
 
     Pointer<IAnnotatedNode> ParsePrimary();
 
-    Pointer<IfExpression> ParseIfExpression();
+    Pointer<IfExpression> ParseIfExpression(const Lexeme& lexeme);
 
     Pointer<IdentifierNode> CreateEmptyIdentifier(const Lexeme& lexeme) const;
     void AddParsingError(const Lexeme& location, const std::string& error);
     void AddSemanticsError(const Lexeme& location, const std::string& error);
 
-    bool ConsumeLexeme(LexemeType lexemeType, const std::string& error);
-    bool ConsumeLexeme(LexemeType lexemeType, const std::string& text, const std::string& error);
+    bool RequireLexeme(LexemeType lexemeType, const std::string& error);
+    bool RequireLexeme(LexemeType lexemeType, const std::string& text, const std::string& error);
     void ConsumeSemicolons();
 
     Pointer<EmptyStatement> CreateEmptyStatement(const Lexeme& lexeme);
@@ -72,7 +72,9 @@ private:
     Pointer<ITypeSymbol> IsApplicable(LexemeType operation, const ITypeSymbol* left);
     const ISymbol* CheckType(const ISymbol* symbol, const std::string& error, const Lexeme& lexeme);
 
-    bool Accept(LexemeType lexType);
+    bool AcceptLexeme(LexemeType lexType);
+    bool AcceptLexeme(LexemeType lexType, const std::string& text);
+    bool AcceptLexeme(std::initializer_list<LexemeType> lexTypes);
     
 
     template<typename T>
