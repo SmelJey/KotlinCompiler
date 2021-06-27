@@ -29,4 +29,4 @@
 @@ | |-SymbolTable
 @@ |-Fun println() -> Unit
 @@   |-SymbolTable
-@@ Error 1:32 :: Int does not conform to the expected type Double
+@@ Error 1:32 :: Arguments do not conform to the expected type Double

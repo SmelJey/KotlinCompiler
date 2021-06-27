@@ -173,6 +173,7 @@
     <ClInclude Include="Parser\Semantics\SemanticsChecker.h" />
     <ClInclude Include="Parser\Semantics\Symbols.h" />
     <ClInclude Include="Parser\Semantics\SymbolTable.h" />
+    <ClInclude Include="Parser\Semantics\SymbolsFrame.h" />
     <ClInclude Include="Parser\SimpleNodes.h" />
     <ClInclude Include="Parser\Parser.h" />
     <ClInclude Include="Parser\ISyntaxNode.h" />
@@ -194,8 +195,9 @@
     <ClCompile Include="Parser\Semantics\ClassSymbol.cpp" />
     <ClCompile Include="Parser\Semantics\FunctionSymbol.cpp" />
     <ClCompile Include="Parser\Semantics\SemanticsChecker.cpp" />
-	<ClCompile Include="Parser\Semantics\Symbols.cpp" />
+    <ClCompile Include="Parser\Semantics\Symbols.cpp" />
     <ClCompile Include="Parser\Semantics\SymbolTable.cpp" />
+    <ClCompile Include="Parser\Semantics\SymbolsFrame.cpp" />
     <ClCompile Include="Parser\SimpleNodes.cpp" />
     <ClCompile Include="Parser\StatementNodes.cpp" />
     <ClCompile Include="pch.cpp">

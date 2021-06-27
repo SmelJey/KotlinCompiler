@@ -1,6 +1,8 @@
 #include "ParserUtils.h"
 
 #include "ExpressionNodes.h"
+#include "Semantics/FunctionSymbol.h"
+#include "Semantics/SymbolTable.h"
 
 const std::vector<std::unordered_set<LexemeType>> ParserUtils::OperationsPriority {
     { LexemeType::OpOr},
@@ -43,4 +45,28 @@ bool ParserUtils::IsDirectlyAssignable(const IAnnotatedNode* expression) {
 
 bool ParserUtils::IsPostfixUnaryExpression(const IAnnotatedNode* expression) {
     return dynamic_cast<const AbstractUnaryPostfixNode*>(expression) || dynamic_cast<const IdentifierNode*>(expression);
+}
+
+const ISymbol* ParserUtils::CreateArrayType(const ITypeSymbol* innerType, std::vector<const ITypeSymbol*> argsTypes, SymbolTable* symTable) {
+    Pointer<ArraySymbol> arrayType = std::make_unique<ArraySymbol>(innerType);
+
+    bool isFailed = false;
+
+    for (auto arg : argsTypes) {
+        if (*arg != *innerType) {
+            isFailed = true;
+            break;
+        }
+    }
+
+    if (!isFailed) {
+        std::string arrayTypeName = arrayType->GetName();
+        symTable->Add(std::move(arrayType));
+
+        Pointer<FunctionSymbol> arrayInitFunc = std::make_unique<FunctionSymbol>("arrayOf", symTable->GetType(arrayTypeName), argsTypes, std::make_unique<SymbolTable>(symTable));
+        symTable->Add(std::move(arrayInitFunc));
+        return symTable->GetFunction("arrayOf", argsTypes);
+    }
+
+    return nullptr;
 }

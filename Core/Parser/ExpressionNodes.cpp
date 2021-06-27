@@ -87,6 +87,15 @@ void CallArgumentsNode::AddArgument(Pointer<IAnnotatedNode> argument) {
     myArguments.push_back(std::move(argument));
 }
 
+const std::vector<const ITypeSymbol*> CallArgumentsNode::GetTypes() const {
+    std::vector<const ITypeSymbol*> types;
+    for (auto& arg : myArguments) {
+        types.push_back(arg->GetType());
+    }
+
+    return types;
+}
+
 std::string CallArgumentsNode::GetName() const {
     return "Args";
 }
@@ -208,7 +217,7 @@ const ITypeSymbol* MemberAccessNode::GetType() const {
         return funcSym->GetReturnType();
     }
 
-    return nullptr;
+    return dynamic_cast<const UnresolvedSymbol*>(GetSymbol());;
 }
 
 bool MemberAccessNode::IsAssignable() const {

@@ -6,4 +6,4 @@
 @@     |-MemberAccess :: .
 @@       |-Identifier :: a
 @@       |-Identifier :: 
-@@ Error 1:2 :: Name expected
+@@ Error 2:0 :: Name expected

@@ -47,7 +47,10 @@ private:
     Pointer<IAnnotatedNode> ParseExpression();
     Pointer<IAnnotatedNode> ParseLeftAssociative(size_t priority);
     Pointer<IAnnotatedNode> ParsePrefix();
+
     Pointer<IAnnotatedNode> ParsePostfix();
+    Pointer<MemberAccessNode> ParseMemberAccess(const Lexeme& operationLexeme, Pointer<IAnnotatedNode> operand);
+    Pointer<CallSuffixNode> ParseCall(const Lexeme& operationLexeme, Pointer<IAnnotatedNode> operand);
 
     Pointer<TypeArgumentsNode> ParseTypeArguments();
     Pointer<CallArgumentsNode> ParseArguments(LexemeType rParen);
@@ -67,7 +70,10 @@ private:
     Pointer<EmptyStatement> CreateEmptyStatement(const Lexeme& lexeme);
     Pointer<ITypeSymbol> IsApplicable(LexemeType operation, const ITypeSymbol* left, const ITypeSymbol* right);
     Pointer<ITypeSymbol> IsApplicable(LexemeType operation, const ITypeSymbol* left);
-    const ITypeSymbol* GetType(const std::string& name);
+    const ISymbol* CheckType(const ISymbol* symbol, const std::string& error, const Lexeme& lexeme);
+
+    bool Accept(LexemeType lexType);
+    
 
     template<typename T>
     Pointer<T> CreateLexemeNode(const Lexeme& lexeme) {

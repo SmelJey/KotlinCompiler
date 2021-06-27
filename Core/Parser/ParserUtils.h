@@ -4,6 +4,8 @@
 #include "ISyntaxNode.h"
 #include "../Lexer/LexerUtils.h"
 
+class SymbolTable;
+
 class ParserUtils {
 public:
     static const std::vector<std::unordered_set<LexemeType>> OperationsPriority;
@@ -14,4 +16,6 @@ public:
 
     static bool IsDirectlyAssignable(const IAnnotatedNode* expression);
     static bool IsPostfixUnaryExpression(const IAnnotatedNode* expression);
+
+    static const ISymbol* CreateArrayType(const ITypeSymbol* innerType, std::vector<const ITypeSymbol*> argsTypes, SymbolTable* symTable);
 };
