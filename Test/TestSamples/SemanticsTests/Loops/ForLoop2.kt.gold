@@ -1,20 +1,43 @@
 @@ Decl Block
-@@ |-Fun Decl
-@@   |-Identifier :: main
+@@ |-Fun Decl                                                  :: main
+@@   |-Identifier :: main                                      :: main
 @@   |-Params
-@@   |-Block
-@@     |-For
-@@       |-Variable
-@@       | |-Identifier :: c
-@@       |-Bin op :: ..
-@@       | |-Integer :: 3
-@@       | |-Integer :: 5
-@@       |-For
-@@         |-Variable
-@@         | |-Identifier :: d
-@@         |-Bin op :: ..
-@@         | |-Integer :: 1
-@@         | |-Identifier :: c
-@@         |-Bin op :: +
-@@           |-Integer :: 2
-@@           |-Integer :: 3
+@@   |-Block                                                   :: Unit
+@@     |-For                                                   :: Unit
+@@       |-Variable                                            :: c
+@@       | |-Identifier :: c                                   :: c
+@@       |-Bin op :: ..                                        :: ClosedRange<Int>
+@@       | |-Integer :: 3                                      :: Int
+@@       | |-Integer :: 5                                      :: Int
+@@       |-For                                                 :: Unit
+@@         |-Variable                                          :: d
+@@         | |-Identifier :: d                                 :: d
+@@         |-Bin op :: ..                                      :: ClosedRange<Int>
+@@         | |-Integer :: 1                                    :: Int
+@@         | |-Identifier :: c                                 :: c
+@@         |-Bin op :: +                                       :: Int
+@@           |-Integer :: 2                                    :: Int
+@@           |-Integer :: 3                                    :: Int
+@@ ====
+@@ SymbolTable
+@@ |-Boolean
+@@ |-ClosedRange<Int>
+@@ |-Double
+@@ |-Int
+@@ |-String
+@@ |-Fun main() -> Unit
+@@ | |-SymbolTable
+@@ |   |-SymbolTable
+@@ |     |-Val c
+@@ |     | |-Int
+@@ |     |-SymbolTable
+@@ |       |-Val d
+@@ |         |-Int
+@@ |-Fun println(String) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println(Int) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println(Double) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println() -> Unit
+@@   |-SymbolTable

@@ -12,14 +12,14 @@
 @@ | |-Identifier :: test3                                     :: test3
 @@ | |-Params
 @@ | |-Block                                                   :: Int
-@@ |   |-Return
+@@ |   |-Return                                                :: Int
 @@ |     |-Integer :: 5                                        :: Int
 @@ |-Fun Decl                                                  :: test4
 @@ | |-Identifier :: test4                                     :: test4
 @@ | |-Params
 @@ | |-Type :: Int                                             :: Int
 @@ | |-Block                                                   :: Int
-@@ |   |-Return
+@@ |   |-Return                                                :: Int
 @@ |     |-Integer :: 3                                        :: Int
 @@ |-Fun Decl                                                  :: main
 @@   |-Identifier :: main                                      :: main
@@ -55,6 +55,12 @@
 @@ |   |-Val c
 @@ |     |-Int
 @@ |-Fun println(String) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println(Int) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println(Double) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println() -> Unit
 @@ | |-SymbolTable
 @@ |-Fun test1() -> Int
 @@ | |-SymbolTable

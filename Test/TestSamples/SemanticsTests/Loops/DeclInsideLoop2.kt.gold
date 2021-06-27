@@ -1,0 +1,37 @@
+@@ Decl Block
+@@ |-Fun Decl                                                  :: main
+@@   |-Identifier :: main                                      :: main
+@@   |-Params
+@@   |-Block                                                   :: Unit
+@@     |-While                                                 :: Unit
+@@       |-Boolean :: true                                     :: Boolean
+@@       |-Block                                               :: Unit
+@@         |-Fun Decl                                          :: test
+@@         | |-Identifier :: test                              :: test
+@@         | |-Params
+@@         | |-Integer :: 1                                    :: Int
+@@         |-CallSuffix                                        :: Unit
+@@           |-Identifier :: println                           :: println
+@@           |-Args
+@@             |-CallSuffix                                    :: Int
+@@               |-Identifier :: test                          :: test
+@@               |-Args
+@@ ====
+@@ SymbolTable
+@@ |-Boolean
+@@ |-Double
+@@ |-Int
+@@ |-String
+@@ |-Fun main() -> Unit
+@@ | |-SymbolTable
+@@ |   |-SymbolTable
+@@ |     |-Fun test() -> Int
+@@ |       |-SymbolTable
+@@ |-Fun println(String) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println(Int) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println(Double) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println() -> Unit
+@@   |-SymbolTable

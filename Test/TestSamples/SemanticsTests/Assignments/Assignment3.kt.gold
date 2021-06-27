@@ -4,7 +4,7 @@
 @@ | |-Params
 @@ | |-Type :: Int                                             :: Int
 @@ | |-Block                                                   :: Int
-@@ |   |-Return
+@@ |   |-Return                                                :: Int
 @@ |     |-Integer :: 2                                        :: Int
 @@ |-Fun Decl                                                  :: main
 @@   |-Identifier :: main                                      :: main
@@ -13,7 +13,7 @@
 @@     |-Var Decl                                              :: a
 @@     | |-Identifier :: a                                     :: a
 @@     | |-Integer :: 5                                        :: Int
-@@     |-Assignment :: =
+@@     |-Assignment :: =                                       :: Unit
 @@       |-Identifier :: a                                     :: a
 @@       |-CallSuffix                                          :: Int
 @@         |-Identifier :: test                                :: test
@@ -29,6 +29,12 @@
 @@ |   |-Var a
 @@ |     |-Int
 @@ |-Fun println(String) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println(Int) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println(Double) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println() -> Unit
 @@ | |-SymbolTable
 @@ |-Fun test() -> Int
 @@   |-SymbolTable

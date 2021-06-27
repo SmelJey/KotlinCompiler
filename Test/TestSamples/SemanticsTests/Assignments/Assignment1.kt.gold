@@ -6,7 +6,7 @@
 @@     |-Var Decl                                              :: a
 @@     | |-Identifier :: a                                     :: a
 @@     | |-Integer :: 5                                        :: Int
-@@     |-Assignment :: =
+@@     |-Assignment :: =                                       :: Unit
 @@       |-Identifier :: a                                     :: a
 @@       |-Integer :: 2                                        :: Int
 @@ ====
@@ -20,4 +20,10 @@
 @@ |   |-Var a
 @@ |     |-Int
 @@ |-Fun println(String) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println(Int) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println(Double) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println() -> Unit
 @@   |-SymbolTable

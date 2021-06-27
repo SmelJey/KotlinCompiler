@@ -2,7 +2,7 @@
 @@ |-Fun Decl                                                  :: main
 @@   |-Identifier :: main                                      :: main
 @@   |-Params
-@@   |-Block                                                   :: Unit
+@@   |-Block                                                   :: Boolean
 @@     |-Bin op :: in                                          :: Boolean
 @@     | |-Integer :: 5                                        :: Int
 @@     | |-Bin op :: ..                                        :: ClosedRange<Int>
@@ -23,4 +23,10 @@
 @@ |-Fun main() -> Unit
 @@ | |-SymbolTable
 @@ |-Fun println(String) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println(Int) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println(Double) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println() -> Unit
 @@   |-SymbolTable

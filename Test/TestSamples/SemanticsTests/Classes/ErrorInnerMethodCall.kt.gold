@@ -9,7 +9,7 @@
 @@ |-Fun Decl                                                  :: main
 @@   |-Identifier :: main                                      :: main
 @@   |-Params
-@@   |-Block                                                   :: Unit
+@@   |-Block                                                   :: Unresolved type
 @@     |-CallSuffix                                            :: Unresolved type
 @@       |-Identifier :: test                                  :: Unresolved type
 @@       |-Args
@@ -28,5 +28,11 @@
 @@ |-Fun main() -> Unit
 @@ | |-SymbolTable
 @@ |-Fun println(String) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println(Int) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println(Double) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println() -> Unit
 @@   |-SymbolTable
 @@ Error 5:5 :: Unresolved function

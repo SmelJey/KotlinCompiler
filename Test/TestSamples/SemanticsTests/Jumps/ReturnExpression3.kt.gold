@@ -1,0 +1,27 @@
+@@ Decl Block
+@@ |-Fun Decl                                                  :: main
+@@   |-Identifier :: main                                      :: main
+@@   |-Params
+@@   |-Block                                                   :: Unit
+@@     |-Return                                                :: Unit
+@@     | |-Empty Statement                                     :: Unit
+@@     |-CallSuffix                                            :: Unit
+@@       |-Identifier :: println                               :: println
+@@       |-Args
+@@         |-String :: no way                                  :: String
+@@ ====
+@@ SymbolTable
+@@ |-Boolean
+@@ |-Double
+@@ |-Int
+@@ |-String
+@@ |-Fun main() -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println(String) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println(Int) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println(Double) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println() -> Unit
+@@   |-SymbolTable

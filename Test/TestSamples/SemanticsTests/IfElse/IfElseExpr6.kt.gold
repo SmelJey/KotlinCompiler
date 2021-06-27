@@ -1,16 +1,34 @@
 @@ Decl Block
-@@ |-Fun Decl
-@@   |-Identifier :: main
+@@ |-Fun Decl                                                  :: main
+@@   |-Identifier :: main                                      :: main
 @@   |-Params
-@@   |-Block
-@@     |-If Expr
-@@       |-Bin op :: >
-@@       | |-Integer :: 2
-@@       | |-Integer :: 3
-@@       |-Block
-@@       |-If Expr
-@@         |-Bin op :: >
-@@         | |-Integer :: 3
-@@         | |-Integer :: 4
-@@         |-Block
-@@         |-Empty Statement
+@@   |-Block                                                   :: Unit
+@@     |-If Expr                                               :: Unit
+@@       |-Bin op :: >                                         :: Boolean
+@@       | |-Integer :: 2                                      :: Int
+@@       | |-Integer :: 3                                      :: Int
+@@       |-Block                                               :: Unit
+@@       |-If Expr                                             :: Unit
+@@         |-Bin op :: >                                       :: Boolean
+@@         | |-Integer :: 3                                    :: Int
+@@         | |-Integer :: 4                                    :: Int
+@@         |-Block                                             :: Unit
+@@         |-Empty Statement                                   :: Unit
+@@ ====
+@@ SymbolTable
+@@ |-Boolean
+@@ |-Double
+@@ |-Int
+@@ |-String
+@@ |-Fun main() -> Unit
+@@ | |-SymbolTable
+@@ |   |-SymbolTable
+@@ |     |-SymbolTable
+@@ |-Fun println(String) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println(Int) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println(Double) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println() -> Unit
+@@   |-SymbolTable

@@ -13,7 +13,7 @@
 @@ |-Fun Decl                                                  :: main
 @@   |-Identifier :: main                                      :: main
 @@   |-Params
-@@   |-Block                                                   :: Unit
+@@   |-Block                                                   :: Int
 @@     |-CallSuffix                                            :: Int
 @@       |-Identifier :: test2                                 :: test2
 @@       |-Args
@@ -29,6 +29,12 @@
 @@ |-Fun main() -> Unit
 @@ | |-SymbolTable
 @@ |-Fun println(String) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println(Int) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println(Double) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println() -> Unit
 @@ | |-SymbolTable
 @@ |-Fun test() -> Int
 @@ | |-SymbolTable

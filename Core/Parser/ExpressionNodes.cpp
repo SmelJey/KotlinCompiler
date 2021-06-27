@@ -229,43 +229,31 @@ void MemberAccessNode::AcceptVisitor(INodeVisitor& visitor, int depth) const {
     visitor.VisitNode(*myMemberNode, depth);
 }
 
-IfExpression::IfExpression(const Lexeme& lexeme, const ITypeSymbol* type, Pointer<IAnnotatedNode> expression)
-    : AbstractNode(lexeme), myType(type), myExpression(std::move(expression)) {}
+IfExpression::IfExpression(const Lexeme& lexeme, const UnitTypeSymbol* type, Pointer<IAnnotatedNode> expression, Pointer<IAnnotatedNode> ifBody, Pointer<IAnnotatedNode> elseBody)
+    : UnitTypedNode(lexeme, type), myExpression(std::move(expression)), myIfBody(std::move(ifBody)), myElseBody(std::move(elseBody)) {}
 
 const IAnnotatedNode* IfExpression::GetExpression() const {
     return myExpression.get();
 }
 
-const ISyntaxNode* IfExpression::GetIfBody() const {
+const IAnnotatedNode* IfExpression::GetIfBody() const {
     return myIfBody.get();
 }
 
-void IfExpression::SetIfBody(Pointer<ISyntaxNode> body) {
-    myIfBody = std::move(body);
-}
-
-bool IfExpression::HasIfBody() const {
-    return dynamic_cast<EmptyStatement*>(myIfBody.get()) == nullptr;
-}
-
-const ISyntaxNode* IfExpression::GetElseBody() const {
+const IAnnotatedNode* IfExpression::GetElseBody() const {
     return myElseBody.get();
 }
 
-void IfExpression::SetElseBody(Pointer<ISyntaxNode> body) {
-    myElseBody = std::move(body);
-}
-
-bool IfExpression::HasElseBody() const {
-    return dynamic_cast<EmptyStatement*>(myElseBody.get()) == nullptr;
-}
-
 const ISymbol* IfExpression::GetSymbol() const {
-    return myType;
+    return GetType();
 }
 
 const ITypeSymbol* IfExpression::GetType() const {
-    return myType;
+    if (*myIfBody->GetType() == *myElseBody->GetType()) {
+        return myIfBody->GetType();
+    }
+
+    return UnitTypedNode::GetType();
 }
 
 std::string IfExpression::GetName() const {
@@ -278,13 +266,14 @@ void IfExpression::AcceptVisitor(INodeVisitor& visitor, int depth) const {
     visitor.VisitNode(*myElseBody, depth);
 }
 
-BlockNode::BlockNode(const Lexeme& lexeme) : AbstractNode(lexeme) {}
+BlockNode::BlockNode(const Lexeme& lexeme, const UnitTypeSymbol* type) : AbstractNode(lexeme), myReturn(type) {}
 
-const std::vector<Pointer<ISyntaxNode>>& BlockNode::GetStatements() const {
+const std::vector<Pointer<IAnnotatedNode>>& BlockNode::GetStatements() const {
     return myStatements;
 }
 
-void BlockNode::AddStatement(Pointer<ISyntaxNode> statement) {
+void BlockNode::AddStatement(Pointer<IAnnotatedNode> statement) {
+    myReturn = statement->GetType();
     myStatements.push_back(std::move(statement));
 }
 

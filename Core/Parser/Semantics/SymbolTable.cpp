@@ -8,13 +8,18 @@ SymbolTable::SymbolTable(SymbolTable* parent) : myParentTable(parent) {
     myUnitSymbol = std::make_unique<UnitTypeSymbol>();
 
     if (parent == nullptr) {
-        Add(std::make_unique<IntegerSymbol>());
+        auto intSym = dynamic_cast<const ITypeSymbol*>(Add(std::make_unique<IntegerSymbol>()));
         Add(std::make_unique<BooleanSymbol>());
-        Add(std::make_unique<DoubleSymbol>());
+        auto doubleSym = dynamic_cast<const ITypeSymbol*>(Add(std::make_unique<DoubleSymbol>()));
         auto stringSym = dynamic_cast<const ITypeSymbol*>(Add(std::make_unique<StringSymbol>()));
 
-        std::vector params { stringSym };
-        Add(std::make_unique<FunctionSymbol>("println", myUnitSymbol.get(), params, std::make_unique<SymbolTable>(this)));
+        std::vector stringParams { stringSym };
+        Add(std::make_unique<FunctionSymbol>("println", myUnitSymbol.get(), stringParams, std::make_unique<SymbolTable>(this)));
+        std::vector intParams{ intSym };
+        Add(std::make_unique<FunctionSymbol>("println", myUnitSymbol.get(), intParams, std::make_unique<SymbolTable>(this)));
+        std::vector doubleParams{ doubleSym };
+        Add(std::make_unique<FunctionSymbol>("println", myUnitSymbol.get(), doubleParams, std::make_unique<SymbolTable>(this)));
+        Add(std::make_unique<FunctionSymbol>("println", myUnitSymbol.get(), std::vector<const ITypeSymbol*>(), std::make_unique<SymbolTable>(this)));
     }
 }
 
@@ -130,6 +135,10 @@ const ISymbol* SymbolTable::Add(Pointer<ISymbol> symbol) {
     return mySymbols[name].rbegin()->get();
 }
 
+void SymbolTable::Add(Pointer<SymbolTable> table) {
+    myBlockTables.push_back(std::move(table));
+}
+
 const UnresolvedSymbol* SymbolTable::GetUnresolvedSymbol() const {
     return myUnresolved.get();
 }
@@ -147,6 +156,9 @@ void SymbolTable::AcceptVisitor(INodeVisitor& visitor, int depth) const {
         for (auto& sym : it.second) {
             visitor.VisitNode(*sym, depth);
         }
+    }
+    for (auto& subTable : myBlockTables) {
+        visitor.VisitNode(*subTable, depth);
     }
 }
 

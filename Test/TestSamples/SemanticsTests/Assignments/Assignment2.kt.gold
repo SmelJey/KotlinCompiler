@@ -9,10 +9,10 @@
 @@     |-Val Decl                                              :: b
 @@     | |-Identifier :: b                                     :: b
 @@     | |-Integer :: 2                                        :: Int
-@@     |-Assignment :: =
+@@     |-Assignment :: =                                       :: Unit
 @@     | |-Identifier :: a                                     :: a
 @@     | |-Identifier :: b                                     :: b
-@@     |-Assignment :: =
+@@     |-Assignment :: =                                       :: Unit
 @@     | |-Identifier :: a                                     :: a
 @@     | |-Bin op :: +                                         :: Int
 @@     |   |-Integer :: 4                                      :: Int
@@ -35,4 +35,10 @@
 @@ |   |-Val c
 @@ |     |-Int
 @@ |-Fun println(String) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println(Int) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println(Double) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println() -> Unit
 @@   |-SymbolTable

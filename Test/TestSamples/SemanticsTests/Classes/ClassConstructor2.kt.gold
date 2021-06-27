@@ -12,7 +12,7 @@
 @@ | |-Params
 @@ | |-Type :: A                                               :: A
 @@ | |-Block                                                   :: A
-@@ |   |-Return
+@@ |   |-Return                                                :: A
 @@ |     |-CallSuffix                                          :: A
 @@ |       |-Identifier :: A                                   :: A
 @@ |       |-Args
@@ -46,6 +46,12 @@
 @@ |   |-Val a
 @@ |     |-Int
 @@ |-Fun println(String) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println(Int) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println(Double) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println() -> Unit
 @@ | |-SymbolTable
 @@ |-Fun test() -> A
 @@   |-SymbolTable

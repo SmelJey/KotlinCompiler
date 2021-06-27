@@ -1,14 +1,32 @@
 @@ Decl Block
-@@ |-Fun Decl
-@@   |-Identifier :: main
+@@ |-Fun Decl                                                  :: main
+@@   |-Identifier :: main                                      :: main
 @@   |-Params
-@@   |-Block
-@@     |-DoWhile
-@@       |-Boolean :: false
-@@       |-DoWhile
-@@         |-Bin op :: <
-@@         | |-Bin op :: +
-@@         | | |-Integer :: 3
-@@         | | |-Integer :: 2
-@@         | |-Integer :: 5
-@@         |-Block
+@@   |-Block                                                   :: Unit
+@@     |-DoWhile                                               :: Unit
+@@       |-Boolean :: false                                    :: Boolean
+@@       |-DoWhile                                             :: Unit
+@@         |-Bin op :: <                                       :: Boolean
+@@         | |-Bin op :: +                                     :: Int
+@@         | | |-Integer :: 3                                  :: Int
+@@         | | |-Integer :: 2                                  :: Int
+@@         | |-Integer :: 5                                    :: Int
+@@         |-Block                                             :: Unit
+@@ ====
+@@ SymbolTable
+@@ |-Boolean
+@@ |-Double
+@@ |-Int
+@@ |-String
+@@ |-Fun main() -> Unit
+@@ | |-SymbolTable
+@@ |   |-SymbolTable
+@@ |     |-SymbolTable
+@@ |-Fun println(String) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println(Int) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println(Double) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println() -> Unit
+@@   |-SymbolTable

@@ -5,7 +5,7 @@
 @@   | |-Parameter                                             :: a
 @@   |   |-Identifier :: a                                     :: a
 @@   |   |-Type ::                                             :: Unresolved type
-@@   |-Block                                                   :: Unit
+@@   |-Block                                                   :: Int
 @@     |-Bin op :: +                                           :: Int
 @@       |-Integer :: 2                                        :: Int
 @@       |-Integer :: 3                                        :: Int
@@ -16,6 +16,12 @@
 @@ |-Int
 @@ |-String
 @@ |-Fun println(String) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println(Int) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println(Double) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println() -> Unit
 @@ | |-SymbolTable
 @@ |-Fun test(Unresolved type) -> Unit
 @@   |-SymbolTable

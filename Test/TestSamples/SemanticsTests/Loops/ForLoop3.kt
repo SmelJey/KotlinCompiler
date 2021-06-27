@@ -1,5 +1,5 @@
 fun main() {
-	for (c : Short in 1..5) {
+	for (c : Int in 1..5) {
 		
 	}
 }

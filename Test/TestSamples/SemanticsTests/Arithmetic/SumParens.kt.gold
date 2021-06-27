@@ -15,5 +15,11 @@
 @@ |-String
 @@ |-Fun println(String) -> Unit
 @@ | |-SymbolTable
+@@ |-Fun println(Int) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println(Double) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println() -> Unit
+@@ | |-SymbolTable
 @@ |-Fun test() -> Int
 @@   |-SymbolTable

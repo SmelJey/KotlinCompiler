@@ -24,6 +24,7 @@ public:
 
     bool Contains(const ISymbol& symbol) const;
     const ISymbol* Add(Pointer<ISymbol> symbol);
+    void Add(Pointer<SymbolTable> table);
 
     const UnresolvedSymbol* GetUnresolvedSymbol() const;
     const UnitTypeSymbol* GetUnitSymbol() const;
@@ -42,5 +43,5 @@ private:
     Pointer<UnresolvedSymbol> myUnresolved;
     Pointer<UnitTypeSymbol> myUnitSymbol;
     std::map<std::string, std::vector<Pointer<ISymbol>>> mySymbols;
-    //std::set<Pointer<ISymbol>, std::less<>> mySymbols;
+    std::vector<Pointer<SymbolTable>> myBlockTables;
 };

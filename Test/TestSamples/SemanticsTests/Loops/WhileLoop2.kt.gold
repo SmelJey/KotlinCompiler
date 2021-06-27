@@ -1,17 +1,35 @@
 @@ Decl Block
-@@ |-Fun Decl
-@@   |-Identifier :: main
+@@ |-Fun Decl                                                  :: main
+@@   |-Identifier :: main                                      :: main
 @@   |-Params
-@@   |-Block
-@@     |-While
-@@       |-Boolean :: true
-@@       |-While
-@@         |-Bin op :: >
-@@         | |-Bin op :: +
-@@         | | |-Integer :: 5
-@@         | | |-Integer :: 2
-@@         | |-Integer :: 8
-@@         |-CallSuffix
-@@           |-Identifier :: println
+@@   |-Block                                                   :: Unit
+@@     |-While                                                 :: Unit
+@@       |-Boolean :: true                                     :: Boolean
+@@       |-While                                               :: Unit
+@@         |-Bin op :: >                                       :: Boolean
+@@         | |-Bin op :: +                                     :: Int
+@@         | | |-Integer :: 5                                  :: Int
+@@         | | |-Integer :: 2                                  :: Int
+@@         | |-Integer :: 8                                    :: Int
+@@         |-CallSuffix                                        :: Unit
+@@           |-Identifier :: println                           :: println
 @@           |-Args
-@@             |-String :: 7 > 8
+@@             |-String :: 7 > 8                               :: String
+@@ ====
+@@ SymbolTable
+@@ |-Boolean
+@@ |-Double
+@@ |-Int
+@@ |-String
+@@ |-Fun main() -> Unit
+@@ | |-SymbolTable
+@@ |   |-SymbolTable
+@@ |     |-SymbolTable
+@@ |-Fun println(String) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println(Int) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println(Double) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println() -> Unit
+@@   |-SymbolTable

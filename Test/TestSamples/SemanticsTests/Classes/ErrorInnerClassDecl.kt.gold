@@ -13,6 +13,12 @@
 @@ |-Int
 @@ |-String
 @@ |-Fun println(String) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println(Int) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println(Double) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println() -> Unit
 @@   |-SymbolTable
 @@ Error 1:7 :: Class is not allowed here
 @@ Error 1:7 :: Expecting member declaration

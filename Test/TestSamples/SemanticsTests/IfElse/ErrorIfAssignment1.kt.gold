@@ -1,14 +1,33 @@
 @@ Decl Block
-@@ |-Fun Decl
-@@   |-Identifier :: main
+@@ |-Fun Decl                                                  :: main
+@@   |-Identifier :: main                                      :: main
 @@   |-Params
-@@   |-Block
-@@     |-Val Decl
-@@       |-Identifier :: a
-@@       |-If Expr
-@@         |-Bin op :: >
-@@         | |-Integer :: 3
-@@         | |-Integer :: 2
-@@         |-Integer :: 2
-@@         |-Empty Statement
-@@ Error 2:0 :: 'if' must have both main and 'else' branches if used as an expression
+@@   |-Block                                                   :: Unit
+@@     |-Val Decl                                              :: a
+@@       |-Identifier :: a                                     :: a
+@@       |-If Expr                                             :: Unit
+@@         |-Bin op :: >                                       :: Boolean
+@@         | |-Integer :: 3                                    :: Int
+@@         | |-Integer :: 2                                    :: Int
+@@         |-Integer :: 2                                      :: Int
+@@         |-Empty Statement                                   :: Unit
+@@ ====
+@@ SymbolTable
+@@ |-Boolean
+@@ |-Double
+@@ |-Int
+@@ |-String
+@@ |-Fun main() -> Unit
+@@ | |-SymbolTable
+@@ |   |-Val a
+@@ |   | |-Unresolved type
+@@ |   |-SymbolTable
+@@ |-Fun println(String) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println(Int) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println(Double) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println() -> Unit
+@@   |-SymbolTable
+@@ Error 2:0 :: 'if' must have both main and 'else' branches with the same type if used as an expression

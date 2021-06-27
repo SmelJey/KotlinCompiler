@@ -16,5 +16,11 @@
 @@ |-Val a
 @@ | |-Double
 @@ |-Fun println(String) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println(Int) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println(Double) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println() -> Unit
 @@   |-SymbolTable
 @@ Error 1:15 :: Conflicting declarations: a

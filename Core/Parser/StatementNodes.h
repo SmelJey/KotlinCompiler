@@ -1,23 +1,17 @@
 #pragma once
 #include "DeclarationNodes.h"
 
-class EmptyStatement : public AbstractNode, public virtual IAnnotatedNode {
+class EmptyStatement : public UnitTypedNode {
 public:
     EmptyStatement(const Lexeme& lexeme, const UnitTypeSymbol* type);
 
-    const ISymbol* GetSymbol() const override;
-    const ITypeSymbol* GetType() const override;
-
 protected:
     std::string GetName() const override;
-
-private:
-    const UnitTypeSymbol* myType;
 };
 
-class Assignment : public AbstractNode {
+class Assignment : public UnitTypedNode {
 public:
-    Assignment(const Lexeme& lexeme, Pointer<IAnnotatedNode> assignable, Pointer<IAnnotatedNode> expression);
+    Assignment(const Lexeme& lexeme, Pointer<IAnnotatedNode> assignable, Pointer<IAnnotatedNode> expression, const UnitTypeSymbol* type);
 
     std::string GetOperation() const;
 
@@ -33,9 +27,9 @@ private:
     Pointer<IAnnotatedNode> myExpression;
 };
 
-class LoopNode : public AbstractNode {
+class LoopNode : public UnitTypedNode {
 public:
-    LoopNode(const Lexeme& lexeme, Pointer<IAnnotatedNode> expression, Pointer<ISyntaxNode> body);
+    LoopNode(const Lexeme& lexeme, Pointer<IAnnotatedNode> expression, Pointer<ISyntaxNode> body, const UnitTypeSymbol* type);
 
     const IAnnotatedNode& GetExpression() const;
     const ISyntaxNode& GetBody() const;
@@ -50,7 +44,7 @@ private:
 
 class WhileNode : public LoopNode {
 public:
-    WhileNode(const Lexeme& lexeme, Pointer<IAnnotatedNode> expression, Pointer<ISyntaxNode> body);
+    WhileNode(const Lexeme& lexeme, Pointer<IAnnotatedNode> expression, Pointer<ISyntaxNode> body, const UnitTypeSymbol* type);
 
 protected:
     std::string GetName() const override;
@@ -58,7 +52,7 @@ protected:
 
 class DoWhileNode : public LoopNode {
 public:
-    DoWhileNode(const Lexeme& lexeme, Pointer<IAnnotatedNode> expression, Pointer<ISyntaxNode> body);
+    DoWhileNode(const Lexeme& lexeme, Pointer<IAnnotatedNode> expression, Pointer<ISyntaxNode> body, const UnitTypeSymbol* type);
 
 protected:
     std::string GetName() const override;
@@ -66,7 +60,7 @@ protected:
 
 class ForNode : public LoopNode {
 public:
-    ForNode(const Lexeme& lexeme, Pointer<IAnnotatedNode> expression, Pointer<ISyntaxNode> body, Pointer<VariableNode> variable);
+    ForNode(const Lexeme& lexeme, Pointer<IAnnotatedNode> expression, Pointer<ISyntaxNode> body, Pointer<VariableNode> variable, const UnitTypeSymbol* type);
 
     const VariableNode& GetVariable() const;
 

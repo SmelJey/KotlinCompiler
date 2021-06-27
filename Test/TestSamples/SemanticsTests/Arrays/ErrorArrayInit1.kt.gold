@@ -22,5 +22,11 @@
 @@ |   |-Val a
 @@ |     |-Unresolved type
 @@ |-Fun println(String) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println(Int) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println(Double) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println() -> Unit
 @@   |-SymbolTable
 @@ Error 1:29 :: Double does not conform to the expected type Int

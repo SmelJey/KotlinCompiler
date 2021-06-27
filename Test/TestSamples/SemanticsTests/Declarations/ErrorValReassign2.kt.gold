@@ -5,7 +5,7 @@
 @@ |-Fun Decl                                                  :: main
 @@   |-Identifier :: main                                      :: main
 @@   |-Params
-@@   |-Block                                                   :: Unit
+@@   |-Block                                                   :: Int
 @@     |-Postfix Op :: ++                                      :: Int
 @@       |-Identifier :: a                                     :: a
 @@ ====
@@ -19,5 +19,11 @@
 @@ |-Fun main() -> Unit
 @@ | |-SymbolTable
 @@ |-Fun println(String) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println(Int) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println(Double) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println() -> Unit
 @@   |-SymbolTable
 @@ Error 2:2 :: Val cannot be reassigned

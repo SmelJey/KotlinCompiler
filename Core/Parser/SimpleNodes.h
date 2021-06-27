@@ -2,7 +2,7 @@
 #include "ISyntaxNode.h"
 #include "ParserUtils.h"
 
-class AbstractTypedNode : public AbstractNode, public IAnnotatedNode {
+class AbstractTypedNode : public AbstractNode, public virtual IAnnotatedNode {
 public:
     AbstractTypedNode(const Lexeme& lexeme, const ISymbol* symbol);
 
@@ -11,6 +11,16 @@ public:
 
 protected:
     mutable const ISymbol* mySymbol;
+};
+
+class UnitTypedNode : public AbstractNode, public virtual IAnnotatedNode {
+public:
+    UnitTypedNode(const Lexeme& lexeme, const UnitTypeSymbol* symbol);
+
+    const ISymbol* GetSymbol() const override;
+    const ITypeSymbol* GetType() const override;
+private:
+    const UnitTypeSymbol* myType;
 };
 
 class IdentifierNode : public AbstractTypedNode {
@@ -71,27 +81,30 @@ protected:
     std::string GetName() const override;
 };
 
-class BreakNode : public AbstractNode {
+class BreakNode : public UnitTypedNode {
 public:
-    explicit BreakNode(const Lexeme& lexeme);
+    BreakNode(const Lexeme& lexeme, const UnitTypeSymbol* type);
 protected:
     std::string GetName() const override;
 };
 
-class ContinueNode : public AbstractNode {
+class ContinueNode : public UnitTypedNode {
 public:
-    explicit ContinueNode(const Lexeme& lexeme);
+    ContinueNode(const Lexeme& lexeme, const UnitTypeSymbol* type);
 protected:
     std::string GetName() const override;
 };
 
-class ReturnNode : public AbstractNode {
+class ReturnNode : public UnitTypedNode {
 public:
-    explicit ReturnNode(const Lexeme& lexeme);
+    ReturnNode(const Lexeme& lexeme, const UnitTypeSymbol* type);
 
     const IAnnotatedNode* GetExpression() const;
     void SetExpression(Pointer<IAnnotatedNode> expression);
     bool HasExpression() const;
+
+    const ISymbol* GetSymbol() const override;
+    const ITypeSymbol* GetType() const override;
 
 protected:
     std::string GetName() const override;

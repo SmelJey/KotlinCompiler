@@ -30,15 +30,15 @@ private:
     Pointer<ParameterNode> ParseParameter();
     Pointer<TypeNode> ParseType();
 
-    Pointer<ISyntaxNode> ParseStatement();
+    Pointer<IAnnotatedNode> ParseStatement();
 
     Pointer<BlockNode> ParseBlock();
-    Pointer<ISyntaxNode> ParseControlStructureBody(bool acceptSemicolons);
+    Pointer<IAnnotatedNode> ParseControlStructureBody(bool acceptSemicolons);
     Pointer<ForNode> ParseForLoop();
     Pointer<WhileNode> ParseWhileLoop();
     Pointer<DoWhileNode> ParseDoWhileLoop();
 
-    Pointer<ISyntaxNode> ParseAssignment();
+    Pointer<IAnnotatedNode> ParseAssignment();
 
     Pointer<PropertyDeclaration> ParseProperty();
     Pointer<VariableNode> ParseVariable();
@@ -78,8 +78,8 @@ private:
         return node;
     }
 
-    template<typename T>
-    Pointer<T> CreateLexemeNode(const Lexeme& lexeme, const ITypeSymbol* type) {
+    template<typename T, typename U = ITypeSymbol>
+    Pointer<T> CreateLexemeNode(const Lexeme& lexeme, const U* type) {
         Pointer<T> node = std::make_unique<T>(lexeme, type);
         if (lexeme.IsError()) {
             AddParsingError(lexeme, lexeme.GetValue<std::string>());
@@ -101,4 +101,6 @@ private:
     std::vector<ParserError> myParsingErrors;
     std::vector<ParserError> mySemanticsErrors;
     bool wasError = false;
+
+    const ITypeSymbol* myReturn = nullptr;
 };

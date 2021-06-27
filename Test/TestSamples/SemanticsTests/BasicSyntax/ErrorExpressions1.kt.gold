@@ -2,8 +2,8 @@
 @@ |-Fun Decl                                                  :: main
 @@   |-Identifier :: main                                      :: main
 @@   |-Params
-@@   |-Block                                                   :: Unit
-@@     |-Assignment :: =
+@@   |-Block                                                   :: Unresolved type
+@@     |-Assignment :: =                                       :: Unit
 @@     | |-Identifier :: a                                     :: Unresolved type
 @@     | |-Integer :: 3                                        :: Int
 @@     |-Identifier ::                                         :: Unresolved type
@@ -21,6 +21,12 @@
 @@ |-Fun main() -> Unit
 @@ | |-SymbolTable
 @@ |-Fun println(String) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println(Int) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println(Double) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println() -> Unit
 @@   |-SymbolTable
 @@ Error 2:1 :: Unexpected lexeme
 @@ Error 1:3 :: Val cannot be reassigned

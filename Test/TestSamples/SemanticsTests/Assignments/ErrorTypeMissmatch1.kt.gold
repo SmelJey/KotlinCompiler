@@ -7,7 +7,7 @@
 @@     | |-Identifier :: a                                     :: a
 @@     | |-Type :: Double                                      :: Double
 @@     | |-Real :: 1.200000                                    :: Double
-@@     |-Assignment :: =
+@@     |-Assignment :: =                                       :: Unit
 @@       |-Identifier :: a                                     :: a
 @@       |-Integer :: 6                                        :: Int
 @@ ====
@@ -21,5 +21,11 @@
 @@ |   |-Var a
 @@ |     |-Double
 @@ |-Fun println(String) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println(Int) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println(Double) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println() -> Unit
 @@   |-SymbolTable
 @@ Error 2:3 :: Int does not conform to the exprected type Double

@@ -2,7 +2,7 @@
 @@ |-Fun Decl                                                  :: main
 @@   |-Identifier :: main                                      :: main
 @@   |-Params
-@@   |-Block                                                   :: Unit
+@@   |-Block                                                   :: Unresolved type
 @@     |-Bin op :: in                                          :: Unresolved type
 @@       |-Integer :: 5                                        :: Int
 @@       |-Bin op :: ..                                        :: ClosedRange<Double>
@@ -18,5 +18,11 @@
 @@ |-Fun main() -> Unit
 @@ | |-SymbolTable
 @@ |-Fun println(String) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println(Int) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println(Double) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println() -> Unit
 @@   |-SymbolTable
 @@ Error 2:0 :: Operation is not applicable to types Int and ClosedRange<Double>

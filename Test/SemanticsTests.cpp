@@ -30,14 +30,14 @@ TEST_CASE("Semantics Classes", "[Semantics]") {
     RunTests<ParserSemanticTest>("Classes/");
 }
 
-//TEST_CASE("Semantics IfElse", "[Semantics]") {
-//    RunTests<ParserSemanticTest>("IfElse/");
-//}
-//
-//TEST_CASE("Semantics Loops", "[Semantics]") {
-//    RunTests<ParserSemanticTest>("Loops/");
-//}
-//
-//TEST_CASE("Semantics Jumps", "[Semantics]") {
-//    RunTests<ParserSemanticTest>("Jumps/");
-//}
+TEST_CASE("Semantics IfElse", "[Semantics]") {
+    RunTests<ParserSemanticTest>("IfElse/");
+}
+
+TEST_CASE("Semantics Loops", "[Semantics]") {
+    RunTests<ParserSemanticTest>("Loops/");
+}
+
+TEST_CASE("Semantics Jumps", "[Semantics]") {
+    RunTests<ParserSemanticTest>("Jumps/");
+}

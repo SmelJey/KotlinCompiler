@@ -5,13 +5,14 @@
 
 class AbstractDeclaration : public AbstractNode, public virtual IAnnotatedNode {
 public:
-    explicit AbstractDeclaration(Pointer<IdentifierNode> identifier);
+    explicit AbstractDeclaration(Pointer<IdentifierNode> identifier, const UnitTypeSymbol* type);
 
     std::string GetIdentifierName() const;
     IdentifierNode& GetIdentifier() const;
 
     const ISymbol* GetSymbol() const override;
     void SetSymbol(const ISymbol* symbol);
+    const ITypeSymbol* GetType() const override;
 
     Lexeme GetLexeme() const override;
 
@@ -19,6 +20,7 @@ protected:
     void AcceptVisitor(INodeVisitor& visitor, int depth) const override;
 
     const ISymbol* mySymbol = nullptr;
+    const UnitTypeSymbol* myUnitSym;
 
 private:
     Pointer<IdentifierNode> myIdentifier;
@@ -41,7 +43,7 @@ private:
 
 class ClassDeclaration : public AbstractDeclaration {
 public:
-    explicit ClassDeclaration(Pointer<IdentifierNode> identifier);
+    explicit ClassDeclaration(Pointer<IdentifierNode> identifier, const UnitTypeSymbol* type);
 
     const DeclarationBlock& GetBody() const;
     void SetBody(Pointer<DeclarationBlock> body);
@@ -57,7 +59,7 @@ private:
 
 class ParameterNode : public AbstractDeclaration {
 public:
-    ParameterNode(Pointer<IdentifierNode> identifier, Pointer<IAnnotatedNode> typeNode);
+    ParameterNode(Pointer<IdentifierNode> identifier, const UnitTypeSymbol* type, Pointer<IAnnotatedNode> typeNode);
 
     const IAnnotatedNode& GetTypeNode() const;
 
@@ -78,7 +80,7 @@ private:
 
 class VariableNode : public AbstractDeclaration {
 public:
-    explicit VariableNode(Pointer<IdentifierNode> identifier);
+    explicit VariableNode(Pointer<IdentifierNode> identifier, const UnitTypeSymbol* type);
 
     const IAnnotatedNode& GetTypeNode() const;
     void SetTypeNode(Pointer<IAnnotatedNode> typeNode);
@@ -108,7 +110,7 @@ private:
 
 class FunctionDeclaration : public AbstractDeclaration {
 public:
-    FunctionDeclaration(Pointer<IdentifierNode> identifier, Pointer<ParameterList> parameters, Pointer<IAnnotatedNode> body);
+    FunctionDeclaration(Pointer<IdentifierNode> identifier, const UnitTypeSymbol* type, Pointer<ParameterList> parameters, Pointer<IAnnotatedNode> body);
 
     const ParameterList& GetParameters() const;
 
@@ -130,7 +132,7 @@ private:
 
 class PropertyDeclaration : public AbstractDeclaration {
 public:
-    PropertyDeclaration(Pointer<IdentifierNode> identifier, const Lexeme& keyword);
+    PropertyDeclaration(Pointer<IdentifierNode> identifier, const UnitTypeSymbol* type, const Lexeme& keyword);
 
     bool IsMutable() const;
     std::string GetKeyword() const;

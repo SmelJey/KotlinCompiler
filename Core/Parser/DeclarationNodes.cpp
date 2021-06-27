@@ -1,7 +1,8 @@
 #include "DeclarationNodes.h"
 #include "INodeVisitor.h"
 
-AbstractDeclaration::AbstractDeclaration(Pointer<IdentifierNode> identifier) : AbstractNode(identifier->GetLexeme()), myIdentifier(std::move(identifier)) {}
+AbstractDeclaration::AbstractDeclaration(Pointer<IdentifierNode> identifier, const UnitTypeSymbol* type)
+    : AbstractNode(identifier->GetLexeme()), myUnitSym(type), myIdentifier(std::move(identifier)) {}
 
 std::string AbstractDeclaration::GetIdentifierName() const {
     return myIdentifier->GetLexeme().GetValue<std::string>();
@@ -18,6 +19,10 @@ const ISymbol* AbstractDeclaration::GetSymbol() const {
 void AbstractDeclaration::SetSymbol(const ISymbol* symbol) {
     mySymbol = symbol;
     myIdentifier->Resolve(symbol);
+}
+
+const ITypeSymbol* AbstractDeclaration::GetType() const {
+    return myUnitSym;
 }
 
 Lexeme AbstractDeclaration::GetLexeme() const {
@@ -49,7 +54,7 @@ void DeclarationBlock::AcceptVisitor(INodeVisitor& visitor, int depth) const {
     }
 }
 
-ClassDeclaration::ClassDeclaration(Pointer<IdentifierNode> identifier) : AbstractDeclaration(std::move(identifier)) {}
+ClassDeclaration::ClassDeclaration(Pointer<IdentifierNode> identifier, const UnitTypeSymbol* type) : AbstractDeclaration(std::move(identifier), type) {}
 
 const DeclarationBlock& ClassDeclaration::GetBody() const {
     return *myClassBody;
@@ -75,8 +80,8 @@ void ClassDeclaration::AcceptVisitor(INodeVisitor& visitor, int depth) const {
     }
 }
 
-ParameterNode::ParameterNode(Pointer<IdentifierNode> identifier, Pointer<IAnnotatedNode> typeNode)
-    : AbstractDeclaration(std::move(identifier)), myType(std::move(typeNode)) {}
+ParameterNode::ParameterNode(Pointer<IdentifierNode> identifier, const UnitTypeSymbol* type, Pointer<IAnnotatedNode> typeNode)
+    : AbstractDeclaration(std::move(identifier), type), myType(std::move(typeNode)) {}
 
 const IAnnotatedNode& ParameterNode::GetTypeNode() const {
     return *myType;
@@ -116,7 +121,7 @@ void ParameterNode::AcceptVisitor(INodeVisitor& visitor, int depth) const {
     }
 }
 
-VariableNode::VariableNode(Pointer<IdentifierNode> identifier) : AbstractDeclaration(std::move(identifier)) {}
+VariableNode::VariableNode(Pointer<IdentifierNode> identifier, const UnitTypeSymbol* type) : AbstractDeclaration(std::move(identifier), type) {}
 
 const IAnnotatedNode& VariableNode::GetTypeNode() const {
     return *myType;
@@ -162,8 +167,8 @@ void ParameterList::AcceptVisitor(INodeVisitor& visitor, int depth) const {
     }
 }
 
-FunctionDeclaration::FunctionDeclaration(Pointer<IdentifierNode> identifier, Pointer<ParameterList> parameters, Pointer<IAnnotatedNode> body)
-    : AbstractDeclaration(std::move(identifier)), myParams(std::move(parameters)), myBody(std::move(body)) {}
+FunctionDeclaration::FunctionDeclaration(Pointer<IdentifierNode> identifier, const UnitTypeSymbol* type, Pointer<ParameterList> parameters, Pointer<IAnnotatedNode> body)
+    : AbstractDeclaration(std::move(identifier), type), myParams(std::move(parameters)), myBody(std::move(body)) {}
 
 const ParameterList& FunctionDeclaration::GetParameters() const {
     return *myParams;
@@ -200,7 +205,8 @@ void FunctionDeclaration::AcceptVisitor(INodeVisitor& visitor, int depth) const 
     visitor.VisitNode(*myBody, depth);
 }
 
-PropertyDeclaration::PropertyDeclaration(Pointer<IdentifierNode> identifier, const Lexeme& keyword) : AbstractDeclaration(std::move(identifier)), myKeyword(keyword) {}
+PropertyDeclaration::PropertyDeclaration(Pointer<IdentifierNode> identifier, const UnitTypeSymbol* type, const Lexeme& keyword)
+    : AbstractDeclaration(std::move(identifier), type), myKeyword(keyword) {}
 
 bool PropertyDeclaration::IsMutable() const {
     return GetKeyword() == "var";

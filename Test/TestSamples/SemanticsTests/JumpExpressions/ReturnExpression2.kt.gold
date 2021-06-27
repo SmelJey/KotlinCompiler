@@ -1,9 +1,0 @@
-@@ Decl Block
-@@ |-Fun Decl
-@@   |-Identifier :: main
-@@   |-Params
-@@   |-Block
-@@     |-Return
-@@       |-Bin op :: +
-@@         |-Integer :: 5
-@@         |-Integer :: 2

@@ -6,7 +6,7 @@
 @@     |-Val Decl                                              :: a
 @@     | |-Identifier :: a                                     :: a
 @@     | |-Integer :: 1                                        :: Int
-@@     |-Assignment :: =
+@@     |-Assignment :: =                                       :: Unit
 @@       |-Identifier :: a                                     :: a
 @@       |-Integer :: 2                                        :: Int
 @@ ====
@@ -20,5 +20,11 @@
 @@ |   |-Val a
 @@ |     |-Int
 @@ |-Fun println(String) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println(Int) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println(Double) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println() -> Unit
 @@   |-SymbolTable
 @@ Error 2:3 :: Val cannot be reassigned

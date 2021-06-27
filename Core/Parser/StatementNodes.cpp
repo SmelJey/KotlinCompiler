@@ -3,22 +3,14 @@
 #include "INodeVisitor.h"
 
 EmptyStatement::EmptyStatement(const Lexeme& lexeme, const UnitTypeSymbol* type)
-    : AbstractNode(lexeme.CopyEmptyOfType(LexemeType::Ignored)), myType(type) {}
-
-const ISymbol* EmptyStatement::GetSymbol() const {
-    return myType;
-}
-
-const ITypeSymbol* EmptyStatement::GetType() const {
-    return myType;
-}
+    : UnitTypedNode(lexeme.CopyEmptyOfType(LexemeType::Ignored), type) {}
 
 std::string EmptyStatement::GetName() const {
     return "Empty Statement";
 }
 
-Assignment::Assignment(const Lexeme& lexeme, Pointer<IAnnotatedNode> assignable, Pointer<IAnnotatedNode> expression)
-    : AbstractNode(lexeme), myAssignable(std::move(assignable)), myExpression(std::move(expression)) {}
+Assignment::Assignment(const Lexeme& lexeme, Pointer<IAnnotatedNode> assignable, Pointer<IAnnotatedNode> expression, const UnitTypeSymbol* type)
+    : UnitTypedNode(lexeme, type), myAssignable(std::move(assignable)), myExpression(std::move(expression)) {}
 
 std::string Assignment::GetOperation() const {
     return GetLexeme().GetValue<std::string>();
@@ -41,13 +33,12 @@ void Assignment::AcceptVisitor(INodeVisitor& visitor, int depth) const {
     visitor.VisitNode(*myExpression, depth);
 }
 
-LoopNode::LoopNode(const Lexeme& lexeme, Pointer<IAnnotatedNode> expression, Pointer<ISyntaxNode> body)
-    : AbstractNode(lexeme), myExpression(std::move(expression)), myBody(std::move(body)) {}
+LoopNode::LoopNode(const Lexeme& lexeme, Pointer<IAnnotatedNode> expression, Pointer<ISyntaxNode> body, const UnitTypeSymbol* type)
+    : UnitTypedNode(lexeme, type), myExpression(std::move(expression)), myBody(std::move(body)) {}
 
 const IAnnotatedNode& LoopNode::GetExpression() const {
     return *myExpression;
 }
-
 
 const ISyntaxNode& LoopNode::GetBody() const {
     return *myBody;
@@ -58,22 +49,22 @@ void LoopNode::AcceptVisitor(INodeVisitor& visitor, int depth) const {
     visitor.VisitNode(*myBody, depth);
 }
 
-WhileNode::WhileNode(const Lexeme& lexeme, Pointer<IAnnotatedNode> expression, Pointer<ISyntaxNode> body)
-    : LoopNode(lexeme, std::move(expression), std::move(body)){}
+WhileNode::WhileNode(const Lexeme& lexeme, Pointer<IAnnotatedNode> expression, Pointer<ISyntaxNode> body, const UnitTypeSymbol* type)
+    : LoopNode(lexeme, std::move(expression), std::move(body), type) {}
 
 std::string WhileNode::GetName() const {
     return "While";
 }
 
-DoWhileNode::DoWhileNode(const Lexeme& lexeme, Pointer<IAnnotatedNode> expression, Pointer<ISyntaxNode> body)
-    : LoopNode(lexeme, std::move(expression), std::move(body)) {}
+DoWhileNode::DoWhileNode(const Lexeme& lexeme, Pointer<IAnnotatedNode> expression, Pointer<ISyntaxNode> body, const UnitTypeSymbol* type)
+    : LoopNode(lexeme, std::move(expression), std::move(body), type) {}
 
 std::string DoWhileNode::GetName() const {
     return "DoWhile";
 }
 
-ForNode::ForNode(const Lexeme& lexeme, Pointer<IAnnotatedNode> expression, Pointer<ISyntaxNode> body, Pointer<VariableNode> variable)
-    : LoopNode(lexeme, std::move(expression), std::move(body)), myVariable(std::move(variable)) {}
+ForNode::ForNode(const Lexeme& lexeme, Pointer<IAnnotatedNode> expression, Pointer<ISyntaxNode> body, Pointer<VariableNode> variable, const UnitTypeSymbol* type)
+    : LoopNode(lexeme, std::move(expression), std::move(body), type), myVariable(std::move(variable)) {}
 
 const VariableNode& ForNode::GetVariable() const {
     return *myVariable;

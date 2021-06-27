@@ -14,6 +14,16 @@ const ITypeSymbol* AbstractTypedNode::GetType() const {
     return dynamic_cast<const ITypeSymbol*>(GetSymbol());
 }
 
+UnitTypedNode::UnitTypedNode(const Lexeme& lexeme, const UnitTypeSymbol* symbol) : AbstractNode(lexeme), myType(symbol) {}
+
+const ISymbol* UnitTypedNode::GetSymbol() const {
+    return myType;
+}
+
+const ITypeSymbol* UnitTypedNode::GetType() const {
+    return myType;
+}
+
 IdentifierNode::IdentifierNode(const Lexeme& lexeme, const ITypeSymbol* defaultSym, const std::vector<const ISymbol*>& candidates)
     : AbstractTypedNode(lexeme, defaultSym), myCandidates(candidates) {}
 
@@ -132,19 +142,19 @@ std::string TypeNode::GetName() const {
     return "Type :: " + GetLexeme().GetValue<std::string>();
 }
 
-BreakNode::BreakNode(const Lexeme& lexeme) : AbstractNode(lexeme) {}
+BreakNode::BreakNode(const Lexeme& lexeme, const UnitTypeSymbol* type) : UnitTypedNode(lexeme, type) {}
 
 std::string BreakNode::GetName() const {
     return "Break";
 }
 
-ContinueNode::ContinueNode(const Lexeme& lexeme) : AbstractNode(lexeme) {}
+ContinueNode::ContinueNode(const Lexeme& lexeme, const UnitTypeSymbol* type) : UnitTypedNode(lexeme, type) {}
 
 std::string ContinueNode::GetName() const {
     return "Continue";
 }
 
-ReturnNode::ReturnNode(const Lexeme& lexeme) : AbstractNode(lexeme) {}
+ReturnNode::ReturnNode(const Lexeme& lexeme, const UnitTypeSymbol* type) : UnitTypedNode(lexeme, type) {}
 
 const IAnnotatedNode* ReturnNode::GetExpression() const {
     return myExpression.get();
@@ -156,6 +166,18 @@ void ReturnNode::SetExpression(Pointer<IAnnotatedNode> expression) {
 
 bool ReturnNode::HasExpression() const {
     return myExpression != nullptr;
+}
+
+const ISymbol* ReturnNode::GetSymbol() const {
+    return GetType();
+}
+
+const ITypeSymbol* ReturnNode::GetType() const {
+    if (HasExpression()) {
+        return myExpression->GetType();
+    }
+
+    return UnitTypedNode::GetType();
 }
 
 std::string ReturnNode::GetName() const {

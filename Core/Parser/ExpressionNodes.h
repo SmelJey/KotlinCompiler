@@ -164,19 +164,14 @@ private:
     Pointer<IAnnotatedNode> myMemberNode;
 };
 
-class IfExpression : public AbstractNode, public virtual IAnnotatedNode {
+class IfExpression : public UnitTypedNode {
 public:
-    IfExpression(const Lexeme& lexeme, const ITypeSymbol* type, Pointer<IAnnotatedNode> expression);
+    IfExpression(const Lexeme& lexeme, const UnitTypeSymbol* type, Pointer<IAnnotatedNode> expression, Pointer<IAnnotatedNode> ifBody, Pointer<IAnnotatedNode> elseBody);
 
     const IAnnotatedNode* GetExpression() const;
 
-    const ISyntaxNode* GetIfBody() const;
-    void SetIfBody(Pointer<ISyntaxNode> body);
-    bool HasIfBody() const;
-
-    const ISyntaxNode* GetElseBody() const;
-    void SetElseBody(Pointer<ISyntaxNode> body);
-    bool HasElseBody() const;
+    const IAnnotatedNode* GetIfBody() const;
+    const IAnnotatedNode* GetElseBody() const;
 
     const ISymbol* GetSymbol() const override;
     const ITypeSymbol* GetType() const override;
@@ -187,18 +182,16 @@ protected:
 
 private:
     Pointer<IAnnotatedNode> myExpression;
-    Pointer<ISyntaxNode> myIfBody;
-    Pointer<ISyntaxNode> myElseBody;
-
-    const ITypeSymbol* myType;
+    Pointer<IAnnotatedNode> myIfBody;
+    Pointer<IAnnotatedNode> myElseBody;
 };
 
 class BlockNode : public AbstractNode, public virtual IAnnotatedNode {
 public:
-    explicit BlockNode(const Lexeme& lexeme);
+    BlockNode(const Lexeme& lexeme, const UnitTypeSymbol* type);
 
-    const std::vector<Pointer<ISyntaxNode>>& GetStatements() const;
-    void AddStatement(Pointer<ISyntaxNode> statement);
+    const std::vector<Pointer<IAnnotatedNode>>& GetStatements() const;
+    void AddStatement(Pointer<IAnnotatedNode> statement);
 
     const ISymbol* GetSymbol() const override;
     const ITypeSymbol* GetType() const override;
@@ -209,6 +202,6 @@ protected:
     void AcceptVisitor(INodeVisitor& visitor, int depth) const override;
 
 private:
-    std::vector<Pointer<ISyntaxNode>> myStatements;
+    std::vector<Pointer<IAnnotatedNode>> myStatements;
     const ITypeSymbol* myReturn;
 };

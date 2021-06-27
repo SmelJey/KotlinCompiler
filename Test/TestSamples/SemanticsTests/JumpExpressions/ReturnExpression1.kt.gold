@@ -1,7 +1,0 @@
-@@ Decl Block
-@@ |-Fun Decl
-@@   |-Identifier :: main
-@@   |-Params
-@@   |-Block
-@@     |-Return
-@@       |-Empty Statement
