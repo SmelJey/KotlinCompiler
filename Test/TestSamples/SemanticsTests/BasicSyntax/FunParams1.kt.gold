@@ -1,0 +1,20 @@
+@@ Decl Block
+@@ |-Fun Decl                                                  :: test
+@@   |-Identifier :: test                                      :: test
+@@   |-Params
+@@   | |-Parameter                                             :: a
+@@   |   |-Identifier :: a                                     :: a
+@@   |   |-Type :: Int                                         :: Int
+@@   |-Block                                                   :: Unit
+@@ ====
+@@ SymbolTable
+@@ |-Boolean
+@@ |-Double
+@@ |-Int
+@@ |-String
+@@ |-Fun println(String) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun test(Int) -> Unit
+@@   |-SymbolTable
+@@     |-Val a
+@@       |-Int

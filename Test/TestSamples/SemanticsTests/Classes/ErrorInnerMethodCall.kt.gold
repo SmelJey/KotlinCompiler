@@ -1,0 +1,32 @@
+@@ Decl Block
+@@ |-Class Decl                                                :: A
+@@ | |-Identifier :: A                                         :: A
+@@ | |-Decl Block
+@@ |   |-Fun Decl                                              :: test
+@@ |     |-Identifier :: test                                  :: test
+@@ |     |-Params
+@@ |     |-Integer :: 1                                        :: Int
+@@ |-Fun Decl                                                  :: main
+@@   |-Identifier :: main                                      :: main
+@@   |-Params
+@@   |-Block                                                   :: Unit
+@@     |-CallSuffix                                            :: Unresolved type
+@@       |-Identifier :: test                                  :: Unresolved type
+@@       |-Args
+@@ ====
+@@ SymbolTable
+@@ |-Class A
+@@ | |-SymbolTable
+@@ |   |-Fun test() -> Int
+@@ |     |-SymbolTable
+@@ |-Fun A() -> A
+@@ | |-SymbolTable
+@@ |-Boolean
+@@ |-Double
+@@ |-Int
+@@ |-String
+@@ |-Fun main() -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println(String) -> Unit
+@@   |-SymbolTable
+@@ Error 5:5 :: Unresolved function

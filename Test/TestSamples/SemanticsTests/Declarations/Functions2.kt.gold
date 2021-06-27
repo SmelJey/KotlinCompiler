@@ -75,5 +75,7 @@
 @@ |       | |-Int
 @@ |       |-Fun test2() -> Int
 @@ |         |-SymbolTable
+@@ |-Fun println(String) -> Unit
+@@ | |-SymbolTable
 @@ |-Fun test4() -> Int
 @@   |-SymbolTable

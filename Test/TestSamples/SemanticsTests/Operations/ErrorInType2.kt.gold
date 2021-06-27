@@ -16,5 +16,7 @@
 @@ |-Int
 @@ |-String
 @@ |-Fun main() -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println(String) -> Unit
 @@   |-SymbolTable
 @@ Error 2:0 :: Operation is not applicable to types Double and ClosedRange<Int>

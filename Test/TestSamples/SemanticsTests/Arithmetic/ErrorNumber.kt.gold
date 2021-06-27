@@ -11,6 +11,8 @@
 @@ |-Double
 @@ |-Int
 @@ |-String
+@@ |-Fun println(String) -> Unit
+@@ | |-SymbolTable
 @@ |-Fun test() -> Int
 @@   |-SymbolTable
 @@ Error 0:17 :: Illegal suffix

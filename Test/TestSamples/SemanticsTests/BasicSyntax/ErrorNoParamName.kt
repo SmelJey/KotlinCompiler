@@ -1,0 +1,1 @@
+fun test(: Int) =2 + 3

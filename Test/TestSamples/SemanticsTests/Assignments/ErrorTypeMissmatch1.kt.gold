@@ -17,7 +17,9 @@
 @@ |-Int
 @@ |-String
 @@ |-Fun main() -> Unit
+@@ | |-SymbolTable
+@@ |   |-Var a
+@@ |     |-Double
+@@ |-Fun println(String) -> Unit
 @@   |-SymbolTable
-@@     |-Var a
-@@       |-Double
 @@ Error 2:3 :: Int does not conform to the exprected type Double

@@ -47,4 +47,6 @@
 @@ |-Fun arrayOf(Double, Double) -> Array<Double>
 @@ | |-SymbolTable
 @@ |-Fun main() -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println(String) -> Unit
 @@   |-SymbolTable

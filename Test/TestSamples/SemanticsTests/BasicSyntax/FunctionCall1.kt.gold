@@ -1,0 +1,19 @@
+@@ Decl Block
+@@ |-Fun Decl                                                  :: main
+@@   |-Identifier :: main                                      :: main
+@@   |-Params
+@@   |-Block                                                   :: Unit
+@@     |-CallSuffix                                            :: Unresolved type
+@@       |-Identifier :: println                               :: Unresolved type
+@@       |-Args
+@@ ====
+@@ SymbolTable
+@@ |-Boolean
+@@ |-Double
+@@ |-Int
+@@ |-String
+@@ |-Fun main() -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println(String) -> Unit
+@@   |-SymbolTable
+@@ Error 1:8 :: Unresolved function

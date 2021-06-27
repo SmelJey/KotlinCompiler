@@ -54,6 +54,8 @@
 @@ |   | |-Int
 @@ |   |-Val c
 @@ |     |-Int
+@@ |-Fun println(String) -> Unit
+@@ | |-SymbolTable
 @@ |-Fun test1() -> Int
 @@ | |-SymbolTable
 @@ |-Fun test2() -> Int

@@ -1,0 +1,18 @@
+@@ Decl Block
+@@ |-Class Decl                                                :: A
+@@   |-Identifier :: A                                         :: A
+@@   |-Decl Block
+@@ ====
+@@ SymbolTable
+@@ |-Class A
+@@ | |-SymbolTable
+@@ |-Fun A() -> A
+@@ | |-SymbolTable
+@@ |-Boolean
+@@ |-Double
+@@ |-Int
+@@ |-String
+@@ |-Fun println(String) -> Unit
+@@   |-SymbolTable
+@@ Error 1:7 :: Class is not allowed here
+@@ Error 1:7 :: Expecting member declaration

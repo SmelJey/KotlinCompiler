@@ -16,6 +16,8 @@
 @@ |-Int
 @@ |-String
 @@ |-Fun main() -> Unit
+@@ | |-SymbolTable
+@@ |   |-Var a
+@@ |     |-Int
+@@ |-Fun println(String) -> Unit
 @@   |-SymbolTable
-@@     |-Var a
-@@       |-Int

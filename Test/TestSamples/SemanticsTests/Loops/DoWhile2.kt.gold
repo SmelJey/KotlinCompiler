@@ -1,0 +1,11 @@
+@@ Decl Block
+@@ |-Fun Decl
+@@   |-Identifier :: main
+@@   |-Params
+@@   |-Block
+@@     |-DoWhile
+@@       |-Boolean :: false
+@@       |-CallSuffix
+@@         |-Identifier :: println
+@@         |-Args
+@@           |-String :: Hello

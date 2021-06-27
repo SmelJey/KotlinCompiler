@@ -27,10 +27,12 @@
 @@ |-Int
 @@ |-String
 @@ |-Fun main() -> Unit
+@@ | |-SymbolTable
+@@ |   |-Var a
+@@ |   | |-Int
+@@ |   |-Val b
+@@ |   | |-Int
+@@ |   |-Val c
+@@ |     |-Int
+@@ |-Fun println(String) -> Unit
 @@   |-SymbolTable
-@@     |-Var a
-@@     | |-Int
-@@     |-Val b
-@@     | |-Int
-@@     |-Val c
-@@       |-Int

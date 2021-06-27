@@ -1,0 +1,11 @@
+@@ Decl Block
+@@ |-Fun Decl
+@@   |-Identifier :: main
+@@   |-Params
+@@   |-Block
+@@     |-Return
+@@     | |-Empty Statement
+@@     |-CallSuffix
+@@       |-Identifier :: println
+@@       |-Args
+@@         |-String :: no way

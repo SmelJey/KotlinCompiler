@@ -1,0 +1,14 @@
+@@ Decl Block
+@@ |-Fun Decl
+@@   |-Identifier :: main
+@@   |-Params
+@@   |-Block
+@@     |-DoWhile
+@@       |-Boolean :: false
+@@       |-DoWhile
+@@         |-Bin op :: <
+@@         | |-Bin op :: +
+@@         | | |-Integer :: 3
+@@         | | |-Integer :: 2
+@@         | |-Integer :: 5
+@@         |-Block

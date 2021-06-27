@@ -13,6 +13,8 @@
 @@ |-Double
 @@ |-Int
 @@ |-String
+@@ |-Fun println(String) -> Unit
+@@ | |-SymbolTable
 @@ |-Fun test() -> Unit
 @@   |-SymbolTable
 @@ Error 1:13 :: Conflicting function overloads: test

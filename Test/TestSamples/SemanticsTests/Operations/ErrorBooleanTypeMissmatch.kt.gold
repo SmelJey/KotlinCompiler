@@ -11,6 +11,8 @@
 @@ |-Double
 @@ |-Int
 @@ |-String
+@@ |-Fun println(String) -> Unit
+@@ | |-SymbolTable
 @@ |-Fun test() -> Unresolved type
 @@   |-SymbolTable
 @@ Error 0:22 :: Operation is not applicable to types String and String

@@ -1,0 +1,15 @@
+@@ Decl Block
+@@ |-Val Decl                                                  :: a
+@@   |-Identifier :: a                                         :: a
+@@   |-Type :: Int                                             :: Int
+@@   |-Integer :: 5                                            :: Int
+@@ ====
+@@ SymbolTable
+@@ |-Boolean
+@@ |-Double
+@@ |-Int
+@@ |-String
+@@ |-Val a
+@@ | |-Int
+@@ |-Fun println(String) -> Unit
+@@   |-SymbolTable

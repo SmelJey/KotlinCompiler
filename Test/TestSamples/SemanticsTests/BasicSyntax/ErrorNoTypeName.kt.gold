@@ -1,0 +1,24 @@
+@@ Decl Block
+@@ |-Fun Decl                                                  :: test
+@@   |-Identifier :: test                                      :: test
+@@   |-Params
+@@   | |-Parameter                                             :: a
+@@   |   |-Identifier :: a                                     :: a
+@@   |   |-Type ::                                             :: Unresolved type
+@@   |-Block                                                   :: Unit
+@@     |-Bin op :: +                                           :: Int
+@@       |-Integer :: 2                                        :: Int
+@@       |-Integer :: 3                                        :: Int
+@@ ====
+@@ SymbolTable
+@@ |-Boolean
+@@ |-Double
+@@ |-Int
+@@ |-String
+@@ |-Fun println(String) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun test(Unresolved type) -> Unit
+@@   |-SymbolTable
+@@     |-Val a
+@@       |-Unresolved type
+@@ Error 0:12 :: Type expected

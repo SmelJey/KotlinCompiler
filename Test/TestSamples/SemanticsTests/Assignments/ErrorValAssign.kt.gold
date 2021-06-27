@@ -16,7 +16,9 @@
 @@ |-Int
 @@ |-String
 @@ |-Fun main() -> Unit
+@@ | |-SymbolTable
+@@ |   |-Val a
+@@ |     |-Int
+@@ |-Fun println(String) -> Unit
 @@   |-SymbolTable
-@@     |-Val a
-@@       |-Int
 @@ Error 2:3 :: Val cannot be reassigned

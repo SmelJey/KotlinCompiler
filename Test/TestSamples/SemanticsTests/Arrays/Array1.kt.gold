@@ -39,10 +39,12 @@
 @@ |-Fun arrayOf() -> Array<String>
 @@ | |-SymbolTable
 @@ |-Fun main() -> Unit
+@@ | |-SymbolTable
+@@ |   |-Val a
+@@ |   | |-Array<Int>
+@@ |   |-Val b
+@@ |   | |-Array<Double>
+@@ |   |-Val c
+@@ |     |-Array<String>
+@@ |-Fun println(String) -> Unit
 @@   |-SymbolTable
-@@     |-Val a
-@@     | |-Array<Int>
-@@     |-Val b
-@@     | |-Array<Double>
-@@     |-Val c
-@@       |-Array<String>

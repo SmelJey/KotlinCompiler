@@ -1,0 +1,19 @@
+@@ Decl Block
+@@ |-Fun Decl                                                  :: main
+@@   |-Identifier :: main                                      :: main
+@@   |-Params
+@@   |-Block                                                   :: Unit
+@@     |-CallSuffix                                            :: Unit
+@@       |-Identifier :: println                               :: println
+@@       |-Args
+@@         |-String :: Hello world!                            :: String
+@@ ====
+@@ SymbolTable
+@@ |-Boolean
+@@ |-Double
+@@ |-Int
+@@ |-String
+@@ |-Fun main() -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println(String) -> Unit
+@@   |-SymbolTable

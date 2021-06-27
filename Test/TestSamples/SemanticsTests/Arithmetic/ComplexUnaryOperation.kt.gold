@@ -24,5 +24,7 @@
 @@ |-Double
 @@ |-Int
 @@ |-String
+@@ |-Fun println(String) -> Unit
+@@ | |-SymbolTable
 @@ |-Fun test() -> Int
 @@   |-SymbolTable

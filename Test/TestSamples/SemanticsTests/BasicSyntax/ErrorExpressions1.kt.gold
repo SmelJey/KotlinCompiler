@@ -1,0 +1,27 @@
+@@ Decl Block
+@@ |-Fun Decl                                                  :: main
+@@   |-Identifier :: main                                      :: main
+@@   |-Params
+@@   |-Block                                                   :: Unit
+@@     |-Assignment :: =
+@@     | |-Identifier :: a                                     :: Unresolved type
+@@     | |-Integer :: 3                                        :: Int
+@@     |-Identifier ::                                         :: Unresolved type
+@@     |-Integer :: 2                                          :: Int
+@@     |-CallSuffix                                            :: Unresolved type
+@@       |-Identifier :: println                               :: Unresolved type
+@@       |-Args
+@@         |-Identifier :: a                                   :: Unresolved type
+@@ ====
+@@ SymbolTable
+@@ |-Boolean
+@@ |-Double
+@@ |-Int
+@@ |-String
+@@ |-Fun main() -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println(String) -> Unit
+@@   |-SymbolTable
+@@ Error 2:1 :: Unexpected lexeme
+@@ Error 1:3 :: Val cannot be reassigned
+@@ Error 3:8 :: Unresolved function

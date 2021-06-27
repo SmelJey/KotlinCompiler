@@ -23,6 +23,8 @@
 @@ |-Double
 @@ |-Int
 @@ |-String
+@@ |-Fun println(String) -> Unit
+@@ | |-SymbolTable
 @@ |-Fun test() -> Boolean
 @@ | |-SymbolTable
 @@ |-Fun test1() -> Unit

@@ -1,0 +1,23 @@
+@@ Decl Block
+@@ |-Fun Decl                                                  :: test
+@@   |-Identifier :: test                                      :: test
+@@   |-Params
+@@   | |-Parameter                                             :: 
+@@   |   |-Identifier ::                                       :: 
+@@   |   |-Type :: Int                                         :: Int
+@@   |-Bin op :: +                                             :: Int
+@@     |-Integer :: 2                                          :: Int
+@@     |-Integer :: 3                                          :: Int
+@@ ====
+@@ SymbolTable
+@@ |-Boolean
+@@ |-Double
+@@ |-Int
+@@ |-String
+@@ |-Fun println(String) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun test(Int) -> Int
+@@   |-SymbolTable
+@@     |-Val 
+@@       |-Int
+@@ Error 0:9 :: Parameter name expected

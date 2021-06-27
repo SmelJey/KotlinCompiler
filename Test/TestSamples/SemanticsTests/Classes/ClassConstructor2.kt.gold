@@ -1,0 +1,51 @@
+@@ Decl Block
+@@ |-Class Decl                                                :: A
+@@ | |-Identifier :: A                                         :: A
+@@ | |-Decl Block
+@@ |   |-Fun Decl                                              :: test
+@@ |     |-Identifier :: test                                  :: test
+@@ |     |-Params
+@@ |     |-Type :: Int                                         :: Int
+@@ |     |-Integer :: 2                                        :: Int
+@@ |-Fun Decl                                                  :: test
+@@ | |-Identifier :: test                                      :: test
+@@ | |-Params
+@@ | |-Type :: A                                               :: A
+@@ | |-Block                                                   :: A
+@@ |   |-Return
+@@ |     |-CallSuffix                                          :: A
+@@ |       |-Identifier :: A                                   :: A
+@@ |       |-Args
+@@ |-Fun Decl                                                  :: main
+@@   |-Identifier :: main                                      :: main
+@@   |-Params
+@@   |-Block                                                   :: Unit
+@@     |-Val Decl                                              :: a
+@@       |-Identifier :: a                                     :: a
+@@       |-CallSuffix                                          :: Int
+@@         |-MemberAccess :: .                                 :: test
+@@         | |-CallSuffix                                      :: A
+@@         | | |-Identifier :: test                            :: test
+@@         | | |-Args
+@@         | |-Identifier :: test                              :: test
+@@         |-Args
+@@ ====
+@@ SymbolTable
+@@ |-Class A
+@@ | |-SymbolTable
+@@ |   |-Fun test() -> Int
+@@ |     |-SymbolTable
+@@ |-Fun A() -> A
+@@ | |-SymbolTable
+@@ |-Boolean
+@@ |-Double
+@@ |-Int
+@@ |-String
+@@ |-Fun main() -> Unit
+@@ | |-SymbolTable
+@@ |   |-Val a
+@@ |     |-Int
+@@ |-Fun println(String) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun test() -> A
+@@   |-SymbolTable

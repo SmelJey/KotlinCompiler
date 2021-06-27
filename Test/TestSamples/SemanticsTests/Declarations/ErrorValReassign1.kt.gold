@@ -1,0 +1,24 @@
+@@ Decl Block
+@@ |-Val Decl                                                  :: a
+@@ | |-Identifier :: a                                         :: a
+@@ | |-Integer :: 1                                            :: Int
+@@ |-Fun Decl                                                  :: main
+@@   |-Identifier :: main                                      :: main
+@@   |-Params
+@@   |-Block                                                   :: Unit
+@@     |-Assignment :: =
+@@       |-Identifier :: a                                     :: a
+@@       |-Integer :: 2                                        :: Int
+@@ ====
+@@ SymbolTable
+@@ |-Boolean
+@@ |-Double
+@@ |-Int
+@@ |-String
+@@ |-Val a
+@@ | |-Int
+@@ |-Fun main() -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println(String) -> Unit
+@@   |-SymbolTable
+@@ Error 3:4 :: Val cannot be reassigned

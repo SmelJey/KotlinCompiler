@@ -1,0 +1,30 @@
+@@ Decl Block
+@@ |-Val Decl                                                  :: a
+@@ | |-Identifier :: a                                         :: a
+@@ | |-CallSuffix                                              :: Array<Int>
+@@ |   |-Identifier :: arrayOf                                 :: arrayOf
+@@ |   |-Args
+@@ |     |-Integer :: 1                                        :: Int
+@@ |-Fun Decl                                                  :: main
+@@   |-Identifier :: main                                      :: main
+@@   |-Params
+@@   |-Block                                                   :: Unit
+@@     |-IndexSuffix                                           :: Int
+@@       |-Identifier :: a                                     :: a
+@@       |-Args
+@@         |-Integer :: 1                                      :: Int
+@@ ====
+@@ SymbolTable
+@@ |-Array<Int>
+@@ |-Boolean
+@@ |-Double
+@@ |-Int
+@@ |-String
+@@ |-Val a
+@@ | |-Array<Int>
+@@ |-Fun arrayOf(Int) -> Array<Int>
+@@ | |-SymbolTable
+@@ |-Fun main() -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println(String) -> Unit
+@@   |-SymbolTable

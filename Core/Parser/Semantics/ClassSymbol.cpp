@@ -4,8 +4,8 @@
 
 ClassSymbol::ClassSymbol(const std::string& name, Pointer<SymbolTable> table) : myName(name), myTable(std::move(table)) {}
 
-const SymbolTable& ClassSymbol::GetTable() const {
-    return *myTable;
+SymbolTable* ClassSymbol::GetTable() const {
+    return myTable.get();
 }
 
 std::string ClassSymbol::GetName() const {

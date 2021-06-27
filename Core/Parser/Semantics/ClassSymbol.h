@@ -7,7 +7,7 @@ class ClassSymbol : public ITypeSymbol {
 public:
     ClassSymbol(const std::string& name, Pointer<SymbolTable> table);
 
-    const SymbolTable& GetTable() const;
+    SymbolTable* GetTable() const;
     std::string GetName() const override;
 
     Pointer<ITypeSymbol> IsApplicable(LexemeType operation) const override;

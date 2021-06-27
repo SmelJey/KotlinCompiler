@@ -1,0 +1,22 @@
+@@ Decl Block
+@@ |-Val Decl                                                  :: 
+@@ | |-Identifier ::                                           :: 
+@@ | |-Identifier ::                                           :: Unresolved type
+@@ |-Fun Decl                                                  :: test
+@@   |-Identifier :: test                                      :: test
+@@   |-Params
+@@   |-Integer :: 5                                            :: Int
+@@ ====
+@@ SymbolTable
+@@ |-Val 
+@@ | |-Unresolved type
+@@ |-Boolean
+@@ |-Double
+@@ |-Int
+@@ |-String
+@@ |-Fun println(String) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun test() -> Int
+@@   |-SymbolTable
+@@ Error 2:0 :: Expecting property name
+@@ Error 2:0 :: Property must be initialized

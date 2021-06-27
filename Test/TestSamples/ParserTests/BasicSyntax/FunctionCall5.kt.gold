@@ -1,0 +1,22 @@
+@@ Decl Block
+@@ |-Fun Decl
+@@ | |-Identifier :: test
+@@ | |-Params
+@@ | |-Integer :: 1
+@@ |-Fun Decl
+@@ | |-Identifier :: test2
+@@ | |-Params
+@@ | | |-Parameter
+@@ | |   |-Identifier :: a
+@@ | |   |-Type :: Int
+@@ | |-Identifier :: a
+@@ |-Fun Decl
+@@   |-Identifier :: main
+@@   |-Params
+@@   |-Block
+@@     |-CallSuffix
+@@       |-Identifier :: test2
+@@       |-Args
+@@         |-CallSuffix
+@@           |-Identifier :: test
+@@           |-Args

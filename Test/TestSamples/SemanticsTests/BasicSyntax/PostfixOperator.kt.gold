@@ -1,0 +1,22 @@
+@@ Decl Block
+@@ |-Var Decl                                                  :: a
+@@ | |-Identifier :: a                                         :: a
+@@ | |-Integer :: 1                                            :: Int
+@@ |-Fun Decl                                                  :: main
+@@   |-Identifier :: main                                      :: main
+@@   |-Params
+@@   |-Block                                                   :: Unit
+@@     |-Postfix Op :: ++                                      :: Int
+@@       |-Identifier :: a                                     :: a
+@@ ====
+@@ SymbolTable
+@@ |-Boolean
+@@ |-Double
+@@ |-Int
+@@ |-String
+@@ |-Var a
+@@ | |-Int
+@@ |-Fun main() -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println(String) -> Unit
+@@   |-SymbolTable

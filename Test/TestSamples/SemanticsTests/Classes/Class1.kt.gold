@@ -5,7 +5,11 @@
 @@ SymbolTable
 @@ |-Class A
 @@ | |-SymbolTable
+@@ |-Fun A() -> A
+@@ | |-SymbolTable
 @@ |-Boolean
 @@ |-Double
 @@ |-Int
 @@ |-String
+@@ |-Fun println(String) -> Unit
+@@   |-SymbolTable

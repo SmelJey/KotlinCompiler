@@ -1,0 +1,8 @@
+@@ Decl Block
+@@ |-Fun Decl
+@@   |-Identifier :: main
+@@   |-Params
+@@   |-Block
+@@     |-DoWhile
+@@       |-Boolean :: false
+@@       |-Block

@@ -190,12 +190,12 @@ const IAnnotatedNode* MemberAccessNode::GetExpression() const {
     return myExpression.get();
 }
 
-const IAnnotatedNode& MemberAccessNode::GetMember() const {
-    return *myMemberNode;
+IAnnotatedNode* MemberAccessNode::GetMember() const {
+    return myMemberNode.get();
 }
 
 const ISymbol* MemberAccessNode::GetSymbol() const {
-    return GetMember().GetSymbol();
+    return GetMember()->GetSymbol();
 }
 
 const ITypeSymbol* MemberAccessNode::GetType() const {

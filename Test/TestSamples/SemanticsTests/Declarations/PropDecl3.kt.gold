@@ -1,0 +1,19 @@
+@@ Decl Block
+@@ |-Var Decl                                                  :: d
+@@ | |-Identifier :: d                                         :: d
+@@ | |-Integer :: 5                                            :: Int
+@@ |-Var Decl                                                  :: c
+@@   |-Identifier :: c                                         :: c
+@@   |-Identifier :: d                                         :: d
+@@ ====
+@@ SymbolTable
+@@ |-Boolean
+@@ |-Double
+@@ |-Int
+@@ |-String
+@@ |-Var c
+@@ | |-Int
+@@ |-Var d
+@@ | |-Int
+@@ |-Fun println(String) -> Unit
+@@   |-SymbolTable

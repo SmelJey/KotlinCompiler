@@ -149,7 +149,7 @@ public:
     std::string GetOperation() const;
 
     const IAnnotatedNode* GetExpression() const;
-    const IAnnotatedNode& GetMember() const;
+    IAnnotatedNode* GetMember() const;
 
     const ISymbol* GetSymbol() const override;
     const ITypeSymbol* GetType() const override;

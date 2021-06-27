@@ -11,12 +11,10 @@ SymbolTable::SymbolTable(SymbolTable* parent) : myParentTable(parent) {
         Add(std::make_unique<IntegerSymbol>());
         Add(std::make_unique<BooleanSymbol>());
         Add(std::make_unique<DoubleSymbol>());
-        Add(std::make_unique<StringSymbol>());
+        auto stringSym = dynamic_cast<const ITypeSymbol*>(Add(std::make_unique<StringSymbol>()));
 
-        // TODO: decide smthng upon this
-        /*IntegerSymbol& integer = static_cast<IntegerSymbol&>(**mySymbols.find(IntegerSymbol()));
-        Add(std::make_unique<ArraySymbol>(integer));
-        Add(std::make_unique<RangeSymbol>(integer));*/
+        std::vector params { stringSym };
+        Add(std::make_unique<FunctionSymbol>("println", myUnitSymbol.get(), params, std::make_unique<SymbolTable>(this)));
     }
 }
 
