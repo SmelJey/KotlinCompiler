@@ -1,0 +1,19 @@
+@@ Decl Block
+@@ |-Fun Decl                                                  :: test
+@@   |-Identifier :: test                                      :: test
+@@   |-Params
+@@   |-Bin op :: +                                             :: Int
+@@     |-Bin op :: +                                           :: Int
+@@     | |-Bin op :: +                                         :: Int
+@@     | | |-Integer :: 1                                      :: Int
+@@     | | |-Integer :: 2                                      :: Int
+@@     | |-Integer :: 3                                        :: Int
+@@     |-Integer :: 4                                          :: Int
+@@ ====
+@@ SymbolTable
+@@ |-Boolean
+@@ |-Double
+@@ |-Int
+@@ |-String
+@@ |-Fun test() -> Int
+@@   |-SymbolTable

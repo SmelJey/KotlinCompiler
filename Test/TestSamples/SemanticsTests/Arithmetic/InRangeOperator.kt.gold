@@ -1,0 +1,24 @@
+@@ Decl Block
+@@ |-Fun Decl                                                  :: test
+@@   |-Identifier :: test                                      :: test
+@@   |-Params
+@@   |-Bin op :: &&                                            :: Boolean
+@@     |-Bin op :: in                                          :: Boolean
+@@     | |-Integer :: 123                                      :: Int
+@@     | |-Bin op :: ..                                        :: ClosedRange<Int>
+@@     |   |-Integer :: 5                                      :: Int
+@@     |   |-Integer :: 10                                     :: Int
+@@     |-Bin op :: !in                                         :: Boolean
+@@       |-Integer :: 35                                       :: Int
+@@       |-Bin op :: ..                                        :: ClosedRange<Int>
+@@         |-Integer :: 1                                      :: Int
+@@         |-Integer :: 100                                    :: Int
+@@ ====
+@@ SymbolTable
+@@ |-Boolean
+@@ |-ClosedRange<Int>
+@@ |-Double
+@@ |-Int
+@@ |-String
+@@ |-Fun test() -> Boolean
+@@   |-SymbolTable

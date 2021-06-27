@@ -1,0 +1,16 @@
+@@ Decl Block
+@@ |-Fun Decl                                                  :: test
+@@   |-Identifier :: test                                      :: test
+@@   |-Params
+@@   |-Bin op :: +                                             :: Unresolved type
+@@     |-Integer :: 2                                          :: Int
+@@     |-Identifier ::                                         :: Unresolved type
+@@ ====
+@@ SymbolTable
+@@ |-Boolean
+@@ |-Double
+@@ |-Int
+@@ |-String
+@@ |-Fun test() -> Unresolved type
+@@   |-SymbolTable
+@@ Error 0:17 :: Unexpected lexeme

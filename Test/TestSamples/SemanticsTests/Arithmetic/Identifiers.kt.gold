@@ -1,0 +1,34 @@
+@@ Decl Block
+@@ |-Val Decl                                                  :: x
+@@ | |-Identifier :: x                                         :: x
+@@ | |-Integer :: 1                                            :: Int
+@@ |-Val Decl                                                  :: y
+@@ | |-Identifier :: y                                         :: y
+@@ | |-Integer :: 2                                            :: Int
+@@ |-Val Decl                                                  :: z
+@@ | |-Identifier :: z                                         :: z
+@@ | |-Integer :: 3                                            :: Int
+@@ |-Fun Decl                                                  :: test
+@@   |-Identifier :: test                                      :: test
+@@   |-Params
+@@   |-Bin op :: -                                             :: Int
+@@     |-Bin op :: +                                           :: Int
+@@     | |-Identifier :: x                                     :: x
+@@     | |-Identifier :: y                                     :: y
+@@     |-Bin op :: /                                           :: Int
+@@       |-Integer :: 5                                        :: Int
+@@       |-Identifier :: z                                     :: z
+@@ ====
+@@ SymbolTable
+@@ |-Boolean
+@@ |-Double
+@@ |-Int
+@@ |-String
+@@ |-Fun test() -> Int
+@@ | |-SymbolTable
+@@ |-Val x
+@@ | |-Int
+@@ |-Val y
+@@ | |-Int
+@@ |-Val z
+@@   |-Int

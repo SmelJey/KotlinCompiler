@@ -127,6 +127,9 @@ std::string IntegerSymbol::GetName() const {
 }
 
 Pointer<ITypeSymbol> IntegerSymbol::IsApplicable(LexemeType operation) const {
+    if (operation == LexemeType::OpAdd || operation == LexemeType::OpSub) {
+        return std::make_unique<IntegerSymbol>();
+    }
     return std::make_unique<UnresolvedSymbol>();
 }
 
@@ -170,6 +173,9 @@ std::string DoubleSymbol::GetName() const {
 }
 
 Pointer<ITypeSymbol> DoubleSymbol::IsApplicable(LexemeType operation) const {
+    if (operation == LexemeType::OpAdd || operation == LexemeType::OpSub) {
+        return std::make_unique<IntegerSymbol>();
+    }
     return std::make_unique<UnresolvedSymbol>();
 }
 

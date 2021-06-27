@@ -14,6 +14,10 @@ TEST_CASE("Semantics Operations", "[Semantics]") {
     RunTests<ParserSemanticTest>("Operations/");
 }
 
+TEST_CASE("Semantics Arithmetic", "[Semantics]") {
+    RunTests<ParserSemanticTest>("Arithmetic/");
+}
+
 TEST_CASE("Semantics Assignments", "[Semantics]") {
     RunTests<ParserSemanticTest>("Assignments/");
 }

@@ -1,0 +1,18 @@
+@@ Decl Block
+@@ |-Fun Decl                                                  :: test
+@@   |-Identifier :: test                                      :: test
+@@   |-Params
+@@   |-Bin op :: +                                             :: Int
+@@     |-Integer :: 2                                          :: Int
+@@     |-Bin op :: +                                           :: Int
+@@       |-Integer :: 3                                        :: Int
+@@       |-Integer :: 1                                        :: Int
+@@ ====
+@@ SymbolTable
+@@ |-Boolean
+@@ |-Double
+@@ |-Int
+@@ |-String
+@@ |-Fun test() -> Int
+@@   |-SymbolTable
+@@ Error 0:24 :: Expecting ')'
