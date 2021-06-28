@@ -135,7 +135,7 @@ Pointer<FunctionDeclaration> Parser::ParseFunction() {
     myReturn = lastReturn;
 
     const ISymbol* sym = myTable->Add(std::move(funcSym));
-    CheckType(sym, "Conflicting function overloads: " + functionDecl->GetIdentifierName(), myLexer.GetLexeme());
+    CheckUnresolvedType(sym, "Conflicting function overloads: " + functionDecl->GetIdentifierName(), myLexer.GetLexeme());
     functionDecl->SetSymbol(sym);
     return functionDecl;
 }
@@ -180,7 +180,7 @@ Pointer<ParameterNode> Parser::ParseParameter() {
 
     Pointer<VariableSymbol> paramSymbol = std::make_unique<VariableSymbol>(identifier->GetIdentifier(), typeNode->GetType(), false);
     const ISymbol* resSym = myTable->Add(std::move(paramSymbol));
-    CheckType(resSym, "Conflicting declarations: " + identifier->GetIdentifier(), curLexeme);
+    CheckUnresolvedType(resSym, "Conflicting declarations: " + identifier->GetIdentifier(), curLexeme);
 
     Pointer<ParameterNode> param = std::make_unique<ParameterNode>(std::move(identifier), myRootTable->GetUnitSymbol(), std::move(typeNode));
     param->SetSymbol(resSym);
@@ -250,7 +250,8 @@ Pointer<IAnnotatedNode> Parser::ParseStatement() {
         }
 
         if (myReturn != nullptr && *myReturn != *returnNode->GetType()) {
-            AddSemanticsError(returnNode->GetLexeme(), returnNode->GetType()->GetName() + " does not conform to the expected type " + myReturn->GetName());
+            AddSemanticsError(returnNode->GetLexeme(),
+                returnNode->GetType()->GetName() + " does not conform to the expected type " + myReturn->GetName());
         } else {
             myReturn = returnNode->GetType();
         }
@@ -263,7 +264,7 @@ Pointer<IAnnotatedNode> Parser::ParseStatement() {
     }
 
     Pointer<IAnnotatedNode> res = ParseAssignment();
-    CheckType(res->GetType(), "Unresolved symbol", curLexeme);
+    CheckUnresolvedType(res->GetType(), "Unresolved symbol", curLexeme);
     return res;
 }
 
@@ -303,6 +304,10 @@ Pointer<ForNode> Parser::ParseForLoop(const Lexeme& lexeme) {
     RequireLexeme(LexemeType::OpIn, "Expecting 'in'");
     Pointer<IAnnotatedNode> expr = ParseExpression();
 
+    if (expr->GetType()->GetName().rfind("Array<", 0) != 0 && expr->GetType()->GetName().rfind("ClosedRange<", 0) != 0) {
+        AddSemanticsError(expr->GetLexeme(), "Array or range expected in for loop");
+    }
+
     RequireLexeme(LexemeType::RParen, "Expecting ')'");
     Pointer<ISyntaxNode> body = ParseControlStructureBody();
 
@@ -315,6 +320,7 @@ Pointer<WhileNode> Parser::ParseWhileLoop(const Lexeme& lexeme) {
 
     RequireLexeme(LexemeType::LParen, "Expecting '('");
     Pointer<IAnnotatedNode> expr = ParseExpression();
+    CheckType<BooleanSymbol>(expr->GetType(), expr->GetLexeme());
     RequireLexeme(LexemeType::RParen, "Expecting ')'");
     Pointer<ISyntaxNode> body = ParseControlStructureBody(true);
 
@@ -330,6 +336,7 @@ Pointer<DoWhileNode> Parser::ParseDoWhileLoop(const Lexeme& lexeme) {
     RequireLexeme(LexemeType::LParen, "Expecting '('");
 
     Pointer<IAnnotatedNode> expr = ParseExpression();
+    CheckType<BooleanSymbol>(expr->GetType(), expr->GetLexeme());
     RequireLexeme(LexemeType::RParen, "Expecting ')'");
 
     return std::make_unique<DoWhileNode>(lexeme, std::move(expr), std::move(body), myRootTable->GetUnitSymbol());
@@ -381,8 +388,7 @@ Pointer<PropertyDeclaration> Parser::ParseProperty(const Lexeme& keyword) {
         initExpr = ParseExpression();
     }
 
-    if (!isFailed && typeNode != nullptr && initExpr != nullptr
-        && *typeNode->GetSymbol() != *initExpr->GetSymbol()) {
+    if (!isFailed && typeNode != nullptr && initExpr != nullptr && *typeNode->GetSymbol() != *initExpr->GetSymbol()) {
         AddSemanticsError(myLexer.GetLexeme(), initExpr->GetSymbol()->GetName()
                           + " does not conform to the expected type " + typeNode->GetSymbol()->GetName());
     }
@@ -395,7 +401,7 @@ Pointer<PropertyDeclaration> Parser::ParseProperty(const Lexeme& keyword) {
         myTable->GetType(propertyDecl->GetInitialization().GetType()->GetName()), propertyDecl->IsMutable());
 
     const ISymbol* sym = myTable->Add(std::move(propertySym));
-    CheckType(sym, "Conflicting declarations: " + propertyDecl->GetIdentifierName(), myLexer.GetLexeme());
+    CheckUnresolvedType(sym, "Conflicting declarations: " + propertyDecl->GetIdentifierName(), myLexer.GetLexeme());
 
     propertyDecl->SetSymbol(sym);
     return propertyDecl;
@@ -544,7 +550,7 @@ Pointer<IAnnotatedNode> Parser::ParsePostfix() {
             }
 
             Pointer<CallSuffixNode> callNode = std::make_unique<CallSuffixNode>(std::move(operand), std::move(args), resType);
-            CheckType(resType, "Unresolved function", curLexeme);
+            CheckUnresolvedType(resType, "Unresolved function", curLexeme);
             RequireLexeme(LexemeType::RParen, "Expecting ')'");
             operand = std::move(callNode);
 
@@ -560,10 +566,8 @@ Pointer<IAnnotatedNode> Parser::ParsePostfix() {
                 if (arrSym != nullptr) {
                     std::vector<const ITypeSymbol*> argsTypes = args->GetTypes();
 
-                    if (*argsTypes[0] == IntegerSymbol()) {
+                    if (CheckType<IntegerSymbol>(argsTypes[0], curLexeme)) {
                         resType = arrSym->GetType();
-                    } else {
-                        AddSemanticsError(curLexeme, argsTypes[0]->GetName() + " does not conform to the expected type " + IntegerSymbol().GetName());
                     }
                 }
             }
@@ -687,6 +691,7 @@ Pointer<IAnnotatedNode> Parser::ParsePrimary() {
 Pointer<IfExpression> Parser::ParseIfExpression(const Lexeme& lexeme) {
     RequireLexeme(LexemeType::LParen, "Expecting '('");
     Pointer<IAnnotatedNode> expression = ParseExpression();
+    CheckType<BooleanSymbol>(expression->GetType(), expression->GetLexeme());
     RequireLexeme(LexemeType::RParen, "Expecting ')'");
 
     Pointer<SymbolTable> currentTable = std::make_unique<SymbolTable>(myTable);
@@ -758,17 +763,17 @@ Pointer<EmptyStatement> Parser::CreateEmptyStatement(const Lexeme& lexeme) {
 
 Pointer<ITypeSymbol> Parser::IsApplicable(LexemeType operation, const ITypeSymbol* left, const ITypeSymbol* right) {
     Pointer<ITypeSymbol> res = left->IsApplicable(operation, right);
-    CheckType(res.get(), "Operation is not applicable to types " + left->GetName() + " and " + right->GetName(), myLexer.GetLexeme());
+    CheckUnresolvedType(res.get(), "Operation is not applicable to types " + left->GetName() + " and " + right->GetName(), myLexer.GetLexeme());
     return res;
 }
 
 Pointer<ITypeSymbol> Parser::IsApplicable(LexemeType operation, const ITypeSymbol* left) {
     Pointer<ITypeSymbol> res = left->IsApplicable(operation);
-    CheckType(res.get(), "Operation is not applicable to type " + left->GetName(), myLexer.GetLexeme());
+    CheckUnresolvedType(res.get(), "Operation is not applicable to type " + left->GetName(), myLexer.GetLexeme());
     return res;
 }
 
-const ISymbol* Parser::CheckType(const ISymbol* symbol, const std::string& error, const Lexeme& lexeme) {
+const ISymbol* Parser::CheckUnresolvedType(const ISymbol* symbol, const std::string& error, const Lexeme& lexeme) {
     if (*symbol == UnresolvedSymbol()) {
         AddSemanticsError(lexeme, error);
     }

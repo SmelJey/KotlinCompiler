@@ -70,7 +70,18 @@ private:
     Pointer<EmptyStatement> CreateEmptyStatement(const Lexeme& lexeme);
     Pointer<ITypeSymbol> IsApplicable(LexemeType operation, const ITypeSymbol* left, const ITypeSymbol* right);
     Pointer<ITypeSymbol> IsApplicable(LexemeType operation, const ITypeSymbol* left);
-    const ISymbol* CheckType(const ISymbol* symbol, const std::string& error, const Lexeme& lexeme);
+
+    const ISymbol* CheckUnresolvedType(const ISymbol* symbol, const std::string& error, const Lexeme& lexeme);
+
+    template<typename T>
+    bool CheckType(const ITypeSymbol* symbol, const Lexeme& lexeme) {
+        if (*symbol == T()) {
+            return true;
+        }
+
+        AddSemanticsError(lexeme, symbol->GetName() + " does not conform to the expected type " + T().GetName());
+        return false;
+    }
 
     bool AcceptLexeme(LexemeType lexType);
     bool AcceptLexeme(LexemeType lexType, const std::string& text);

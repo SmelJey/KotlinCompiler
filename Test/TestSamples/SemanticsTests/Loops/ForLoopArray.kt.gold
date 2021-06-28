@@ -1,0 +1,41 @@
+@@ Decl Block
+@@ |-Fun Decl                                                  :: main
+@@   |-Identifier :: main                                      :: main
+@@   |-Params
+@@   |-Block                                                   :: Unit
+@@     |-For                                                   :: Unit
+@@       |-Variable                                            :: i
+@@       | |-Identifier :: i                                   :: i
+@@       |-CallSuffix                                          :: Array<Int>
+@@       | |-Identifier :: arrayOf                             :: arrayOf
+@@       | |-Args
+@@       |   |-Integer :: 5                                    :: Int
+@@       |   |-Integer :: 3                                    :: Int
+@@       |   |-Integer :: 1                                    :: Int
+@@       |-Block                                               :: Unit
+@@         |-CallSuffix                                        :: Unit
+@@           |-Identifier :: println                           :: println
+@@           |-Args
+@@             |-Identifier :: i                               :: i
+@@ ====
+@@ SymbolTable
+@@ |-Array<Int>
+@@ |-Boolean
+@@ |-Double
+@@ |-Int
+@@ |-String
+@@ |-Fun arrayOf(Int, Int, Int) -> Array<Int>
+@@ | |-SymbolTable
+@@ |-Fun main() -> Unit
+@@ | |-SymbolTable
+@@ |   |-SymbolTable
+@@ |     |-Val i
+@@ |       |-Int
+@@ |-Fun println(String) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println(Int) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println(Double) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println() -> Unit
+@@   |-SymbolTable
