@@ -8,21 +8,27 @@
 @@     | |-CallSuffix                                          :: Array<Int>
 @@     |   |-Identifier :: arrayOf                             :: arrayOf
 @@     |   |-Args
-@@     |     |-Integer :: 1                                    :: Int
-@@     |     |-Integer :: 2                                    :: Int
-@@     |     |-Integer :: 3                                    :: Int
+@@     |   | |-Integer :: 1                                    :: Int
+@@     |   | |-Integer :: 2                                    :: Int
+@@     |   | |-Integer :: 3                                    :: Int
+@@     |   |-TypeArgs
+@@     |     |-Type :: Int                                     :: Int
 @@     |-Val Decl                                              :: b
 @@     | |-Identifier :: b                                     :: b
 @@     | |-CallSuffix                                          :: Array<Double>
 @@     |   |-Identifier :: arrayOf                             :: arrayOf
 @@     |   |-Args
-@@     |     |-Real :: 1.000000                                :: Double
-@@     |     |-Real :: 2.000000                                :: Double
+@@     |   | |-Real :: 1.000000                                :: Double
+@@     |   | |-Real :: 2.000000                                :: Double
+@@     |   |-TypeArgs
+@@     |     |-Type :: Double                                  :: Double
 @@     |-Val Decl                                              :: c
 @@       |-Identifier :: c                                     :: c
 @@       |-CallSuffix                                          :: Array<String>
 @@         |-Identifier :: arrayOf                             :: arrayOf
 @@         |-Args
+@@         |-TypeArgs
+@@           |-Type :: String                                  :: String
 @@ ====
 @@ SymbolTable
 @@ |-Array<Double>

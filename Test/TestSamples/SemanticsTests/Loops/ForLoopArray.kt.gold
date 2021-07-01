@@ -9,9 +9,11 @@
 @@       |-CallSuffix                                          :: Array<Int>
 @@       | |-Identifier :: arrayOf                             :: arrayOf
 @@       | |-Args
-@@       |   |-Integer :: 5                                    :: Int
-@@       |   |-Integer :: 3                                    :: Int
-@@       |   |-Integer :: 1                                    :: Int
+@@       | | |-Integer :: 5                                    :: Int
+@@       | | |-Integer :: 3                                    :: Int
+@@       | | |-Integer :: 1                                    :: Int
+@@       | |-TypeArgs
+@@       |   |-Type :: Int                                     :: Int
 @@       |-Block                                               :: Unit
 @@         |-CallSuffix                                        :: Unit
 @@           |-Identifier :: println                           :: println

@@ -90,6 +90,8 @@ public:
     const std::vector<Pointer<TypeNode>>& GetArguments() const;
     void AddArgument(Pointer<TypeNode> argument);
 
+    const std::vector<const ITypeSymbol*> GetTypes() const;
+
 protected:
     std::string GetName() const override;
     void AcceptVisitor(INodeVisitor& visitor, int depth) const override;

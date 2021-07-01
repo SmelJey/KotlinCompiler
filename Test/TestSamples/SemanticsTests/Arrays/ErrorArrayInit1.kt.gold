@@ -8,11 +8,14 @@
 @@       |-CallSuffix                                          :: Unresolved type
 @@         |-Identifier :: arrayOf                             :: Unresolved type
 @@         |-Args
-@@           |-Integer :: 1                                    :: Int
-@@           |-Real :: 2.000000                                :: Double
-@@           |-Integer :: 3                                    :: Int
+@@         | |-Integer :: 1                                    :: Int
+@@         | |-Real :: 2.000000                                :: Double
+@@         | |-Integer :: 3                                    :: Int
+@@         |-TypeArgs
+@@           |-Type :: Int                                     :: Int
 @@ ====
 @@ SymbolTable
+@@ |-Array<Int>
 @@ |-Boolean
 @@ |-Double
 @@ |-Int

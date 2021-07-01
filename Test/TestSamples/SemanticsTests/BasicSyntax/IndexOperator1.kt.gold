@@ -4,7 +4,9 @@
 @@ | |-CallSuffix                                              :: Array<Int>
 @@ |   |-Identifier :: arrayOf                                 :: arrayOf
 @@ |   |-Args
-@@ |     |-Integer :: 1                                        :: Int
+@@ |   | |-Integer :: 1                                        :: Int
+@@ |   |-TypeArgs
+@@ |     |-Type :: Int                                         :: Int
 @@ |-Fun Decl                                                  :: main
 @@   |-Identifier :: main                                      :: main
 @@   |-Params

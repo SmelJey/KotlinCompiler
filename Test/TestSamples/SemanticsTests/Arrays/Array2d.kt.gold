@@ -1,0 +1,57 @@
+@@ Decl Block
+@@ |-Class Decl                                                :: A
+@@ | |-Identifier :: A                                         :: A
+@@ | |-Decl Block
+@@ |   |-Val Decl                                              :: a
+@@ |     |-Identifier :: a                                     :: a
+@@ |     |-CallSuffix                                          :: Array<Int>
+@@ |       |-Identifier :: arrayOf                             :: arrayOf
+@@ |       |-Args
+@@ |       | |-Integer :: 1                                    :: Int
+@@ |       | |-Integer :: 2                                    :: Int
+@@ |       |-TypeArgs
+@@ |         |-Type :: Int                                     :: Int
+@@ |-Fun Decl                                                  :: main
+@@   |-Identifier :: main                                      :: main
+@@   |-Params
+@@   |-Block                                                   :: Unit
+@@     |-Val Decl                                              :: a
+@@       |-Identifier :: a                                     :: a
+@@       |-CallSuffix                                          :: Array<A>
+@@         |-Identifier :: arrayOf                             :: arrayOf
+@@         |-Args
+@@         | |-CallSuffix                                      :: A
+@@         |   |-Identifier :: A                               :: A
+@@         |   |-Args
+@@         |-TypeArgs
+@@           |-Type :: A                                       :: A
+@@ ====
+@@ SymbolTable
+@@ |-Class A
+@@ | |-SymbolTable
+@@ |   |-Val a
+@@ |     |-Array<Int>
+@@ |-Fun A() -> A
+@@ | |-SymbolTable
+@@ |-Array<A>
+@@ |-Array<Int>
+@@ |-Boolean
+@@ |-Double
+@@ |-Int
+@@ |-String
+@@ |-Fun arrayOf(Int, Int) -> Array<Int>
+@@ | |-SymbolTable
+@@ |-Fun arrayOf(A) -> Array<A>
+@@ | |-SymbolTable
+@@ |-Fun main() -> Unit
+@@ | |-SymbolTable
+@@ |   |-Val a
+@@ |     |-Array<A>
+@@ |-Fun println(String) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println(Int) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println(Double) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println() -> Unit
+@@   |-SymbolTable

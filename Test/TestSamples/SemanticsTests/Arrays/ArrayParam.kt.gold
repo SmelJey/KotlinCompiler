@@ -1,0 +1,53 @@
+@@ Decl Block
+@@ |-Fun Decl                                                  :: test
+@@ | |-Identifier :: test                                      :: test
+@@ | |-Params
+@@ | | |-Parameter                                             :: a
+@@ | |   |-Identifier :: a                                     :: a
+@@ | |   |-Type :: Array                                       :: Array<Int>
+@@ | |     |-TypeArgs
+@@ | |       |-Type :: Int                                     :: Int
+@@ | |-Block                                                   :: Int
+@@ |   |-Return                                                :: Int
+@@ |     |-IndexSuffix                                         :: Int
+@@ |       |-Identifier :: a                                   :: a
+@@ |       |-Args
+@@ |         |-Integer :: 0                                    :: Int
+@@ |-Fun Decl                                                  :: main
+@@   |-Identifier :: main                                      :: main
+@@   |-Params
+@@   |-Block                                                   :: Int
+@@     |-CallSuffix                                            :: Int
+@@       |-Identifier :: test                                  :: test
+@@       |-Args
+@@         |-CallSuffix                                        :: Array<Int>
+@@           |-Identifier :: arrayOf                           :: arrayOf
+@@           |-Args
+@@           | |-Integer :: 1                                  :: Int
+@@           | |-Integer :: 2                                  :: Int
+@@           |-TypeArgs
+@@             |-Type :: Int                                   :: Int
+@@ ====
+@@ SymbolTable
+@@ |-Array<Int>
+@@ |-Boolean
+@@ |-Double
+@@ |-Int
+@@ |-String
+@@ |-Fun arrayOf(Int, Int) -> Array<Int>
+@@ | |-SymbolTable
+@@ |-Fun main() -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println(String) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println(Int) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println(Double) -> Unit
+@@ | |-SymbolTable
+@@ |-Fun println() -> Unit
+@@ | |-SymbolTable
+@@ |-Fun test(Array<Int>) -> Int
+@@   |-SymbolTable
+@@     |-Array<Int>
+@@     |-Val a
+@@       |-Array<Int>

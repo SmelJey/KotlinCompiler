@@ -17,5 +17,6 @@ public:
     static bool IsDirectlyAssignable(const IAnnotatedNode* expression);
     static bool IsPostfixUnaryExpression(const IAnnotatedNode* expression);
 
-    static const ISymbol* CreateArrayType(const ITypeSymbol* innerType, std::vector<const ITypeSymbol*> argsTypes, SymbolTable* symTable);
+    static const ISymbol* GetArrayBuilder(const ITypeSymbol* innerType, std::vector<const ITypeSymbol*> argsTypes, SymbolTable* symTable);
+    static const ArraySymbol* GetGenericArray(const ITypeSymbol* innerType, SymbolTable* symTable);
 };

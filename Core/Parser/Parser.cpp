@@ -1,5 +1,7 @@
 #include "Parser.h"
 
+#include <sstream>
+
 #include "ExpressionNodes.h"
 #include "ParserUtils.h"
 #include "SimpleNodes.h"
@@ -40,8 +42,9 @@ Pointer<DeclarationBlock> Parser::ParseDeclarations(bool isClass) {
     Pointer<DeclarationBlock> declarations = std::make_unique<DeclarationBlock>(curLexeme);
 
     while (curLexeme.GetType() != LexemeType::EndOfFile && !(curLexeme.GetType() == LexemeType::RCurl && isClass)) {
-        if (RequireLexeme(LexemeType::Keyword, (isClass ? "Expecting member declaration"
-                                                : "Expecting a top level declaration"))) {
+        if (RequireLexeme(LexemeType::Keyword,
+                          (isClass ? "Expecting member declaration" : "Expecting a top level declaration"))
+        ) {
             std::string keyword = curLexeme.GetValue<std::string>();
 
             if (keyword == "class") {
@@ -70,7 +73,8 @@ Pointer<DeclarationBlock> Parser::ParseDeclarations(bool isClass) {
 
 // 'class' simpleIdentifier classBody?
 Pointer<ClassDeclaration> Parser::ParseClass() {
-    Pointer<ClassDeclaration> classDecl = std::make_unique<ClassDeclaration>(ParseIdentifier("Class declaration must have a name"), myRootTable->GetUnitSymbol());
+    Pointer<ClassDeclaration> classDecl = std::make_unique<ClassDeclaration>(
+        ParseIdentifier("Class declaration must have a name"), myRootTable->GetUnitSymbol());
     SymbolsFrame frame(&myTable);
 
     if (AcceptLexeme(LexemeType::LCurl)) {
@@ -205,7 +209,23 @@ Pointer<TypeNode> Parser::ParseType() {
         return std::make_unique<TypeNode>(curLexeme.CopyEmpty(), myRootTable->GetUnresolvedSymbol());
     }
 
-    return std::make_unique<TypeNode>(curLexeme, myTable->GetType(curLexeme.GetValue<std::string>()));
+    std::string typeName = curLexeme.GetValue<std::string>();
+    if (AcceptLexeme(LexemeType::OpLess)) {
+        Pointer<TypeArgumentsNode> typeArgs = ParseTypeArguments();
+        if (typeName != "Array") {
+            AddSemanticsError(typeArgs->GetLexeme(), "Type arguments currently are only supported for arrays");
+        }
+        if (typeArgs->GetArguments().size() == 1) {
+            const ArraySymbol* arrSym = ParserUtils::GetGenericArray(typeArgs->GetArguments()[0]->GetType(), myTable);
+            Pointer<TypeNode> typeNode = std::make_unique<TypeNode>(curLexeme, arrSym);
+            typeNode->SetTypeArgs(std::move(typeArgs));
+            return typeNode;
+        }
+
+        typeName.append("<>");
+    }
+
+    return std::make_unique<TypeNode>(curLexeme, myTable->GetType(typeName));
 }
 
 Pointer<IAnnotatedNode> Parser::ParseStatement() {
@@ -519,8 +539,7 @@ Pointer<IAnnotatedNode> Parser::ParsePostfix() {
             Pointer<TypeArgumentsNode> typeArgs;
             if (curLexeme.GetType() == LexemeType::OpLess) {
                 typeArgs = ParseTypeArguments();
-                myLexer.NextLexeme();
-                RequireLexeme(LexemeType::LParen, "Type arguments currently are only supported for function calls");
+                RequireLexeme(LexemeType::LParen, "Type arguments currently are only supported for arrays");
             }
 
             Pointer<CallArgumentsNode> args = ParseArguments(LexemeType::RParen);
@@ -538,7 +557,7 @@ Pointer<IAnnotatedNode> Parser::ParsePostfix() {
                 identifier->TryResolveFunc(argsTypes);
 
                 if (typeArgs != nullptr && typeArgs->GetArguments().size() == 1 && identifier->GetLexeme().GetText() == "arrayOf") {
-                    const ISymbol* res = ParserUtils::CreateArrayType(typeArgs->GetArguments()[0]->GetType(), argsTypes, myRootTable);
+                    const ISymbol* res = ParserUtils::GetArrayBuilder(typeArgs->GetArguments()[0]->GetType(), argsTypes, myRootTable);
                     if (res == nullptr) {
                         AddSemanticsError(myLexer.GetLexeme(),"Arguments do not conform to the expected type " + typeArgs->GetArguments()[0]->GetSymbol()->GetName());
                     } else {
@@ -550,6 +569,10 @@ Pointer<IAnnotatedNode> Parser::ParsePostfix() {
             }
 
             Pointer<CallSuffixNode> callNode = std::make_unique<CallSuffixNode>(std::move(operand), std::move(args), resType);
+            if (typeArgs != nullptr) {
+                callNode->SetTypeArguments(std::move(typeArgs));
+            }
+
             CheckUnresolvedType(resType, "Unresolved function", curLexeme);
             RequireLexeme(LexemeType::RParen, "Expecting ')'");
             operand = std::move(callNode);
@@ -620,6 +643,7 @@ Pointer<TypeArgumentsNode> Parser::ParseTypeArguments() {
         }
     }
 
+    RequireLexeme(LexemeType::OpGreater, "Expecting '>'");
     return arguments;
 }
 

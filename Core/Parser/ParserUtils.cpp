@@ -47,26 +47,24 @@ bool ParserUtils::IsPostfixUnaryExpression(const IAnnotatedNode* expression) {
     return dynamic_cast<const AbstractUnaryPostfixNode*>(expression) || dynamic_cast<const IdentifierNode*>(expression);
 }
 
-const ISymbol* ParserUtils::CreateArrayType(const ITypeSymbol* innerType, std::vector<const ITypeSymbol*> argsTypes, SymbolTable* symTable) {
-    Pointer<ArraySymbol> arrayType = std::make_unique<ArraySymbol>(innerType);
-
-    bool isFailed = false;
+const ISymbol* ParserUtils::GetArrayBuilder(const ITypeSymbol* innerType, std::vector<const ITypeSymbol*> argsTypes, SymbolTable* symTable) {
+    const ArraySymbol* arr = GetGenericArray(innerType, symTable);
 
     for (auto arg : argsTypes) {
         if (*arg != *innerType) {
-            isFailed = true;
-            break;
+            return nullptr;
         }
     }
 
-    if (!isFailed) {
-        std::string arrayTypeName = arrayType->GetName();
-        symTable->Add(std::move(arrayType));
-
-        Pointer<FunctionSymbol> arrayInitFunc = std::make_unique<FunctionSymbol>("arrayOf", symTable->GetType(arrayTypeName), argsTypes, std::make_unique<SymbolTable>(symTable));
-        symTable->Add(std::move(arrayInitFunc));
-        return symTable->GetFunction("arrayOf", argsTypes);
-    }
-
-    return nullptr;
+    Pointer<FunctionSymbol> arrayInitFunc = std::make_unique<FunctionSymbol>("arrayOf", arr, argsTypes, std::make_unique<SymbolTable>(symTable));
+    symTable->Add(std::move(arrayInitFunc));
+    return symTable->GetFunction("arrayOf", argsTypes);
 }
+
+const ArraySymbol* ParserUtils::GetGenericArray(const ITypeSymbol* innerType, SymbolTable* symTable) {
+    Pointer<ArraySymbol> arrayType = std::make_unique<ArraySymbol>(innerType);
+    std::string arrayTypeName = arrayType->GetName();
+    symTable->Add(std::move(arrayType));
+    return dynamic_cast<const ArraySymbol*>(symTable->GetType(arrayTypeName));
+}
+

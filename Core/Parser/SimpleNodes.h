@@ -2,6 +2,8 @@
 #include "ISyntaxNode.h"
 #include "ParserUtils.h"
 
+class TypeArgumentsNode;
+
 class AbstractTypedNode : public AbstractNode, public virtual IAnnotatedNode {
 public:
     AbstractTypedNode(const Lexeme& lexeme, const ISymbol* symbol);
@@ -33,7 +35,6 @@ public:
     bool TryResolveType();
     bool TryResolveFunc(const std::vector<const ITypeSymbol*>& arguments);
     void Resolve(const ISymbol* symbol);
-
 
     const ISymbol* GetSymbol() const override;
     const ITypeSymbol* GetType() const override;
@@ -77,8 +78,16 @@ protected:
 class TypeNode : public AbstractTypedNode {
 public:
     TypeNode(const Lexeme& lexeme, const ISymbol* symbol);
+
+    const TypeArgumentsNode* GetTypeArgs() const;
+    void SetTypeArgs(Pointer<TypeArgumentsNode> args);
+    bool HasTypeArgs() const;
 protected:
+    void AcceptVisitor(INodeVisitor& visitor, int depth) const override;
+
     std::string GetName() const override;
+private:
+    Pointer<TypeArgumentsNode> myTypeArgs;
 };
 
 class BreakNode : public UnitTypedNode {

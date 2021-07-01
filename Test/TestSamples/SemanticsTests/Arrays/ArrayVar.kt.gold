@@ -5,25 +5,31 @@
 @@   |-Block                                                   :: Unit
 @@     |-Val Decl                                              :: a
 @@       |-Identifier :: a                                     :: a
-@@       |-CallSuffix                                          :: Unresolved type
-@@         |-Identifier :: arrayOf                             :: Unresolved type
+@@       |-Type :: Array                                       :: Array<Int>
+@@       | |-TypeArgs
+@@       |   |-Type :: Int                                     :: Int
+@@       |-CallSuffix                                          :: Array<Int>
+@@         |-Identifier :: arrayOf                             :: arrayOf
 @@         |-Args
 @@         | |-Integer :: 1                                    :: Int
-@@         | |-Real :: 2.000000                                :: Double
+@@         | |-Integer :: 2                                    :: Int
 @@         | |-Integer :: 3                                    :: Int
 @@         |-TypeArgs
-@@           |-Type :: Double                                  :: Double
+@@           |-Type :: Int                                     :: Int
 @@ ====
 @@ SymbolTable
-@@ |-Array<Double>
+@@ |-Array<Int>
 @@ |-Boolean
 @@ |-Double
 @@ |-Int
 @@ |-String
+@@ |-Fun arrayOf(Int, Int, Int) -> Array<Int>
+@@ | |-SymbolTable
 @@ |-Fun main() -> Unit
 @@ | |-SymbolTable
+@@ |   |-Array<Int>
 @@ |   |-Val a
-@@ |     |-Unresolved type
+@@ |     |-Array<Int>
 @@ |-Fun println(String) -> Unit
 @@ | |-SymbolTable
 @@ |-Fun println(Int) -> Unit
@@ -32,4 +38,3 @@
 @@ | |-SymbolTable
 @@ |-Fun println() -> Unit
 @@   |-SymbolTable
-@@ Error 1:32 :: Arguments do not conform to the expected type Double

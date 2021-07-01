@@ -116,6 +116,15 @@ void TypeArgumentsNode::AddArgument(Pointer<TypeNode> argument) {
     myArguments.push_back(std::move(argument));
 }
 
+const std::vector<const ITypeSymbol*> TypeArgumentsNode::GetTypes() const {
+    std::vector<const ITypeSymbol*> types;
+    for (auto& arg : myArguments) {
+        types.push_back(arg->GetType());
+    }
+
+    return types;
+}
+
 std::string TypeArgumentsNode::GetName() const {
     return "TypeArgs";
 }

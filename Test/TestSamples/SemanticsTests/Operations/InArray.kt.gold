@@ -8,32 +8,40 @@
 @@     | |-CallSuffix                                          :: Array<Int>
 @@     |   |-Identifier :: arrayOf                             :: arrayOf
 @@     |   |-Args
-@@     |     |-Integer :: 1                                    :: Int
-@@     |     |-Integer :: 2                                    :: Int
-@@     |     |-Integer :: 3                                    :: Int
+@@     |   | |-Integer :: 1                                    :: Int
+@@     |   | |-Integer :: 2                                    :: Int
+@@     |   | |-Integer :: 3                                    :: Int
+@@     |   |-TypeArgs
+@@     |     |-Type :: Int                                     :: Int
 @@     |-Bin op :: !in                                         :: Boolean
 @@     | |-Real :: 2.400000                                    :: Double
 @@     | |-CallSuffix                                          :: Array<Double>
 @@     |   |-Identifier :: arrayOf                             :: arrayOf
 @@     |   |-Args
-@@     |     |-Real :: 1.200000                                :: Double
-@@     |     |-Real :: 2.400000                                :: Double
+@@     |   | |-Real :: 1.200000                                :: Double
+@@     |   | |-Real :: 2.400000                                :: Double
+@@     |   |-TypeArgs
+@@     |     |-Type :: Double                                  :: Double
 @@     |-Bin op :: in                                          :: Boolean
 @@     | |-Real :: 1.500000                                    :: Double
 @@     | |-CallSuffix                                          :: Array<Int>
 @@     |   |-Identifier :: arrayOf                             :: arrayOf
 @@     |   |-Args
-@@     |     |-Integer :: 1                                    :: Int
-@@     |     |-Integer :: 2                                    :: Int
-@@     |     |-Integer :: 3                                    :: Int
+@@     |   | |-Integer :: 1                                    :: Int
+@@     |   | |-Integer :: 2                                    :: Int
+@@     |   | |-Integer :: 3                                    :: Int
+@@     |   |-TypeArgs
+@@     |     |-Type :: Int                                     :: Int
 @@     |-Bin op :: !in                                         :: Boolean
 @@       |-String :: a                                         :: String
 @@       |-CallSuffix                                          :: Array<Int>
 @@         |-Identifier :: arrayOf                             :: arrayOf
 @@         |-Args
-@@           |-Integer :: 1                                    :: Int
-@@           |-Integer :: 2                                    :: Int
-@@           |-Integer :: 3                                    :: Int
+@@         | |-Integer :: 1                                    :: Int
+@@         | |-Integer :: 2                                    :: Int
+@@         | |-Integer :: 3                                    :: Int
+@@         |-TypeArgs
+@@           |-Type :: Int                                     :: Int
 @@ ====
 @@ SymbolTable
 @@ |-Array<Double>

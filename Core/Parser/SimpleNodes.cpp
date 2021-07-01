@@ -1,6 +1,7 @@
 #include "SimpleNodes.h"
 #include "Semantics/FunctionSymbol.h"
 #include "INodeVisitor.h"
+#include "ExpressionNodes.h"
 
 #include <sstream>
 
@@ -60,11 +61,8 @@ bool IdentifierNode::TryResolveFunc(const std::vector<const ITypeSymbol*>& argum
         auto funcSym = dynamic_cast<const FunctionSymbol*>(it);
         if (funcSym != nullptr && funcSym->GetParametersCount() == arguments.size()) {
             bool isResolved = true;
-            for (int i = 0; i < arguments.size(); i++) {
-                if (funcSym->GetParameter(i) != *arguments[i]) {
-                    isResolved = false;
-                    break;
-                }
+            for (int i = 0; isResolved && i < arguments.size(); i++) {
+                isResolved = funcSym->GetParameter(i) == *arguments[i];
             }
 
             if (isResolved) {
@@ -137,6 +135,26 @@ std::string StringNode::GetName() const {
 }
 
 TypeNode::TypeNode(const Lexeme& lexeme, const ISymbol* symbol) : AbstractTypedNode(lexeme, symbol) {}
+
+
+const TypeArgumentsNode* TypeNode::GetTypeArgs() const {
+    return myTypeArgs.get();
+}
+
+void TypeNode::SetTypeArgs(Pointer<TypeArgumentsNode> args) {
+    myTypeArgs = std::move(args);
+}
+
+bool TypeNode::HasTypeArgs() const {
+    return myTypeArgs != nullptr;
+}
+
+void TypeNode::AcceptVisitor(INodeVisitor& visitor, int depth) const {
+    AbstractTypedNode::AcceptVisitor(visitor, depth);
+    if (HasTypeArgs()) {
+        visitor.VisitNode(*myTypeArgs, depth);
+    }
+}
 
 std::string TypeNode::GetName() const {
     return "Type :: " + GetLexeme().GetValue<std::string>();
