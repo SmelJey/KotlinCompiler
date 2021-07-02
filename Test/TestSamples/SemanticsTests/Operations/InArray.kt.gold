@@ -45,11 +45,17 @@
 @@ ====
 @@ SymbolTable
 @@ |-Array<Double>
+@@ | |-SymbolTable
 @@ |-Array<Int>
+@@ | |-SymbolTable
 @@ |-Boolean
+@@ | |-SymbolTable
 @@ |-Double
+@@ | |-SymbolTable
 @@ |-Int
+@@ | |-SymbolTable
 @@ |-String
+@@ | |-SymbolTable
 @@ |-Fun arrayOf(Int, Int, Int) -> Array<Int>
 @@ | |-SymbolTable
 @@ |-Fun arrayOf(Double, Double) -> Array<Double>

@@ -11,11 +11,16 @@
 @@ ====
 @@ SymbolTable
 @@ |-Boolean
+@@ | |-SymbolTable
 @@ |-Double
+@@ | |-SymbolTable
 @@ |-Int
+@@ | |-SymbolTable
 @@ |-String
+@@ | |-SymbolTable
 @@ |-Val a
 @@ | |-Int
+@@ |   |-SymbolTable
 @@ |-Fun main() -> Unit
 @@ | |-SymbolTable
 @@ |-Fun println(String) -> Unit

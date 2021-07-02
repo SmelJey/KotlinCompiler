@@ -23,9 +23,13 @@
 @@ ====
 @@ SymbolTable
 @@ |-Boolean
+@@ | |-SymbolTable
 @@ |-Double
+@@ | |-SymbolTable
 @@ |-Int
+@@ | |-SymbolTable
 @@ |-String
+@@ | |-SymbolTable
 @@ |-Fun main() -> Unit
 @@ | |-SymbolTable
 @@ |-Fun println(String) -> Unit
@@ -42,3 +46,4 @@
 @@   |-SymbolTable
 @@     |-Val a
 @@       |-Int
+@@         |-SymbolTable

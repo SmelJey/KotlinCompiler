@@ -30,10 +30,15 @@
 @@ ====
 @@ SymbolTable
 @@ |-Array<Int>
+@@ | |-SymbolTable
 @@ |-Boolean
+@@ | |-SymbolTable
 @@ |-Double
+@@ | |-SymbolTable
 @@ |-Int
+@@ | |-SymbolTable
 @@ |-String
+@@ | |-SymbolTable
 @@ |-Fun arrayOf(Int, Int) -> Array<Int>
 @@ | |-SymbolTable
 @@ |-Fun main() -> Unit
@@ -48,6 +53,6 @@
 @@ | |-SymbolTable
 @@ |-Fun test(Array<Int>) -> Int
 @@   |-SymbolTable
-@@     |-Array<Int>
 @@     |-Val a
 @@       |-Array<Int>
+@@         |-SymbolTable

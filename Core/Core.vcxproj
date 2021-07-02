@@ -168,9 +168,9 @@
     <ClInclude Include="Parser\INodeVisitor.h" />
     <ClInclude Include="Parser\ParserError.h" />
     <ClInclude Include="Parser\ParserUtils.h" />
+    <ClInclude Include="Parser\Semantics\BuiltInTypes.h" />
     <ClInclude Include="Parser\Semantics\ClassSymbol.h" />
     <ClInclude Include="Parser\Semantics\FunctionSymbol.h" />
-    <ClInclude Include="Parser\Semantics\SemanticsChecker.h" />
     <ClInclude Include="Parser\Semantics\Symbols.h" />
     <ClInclude Include="Parser\Semantics\SymbolTable.h" />
     <ClInclude Include="Parser\Semantics\SymbolsFrame.h" />
@@ -192,9 +192,9 @@
     <ClCompile Include="Parser\ISyntaxNode.cpp" />
     <ClCompile Include="Parser\ParserError.cpp" />
     <ClCompile Include="Parser\ParserUtils.cpp" />
+    <ClCompile Include="Parser\Semantics\BuiltInTypes.cpp" />
     <ClCompile Include="Parser\Semantics\ClassSymbol.cpp" />
     <ClCompile Include="Parser\Semantics\FunctionSymbol.cpp" />
-    <ClCompile Include="Parser\Semantics\SemanticsChecker.cpp" />
     <ClCompile Include="Parser\Semantics\Symbols.cpp" />
     <ClCompile Include="Parser\Semantics\SymbolTable.cpp" />
     <ClCompile Include="Parser\Semantics\SymbolsFrame.cpp" />

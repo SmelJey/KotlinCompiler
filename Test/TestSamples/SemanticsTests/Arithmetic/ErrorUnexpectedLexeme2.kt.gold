@@ -8,9 +8,13 @@
 @@ ====
 @@ SymbolTable
 @@ |-Boolean
+@@ | |-SymbolTable
 @@ |-Double
+@@ | |-SymbolTable
 @@ |-Int
+@@ | |-SymbolTable
 @@ |-String
+@@ | |-SymbolTable
 @@ |-Fun println(String) -> Unit
 @@ | |-SymbolTable
 @@ |-Fun println(Int) -> Unit

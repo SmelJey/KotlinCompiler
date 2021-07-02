@@ -14,9 +14,13 @@
 @@ |-Fun A() -> A
 @@ | |-SymbolTable
 @@ |-Boolean
+@@ | |-SymbolTable
 @@ |-Double
+@@ | |-SymbolTable
 @@ |-Int
+@@ | |-SymbolTable
 @@ |-String
+@@ | |-SymbolTable
 @@ |-Fun main() -> Unit
 @@ | |-SymbolTable
 @@ |   |-Class A

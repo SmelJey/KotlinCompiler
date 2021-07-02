@@ -32,12 +32,19 @@
 @@ ====
 @@ SymbolTable
 @@ |-Array<Double>
+@@ | |-SymbolTable
 @@ |-Array<Int>
+@@ | |-SymbolTable
 @@ |-Array<String>
+@@ | |-SymbolTable
 @@ |-Boolean
+@@ | |-SymbolTable
 @@ |-Double
+@@ | |-SymbolTable
 @@ |-Int
+@@ | |-SymbolTable
 @@ |-String
+@@ | |-SymbolTable
 @@ |-Fun arrayOf(Int, Int, Int) -> Array<Int>
 @@ | |-SymbolTable
 @@ |-Fun arrayOf(Double, Double) -> Array<Double>
@@ -48,10 +55,13 @@
 @@ | |-SymbolTable
 @@ |   |-Val a
 @@ |   | |-Array<Int>
+@@ |   |   |-SymbolTable
 @@ |   |-Val b
 @@ |   | |-Array<Double>
+@@ |   |   |-SymbolTable
 @@ |   |-Val c
 @@ |     |-Array<String>
+@@ |       |-SymbolTable
 @@ |-Fun println(String) -> Unit
 @@ | |-SymbolTable
 @@ |-Fun println(Int) -> Unit

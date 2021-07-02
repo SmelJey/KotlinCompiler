@@ -10,9 +10,13 @@
 @@ ====
 @@ SymbolTable
 @@ |-Boolean
+@@ | |-SymbolTable
 @@ |-Double
+@@ | |-SymbolTable
 @@ |-Int
+@@ | |-SymbolTable
 @@ |-String
+@@ | |-SymbolTable
 @@ |-Fun main() -> Int
 @@ | |-SymbolTable
 @@ |-Fun println(String) -> Unit

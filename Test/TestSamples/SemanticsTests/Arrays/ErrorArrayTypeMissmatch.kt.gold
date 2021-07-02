@@ -18,18 +18,25 @@
 @@           |-Type :: Int                                     :: Int
 @@ ====
 @@ SymbolTable
+@@ |-Array<Double>
+@@ | |-SymbolTable
 @@ |-Array<Int>
+@@ | |-SymbolTable
 @@ |-Boolean
+@@ | |-SymbolTable
 @@ |-Double
+@@ | |-SymbolTable
 @@ |-Int
+@@ | |-SymbolTable
 @@ |-String
+@@ | |-SymbolTable
 @@ |-Fun arrayOf(Int, Int, Int) -> Array<Int>
 @@ | |-SymbolTable
 @@ |-Fun main() -> Unit
 @@ | |-SymbolTable
-@@ |   |-Array<Double>
 @@ |   |-Val a
 @@ |     |-Array<Int>
+@@ |       |-SymbolTable
 @@ |-Fun println(String) -> Unit
 @@ | |-SymbolTable
 @@ |-Fun println(Int) -> Unit

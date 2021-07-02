@@ -54,25 +54,34 @@
 @@ ====
 @@ SymbolTable
 @@ |-Boolean
+@@ | |-SymbolTable
 @@ |-Double
+@@ | |-SymbolTable
 @@ |-Int
+@@ | |-SymbolTable
 @@ |-String
+@@ | |-SymbolTable
 @@ |-Fun main() -> Unit
 @@ | |-SymbolTable
 @@ |   |-Val a
 @@ |   | |-Int
+@@ |   |   |-SymbolTable
 @@ |   |-Val b
 @@ |   | |-Int
+@@ |   |   |-SymbolTable
 @@ |   |-Val c
 @@ |   | |-Int
+@@ |   |   |-SymbolTable
 @@ |   |-Fun test1() -> Int
 @@ |   | |-SymbolTable
 @@ |   |-Fun test3() -> Int
 @@ |     |-SymbolTable
 @@ |       |-Val a
 @@ |       | |-Int
+@@ |       |   |-SymbolTable
 @@ |       |-Val b
 @@ |       | |-Int
+@@ |       |   |-SymbolTable
 @@ |       |-Fun test2() -> Int
 @@ |         |-SymbolTable
 @@ |-Fun println(String) -> Unit

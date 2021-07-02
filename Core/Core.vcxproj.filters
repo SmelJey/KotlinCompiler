@@ -90,13 +90,13 @@
     <ClInclude Include="Parser\IVisitable.h">
       <Filter>Header Files\Parser</Filter>
     </ClInclude>
-    <ClInclude Include="Parser\Semantics\SemanticsChecker.h">
-      <Filter>Header Files\Parser\Semantics</Filter>
-    </ClInclude>
     <ClInclude Include="Parser\ParserError.h">
       <Filter>Header Files\Parser</Filter>
     </ClInclude>
     <ClInclude Include="Parser\Semantics\SymbolsFrame.h">
+      <Filter>Header Files\Parser\Semantics</Filter>
+    </ClInclude>
+    <ClInclude Include="Parser\Semantics\BuiltInTypes.h">
       <Filter>Header Files\Parser\Semantics</Filter>
     </ClInclude>
   </ItemGroup>
@@ -149,9 +149,6 @@
     <ClCompile Include="Parser\IVisitable.cpp">
       <Filter>Source Files\Parser</Filter>
     </ClCompile>
-    <ClCompile Include="Parser\Semantics\SemanticsChecker.cpp">
-      <Filter>Source Files\Parser\Semantics</Filter>
-    </ClCompile>
     <ClCompile Include="Parser\Semantics\Symbols.cpp">
       <Filter>Source Files\Parser\Semantics</Filter>
     </ClCompile>
@@ -159,6 +156,9 @@
       <Filter>Source Files\Parser</Filter>
     </ClCompile>
     <ClCompile Include="Parser\Semantics\SymbolsFrame.cpp">
+      <Filter>Source Files\Parser\Semantics</Filter>
+    </ClCompile>
+    <ClCompile Include="Parser\Semantics\BuiltInTypes.cpp">
       <Filter>Source Files\Parser\Semantics</Filter>
     </ClCompile>
   </ItemGroup>

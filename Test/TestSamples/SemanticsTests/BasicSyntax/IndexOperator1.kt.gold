@@ -18,12 +18,18 @@
 @@ ====
 @@ SymbolTable
 @@ |-Array<Int>
+@@ | |-SymbolTable
 @@ |-Boolean
+@@ | |-SymbolTable
 @@ |-Double
+@@ | |-SymbolTable
 @@ |-Int
+@@ | |-SymbolTable
 @@ |-String
+@@ | |-SymbolTable
 @@ |-Val a
 @@ | |-Array<Int>
+@@ |   |-SymbolTable
 @@ |-Fun arrayOf(Int) -> Array<Int>
 @@ | |-SymbolTable
 @@ |-Fun main() -> Unit

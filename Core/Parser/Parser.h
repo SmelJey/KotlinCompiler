@@ -75,11 +75,11 @@ private:
 
     template<typename T>
     bool CheckType(const ITypeSymbol* symbol, const Lexeme& lexeme) {
-        if (*symbol == T()) {
+        if (*symbol == T(myRootTable)) {
             return true;
         }
 
-        AddSemanticsError(lexeme, symbol->GetName() + " does not conform to the expected type " + T().GetName());
+        AddSemanticsError(lexeme, symbol->GetName() + " does not conform to the expected type " + T(myRootTable).GetName());
         return false;
     }
 

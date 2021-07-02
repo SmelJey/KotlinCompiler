@@ -7,11 +7,16 @@
 @@ ====
 @@ SymbolTable
 @@ |-Boolean
+@@ | |-SymbolTable
 @@ |-Double
+@@ | |-SymbolTable
 @@ |-Int
+@@ | |-SymbolTable
 @@ |-String
+@@ | |-SymbolTable
 @@ |-Val b
 @@ | |-Int
+@@ |   |-SymbolTable
 @@ |-Fun println(String) -> Unit
 @@ | |-SymbolTable
 @@ |-Fun println(Int) -> Unit

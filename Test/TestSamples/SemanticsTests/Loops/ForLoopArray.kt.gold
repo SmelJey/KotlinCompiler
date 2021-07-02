@@ -22,10 +22,15 @@
 @@ ====
 @@ SymbolTable
 @@ |-Array<Int>
+@@ | |-SymbolTable
 @@ |-Boolean
+@@ | |-SymbolTable
 @@ |-Double
+@@ | |-SymbolTable
 @@ |-Int
+@@ | |-SymbolTable
 @@ |-String
+@@ | |-SymbolTable
 @@ |-Fun arrayOf(Int, Int, Int) -> Array<Int>
 @@ | |-SymbolTable
 @@ |-Fun main() -> Unit
@@ -33,6 +38,7 @@
 @@ |   |-SymbolTable
 @@ |     |-Val i
 @@ |       |-Int
+@@ |         |-SymbolTable
 @@ |-Fun println(String) -> Unit
 @@ | |-SymbolTable
 @@ |-Fun println(Int) -> Unit

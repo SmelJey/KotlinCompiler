@@ -5,6 +5,8 @@
 #include "../../Lexer/LexerUtils.h"
 #include "../IVisitable.h"
 
+class SymbolTable;
+
 template<typename T>
 using Pointer = std::unique_ptr<T>;
 
@@ -26,92 +28,26 @@ bool operator<(const Pointer<ISymbol>& lhs, const ISymbol& rhs);
 
 class ITypeSymbol : public ISymbol {
 public:
+    ITypeSymbol(const std::string& name, SymbolTable* parentTable);
+    ITypeSymbol(const std::string& name, Pointer<SymbolTable> symTable);
+
     virtual Pointer<ITypeSymbol> IsApplicable(LexemeType operation) const = 0;
     virtual Pointer<ITypeSymbol> IsApplicable(LexemeType binaryOperation, const ITypeSymbol* rightOperand) const = 0;
     virtual bool IsAssignable(LexemeType assignOperation, const ITypeSymbol* rightOperand) const;
-};
 
-class UnresolvedSymbol : public ITypeSymbol {
-public:
-    std::string GetName() const override;
-
-    Pointer<ITypeSymbol> IsApplicable(LexemeType operation) const override;
-    Pointer<ITypeSymbol> IsApplicable(LexemeType binaryOperation, const ITypeSymbol* rightOperand) const override;
-};
-
-class UnitTypeSymbol : public ITypeSymbol {
-public:
-    std::string GetName() const override;
-
-    Pointer<ITypeSymbol> IsApplicable(LexemeType operation) const override;
-    Pointer<ITypeSymbol> IsApplicable(LexemeType binaryOperation, const ITypeSymbol* rightOperand) const override;
-};
-
-class BooleanSymbol : public ITypeSymbol {
-public:
-    std::string GetName() const override;
-
-    Pointer<ITypeSymbol> IsApplicable(LexemeType operation) const override;
-    Pointer<ITypeSymbol> IsApplicable(LexemeType binaryOperation, const ITypeSymbol* rightOperand) const override;
-};
-
-class IntegerSymbol : public ITypeSymbol {
-public:
-    std::string GetName() const override;
-
-    Pointer<ITypeSymbol> IsApplicable(LexemeType operation) const override;
-    Pointer<ITypeSymbol> IsApplicable(LexemeType binaryOperation, const ITypeSymbol* rightOperand) const override;
-    bool IsAssignable(LexemeType assignOperation, const ITypeSymbol* rightOperand) const override;
-};
-
-class DoubleSymbol : public ITypeSymbol {
-public:
-    std::string GetName() const override;
-
-    Pointer<ITypeSymbol> IsApplicable(LexemeType operation) const override;
-    Pointer<ITypeSymbol> IsApplicable(LexemeType binaryOperation, const ITypeSymbol* rightOperand) const override;
-    bool IsAssignable(LexemeType assignOperation, const ITypeSymbol* rightOperand) const override;
-};
-
-class StringSymbol : public ITypeSymbol {
-public:
-    std::string GetName() const override;
-
-    Pointer<ITypeSymbol> IsApplicable(LexemeType operation) const override;
-    Pointer<ITypeSymbol> IsApplicable(LexemeType binaryOperation, const ITypeSymbol* rightOperand) const override;
-};
-
-class ArraySymbol : public ITypeSymbol {
-public:
-    ArraySymbol(const ITypeSymbol* type);
+    SymbolTable* GetTable() const;
 
     std::string GetName() const override;
 
-    const ITypeSymbol* GetType() const;
+protected:
+    void AcceptVisitor(INodeVisitor& visitor, int depth) const override;
 
-    int GetSize() const;
-    void SetSize(int size);
-
-    Pointer<ITypeSymbol> IsApplicable(LexemeType operation) const override;
-    Pointer<ITypeSymbol> IsApplicable(LexemeType binaryOperation, const ITypeSymbol* rightOperand) const override;
+    SymbolTable* GetParentTable() const;
 
 private:
-    const ITypeSymbol* myType;
-    int mySize;
-};
-
-class RangeSymbol : public ITypeSymbol {
-public:
-    RangeSymbol(const ITypeSymbol& type);
-
-    std::string GetName() const override;
-    const ITypeSymbol& GetType() const;
-
-    Pointer<ITypeSymbol> IsApplicable(LexemeType operation) const override;
-    Pointer<ITypeSymbol> IsApplicable(LexemeType binaryOperation, const ITypeSymbol* rightOperand) const override;
-
-private:
-    const ITypeSymbol& myType;
+    SymbolTable* myParentTable;
+    std::string myName;
+    Pointer<SymbolTable> myTable;
 };
 
 class VariableSymbol : public ISymbol {

@@ -3,6 +3,7 @@
 
 #include "ISyntaxNode.h"
 #include "../Lexer/LexerUtils.h"
+#include "Semantics/BuiltInTypes.h"
 
 class SymbolTable;
 

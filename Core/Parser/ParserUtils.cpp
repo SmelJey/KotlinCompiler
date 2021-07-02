@@ -62,7 +62,7 @@ const ISymbol* ParserUtils::GetArrayBuilder(const ITypeSymbol* innerType, std::v
 }
 
 const ArraySymbol* ParserUtils::GetGenericArray(const ITypeSymbol* innerType, SymbolTable* symTable) {
-    Pointer<ArraySymbol> arrayType = std::make_unique<ArraySymbol>(innerType);
+    Pointer<ArraySymbol> arrayType = std::make_unique<ArraySymbol>(symTable, innerType);
     std::string arrayTypeName = arrayType->GetName();
     symTable->Add(std::move(arrayType));
     return dynamic_cast<const ArraySymbol*>(symTable->GetType(arrayTypeName));

@@ -1,10 +1,12 @@
 #pragma once
 #include <map>
+#include <string>
+#include <vector>
 
 #include "Symbols.h"
 
-
-class ClassSymbol;
+class UnitTypeSymbol;
+class UnresolvedSymbol;
 class FunctionSymbol;
 
 class SymbolTable : public IVisitable {

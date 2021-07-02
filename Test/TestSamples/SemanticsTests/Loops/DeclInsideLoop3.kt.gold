@@ -20,9 +20,13 @@
 @@ ====
 @@ SymbolTable
 @@ |-Boolean
+@@ | |-SymbolTable
 @@ |-Double
+@@ | |-SymbolTable
 @@ |-Int
+@@ | |-SymbolTable
 @@ |-String
+@@ | |-SymbolTable
 @@ |-Fun main() -> Unit
 @@ | |-SymbolTable
 @@ |   |-SymbolTable
@@ -30,6 +34,7 @@
 @@ |     | |-SymbolTable
 @@ |     |   |-Val a
 @@ |     |     |-Int
+@@ |     |       |-SymbolTable
 @@ |     |-Fun A() -> A
 @@ |     | |-SymbolTable
 @@ |     |-Val b
@@ -37,6 +42,7 @@
 @@ |         |-SymbolTable
 @@ |           |-Val a
 @@ |             |-Int
+@@ |               |-SymbolTable
 @@ |-Fun println(String) -> Unit
 @@ | |-SymbolTable
 @@ |-Fun println(Int) -> Unit
