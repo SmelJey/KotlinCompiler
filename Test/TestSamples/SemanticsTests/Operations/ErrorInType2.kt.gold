@@ -12,22 +12,21 @@
 @@ SymbolTable
 @@ |-Boolean
 @@ | |-SymbolTable
+@@ |   |-Fun toByte() -> Int
+@@ |   |-Fun toString() -> String
 @@ |-ClosedRange<Int>
-@@ | |-SymbolTable
 @@ |-Double
 @@ | |-SymbolTable
+@@ |   |-Fun toInt() -> Int
+@@ |   |-Fun toString() -> String
 @@ |-Int
 @@ | |-SymbolTable
+@@ |   |-Fun toDouble() -> Double
+@@ |   |-Fun toString() -> String
 @@ |-String
-@@ | |-SymbolTable
 @@ |-Fun main() -> Unit
-@@ | |-SymbolTable
 @@ |-Fun println(String) -> Unit
-@@ | |-SymbolTable
 @@ |-Fun println(Int) -> Unit
-@@ | |-SymbolTable
 @@ |-Fun println(Double) -> Unit
-@@ | |-SymbolTable
 @@ |-Fun println() -> Unit
-@@   |-SymbolTable
-@@ Error 2:0 :: Operation is not applicable to types Double and ClosedRange<Int>
+@@ Error 3:1 :: Operation is not applicable to types Double and ClosedRange<Int>

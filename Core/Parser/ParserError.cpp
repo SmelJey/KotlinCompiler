@@ -5,7 +5,7 @@
 ParserError::ParserError(const Lexeme& lexeme, const std::string& error) : myLexeme(lexeme), myError(error) {}
 
 std::pair<int, int> ParserError::GetLocation() const {
-    return std::make_pair(myLexeme.GetRow(), myLexeme.GetColumn());
+    return std::make_pair(myLexeme.GetRow() + 1, myLexeme.GetColumn() + 1);
 }
 
 Lexeme ParserError::GetLexeme() const {

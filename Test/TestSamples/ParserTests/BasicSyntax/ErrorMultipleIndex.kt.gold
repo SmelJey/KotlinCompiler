@@ -8,4 +8,4 @@
 @@       |-Args
 @@         |-Integer :: 1
 @@         |-Integer :: 3
-@@ Error 1:2 :: Expecting an index
+@@ Error 2:3 :: Expecting an index

@@ -7,4 +7,4 @@
 @@     |-Bin op :: +
 @@       |-Integer :: 3
 @@       |-Integer :: 1
-@@ Error 0:24 :: Expecting ')'
+@@ Error 1:25 :: Expecting ')'

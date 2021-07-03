@@ -5,4 +5,4 @@
 @@   |-Bin op :: +
 @@     |-Integer :: 2
 @@     |-Integer :: 0
-@@ Error 0:17 :: Illegal suffix
+@@ Error 1:18 :: Illegal suffix

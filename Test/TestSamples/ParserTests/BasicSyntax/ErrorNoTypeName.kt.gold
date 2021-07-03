@@ -9,4 +9,4 @@
 @@     |-Bin op :: +
 @@       |-Integer :: 2
 @@       |-Integer :: 3
-@@ Error 0:12 :: Type expected
+@@ Error 1:13 :: Type expected

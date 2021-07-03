@@ -1,0 +1,46 @@
+@@ Decl Block
+@@ |-Fun Decl                                                  :: test
+@@ | |-Identifier :: test                                      :: test
+@@ | |-Params
+@@ | | |-Parameter                                             :: a
+@@ | |   |-Identifier :: a                                     :: a
+@@ | |   |-Type :: Double                                      :: Double
+@@ | |-Identifier :: a                                         :: a
+@@ |-Fun Decl                                                  :: main
+@@   |-Identifier :: main                                      :: main
+@@   |-Params
+@@   |-Block                                                   :: Unresolved type
+@@     |-Val Decl                                              :: a
+@@     | |-Identifier :: a                                     :: a
+@@     | |-Type :: Int                                         :: Int
+@@     | |-Integer :: 1                                        :: Int
+@@     |-CallSuffix                                            :: Unresolved type
+@@       |-Identifier :: test                                  :: Unresolved type
+@@       |-Args
+@@         |-Identifier :: a                                   :: a
+@@ ====
+@@ SymbolTable
+@@ |-Boolean
+@@ | |-SymbolTable
+@@ |   |-Fun toByte() -> Int
+@@ |   |-Fun toString() -> String
+@@ |-Double
+@@ | |-SymbolTable
+@@ |   |-Fun toInt() -> Int
+@@ |   |-Fun toString() -> String
+@@ |-Int
+@@ | |-SymbolTable
+@@ |   |-Fun toDouble() -> Double
+@@ |   |-Fun toString() -> String
+@@ |-String
+@@ |-Fun main() -> Unit
+@@ | |-SymbolTable
+@@ |   |-Val a : Int
+@@ |-Fun println(String) -> Unit
+@@ |-Fun println(Int) -> Unit
+@@ |-Fun println(Double) -> Unit
+@@ |-Fun println() -> Unit
+@@ |-Fun test(Double) -> Double
+@@   |-SymbolTable
+@@     |-Val a : Double
+@@ Error 5:6 :: Unresolved function

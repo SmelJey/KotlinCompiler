@@ -61,9 +61,6 @@ public:
 
     bool IsMutable() const;
 
-protected:
-    void AcceptVisitor(INodeVisitor& visitor, int depth) const override;
-
 private:
     std::string myName;
     const ITypeSymbol* myType;

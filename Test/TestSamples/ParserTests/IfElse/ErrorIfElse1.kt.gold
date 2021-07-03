@@ -9,5 +9,5 @@
 @@       | |-Integer :: 2
 @@       |-Block
 @@       |-Identifier :: 
-@@ Error 3:0 :: Unexpected lexeme
-@@ Error 3:1 :: Expecting '}'
+@@ Error 4:1 :: Unexpected lexeme
+@@ Error 4:2 :: Expecting '}'

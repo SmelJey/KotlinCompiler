@@ -9,5 +9,5 @@
 @@       | |-Integer :: 2
 @@       |-Identifier :: 
 @@       |-Empty Statement
-@@ Error 2:0 :: Unexpected lexeme
-@@ Error 2:1 :: Expecting '}'
+@@ Error 3:1 :: Unexpected lexeme
+@@ Error 3:2 :: Expecting '}'

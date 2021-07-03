@@ -32,41 +32,30 @@
 @@ ====
 @@ SymbolTable
 @@ |-Array<Double>
-@@ | |-SymbolTable
 @@ |-Array<Int>
-@@ | |-SymbolTable
 @@ |-Array<String>
-@@ | |-SymbolTable
 @@ |-Boolean
 @@ | |-SymbolTable
+@@ |   |-Fun toByte() -> Int
+@@ |   |-Fun toString() -> String
 @@ |-Double
 @@ | |-SymbolTable
+@@ |   |-Fun toInt() -> Int
+@@ |   |-Fun toString() -> String
 @@ |-Int
 @@ | |-SymbolTable
+@@ |   |-Fun toDouble() -> Double
+@@ |   |-Fun toString() -> String
 @@ |-String
-@@ | |-SymbolTable
 @@ |-Fun arrayOf(Int, Int, Int) -> Array<Int>
-@@ | |-SymbolTable
 @@ |-Fun arrayOf(Double, Double) -> Array<Double>
-@@ | |-SymbolTable
 @@ |-Fun arrayOf() -> Array<String>
-@@ | |-SymbolTable
 @@ |-Fun main() -> Unit
 @@ | |-SymbolTable
-@@ |   |-Val a
-@@ |   | |-Array<Int>
-@@ |   |   |-SymbolTable
-@@ |   |-Val b
-@@ |   | |-Array<Double>
-@@ |   |   |-SymbolTable
-@@ |   |-Val c
-@@ |     |-Array<String>
-@@ |       |-SymbolTable
+@@ |   |-Val a : Array<Int>
+@@ |   |-Val b : Array<Double>
+@@ |   |-Val c : Array<String>
 @@ |-Fun println(String) -> Unit
-@@ | |-SymbolTable
 @@ |-Fun println(Int) -> Unit
-@@ | |-SymbolTable
 @@ |-Fun println(Double) -> Unit
-@@ | |-SymbolTable
 @@ |-Fun println() -> Unit
-@@   |-SymbolTable

@@ -1,0 +1,37 @@
+@@ Decl Block
+@@ |-Fun Decl                                                  :: main
+@@   |-Identifier :: main                                      :: main
+@@   |-Params
+@@   |-Block                                                   :: Unit
+@@     |-Val Decl                                              :: a
+@@     | |-Identifier :: a                                     :: a
+@@     | |-Type :: Int                                         :: Int
+@@     | |-Integer :: 1                                        :: Int
+@@     |-Val Decl                                              :: b
+@@       |-Identifier :: b                                     :: b
+@@       |-Type :: Double                                      :: Double
+@@       |-Identifier :: a                                     :: a
+@@ ====
+@@ SymbolTable
+@@ |-Boolean
+@@ | |-SymbolTable
+@@ |   |-Fun toByte() -> Int
+@@ |   |-Fun toString() -> String
+@@ |-Double
+@@ | |-SymbolTable
+@@ |   |-Fun toInt() -> Int
+@@ |   |-Fun toString() -> String
+@@ |-Int
+@@ | |-SymbolTable
+@@ |   |-Fun toDouble() -> Double
+@@ |   |-Fun toString() -> String
+@@ |-String
+@@ |-Fun main() -> Unit
+@@ | |-SymbolTable
+@@ |   |-Val a : Int
+@@ |   |-Val b : Int
+@@ |-Fun println(String) -> Unit
+@@ |-Fun println(Int) -> Unit
+@@ |-Fun println(Double) -> Unit
+@@ |-Fun println() -> Unit
+@@ Error 4:1 :: a does not conform to the expected type Double

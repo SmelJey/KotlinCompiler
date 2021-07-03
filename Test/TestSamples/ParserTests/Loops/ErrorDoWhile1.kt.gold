@@ -6,5 +6,5 @@
 @@     |-DoWhile
 @@       |-Identifier :: 
 @@       |-Block
-@@ Error 2:10 :: Unexpected lexeme
-@@ Error 3:0 :: Expecting ')'
+@@ Error 3:11 :: Unexpected lexeme
+@@ Error 4:1 :: Expecting ')'

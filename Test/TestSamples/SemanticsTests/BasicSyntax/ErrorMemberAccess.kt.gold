@@ -10,20 +10,20 @@
 @@ SymbolTable
 @@ |-Boolean
 @@ | |-SymbolTable
+@@ |   |-Fun toByte() -> Int
+@@ |   |-Fun toString() -> String
 @@ |-Double
 @@ | |-SymbolTable
+@@ |   |-Fun toInt() -> Int
+@@ |   |-Fun toString() -> String
 @@ |-Int
 @@ | |-SymbolTable
+@@ |   |-Fun toDouble() -> Double
+@@ |   |-Fun toString() -> String
 @@ |-String
-@@ | |-SymbolTable
 @@ |-Fun main() -> Unit
-@@ | |-SymbolTable
 @@ |-Fun println(String) -> Unit
-@@ | |-SymbolTable
 @@ |-Fun println(Int) -> Unit
-@@ | |-SymbolTable
 @@ |-Fun println(Double) -> Unit
-@@ | |-SymbolTable
 @@ |-Fun println() -> Unit
-@@   |-SymbolTable
-@@ Error 1:1 :: Unresolved symbol
+@@ Error 2:2 :: Unresolved symbol

@@ -12,4 +12,4 @@
 @@       |-Identifier :: println
 @@       |-Args
 @@         |-Identifier :: a
-@@ Error 2:1 :: Unexpected lexeme
+@@ Error 3:2 :: Unexpected lexeme

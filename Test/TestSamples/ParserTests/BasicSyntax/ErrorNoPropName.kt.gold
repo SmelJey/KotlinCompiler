@@ -6,5 +6,5 @@
 @@   |-Identifier :: test
 @@   |-Params
 @@   |-Integer :: 5
-@@ Error 2:0 :: Expecting property name
-@@ Error 2:0 :: Property must be initialized
+@@ Error 3:1 :: Expecting property name
+@@ Error 3:1 :: Property must be initialized

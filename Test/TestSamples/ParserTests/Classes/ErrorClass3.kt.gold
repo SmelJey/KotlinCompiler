@@ -5,4 +5,4 @@
 @@   |-Identifier :: test
 @@   |-Params
 @@   |-Block
-@@ Error 0:6 :: Class declaration must have a name
+@@ Error 1:7 :: Class declaration must have a name

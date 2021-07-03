@@ -21,33 +21,26 @@
 @@ SymbolTable
 @@ |-Boolean
 @@ | |-SymbolTable
+@@ |   |-Fun toByte() -> Int
+@@ |   |-Fun toString() -> String
 @@ |-Double
 @@ | |-SymbolTable
+@@ |   |-Fun toInt() -> Int
+@@ |   |-Fun toString() -> String
 @@ |-Int
 @@ | |-SymbolTable
+@@ |   |-Fun toDouble() -> Double
+@@ |   |-Fun toString() -> String
 @@ |-String
-@@ | |-SymbolTable
 @@ |-Fun main() -> Unit
 @@ | |-SymbolTable
 @@ |   |-SymbolTable
 @@ |     |-Class A
 @@ |     | |-SymbolTable
-@@ |     |   |-Val a
-@@ |     |     |-Int
-@@ |     |       |-SymbolTable
+@@ |     |   |-Val a : Int
 @@ |     |-Fun A() -> A
-@@ |     | |-SymbolTable
-@@ |     |-Val b
-@@ |       |-Class A
-@@ |         |-SymbolTable
-@@ |           |-Val a
-@@ |             |-Int
-@@ |               |-SymbolTable
+@@ |     |-Val b : A
 @@ |-Fun println(String) -> Unit
-@@ | |-SymbolTable
 @@ |-Fun println(Int) -> Unit
-@@ | |-SymbolTable
 @@ |-Fun println(Double) -> Unit
-@@ | |-SymbolTable
 @@ |-Fun println() -> Unit
-@@   |-SymbolTable

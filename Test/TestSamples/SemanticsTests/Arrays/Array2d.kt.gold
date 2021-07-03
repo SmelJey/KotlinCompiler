@@ -29,37 +29,29 @@
 @@ SymbolTable
 @@ |-Class A
 @@ | |-SymbolTable
-@@ |   |-Val a
-@@ |     |-Array<Int>
-@@ |       |-SymbolTable
+@@ |   |-Val a : Array<Int>
 @@ |-Fun A() -> A
-@@ | |-SymbolTable
 @@ |-Array<A>
-@@ | |-SymbolTable
 @@ |-Array<Int>
-@@ | |-SymbolTable
 @@ |-Boolean
 @@ | |-SymbolTable
+@@ |   |-Fun toByte() -> Int
+@@ |   |-Fun toString() -> String
 @@ |-Double
 @@ | |-SymbolTable
+@@ |   |-Fun toInt() -> Int
+@@ |   |-Fun toString() -> String
 @@ |-Int
 @@ | |-SymbolTable
+@@ |   |-Fun toDouble() -> Double
+@@ |   |-Fun toString() -> String
 @@ |-String
-@@ | |-SymbolTable
 @@ |-Fun arrayOf(Int, Int) -> Array<Int>
-@@ | |-SymbolTable
 @@ |-Fun arrayOf(A) -> Array<A>
-@@ | |-SymbolTable
 @@ |-Fun main() -> Unit
 @@ | |-SymbolTable
-@@ |   |-Val a
-@@ |     |-Array<A>
-@@ |       |-SymbolTable
+@@ |   |-Val a : Array<A>
 @@ |-Fun println(String) -> Unit
-@@ | |-SymbolTable
 @@ |-Fun println(Int) -> Unit
-@@ | |-SymbolTable
 @@ |-Fun println(Double) -> Unit
-@@ | |-SymbolTable
 @@ |-Fun println() -> Unit
-@@   |-SymbolTable

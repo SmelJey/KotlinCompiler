@@ -1,0 +1,114 @@
+@@ Decl Block
+@@ |-Val Decl                                                  :: n
+@@ | |-Identifier :: n                                         :: n
+@@ | |-Integer :: 5                                            :: Int
+@@ |-Val Decl                                                  :: m
+@@ | |-Identifier :: m                                         :: m
+@@ | |-Integer :: 10                                           :: Int
+@@ |-Fun Decl                                                  :: sqrDist
+@@ | |-Identifier :: sqrDist                                   :: sqrDist
+@@ | |-Params
+@@ | | |-Parameter                                             :: x1
+@@ | | | |-Identifier :: x1                                    :: x1
+@@ | | | |-Type :: Double                                      :: Double
+@@ | | |-Parameter                                             :: y1
+@@ | | | |-Identifier :: y1                                    :: y1
+@@ | | | |-Type :: Double                                      :: Double
+@@ | | |-Parameter                                             :: x2
+@@ | | | |-Identifier :: x2                                    :: x2
+@@ | | | |-Type :: Double                                      :: Double
+@@ | | |-Parameter                                             :: y2
+@@ | |   |-Identifier :: y2                                    :: y2
+@@ | |   |-Type :: Double                                      :: Double
+@@ | |-Type :: Double                                          :: Double
+@@ | |-Bin op :: +                                             :: Double
+@@ |   |-Bin op :: *                                           :: Double
+@@ |   | |-Bin op :: -                                         :: Double
+@@ |   | | |-Identifier :: x2                                  :: x2
+@@ |   | | |-Identifier :: x1                                  :: x1
+@@ |   | |-Bin op :: -                                         :: Double
+@@ |   |   |-Identifier :: x2                                  :: x2
+@@ |   |   |-Identifier :: x1                                  :: x1
+@@ |   |-Bin op :: *                                           :: Double
+@@ |     |-Bin op :: -                                         :: Double
+@@ |     | |-Identifier :: y2                                  :: y2
+@@ |     | |-Identifier :: y1                                  :: y1
+@@ |     |-Bin op :: -                                         :: Double
+@@ |       |-Identifier :: y2                                  :: y2
+@@ |       |-Identifier :: y1                                  :: y1
+@@ |-Fun Decl                                                  :: main
+@@   |-Identifier :: main                                      :: main
+@@   |-Params
+@@   |-Block                                                   :: Unit
+@@     |-CallSuffix                                            :: Unit
+@@     | |-Identifier :: println                               :: println
+@@     | |-Args
+@@     |   |-String :: Hello, world!!!                         :: String
+@@     |-For                                                   :: Unit
+@@       |-Variable                                            :: i
+@@       | |-Identifier :: i                                   :: i
+@@       |-Bin op :: ..                                        :: ClosedRange<Int>
+@@       | |-Integer :: 0                                      :: Int
+@@       | |-Identifier :: n                                   :: n
+@@       |-Block                                               :: Unit
+@@         |-For                                               :: Unit
+@@         | |-Variable                                        :: j
+@@         | | |-Identifier :: j                               :: j
+@@         | |-Bin op :: ..                                    :: ClosedRange<Int>
+@@         | | |-Integer :: 0                                  :: Int
+@@         | | |-Identifier :: m                               :: m
+@@         | |-CallSuffix                                      :: Unit
+@@         |   |-Identifier :: println                         :: println
+@@         |   |-Args
+@@         |     |-CallSuffix                                  :: Double
+@@         |       |-Identifier :: sqrDist                     :: sqrDist
+@@         |       |-Args
+@@         |         |-Real :: 0.500000                        :: Double
+@@         |         |-Real :: 0.500000                        :: Double
+@@         |         |-Bin op :: *                             :: Double
+@@         |         | |-Bin op :: /                           :: Double
+@@         |         | | |-Real :: 1.000000                    :: Double
+@@         |         | | |-Identifier :: n                     :: n
+@@         |         | |-Identifier :: i                       :: i
+@@         |         |-Bin op :: *                             :: Double
+@@         |           |-Bin op :: /                           :: Double
+@@         |           | |-Real :: 1.000000                    :: Double
+@@         |           | |-Identifier :: m                     :: m
+@@         |           |-Identifier :: j                       :: j
+@@         |-CallSuffix                                        :: Unit
+@@           |-Identifier :: println                           :: println
+@@           |-Args
+@@ ====
+@@ SymbolTable
+@@ |-Boolean
+@@ | |-SymbolTable
+@@ |   |-Fun toByte() -> Int
+@@ |   |-Fun toString() -> String
+@@ |-ClosedRange<Int>
+@@ |-Double
+@@ | |-SymbolTable
+@@ |   |-Fun toInt() -> Int
+@@ |   |-Fun toString() -> String
+@@ |-Int
+@@ | |-SymbolTable
+@@ |   |-Fun toDouble() -> Double
+@@ |   |-Fun toString() -> String
+@@ |-String
+@@ |-Val m : Int
+@@ |-Fun main() -> Unit
+@@ | |-SymbolTable
+@@ |   |-SymbolTable
+@@ |     |-Val i : Int
+@@ |     |-SymbolTable
+@@ |       |-Val j : Int
+@@ |-Val n : Int
+@@ |-Fun println(String) -> Unit
+@@ |-Fun println(Int) -> Unit
+@@ |-Fun println(Double) -> Unit
+@@ |-Fun println() -> Unit
+@@ |-Fun sqrDist(Double, Double, Double, Double) -> Double
+@@   |-SymbolTable
+@@     |-Val x1 : Double
+@@     |-Val x2 : Double
+@@     |-Val y1 : Double
+@@     |-Val y2 : Double

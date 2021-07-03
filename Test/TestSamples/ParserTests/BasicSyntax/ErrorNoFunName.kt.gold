@@ -6,4 +6,4 @@
 @@     |-Bin op :: +
 @@       |-Integer :: 5
 @@       |-Integer :: 2
-@@ Error 0:4 :: Function declaration must have a name
+@@ Error 1:5 :: Function declaration must have a name

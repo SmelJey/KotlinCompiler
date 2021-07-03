@@ -13,23 +13,22 @@
 @@ SymbolTable
 @@ |-Boolean
 @@ | |-SymbolTable
+@@ |   |-Fun toByte() -> Int
+@@ |   |-Fun toString() -> String
 @@ |-Double
 @@ | |-SymbolTable
+@@ |   |-Fun toInt() -> Int
+@@ |   |-Fun toString() -> String
 @@ |-Int
 @@ | |-SymbolTable
+@@ |   |-Fun toDouble() -> Double
+@@ |   |-Fun toString() -> String
 @@ |-String
-@@ | |-SymbolTable
 @@ |-Fun println(String) -> Unit
-@@ | |-SymbolTable
 @@ |-Fun println(Int) -> Unit
-@@ | |-SymbolTable
 @@ |-Fun println(Double) -> Unit
-@@ | |-SymbolTable
 @@ |-Fun println() -> Unit
-@@ | |-SymbolTable
 @@ |-Fun test(Unresolved type) -> Unit
 @@   |-SymbolTable
-@@     |-Val a
-@@       |-Unresolved type
-@@         |-SymbolTable
-@@ Error 0:10 :: A type annotation is required on a value parameter
+@@     |-Val a : Unresolved type
+@@ Error 1:11 :: A type annotation is required on a value parameter

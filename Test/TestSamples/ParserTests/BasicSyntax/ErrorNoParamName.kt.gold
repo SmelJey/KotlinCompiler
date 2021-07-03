@@ -8,4 +8,4 @@
 @@   |-Bin op :: +
 @@     |-Integer :: 2
 @@     |-Integer :: 3
-@@ Error 0:9 :: Parameter name expected
+@@ Error 1:10 :: Parameter name expected

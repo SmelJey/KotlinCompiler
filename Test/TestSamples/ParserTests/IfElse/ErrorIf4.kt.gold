@@ -9,4 +9,4 @@
 @@       | |-Integer :: 2
 @@       |-Block
 @@       |-Empty Statement
-@@ Error 1:11 :: Expecting ')'
+@@ Error 2:12 :: Expecting ')'

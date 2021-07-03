@@ -41,3 +41,11 @@ TEST_CASE("Semantics Loops", "[Semantics]") {
 TEST_CASE("Semantics Jumps", "[Semantics]") {
     RunTests<ParserSemanticTest>("Jumps/");
 }
+
+TEST_CASE("Semantics Casts", "[Semantics]") {
+    RunTests<ParserSemanticTest>("Casts/");
+}
+
+TEST_CASE("Semantics Complex", "[Semantics]") {
+    RunTests<ParserSemanticTest>("Complex/");
+}

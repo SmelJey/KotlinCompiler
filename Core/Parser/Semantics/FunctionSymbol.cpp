@@ -66,5 +66,7 @@ std::string FunctionSymbol::ToString() const {
 }
 
 void FunctionSymbol::AcceptVisitor(INodeVisitor& visitor, int depth) const {
-    visitor.VisitNode(*myTable, depth);
+    if (!myTable->IsEmpty()) {
+        visitor.VisitNode(*myTable, depth);
+    }
 }

@@ -1,7 +1,5 @@
 #include "Parser.h"
 
-#include <sstream>
-
 #include "ExpressionNodes.h"
 #include "ParserUtils.h"
 #include "SimpleNodes.h"
@@ -408,7 +406,7 @@ Pointer<PropertyDeclaration> Parser::ParseProperty(const Lexeme& keyword) {
         initExpr = ParseExpression();
     }
 
-    if (!isFailed && typeNode != nullptr && initExpr != nullptr && *typeNode->GetSymbol() != *initExpr->GetSymbol()) {
+    if (!isFailed && typeNode != nullptr && initExpr != nullptr && *typeNode->GetType() != *initExpr->GetType()) {
         AddSemanticsError(myLexer.GetLexeme(), initExpr->GetSymbol()->GetName()
                           + " does not conform to the expected type " + typeNode->GetSymbol()->GetName());
     }
@@ -615,11 +613,11 @@ Pointer<MemberAccessNode> Parser::ParseMemberAccess(const Lexeme& operationLexem
         if (identifier != nullptr) {
             identifier->TryResolveVariable();
         }
-        auto classSym = dynamic_cast<const ClassSymbol*>(operand->GetSymbol());
-        std::vector<const ISymbol*> candidates;
-        if (classSym != nullptr) {
+        auto classSym = dynamic_cast<const ClassSymbol*>(operand->GetType());
+        std::vector<const ISymbol*> candidates = operand->GetType()->GetTable()->GetSymbols(curLexeme.GetValue<std::string>());
+        /*if (classSym != nullptr) {
             candidates = classSym->GetTable()->GetSymbols(curLexeme.GetValue<std::string>());
-        }
+        }*/
 
         Pointer<IdentifierNode> memberIdentifier = CreateLexemeNode(curLexeme, myRootTable->GetUnresolvedSymbol(), candidates);
         memberIdentifier->TryResolveVariable();

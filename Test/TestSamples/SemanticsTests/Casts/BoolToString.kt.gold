@@ -1,0 +1,39 @@
+@@ Decl Block
+@@ |-Fun Decl                                                  :: main
+@@   |-Identifier :: main                                      :: main
+@@   |-Params
+@@   |-Block                                                   :: Unit
+@@     |-Val Decl                                              :: a
+@@     | |-Identifier :: a                                     :: a
+@@     | |-Boolean :: false                                    :: Boolean
+@@     |-Val Decl                                              :: b
+@@       |-Identifier :: b                                     :: b
+@@       |-Type :: String                                      :: String
+@@       |-CallSuffix                                          :: String
+@@         |-MemberAccess :: .                                 :: toString
+@@         | |-Identifier :: a                                 :: a
+@@         | |-Identifier :: toString                          :: toString
+@@         |-Args
+@@ ====
+@@ SymbolTable
+@@ |-Boolean
+@@ | |-SymbolTable
+@@ |   |-Fun toByte() -> Int
+@@ |   |-Fun toString() -> String
+@@ |-Double
+@@ | |-SymbolTable
+@@ |   |-Fun toInt() -> Int
+@@ |   |-Fun toString() -> String
+@@ |-Int
+@@ | |-SymbolTable
+@@ |   |-Fun toDouble() -> Double
+@@ |   |-Fun toString() -> String
+@@ |-String
+@@ |-Fun main() -> Unit
+@@ | |-SymbolTable
+@@ |   |-Val a : Boolean
+@@ |   |-Val b : String
+@@ |-Fun println(String) -> Unit
+@@ |-Fun println(Int) -> Unit
+@@ |-Fun println(Double) -> Unit
+@@ |-Fun println() -> Unit

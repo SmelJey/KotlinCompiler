@@ -6,4 +6,4 @@
 @@     |-DoWhile
 @@       |-Boolean :: false
 @@       |-Block
-@@ Error 2:4 :: Expecting 'while' followed by a post-condition
+@@ Error 3:5 :: Expecting 'while' followed by a post-condition

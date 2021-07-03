@@ -1,9 +1,19 @@
 #include "BuiltInTypes.h"
 
+#include "FunctionSymbol.h"
 #include "SymbolTable.h"
 
 
-UnresolvedSymbol::UnresolvedSymbol(SymbolTable* parentTable) : ITypeSymbol("Unresolved type", parentTable) {}
+FundamentalType::FundamentalType(const std::string& name, SymbolTable* parentTable) : ITypeSymbol(name, parentTable) {}
+
+void FundamentalType::Init() {}
+
+void FundamentalType::CreateCast(const std::string& castName, const ITypeSymbol* resultType) {
+    GetTable()->Add(std::make_unique<FunctionSymbol>(
+        castName, resultType, std::vector<const ITypeSymbol*>(), std::make_unique<SymbolTable>(GetTable())));
+}
+
+UnresolvedSymbol::UnresolvedSymbol(SymbolTable* parentTable) : FundamentalType("Unresolved type", parentTable) {}
 
 Pointer<ITypeSymbol> UnresolvedSymbol::IsApplicable(LexemeType operation) const {
     return std::make_unique<UnresolvedSymbol>(GetParentTable());
@@ -13,7 +23,7 @@ Pointer<ITypeSymbol> UnresolvedSymbol::IsApplicable(LexemeType binaryOperation, 
     return std::make_unique<UnresolvedSymbol>(GetParentTable());
 }
 
-UnitTypeSymbol::UnitTypeSymbol(SymbolTable* parentTable) : ITypeSymbol("Unit", parentTable) {}
+UnitTypeSymbol::UnitTypeSymbol(SymbolTable* parentTable) : FundamentalType("Unit", parentTable) {}
 
 Pointer<ITypeSymbol> UnitTypeSymbol::IsApplicable(LexemeType operation) const {
     return std::make_unique<UnresolvedSymbol>(GetParentTable());
@@ -32,7 +42,12 @@ Pointer<ITypeSymbol> UnitTypeSymbol::IsApplicable(LexemeType binaryOperation, co
     return std::make_unique<UnresolvedSymbol>(GetParentTable());
 }
 
-BooleanSymbol::BooleanSymbol(SymbolTable* parentTable) : ITypeSymbol("Boolean", parentTable) {}
+BooleanSymbol::BooleanSymbol(SymbolTable* parentTable) : FundamentalType("Boolean", parentTable) {}
+
+void BooleanSymbol::Init() {
+    CreateCast("toString", GetParentTable()->GetType("String"));
+    CreateCast("toByte", GetParentTable()->GetType("Int"));
+}
 
 Pointer<ITypeSymbol> BooleanSymbol::IsApplicable(LexemeType operation) const {
     if (operation == LexemeType::OpExclMark) {
@@ -66,7 +81,12 @@ Pointer<ITypeSymbol> BooleanSymbol::IsApplicable(LexemeType binaryOperation, con
     return std::make_unique<UnresolvedSymbol>(GetParentTable());
 }
 
-IntegerSymbol::IntegerSymbol(SymbolTable* parentTable) : ITypeSymbol("Int", parentTable) {}
+IntegerSymbol::IntegerSymbol(SymbolTable* parentTable) : FundamentalType("Int", parentTable) {}
+
+void IntegerSymbol::Init() {
+    CreateCast("toString", GetParentTable()->GetType("String"));
+    CreateCast("toDouble", GetParentTable()->GetType("Double"));
+}
 
 Pointer<ITypeSymbol> IntegerSymbol::IsApplicable(LexemeType operation) const {
     if (operation == LexemeType::OpAdd || operation == LexemeType::OpSub || operation == LexemeType::OpInc || operation == LexemeType::OpDec) {
@@ -110,7 +130,12 @@ bool IntegerSymbol::IsAssignable(LexemeType assignOperation, const ITypeSymbol* 
     return res;
 }
 
-DoubleSymbol::DoubleSymbol(SymbolTable* parentTable) : ITypeSymbol("Double", parentTable) {}
+DoubleSymbol::DoubleSymbol(SymbolTable* parentTable) : FundamentalType("Double", parentTable) {}
+
+void DoubleSymbol::Init() {
+    CreateCast("toString", GetParentTable()->GetType("String"));
+    CreateCast("toInt", GetParentTable()->GetType("Int"));
+}
 
 Pointer<ITypeSymbol> DoubleSymbol::IsApplicable(LexemeType operation) const {
     if (operation == LexemeType::OpAdd || operation == LexemeType::OpSub || operation == LexemeType::OpInc || operation == LexemeType::OpDec) {
@@ -157,7 +182,7 @@ bool DoubleSymbol::IsAssignable(LexemeType assignOperation, const ITypeSymbol* r
     return false;
 }
 
-StringSymbol::StringSymbol(SymbolTable* parentTable) : ITypeSymbol("String", parentTable) {}
+StringSymbol::StringSymbol(SymbolTable* parentTable) : FundamentalType("String", parentTable) {}
 
 Pointer<ITypeSymbol> StringSymbol::IsApplicable(LexemeType operation) const {
     return std::make_unique<UnresolvedSymbol>(GetParentTable());
@@ -181,7 +206,7 @@ Pointer<ITypeSymbol> StringSymbol::IsApplicable(LexemeType binaryOperation, cons
     return std::make_unique<UnresolvedSymbol>(GetParentTable());
 }
 
-ArraySymbol::ArraySymbol(SymbolTable* parentTable, const ITypeSymbol* type) : ITypeSymbol("Array", parentTable), myType(type), mySize(0) {}
+ArraySymbol::ArraySymbol(SymbolTable* parentTable, const ITypeSymbol* type) : FundamentalType("Array", parentTable), myType(type), mySize(0) {}
 
 std::string ArraySymbol::GetName() const {
     return ITypeSymbol::GetName() + "<" + myType->GetName() + ">";
@@ -211,7 +236,7 @@ Pointer<ITypeSymbol> ArraySymbol::IsApplicable(LexemeType binaryOperation, const
     return std::make_unique<UnresolvedSymbol>(GetParentTable());
 }
 
-RangeSymbol::RangeSymbol(SymbolTable* parentTable, const ITypeSymbol& type) : ITypeSymbol("ClosedRange", parentTable), myType(type) {}
+RangeSymbol::RangeSymbol(SymbolTable* parentTable, const ITypeSymbol& type) : FundamentalType("ClosedRange", parentTable), myType(type) {}
 
 std::string RangeSymbol::GetName() const {
     return ITypeSymbol::GetName() + "<" + myType.GetName() + ">";

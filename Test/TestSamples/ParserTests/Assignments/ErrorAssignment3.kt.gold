@@ -11,4 +11,4 @@
 @@         |-Bin op :: /
 @@           |-Integer :: 3
 @@           |-Integer :: 4
-@@ Error 1:5 :: Variable expected
+@@ Error 2:6 :: Variable expected

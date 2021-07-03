@@ -1,0 +1,58 @@
+@@ Decl Block
+@@ |-Fun Decl                                                  :: main
+@@   |-Identifier :: main                                      :: main
+@@   |-Params
+@@   |-Block                                                   :: Unit
+@@     |-Var Decl                                              :: a
+@@     | |-Identifier :: a                                     :: a
+@@     | |-CallSuffix                                          :: Array<Int>
+@@     |   |-Identifier :: arrayOf                             :: arrayOf
+@@     |   |-Args
+@@     |   |-TypeArgs
+@@     |     |-Type :: Int                                     :: Int
+@@     |-Val Decl                                              :: b
+@@     | |-Identifier :: b                                     :: b
+@@     | |-CallSuffix                                          :: Array<Int>
+@@     |   |-Identifier :: arrayOf                             :: arrayOf
+@@     |   |-Args
+@@     |   | |-Integer :: 1                                    :: Int
+@@     |   | |-Integer :: 2                                    :: Int
+@@     |   | |-Integer :: 3                                    :: Int
+@@     |   |-TypeArgs
+@@     |     |-Type :: Int                                     :: Int
+@@     |-Assignment :: =                                       :: Unit
+@@     | |-Identifier :: a                                     :: a
+@@     | |-Identifier :: b                                     :: b
+@@     |-Val Decl                                              :: c
+@@       |-Identifier :: c                                     :: c
+@@       |-Type :: Array                                       :: Array<Int>
+@@       | |-TypeArgs
+@@       |   |-Type :: Int                                     :: Int
+@@       |-Identifier :: b                                     :: b
+@@ ====
+@@ SymbolTable
+@@ |-Array<Int>
+@@ |-Boolean
+@@ | |-SymbolTable
+@@ |   |-Fun toByte() -> Int
+@@ |   |-Fun toString() -> String
+@@ |-Double
+@@ | |-SymbolTable
+@@ |   |-Fun toInt() -> Int
+@@ |   |-Fun toString() -> String
+@@ |-Int
+@@ | |-SymbolTable
+@@ |   |-Fun toDouble() -> Double
+@@ |   |-Fun toString() -> String
+@@ |-String
+@@ |-Fun arrayOf() -> Array<Int>
+@@ |-Fun arrayOf(Int, Int, Int) -> Array<Int>
+@@ |-Fun main() -> Unit
+@@ | |-SymbolTable
+@@ |   |-Var a : Array<Int>
+@@ |   |-Val b : Array<Int>
+@@ |   |-Val c : Array<Int>
+@@ |-Fun println(String) -> Unit
+@@ |-Fun println(Int) -> Unit
+@@ |-Fun println(Double) -> Unit
+@@ |-Fun println() -> Unit

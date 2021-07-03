@@ -9,4 +9,4 @@
 @@     |-Bin op :: +
 @@       |-Integer :: 2
 @@       |-Integer :: 3
-@@ Error 0:10 :: A type annotation is required on a value parameter
+@@ Error 1:11 :: A type annotation is required on a value parameter

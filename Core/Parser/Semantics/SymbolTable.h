@@ -24,6 +24,7 @@ public:
 
     const ISymbol* GetFunction(const std::string& name, const std::vector<const ITypeSymbol*>& params) const;
 
+    bool IsEmpty() const;
     bool Contains(const ISymbol& symbol) const;
     const ISymbol* Add(Pointer<ISymbol> symbol);
     void Add(Pointer<SymbolTable> table);
@@ -40,6 +41,7 @@ protected:
 
 private:
     bool LocalContains(const ISymbol& symbol) const;
+    ISymbol* InnerAdd(Pointer<ISymbol> symbol);
 
     SymbolTable* myParentTable;
     Pointer<UnresolvedSymbol> myUnresolved;

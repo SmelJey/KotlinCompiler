@@ -5,4 +5,4 @@
 @@   |-Bin op :: +
 @@     |-Integer :: 2
 @@     |-Identifier :: 
-@@ Error 0:17 :: Unexpected lexeme
+@@ Error 1:18 :: Unexpected lexeme

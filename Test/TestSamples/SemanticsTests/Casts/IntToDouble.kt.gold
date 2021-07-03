@@ -1,0 +1,41 @@
+@@ Decl Block
+@@ |-Fun Decl                                                  :: main
+@@   |-Identifier :: main                                      :: main
+@@   |-Params
+@@   |-Block                                                   :: Unit
+@@     |-Var Decl                                              :: a
+@@     | |-Identifier :: a                                     :: a
+@@     | |-Integer :: 1                                        :: Int
+@@     |-Val Decl                                              :: b
+@@     | |-Identifier :: b                                     :: b
+@@     | |-Real :: 2.500000                                    :: Double
+@@     |-Assignment :: =                                       :: Unit
+@@       |-Identifier :: a                                     :: a
+@@       |-CallSuffix                                          :: Int
+@@         |-MemberAccess :: .                                 :: toInt
+@@         | |-Identifier :: b                                 :: b
+@@         | |-Identifier :: toInt                             :: toInt
+@@         |-Args
+@@ ====
+@@ SymbolTable
+@@ |-Boolean
+@@ | |-SymbolTable
+@@ |   |-Fun toByte() -> Int
+@@ |   |-Fun toString() -> String
+@@ |-Double
+@@ | |-SymbolTable
+@@ |   |-Fun toInt() -> Int
+@@ |   |-Fun toString() -> String
+@@ |-Int
+@@ | |-SymbolTable
+@@ |   |-Fun toDouble() -> Double
+@@ |   |-Fun toString() -> String
+@@ |-String
+@@ |-Fun main() -> Unit
+@@ | |-SymbolTable
+@@ |   |-Var a : Int
+@@ |   |-Val b : Double
+@@ |-Fun println(String) -> Unit
+@@ |-Fun println(Int) -> Unit
+@@ |-Fun println(Double) -> Unit
+@@ |-Fun println() -> Unit

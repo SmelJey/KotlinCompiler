@@ -10,16 +10,21 @@ SymbolTable::SymbolTable(SymbolTable* parent) : myParentTable(parent) {
         myUnresolved = std::make_unique<UnresolvedSymbol>(this);
         myUnitSymbol = std::make_unique<UnitTypeSymbol>(this);
 
-        auto intSym = dynamic_cast<const ITypeSymbol*>(Add(std::make_unique<IntegerSymbol>(this)));
-        Add(std::make_unique<BooleanSymbol>(this));
-        auto doubleSym = dynamic_cast<const ITypeSymbol*>(Add(std::make_unique<DoubleSymbol>(this)));
-        auto stringSym = dynamic_cast<const ITypeSymbol*>(Add(std::make_unique<StringSymbol>(this)));
+        auto stringSym = dynamic_cast<FundamentalType*>(InnerAdd(std::make_unique<StringSymbol>(this)));
+        auto intSym = dynamic_cast<FundamentalType*>(InnerAdd(std::make_unique<IntegerSymbol>(this)));
+        auto boolSym = dynamic_cast<FundamentalType*>(InnerAdd(std::make_unique<BooleanSymbol>(this)));
+        auto doubleSym = dynamic_cast<FundamentalType*>(InnerAdd(std::make_unique<DoubleSymbol>(this)));
 
-        std::vector stringParams { stringSym };
+        stringSym->Init();
+        intSym->Init();
+        boolSym->Init();
+        doubleSym->Init();
+
+        std::vector<const ITypeSymbol*> stringParams { stringSym };
         Add(std::make_unique<FunctionSymbol>("println", myUnitSymbol.get(), stringParams, std::make_unique<SymbolTable>(this)));
-        std::vector intParams{ intSym };
+        std::vector<const ITypeSymbol*> intParams{ intSym };
         Add(std::make_unique<FunctionSymbol>("println", myUnitSymbol.get(), intParams, std::make_unique<SymbolTable>(this)));
-        std::vector doubleParams{ doubleSym };
+        std::vector<const ITypeSymbol*> doubleParams{ doubleSym };
         Add(std::make_unique<FunctionSymbol>("println", myUnitSymbol.get(), doubleParams, std::make_unique<SymbolTable>(this)));
         Add(std::make_unique<FunctionSymbol>("println", myUnitSymbol.get(), std::vector<const ITypeSymbol*>(), std::make_unique<SymbolTable>(this)));
     }
@@ -116,6 +121,10 @@ const ISymbol* SymbolTable::GetFunction(const std::string& name, const std::vect
     return GetUnresolvedSymbol();
 }
 
+bool SymbolTable::IsEmpty() const {
+    return myBlockTables.empty() && mySymbols.empty();
+}
+
 bool SymbolTable::Contains(const ISymbol& symbol) const {
     std::vector<const ISymbol*> res = GetSymbols(symbol.GetName());
     for (auto it : res) {
@@ -131,10 +140,7 @@ const ISymbol* SymbolTable::Add(Pointer<ISymbol> symbol) {
     if (LocalContains(*symbol)) {
         return GetUnresolvedSymbol();
     }
-
-    std::string name = symbol->GetName();
-    mySymbols[name].push_back(std::move(symbol));
-    return mySymbols[name].rbegin()->get();
+    return InnerAdd(std::move(symbol));
 }
 
 void SymbolTable::Add(Pointer<SymbolTable> table) {
@@ -179,4 +185,10 @@ bool SymbolTable::LocalContains(const ISymbol& symbol) const {
         }
     }
     return false;
+}
+
+ISymbol* SymbolTable::InnerAdd(Pointer<ISymbol> symbol) {
+    std::string name = symbol->GetName();
+    mySymbols[name].push_back(std::move(symbol));
+    return mySymbols[name].rbegin()->get();
 }

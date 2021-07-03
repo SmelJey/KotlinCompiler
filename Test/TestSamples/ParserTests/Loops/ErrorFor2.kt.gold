@@ -10,4 +10,4 @@
 @@       | |-Integer :: 1
 @@       | |-Integer :: 5
 @@       |-Block
-@@ Error 1:7 :: Expecting a variable name
+@@ Error 2:8 :: Expecting a variable name

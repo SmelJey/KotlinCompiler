@@ -54,7 +54,9 @@ std::string ITypeSymbol::GetName() const {
 }
 
 void ITypeSymbol::AcceptVisitor(INodeVisitor& visitor, int depth) const {
-    visitor.VisitNode(*myTable, depth);
+    if (!myTable->IsEmpty()) {
+        visitor.VisitNode(*myTable, depth);
+    }
 }
 
 SymbolTable* ITypeSymbol::GetParentTable() const {
@@ -73,13 +75,9 @@ const ITypeSymbol* VariableSymbol::GetType() const {
 }
 
 std::string VariableSymbol::ToString() const {
-    return (myMutability ? "Var " : "Val ") + GetName();
+    return (myMutability ? "Var " : "Val ") + GetName() + " : " + myType->GetName();
 }
 
 bool VariableSymbol::IsMutable() const {
     return myMutability;
-}
-
-void VariableSymbol::AcceptVisitor(INodeVisitor& visitor, int depth) const {
-    visitor.VisitNode(*myType, depth);
 }

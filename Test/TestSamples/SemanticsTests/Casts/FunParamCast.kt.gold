@@ -1,0 +1,61 @@
+@@ Decl Block
+@@ |-Fun Decl                                                  :: test
+@@ | |-Identifier :: test                                      :: test
+@@ | |-Params
+@@ | | |-Parameter                                             :: a
+@@ | | | |-Identifier :: a                                     :: a
+@@ | | | |-Type :: Int                                         :: Int
+@@ | | |-Parameter                                             :: b
+@@ | |   |-Identifier :: b                                     :: b
+@@ | |   |-Type :: String                                      :: String
+@@ | |-Identifier :: a                                         :: a
+@@ |-Fun Decl                                                  :: main
+@@   |-Identifier :: main                                      :: main
+@@   |-Params
+@@   |-Block                                                   :: Int
+@@     |-Val Decl                                              :: a
+@@     | |-Identifier :: a                                     :: a
+@@     | |-Real :: 1.200000                                    :: Double
+@@     |-Val Decl                                              :: b
+@@     | |-Identifier :: b                                     :: b
+@@     | |-Real :: 3.000000                                    :: Double
+@@     |-CallSuffix                                            :: Int
+@@       |-Identifier :: test                                  :: test
+@@       |-Args
+@@         |-CallSuffix                                        :: Int
+@@         | |-MemberAccess :: .                               :: toInt
+@@         | | |-Identifier :: a                               :: a
+@@         | | |-Identifier :: toInt                           :: toInt
+@@         | |-Args
+@@         |-CallSuffix                                        :: String
+@@           |-MemberAccess :: .                               :: toString
+@@           | |-Identifier :: b                               :: b
+@@           | |-Identifier :: toString                        :: toString
+@@           |-Args
+@@ ====
+@@ SymbolTable
+@@ |-Boolean
+@@ | |-SymbolTable
+@@ |   |-Fun toByte() -> Int
+@@ |   |-Fun toString() -> String
+@@ |-Double
+@@ | |-SymbolTable
+@@ |   |-Fun toInt() -> Int
+@@ |   |-Fun toString() -> String
+@@ |-Int
+@@ | |-SymbolTable
+@@ |   |-Fun toDouble() -> Double
+@@ |   |-Fun toString() -> String
+@@ |-String
+@@ |-Fun main() -> Unit
+@@ | |-SymbolTable
+@@ |   |-Val a : Double
+@@ |   |-Val b : Double
+@@ |-Fun println(String) -> Unit
+@@ |-Fun println(Int) -> Unit
+@@ |-Fun println(Double) -> Unit
+@@ |-Fun println() -> Unit
+@@ |-Fun test(Int, String) -> Int
+@@   |-SymbolTable
+@@     |-Val a : Int
+@@     |-Val b : String

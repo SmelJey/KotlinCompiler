@@ -10,4 +10,4 @@
 @@       | |-Integer :: 1
 @@       | |-Integer :: 5
 @@       |-Block
-@@ Error 1:9 :: Expecting 'in'
+@@ Error 2:10 :: Expecting 'in'

@@ -22,28 +22,22 @@
 @@ SymbolTable
 @@ |-Boolean
 @@ | |-SymbolTable
+@@ |   |-Fun toByte() -> Int
+@@ |   |-Fun toString() -> String
 @@ |-Double
 @@ | |-SymbolTable
+@@ |   |-Fun toInt() -> Int
+@@ |   |-Fun toString() -> String
 @@ |-Int
 @@ | |-SymbolTable
+@@ |   |-Fun toDouble() -> Double
+@@ |   |-Fun toString() -> String
 @@ |-String
-@@ | |-SymbolTable
 @@ |-Fun println(String) -> Unit
-@@ | |-SymbolTable
 @@ |-Fun println(Int) -> Unit
-@@ | |-SymbolTable
 @@ |-Fun println(Double) -> Unit
-@@ | |-SymbolTable
 @@ |-Fun println() -> Unit
-@@ | |-SymbolTable
 @@ |-Fun test() -> Int
-@@ | |-SymbolTable
-@@ |-Val x
-@@ | |-Int
-@@ |   |-SymbolTable
-@@ |-Val y
-@@ | |-Int
-@@ |   |-SymbolTable
-@@ |-Val z
-@@   |-Int
-@@     |-SymbolTable
+@@ |-Val x : Int
+@@ |-Val y : Int
+@@ |-Val z : Int

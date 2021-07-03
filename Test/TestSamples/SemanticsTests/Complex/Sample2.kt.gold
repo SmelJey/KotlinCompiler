@@ -1,0 +1,174 @@
+@@ Decl Block
+@@ |-Val Decl                                                  :: n
+@@ | |-Identifier :: n                                         :: n
+@@ | |-Integer :: 5                                            :: Int
+@@ |-Val Decl                                                  :: m
+@@ | |-Identifier :: m                                         :: m
+@@ | |-Integer :: 10                                           :: Int
+@@ |-Class Decl                                                :: Point
+@@ | |-Identifier :: Point                                     :: Point
+@@ | |-Decl Block
+@@ |   |-Var Decl                                              :: x
+@@ |   | |-Identifier :: x                                     :: x
+@@ |   | |-Type :: Double                                      :: Double
+@@ |   | |-Real :: 0.000000                                    :: Double
+@@ |   |-Var Decl                                              :: y
+@@ |     |-Identifier :: y                                     :: y
+@@ |     |-Type :: Double                                      :: Double
+@@ |     |-Real :: 0.000000                                    :: Double
+@@ |-Fun Decl                                                  :: sqr
+@@ | |-Identifier :: sqr                                       :: sqr
+@@ | |-Params
+@@ | | |-Parameter                                             :: x
+@@ | |   |-Identifier :: x                                     :: x
+@@ | |   |-Type :: Double                                      :: Double
+@@ | |-Type :: Double                                          :: Double
+@@ | |-Block                                                   :: Double
+@@ |   |-Return                                                :: Double
+@@ |     |-Bin op :: *                                         :: Double
+@@ |       |-Identifier :: x                                   :: x
+@@ |       |-Identifier :: x                                   :: x
+@@ |-Fun Decl                                                  :: sqrDist
+@@ | |-Identifier :: sqrDist                                   :: sqrDist
+@@ | |-Params
+@@ | | |-Parameter                                             :: p1
+@@ | | | |-Identifier :: p1                                    :: p1
+@@ | | | |-Type :: Point                                       :: Point
+@@ | | |-Parameter                                             :: p2
+@@ | |   |-Identifier :: p2                                    :: p2
+@@ | |   |-Type :: Point                                       :: Point
+@@ | |-Type :: Double                                          :: Double
+@@ | |-Bin op :: +                                             :: Double
+@@ |   |-CallSuffix                                            :: Double
+@@ |   | |-Identifier :: sqr                                   :: sqr
+@@ |   | |-Args
+@@ |   |   |-Bin op :: -                                       :: Double
+@@ |   |     |-MemberAccess :: .                               :: x
+@@ |   |     | |-Identifier :: p2                              :: p2
+@@ |   |     | |-Identifier :: x                               :: x
+@@ |   |     |-MemberAccess :: .                               :: x
+@@ |   |       |-Identifier :: p1                              :: p1
+@@ |   |       |-Identifier :: x                               :: x
+@@ |   |-CallSuffix                                            :: Double
+@@ |     |-Identifier :: sqr                                   :: sqr
+@@ |     |-Args
+@@ |       |-Bin op :: -                                       :: Double
+@@ |         |-MemberAccess :: .                               :: y
+@@ |         | |-Identifier :: p2                              :: p2
+@@ |         | |-Identifier :: y                               :: y
+@@ |         |-MemberAccess :: .                               :: y
+@@ |           |-Identifier :: p1                              :: p1
+@@ |           |-Identifier :: y                               :: y
+@@ |-Fun Decl                                                  :: main
+@@   |-Identifier :: main                                      :: main
+@@   |-Params
+@@   |-Block                                                   :: Unit
+@@     |-CallSuffix                                            :: Unit
+@@     | |-Identifier :: println                               :: println
+@@     | |-Args
+@@     |   |-String :: Hello, world!!!                         :: String
+@@     |-Val Decl                                              :: p2
+@@     | |-Identifier :: p2                                    :: p2
+@@     | |-CallSuffix                                          :: Point
+@@     |   |-Identifier :: Point                               :: Point
+@@     |   |-Args
+@@     |-Assignment :: =                                       :: Unit
+@@     | |-MemberAccess :: .                                   :: x
+@@     | | |-Identifier :: p2                                  :: p2
+@@     | | |-Identifier :: x                                   :: x
+@@     | |-Real :: 0.500000                                    :: Double
+@@     |-Assignment :: =                                       :: Unit
+@@     | |-MemberAccess :: .                                   :: y
+@@     | | |-Identifier :: p2                                  :: p2
+@@     | | |-Identifier :: y                                   :: y
+@@     | |-Real :: 0.500000                                    :: Double
+@@     |-For                                                   :: Unit
+@@       |-Variable                                            :: i
+@@       | |-Identifier :: i                                   :: i
+@@       |-Bin op :: ..                                        :: ClosedRange<Int>
+@@       | |-Integer :: 0                                      :: Int
+@@       | |-Identifier :: n                                   :: n
+@@       |-Block                                               :: Unit
+@@         |-For                                               :: Unit
+@@         | |-Variable                                        :: j
+@@         | | |-Identifier :: j                               :: j
+@@         | |-Bin op :: ..                                    :: ClosedRange<Int>
+@@         | | |-Integer :: 0                                  :: Int
+@@         | | |-Identifier :: m                               :: m
+@@         | |-Block                                           :: Unit
+@@         |   |-Val Decl                                      :: p1
+@@         |   | |-Identifier :: p1                            :: p1
+@@         |   | |-CallSuffix                                  :: Point
+@@         |   |   |-Identifier :: Point                       :: Point
+@@         |   |   |-Args
+@@         |   |-Assignment :: =                               :: Unit
+@@         |   | |-MemberAccess :: .                           :: x
+@@         |   | | |-Identifier :: p1                          :: p1
+@@         |   | | |-Identifier :: x                           :: x
+@@         |   | |-Bin op :: *                                 :: Double
+@@         |   |   |-Bin op :: /                               :: Double
+@@         |   |   | |-Real :: 1.000000                        :: Double
+@@         |   |   | |-Identifier :: n                         :: n
+@@         |   |   |-Identifier :: i                           :: i
+@@         |   |-Assignment :: =                               :: Unit
+@@         |   | |-MemberAccess :: .                           :: y
+@@         |   | | |-Identifier :: p2                          :: p2
+@@         |   | | |-Identifier :: y                           :: y
+@@         |   | |-Bin op :: *                                 :: Double
+@@         |   |   |-Bin op :: /                               :: Double
+@@         |   |   | |-Real :: 1.000000                        :: Double
+@@         |   |   | |-Identifier :: m                         :: m
+@@         |   |   |-Identifier :: j                           :: j
+@@         |   |-CallSuffix                                    :: Unit
+@@         |     |-Identifier :: println                       :: println
+@@         |     |-Args
+@@         |       |-CallSuffix                                :: Double
+@@         |         |-Identifier :: sqrDist                   :: sqrDist
+@@         |         |-Args
+@@         |           |-Identifier :: p1                      :: p1
+@@         |           |-Identifier :: p2                      :: p2
+@@         |-CallSuffix                                        :: Unit
+@@           |-Identifier :: println                           :: println
+@@           |-Args
+@@ ====
+@@ SymbolTable
+@@ |-Boolean
+@@ | |-SymbolTable
+@@ |   |-Fun toByte() -> Int
+@@ |   |-Fun toString() -> String
+@@ |-ClosedRange<Int>
+@@ |-Double
+@@ | |-SymbolTable
+@@ |   |-Fun toInt() -> Int
+@@ |   |-Fun toString() -> String
+@@ |-Int
+@@ | |-SymbolTable
+@@ |   |-Fun toDouble() -> Double
+@@ |   |-Fun toString() -> String
+@@ |-Class Point
+@@ | |-SymbolTable
+@@ |   |-Var x : Double
+@@ |   |-Var y : Double
+@@ |-Fun Point() -> Point
+@@ |-String
+@@ |-Val m : Int
+@@ |-Fun main() -> Unit
+@@ | |-SymbolTable
+@@ |   |-Val p2 : Point
+@@ |   |-SymbolTable
+@@ |     |-Val i : Int
+@@ |     |-SymbolTable
+@@ |       |-Val j : Int
+@@ |       |-Val p1 : Point
+@@ |-Val n : Int
+@@ |-Fun println(String) -> Unit
+@@ |-Fun println(Int) -> Unit
+@@ |-Fun println(Double) -> Unit
+@@ |-Fun println() -> Unit
+@@ |-Fun sqr(Double) -> Double
+@@ | |-SymbolTable
+@@ |   |-Val x : Double
+@@ |-Fun sqrDist(Point, Point) -> Double
+@@   |-SymbolTable
+@@     |-Val p1 : Point
+@@     |-Val p2 : Point
