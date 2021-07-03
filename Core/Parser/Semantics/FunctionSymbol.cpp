@@ -3,8 +3,8 @@
 #include "../INodeVisitor.h"
 
 FunctionSymbol::FunctionSymbol(const std::string& name, const ITypeSymbol* returnType,
-                               const std::vector<const ITypeSymbol*>& params, Pointer<SymbolTable> table)
-        : myName(name), myReturnType(returnType), myParameters(params), myTable(std::move(table)) {}
+    const std::vector<const ITypeSymbol*>& params, Pointer<SymbolTable> table, const AbstractDeclaration* decl)
+    : myName(name), myReturnType(returnType), myParameters(params), myTable(std::move(table)), myDeclaration(decl) {}
 
 std::string FunctionSymbol::GetName() const {
     return myName;
@@ -28,6 +28,10 @@ bool FunctionSymbol::CheckArgument(const ITypeSymbol& type, int idx) {
     }
 
     return type == *myParameters[idx];
+}
+
+const AbstractDeclaration* FunctionSymbol::GetDeclaration() const {
+    return myDeclaration;
 }
 
 bool FunctionSymbol::operator<(const ISymbol& rhs) const {

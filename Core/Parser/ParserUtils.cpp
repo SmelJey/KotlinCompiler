@@ -56,7 +56,8 @@ const ISymbol* ParserUtils::GetArrayBuilder(const ITypeSymbol* innerType, std::v
         }
     }
 
-    Pointer<FunctionSymbol> arrayInitFunc = std::make_unique<FunctionSymbol>("arrayOf", arr, argsTypes, std::make_unique<SymbolTable>(symTable));
+    Pointer<FunctionSymbol> arrayInitFunc = std::make_unique<FunctionSymbol>("arrayOf", arr, argsTypes,
+        std::make_unique<SymbolTable>(symTable), nullptr);
     symTable->Add(std::move(arrayInitFunc));
     return symTable->GetFunction("arrayOf", argsTypes);
 }

@@ -86,7 +86,7 @@ Pointer<ClassDeclaration> Parser::ParseClass() {
         AddSemanticsError(classDecl->GetIdentifier().GetLexeme(), "Conflicting declarations: " + classDecl->GetIdentifierName());
     } else {
         Pointer<FunctionSymbol> constructor = std::make_unique<FunctionSymbol>(classDecl->GetIdentifierName(),
-            dynamic_cast<const ClassSymbol*>(sym), std::vector<const ITypeSymbol*>(), std::make_unique<SymbolTable>(myTable));
+            dynamic_cast<const ClassSymbol*>(sym), std::vector<const ITypeSymbol*>(), std::make_unique<SymbolTable>(myTable), classDecl.get());
         myTable->Add(std::move(constructor));
     }
 
@@ -132,7 +132,7 @@ Pointer<FunctionDeclaration> Parser::ParseFunction() {
     }
 
     Pointer<FunctionSymbol> funcSym = std::make_unique<FunctionSymbol>(functionDecl->GetIdentifierName(), myReturn,
-        paramsTypes, tableFrame.Dispose());
+        paramsTypes, tableFrame.Dispose(), functionDecl.get());
 
     myReturn = lastReturn;
 

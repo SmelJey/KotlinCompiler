@@ -10,7 +10,7 @@ void FundamentalType::Init() {}
 
 void FundamentalType::CreateCast(const std::string& castName, const ITypeSymbol* resultType) {
     GetTable()->Add(std::make_unique<FunctionSymbol>(
-        castName, resultType, std::vector<const ITypeSymbol*>(), std::make_unique<SymbolTable>(GetTable())));
+        castName, resultType, std::vector<const ITypeSymbol*>(), std::make_unique<SymbolTable>(GetTable()), nullptr));
 }
 
 UnresolvedSymbol::UnresolvedSymbol(SymbolTable* parentTable) : FundamentalType("Unresolved type", parentTable) {}

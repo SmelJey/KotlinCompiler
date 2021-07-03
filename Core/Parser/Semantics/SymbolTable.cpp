@@ -21,12 +21,12 @@ SymbolTable::SymbolTable(SymbolTable* parent) : myParentTable(parent) {
         doubleSym->Init();
 
         std::vector<const ITypeSymbol*> stringParams { stringSym };
-        Add(std::make_unique<FunctionSymbol>("println", myUnitSymbol.get(), stringParams, std::make_unique<SymbolTable>(this)));
+        Add(std::make_unique<FunctionSymbol>("println", myUnitSymbol.get(), stringParams, std::make_unique<SymbolTable>(this), nullptr));
         std::vector<const ITypeSymbol*> intParams{ intSym };
-        Add(std::make_unique<FunctionSymbol>("println", myUnitSymbol.get(), intParams, std::make_unique<SymbolTable>(this)));
+        Add(std::make_unique<FunctionSymbol>("println", myUnitSymbol.get(), intParams, std::make_unique<SymbolTable>(this), nullptr));
         std::vector<const ITypeSymbol*> doubleParams{ doubleSym };
-        Add(std::make_unique<FunctionSymbol>("println", myUnitSymbol.get(), doubleParams, std::make_unique<SymbolTable>(this)));
-        Add(std::make_unique<FunctionSymbol>("println", myUnitSymbol.get(), std::vector<const ITypeSymbol*>(), std::make_unique<SymbolTable>(this)));
+        Add(std::make_unique<FunctionSymbol>("println", myUnitSymbol.get(), doubleParams, std::make_unique<SymbolTable>(this), nullptr));
+        Add(std::make_unique<FunctionSymbol>("println", myUnitSymbol.get(), std::vector<const ITypeSymbol*>(), std::make_unique<SymbolTable>(this), nullptr));
     }
 }
 
