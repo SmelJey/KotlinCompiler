@@ -12,12 +12,12 @@ public:
 
     const ISymbol* GetSymbol() const override;
     void SetSymbol(const ISymbol* symbol);
-    const ITypeSymbol* GetType() const override;
+    const AbstractType* GetType() const override;
 
     Lexeme GetLexeme() const override;
 
 protected:
-    void AcceptVisitor(INodeVisitor& visitor, int depth) const override;
+    void AcceptVisitor(INodeVisitor& visitor) const override;
 
     const ISymbol* mySymbol = nullptr;
     const UnitTypeSymbol* myUnitSym;
@@ -33,9 +33,11 @@ public:
     const std::vector<Pointer<AbstractDeclaration>>& GetDeclarations() const;
 
     void AddDeclaration(Pointer<AbstractDeclaration> declaration);
+
+    void RunVisitor(INodeVisitor& visitor) const override;
 protected:
     std::string GetName() const override;
-    void AcceptVisitor(INodeVisitor& visitor, int depth) const override;
+    void AcceptVisitor(INodeVisitor& visitor) const override;
 
 private:
     std::vector<Pointer<AbstractDeclaration>> myDeclarations;
@@ -49,9 +51,10 @@ public:
     void SetBody(Pointer<DeclarationBlock> body);
     bool HasBody() const;
 
+    void RunVisitor(INodeVisitor& visitor) const override;
 protected:
     std::string GetName() const override;
-    void AcceptVisitor(INodeVisitor& visitor, int depth) const override;
+    void AcceptVisitor(INodeVisitor& visitor) const override;
 
 private:
     Pointer<DeclarationBlock> myClassBody;
@@ -67,11 +70,13 @@ public:
     void SetDefault(Pointer<IAnnotatedNode> defaultNode);
     bool HasDefault() const;
 
-    const ITypeSymbol* GetType() const override;
+    const AbstractType* GetType() const override;
+
+    void RunVisitor(INodeVisitor& visitor) const override;
 
 protected:
     std::string GetName() const override;
-    void AcceptVisitor(INodeVisitor& visitor, int depth) const override;
+    void AcceptVisitor(INodeVisitor& visitor) const override;
 
 private:
     Pointer<IAnnotatedNode> myType;
@@ -86,9 +91,10 @@ public:
     void SetTypeNode(Pointer<IAnnotatedNode> typeNode);
     bool HasTypeNode() const;
 
+    void RunVisitor(INodeVisitor& visitor) const override;
 protected:
     std::string GetName() const override;
-    void AcceptVisitor(INodeVisitor & visitor, int depth) const override;
+    void AcceptVisitor(INodeVisitor & visitor) const override;
 
 private:
     Pointer<IAnnotatedNode> myType;
@@ -100,9 +106,11 @@ public:
 
     const std::vector<Pointer<ParameterNode>>& GetParameters() const;
     void AddParameter(Pointer<ParameterNode> param);
+
+    void RunVisitor(INodeVisitor& visitor) const override;
 protected:
     std::string GetName() const override;
-    void AcceptVisitor(INodeVisitor& visitor, int depth) const override;
+    void AcceptVisitor(INodeVisitor& visitor) const override;
 
 private:
     std::vector<Pointer<ParameterNode>> myParameters;
@@ -119,10 +127,12 @@ public:
     const IAnnotatedNode& GetReturn() const;
     void SetReturn(Pointer<IAnnotatedNode> returnNode);
     bool HasReturnNode() const;
+
+    void RunVisitor(INodeVisitor& visitor) const override;
 protected:
     std::string GetName() const override;
 
-    void AcceptVisitor(INodeVisitor& visitor, int depth) const override;
+    void AcceptVisitor(INodeVisitor& visitor) const override;
 
 private:
     Pointer<ParameterList> myParams;
@@ -145,9 +155,10 @@ public:
     void SetInitialization(Pointer<IAnnotatedNode> initNode);
     bool HasInitialization() const;
 
+    void RunVisitor(INodeVisitor& visitor) const override;
 protected:
     std::string GetName() const override;
-    void AcceptVisitor(INodeVisitor& visitor, int depth) const override;
+    void AcceptVisitor(INodeVisitor& visitor) const override;
 
 private:
     Pointer<IAnnotatedNode> myType;

@@ -10,8 +10,8 @@ public:
     friend class INodeVisitor;
 
     virtual std::string ToString() const = 0;
-    void RunVisitor(INodeVisitor& visitor) const;
+    virtual void RunVisitor(INodeVisitor& visitor) const;
 
 protected:
-    virtual void AcceptVisitor(INodeVisitor& visitor, int depth) const;
+    virtual void AcceptVisitor(INodeVisitor& visitor) const;
 };

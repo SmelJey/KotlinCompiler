@@ -3,88 +3,71 @@
 #include "ISyntaxNode.h"
 
 INodeVisitor::~INodeVisitor() = default;
-
-void INodeVisitor::VisitNode(const IVisitable & node, int depth) {
-    EnterNode(node, depth);
-    node.AcceptVisitor(*this, depth + 1);
-    ExitNode(node, depth);
+void INodeVisitor::EnterNode(const IVisitable& node) {
+    node.AcceptVisitor(*this);
 }
 
-ToStringVisitor::ToStringVisitor() = default;
+void INodeVisitor::EnterNode(const IdentifierNode& node) {}
+void INodeVisitor::EnterNode(const IntegerNode& node) {}
+void INodeVisitor::EnterNode(const DoubleNode& node) {}
+void INodeVisitor::EnterNode(const BooleanNode& node) {}
+void INodeVisitor::EnterNode(const StringNode& node) {}
+void INodeVisitor::EnterNode(const TypeNode& node) {}
+void INodeVisitor::EnterNode(const BreakNode& node) {}
+void INodeVisitor::EnterNode(const ContinueNode& node) {}
+void INodeVisitor::EnterNode(const ReturnNode& node) {}
+void INodeVisitor::EnterNode(const EmptyStatement& node) {}
+void INodeVisitor::EnterNode(const Assignment& node) {}
+void INodeVisitor::EnterNode(const WhileNode& node) {}
+void INodeVisitor::EnterNode(const DoWhileNode& node) {}
+void INodeVisitor::EnterNode(const ForNode& node) {}
+void INodeVisitor::EnterNode(const BinOperationNode& node) {}
+void INodeVisitor::EnterNode(const UnaryPrefixOperationNode& node) {}
+void INodeVisitor::EnterNode(const UnaryPostfixOperationNode& node) {}
+void INodeVisitor::EnterNode(const CallArgumentsNode& node) {}
+void INodeVisitor::EnterNode(const TypeArgumentsNode& node) {}
+void INodeVisitor::EnterNode(const IndexSuffixNode& node) {}
+void INodeVisitor::EnterNode(const CallSuffixNode& node) {}
+void INodeVisitor::EnterNode(const MemberAccessNode& node) {}
+void INodeVisitor::EnterNode(const IfExpression& node) {}
+void INodeVisitor::EnterNode(const BlockNode& node) {}
+void INodeVisitor::EnterNode(const DeclarationBlock& node) {}
+void INodeVisitor::EnterNode(const ClassDeclaration& node) {}
+void INodeVisitor::EnterNode(const ParameterNode& node) {}
+void INodeVisitor::EnterNode(const VariableNode& node) {}
+void INodeVisitor::EnterNode(const ParameterList& node) {}
+void INodeVisitor::EnterNode(const FunctionDeclaration& node) {}
+void INodeVisitor::EnterNode(const PropertyDeclaration& node) {}
 
-std::vector<std::string> ToStringVisitor::GetStringData() const {
-    return myStringData;
-}
-
-void ToStringVisitor::EnterNode(const IVisitable& node, int depth) {
-    std::string indent;
-    for (int d = 0; d < depth; d++) {
-        indent += "| ";
-    }
-
-    myStringData.push_back(indent + node.ToString());
-}
-
-void ToStringVisitor::ExitNode(const IVisitable& node, int depth) {}
-
-CuteToStringVisitor::CuteToStringVisitor() = default;
-
-std::vector<std::string> CuteToStringVisitor::GetStringData() const {
-    return myStringData;
-}
-
-void CuteToStringVisitor::ShowSemanticsAnnotations() {
-    myShowSemantics = true;
-}
-
-void CuteToStringVisitor::EnterNode(const IVisitable& node, int depth) {
-    myStack.push(std::vector<std::string>());
-}
-
-void CuteToStringVisitor::ExitNode(const IVisitable& node, int depth) {
-    auto myVec = myStack.top();
-    myStack.pop();
-    std::vector<std::string>* topVec;
-    if (depth != 0) {
-        topVec = &myStack.top();
-    } else {
-        topVec = &myStringData;
-    }
-
-    std::string res = node.ToString();
-    if (myShowSemantics) {
-        const IAnnotatedNode* typeSym = dynamic_cast<const IAnnotatedNode*>(&node);
-
-        int spacingRequired = 60 - depth * 2 - res.size();
-        std::string spacing = "";
-        for (int i = 0; i < spacingRequired; i++) {
-            spacing += " ";
-        }
-        if (typeSym != nullptr) {
-            res.append(spacing + ":: " + typeSym->GetSymbol()->GetName());
-        }
-    }
-
-    topVec->push_back(res);
-
-    int lastChild = 0;
-    for (int i = 0; i < myVec.size(); i++) {
-        std::string str = myVec[i];
-        if (str[0] != LINK_CHAR && str[0] != ' ' && str[0] != CHILD_CHAR) {
-            lastChild = i;
-        }
-    }
-
-    for (int i = 0; i < myVec.size(); i++) {
-        std::string str = myVec[i];
-        if (i <= lastChild) {
-            if (str[0] == LINK_CHAR || str[0] == ' ' || str[0] == CHILD_CHAR) {
-                topVec->push_back(std::string{ LINK_CHAR } + " " + str);
-            } else {
-                topVec->push_back(std::string{ CHILD_CHAR } + "-" + str);
-            }
-        } else {
-            topVec->push_back("  " + str);
-        }
-    }
-}
+void INodeVisitor::ExitNode(const IVisitable& node) {}
+void INodeVisitor::ExitNode(const IdentifierNode& node) {}
+void INodeVisitor::ExitNode(const IntegerNode& node) {}
+void INodeVisitor::ExitNode(const DoubleNode& node) {}
+void INodeVisitor::ExitNode(const BooleanNode& node) {}
+void INodeVisitor::ExitNode(const StringNode& node) {}
+void INodeVisitor::ExitNode(const TypeNode& node) {}
+void INodeVisitor::ExitNode(const BreakNode& node) {}
+void INodeVisitor::ExitNode(const ContinueNode& node) {}
+void INodeVisitor::ExitNode(const ReturnNode& node) {}
+void INodeVisitor::ExitNode(const EmptyStatement& node) {}
+void INodeVisitor::ExitNode(const Assignment& node) {}
+void INodeVisitor::ExitNode(const WhileNode& node) {}
+void INodeVisitor::ExitNode(const DoWhileNode& node) {}
+void INodeVisitor::ExitNode(const ForNode& node) {}
+void INodeVisitor::ExitNode(const BinOperationNode& node) {}
+void INodeVisitor::ExitNode(const UnaryPrefixOperationNode& node) {}
+void INodeVisitor::ExitNode(const UnaryPostfixOperationNode& node) {}
+void INodeVisitor::ExitNode(const CallArgumentsNode& node) {}
+void INodeVisitor::ExitNode(const TypeArgumentsNode& node) {}
+void INodeVisitor::ExitNode(const IndexSuffixNode& node) {}
+void INodeVisitor::ExitNode(const CallSuffixNode& node) {}
+void INodeVisitor::ExitNode(const MemberAccessNode& node) {}
+void INodeVisitor::ExitNode(const IfExpression& node) {}
+void INodeVisitor::ExitNode(const BlockNode& node) {}
+void INodeVisitor::ExitNode(const DeclarationBlock& node) {}
+void INodeVisitor::ExitNode(const ClassDeclaration& node) {}
+void INodeVisitor::ExitNode(const ParameterNode& node) {}
+void INodeVisitor::ExitNode(const VariableNode& node) {}
+void INodeVisitor::ExitNode(const ParameterList& node) {}
+void INodeVisitor::ExitNode(const FunctionDeclaration& node) {}
+void INodeVisitor::ExitNode(const PropertyDeclaration& node) {}

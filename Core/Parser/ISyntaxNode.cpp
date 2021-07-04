@@ -12,7 +12,7 @@ Lexeme AbstractNode::GetLexeme() const {
     return myLexeme;
 }
 
-const ITypeSymbol* IAnnotatedNode::GetType() const {
+const AbstractType* IAnnotatedNode::GetType() const {
     return nullptr;
 }
 

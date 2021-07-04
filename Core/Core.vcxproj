@@ -168,7 +168,7 @@
     <ClInclude Include="Parser\INodeVisitor.h" />
     <ClInclude Include="Parser\ParserError.h" />
     <ClInclude Include="Parser\ParserUtils.h" />
-    <ClInclude Include="Parser\Semantics\BuiltInTypes.h" />
+    <ClInclude Include="Parser\Semantics\FundamentalType.h" />
     <ClInclude Include="Parser\Semantics\ClassSymbol.h" />
     <ClInclude Include="Parser\Semantics\FunctionSymbol.h" />
     <ClInclude Include="Parser\Semantics\Symbols.h" />
@@ -179,6 +179,7 @@
     <ClInclude Include="Parser\ISyntaxNode.h" />
     <ClInclude Include="Parser\StatementNodes.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="PrintVisitors.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Lexer\Lexeme.cpp" />
@@ -192,7 +193,7 @@
     <ClCompile Include="Parser\ISyntaxNode.cpp" />
     <ClCompile Include="Parser\ParserError.cpp" />
     <ClCompile Include="Parser\ParserUtils.cpp" />
-    <ClCompile Include="Parser\Semantics\BuiltInTypes.cpp" />
+    <ClCompile Include="Parser\Semantics\FundamentalType.cpp" />
     <ClCompile Include="Parser\Semantics\ClassSymbol.cpp" />
     <ClCompile Include="Parser\Semantics\FunctionSymbol.cpp" />
     <ClCompile Include="Parser\Semantics\Symbols.cpp" />
@@ -206,6 +207,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="PrintVisitors.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

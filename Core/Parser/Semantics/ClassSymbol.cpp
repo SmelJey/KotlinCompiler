@@ -1,14 +1,14 @@
 #include "ClassSymbol.h"
 
-#include "BuiltInTypes.h"
+#include "FundamentalType.h"
 
-ClassSymbol::ClassSymbol(const std::string& name, Pointer<SymbolTable> table) : ITypeSymbol(name, std::move(table)) {}
+ClassSymbol::ClassSymbol(const std::string& name, Pointer<SymbolTable> table) : AbstractType(name, std::move(table)) {}
 
-Pointer<ITypeSymbol> ClassSymbol::IsApplicable(LexemeType operation) const {
+Pointer<AbstractType> ClassSymbol::IsApplicable(LexemeType operation) const {
     return std::make_unique<UnresolvedSymbol>(GetParentTable());
 }
 
-Pointer<ITypeSymbol> ClassSymbol::IsApplicable(LexemeType binaryOperation, const ITypeSymbol* rightOperand) const {
+Pointer<AbstractType> ClassSymbol::IsApplicable(LexemeType binaryOperation, const AbstractType* rightOperand) const {
     if (*this == *rightOperand && LexerUtils::IsEqualityOperation(binaryOperation)) {
         return std::make_unique<BooleanSymbol>(GetParentTable());
     }

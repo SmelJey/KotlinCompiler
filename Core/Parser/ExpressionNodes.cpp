@@ -6,7 +6,7 @@
 #include "Semantics/FunctionSymbol.h"
 
 BinOperationNode::BinOperationNode(const Lexeme& operation, Pointer<IAnnotatedNode> left,
-                                   Pointer<IAnnotatedNode> right, const ITypeSymbol* type)
+                                   Pointer<IAnnotatedNode> right, const AbstractType* type)
     : AbstractNode(operation), myLeftOperand(std::move(left)), myRightOperand(std::move(right)), myType(type) {}
 
 const IAnnotatedNode& BinOperationNode::GetLeftOperand() const {
@@ -25,20 +25,26 @@ const ISymbol* BinOperationNode::GetSymbol() const {
     return myType;
 }
 
-const ITypeSymbol* BinOperationNode::GetType() const {
+const AbstractType* BinOperationNode::GetType() const {
     return myType;
+}
+
+void BinOperationNode::RunVisitor(INodeVisitor& visitor) const {
+    IVisitable::RunVisitor(visitor);
+    visitor.EnterNode(*this);
+    visitor.ExitNode(*this);
 }
 
 std::string BinOperationNode::GetName() const {
     return "Bin op :: " + GetOperation();
 }
 
-void BinOperationNode::AcceptVisitor(INodeVisitor& visitor, int depth) const {
-    visitor.VisitNode(GetLeftOperand(), depth);
-    visitor.VisitNode(GetRightOperand(), depth);
+void BinOperationNode::AcceptVisitor(INodeVisitor& visitor) const {
+    GetLeftOperand().RunVisitor(visitor);
+    GetRightOperand().RunVisitor(visitor);
 }
 
-AbstractUnaryOperationNode::AbstractUnaryOperationNode(const Lexeme& operation, Pointer<IAnnotatedNode> operand, const ITypeSymbol* type)
+AbstractUnaryOperationNode::AbstractUnaryOperationNode(const Lexeme& operation, Pointer<IAnnotatedNode> operand, const AbstractType* type)
     : AbstractNode(operation), myOperand(std::move(operand)), myType(type) {}
 
 const IAnnotatedNode& AbstractUnaryOperationNode::GetOperand() const {
@@ -53,23 +59,35 @@ const ISymbol* AbstractUnaryOperationNode::GetSymbol() const {
     return myType;
 }
 
-const ITypeSymbol* AbstractUnaryOperationNode::GetType() const {
+const AbstractType* AbstractUnaryOperationNode::GetType() const {
     return myType;
 }
 
-void AbstractUnaryOperationNode::AcceptVisitor(INodeVisitor& visitor, int depth) const {
-    visitor.VisitNode(*myOperand, depth);
+void AbstractUnaryOperationNode::AcceptVisitor(INodeVisitor& visitor) const {
+    myOperand->RunVisitor(visitor);
 }
 
-UnaryPrefixOperationNode::UnaryPrefixOperationNode(const Lexeme& operation, Pointer<IAnnotatedNode> operand, const ITypeSymbol* type)
+UnaryPrefixOperationNode::UnaryPrefixOperationNode(const Lexeme& operation, Pointer<IAnnotatedNode> operand, const AbstractType* type)
     : AbstractUnaryOperationNode(operation, std::move(operand), type) {}
+
+void UnaryPrefixOperationNode::RunVisitor(INodeVisitor& visitor) const {
+    IVisitable::RunVisitor(visitor);
+    visitor.EnterNode(*this);
+    visitor.ExitNode(*this);
+}
 
 std::string UnaryPrefixOperationNode::GetName() const {
     return "Prefix Op :: " + GetOperation();
 }
 
-UnaryPostfixOperationNode::UnaryPostfixOperationNode(const Lexeme& operation, Pointer<IAnnotatedNode> operand, const ITypeSymbol* type)
+UnaryPostfixOperationNode::UnaryPostfixOperationNode(const Lexeme& operation, Pointer<IAnnotatedNode> operand, const AbstractType* type)
     : AbstractUnaryOperationNode(operation, std::move(operand), type) {}
+
+void UnaryPostfixOperationNode::RunVisitor(INodeVisitor& visitor) const {
+    IVisitable::RunVisitor(visitor);
+    visitor.EnterNode(*this);
+    visitor.ExitNode(*this);
+}
 
 std::string UnaryPostfixOperationNode::GetName() const {
     return "Postfix Op :: " + GetOperation();
@@ -87,8 +105,8 @@ void CallArgumentsNode::AddArgument(Pointer<IAnnotatedNode> argument) {
     myArguments.push_back(std::move(argument));
 }
 
-const std::vector<const ITypeSymbol*> CallArgumentsNode::GetTypes() const {
-    std::vector<const ITypeSymbol*> types;
+const std::vector<const AbstractType*> CallArgumentsNode::GetTypes() const {
+    std::vector<const AbstractType*> types;
     for (auto& arg : myArguments) {
         types.push_back(arg->GetType());
     }
@@ -96,13 +114,19 @@ const std::vector<const ITypeSymbol*> CallArgumentsNode::GetTypes() const {
     return types;
 }
 
+void CallArgumentsNode::RunVisitor(INodeVisitor& visitor) const {
+    IVisitable::RunVisitor(visitor);
+    visitor.EnterNode(*this);
+    visitor.ExitNode(*this);
+}
+
 std::string CallArgumentsNode::GetName() const {
     return "Args";
 }
 
-void CallArgumentsNode::AcceptVisitor(INodeVisitor& visitor, int depth) const {
+void CallArgumentsNode::AcceptVisitor(INodeVisitor& visitor) const {
     for (auto& arg : myArguments) {
-        visitor.VisitNode(*arg, depth);
+        arg->RunVisitor(visitor);
     }
 }
 
@@ -116,8 +140,8 @@ void TypeArgumentsNode::AddArgument(Pointer<TypeNode> argument) {
     myArguments.push_back(std::move(argument));
 }
 
-const std::vector<const ITypeSymbol*> TypeArgumentsNode::GetTypes() const {
-    std::vector<const ITypeSymbol*> types;
+const std::vector<const AbstractType*> TypeArgumentsNode::GetTypes() const {
+    std::vector<const AbstractType*> types;
     for (auto& arg : myArguments) {
         types.push_back(arg->GetType());
     }
@@ -125,54 +149,66 @@ const std::vector<const ITypeSymbol*> TypeArgumentsNode::GetTypes() const {
     return types;
 }
 
+void TypeArgumentsNode::RunVisitor(INodeVisitor& visitor) const {
+    IVisitable::RunVisitor(visitor);
+    visitor.EnterNode(*this);
+    visitor.ExitNode(*this);
+}
+
 std::string TypeArgumentsNode::GetName() const {
     return "TypeArgs";
 }
 
-void TypeArgumentsNode::AcceptVisitor(INodeVisitor& visitor, int depth) const {
+void TypeArgumentsNode::AcceptVisitor(INodeVisitor& visitor) const {
     for (auto& arg : myArguments) {
-        visitor.VisitNode(*arg, depth);
+        arg->RunVisitor(visitor);
     }
 }
 
-PostfixCallNode::PostfixCallNode(Pointer<IAnnotatedNode> expression, Pointer<CallArgumentsNode> arguments, const ITypeSymbol* type)
+AbstractPostfixCallNode::AbstractPostfixCallNode(Pointer<IAnnotatedNode> expression, Pointer<CallArgumentsNode> arguments, const AbstractType* type)
     : AbstractUnaryPostfixNode(expression->GetLexeme().CopyEmptyOfType(LexemeType::Ignored)), myExpression(std::move(expression)),
         myArgumentsNode(std::move(arguments)), myType(type) {}
 
-const CallArgumentsNode& PostfixCallNode::GetArguments() const {
+const CallArgumentsNode& AbstractPostfixCallNode::GetArguments() const {
     return *myArgumentsNode;
 }
 
-const IAnnotatedNode* PostfixCallNode::GetExpression() const {
+const IAnnotatedNode* AbstractPostfixCallNode::GetExpression() const {
     return myExpression.get();
 }
 
-const ISymbol* PostfixCallNode::GetSymbol() const {
+const ISymbol* AbstractPostfixCallNode::GetSymbol() const {
     return myType;
 }
 
-const ITypeSymbol* PostfixCallNode::GetType() const {
+const AbstractType* AbstractPostfixCallNode::GetType() const {
     return myType;
 }
 
-void PostfixCallNode::AcceptVisitor(INodeVisitor& visitor, int depth) const {
-    visitor.VisitNode(*myExpression, depth);
-    visitor.VisitNode(*myArgumentsNode, depth);
+void AbstractPostfixCallNode::AcceptVisitor(INodeVisitor& visitor) const {
+    myExpression->RunVisitor(visitor);
+    myArgumentsNode->RunVisitor(visitor);
 }
 
-IndexSuffixNode::IndexSuffixNode(Pointer<IAnnotatedNode> expression, Pointer<CallArgumentsNode> arguments, const ITypeSymbol* type)
-    : PostfixCallNode(std::move(expression), std::move(arguments), type) {}
+IndexSuffixNode::IndexSuffixNode(Pointer<IAnnotatedNode> expression, Pointer<CallArgumentsNode> arguments, const AbstractType* type)
+    : AbstractPostfixCallNode(std::move(expression), std::move(arguments), type) {}
 
 bool IndexSuffixNode::IsAssignable() const {
     return true;
+}
+
+void IndexSuffixNode::RunVisitor(INodeVisitor& visitor) const {
+    IVisitable::RunVisitor(visitor);
+    visitor.EnterNode(*this);
+    visitor.ExitNode(*this);
 }
 
 std::string IndexSuffixNode::GetName() const {
     return "IndexSuffix";
 }
 
-CallSuffixNode::CallSuffixNode(Pointer<IAnnotatedNode> expression, Pointer<CallArgumentsNode> arguments, const ITypeSymbol* type)
-    : PostfixCallNode(std::move(expression), std::move(arguments), type) {}
+CallSuffixNode::CallSuffixNode(Pointer<IAnnotatedNode> expression, Pointer<CallArgumentsNode> arguments, const AbstractType* type)
+    : AbstractPostfixCallNode(std::move(expression), std::move(arguments), type) {}
 
 const TypeArgumentsNode& CallSuffixNode::GetTypeArguments() const {
     return *myTypeArguments;
@@ -186,10 +222,16 @@ bool CallSuffixNode::HasTypeArguments() const {
     return myTypeArguments != nullptr;
 }
 
-void CallSuffixNode::AcceptVisitor(INodeVisitor& visitor, int depth) const {
-    PostfixCallNode::AcceptVisitor(visitor, depth);
+void CallSuffixNode::RunVisitor(INodeVisitor& visitor) const {
+    IVisitable::RunVisitor(visitor);
+    visitor.EnterNode(*this);
+    visitor.ExitNode(*this);
+}
+
+void CallSuffixNode::AcceptVisitor(INodeVisitor& visitor) const {
+    AbstractPostfixCallNode::AcceptVisitor(visitor);
     if (HasTypeArguments()) {
-        visitor.VisitNode(*myTypeArguments, depth);
+        myTypeArguments->RunVisitor(visitor);
     }
 }
 
@@ -216,7 +258,7 @@ const ISymbol* MemberAccessNode::GetSymbol() const {
     return GetMember()->GetSymbol();
 }
 
-const ITypeSymbol* MemberAccessNode::GetType() const {
+const AbstractType* MemberAccessNode::GetType() const {
     auto varSym = dynamic_cast<const VariableSymbol*>(GetSymbol());
     if (varSym != nullptr) {
         return varSym->GetType();
@@ -238,13 +280,19 @@ bool MemberAccessNode::IsAssignable() const {
     return varSym->IsMutable();
 }
 
+void MemberAccessNode::RunVisitor(INodeVisitor& visitor) const {
+    IVisitable::RunVisitor(visitor);
+    visitor.EnterNode(*this);
+    visitor.ExitNode(*this);
+}
+
 std::string MemberAccessNode::GetName() const {
     return "MemberAccess :: " + GetOperation();
 }
 
-void MemberAccessNode::AcceptVisitor(INodeVisitor& visitor, int depth) const {
-    visitor.VisitNode(*myExpression, depth);
-    visitor.VisitNode(*myMemberNode, depth);
+void MemberAccessNode::AcceptVisitor(INodeVisitor& visitor) const {
+    myExpression->RunVisitor(visitor);
+    myMemberNode->RunVisitor(visitor);
 }
 
 IfExpression::IfExpression(const Lexeme& lexeme, const UnitTypeSymbol* type, Pointer<IAnnotatedNode> expression, Pointer<IAnnotatedNode> ifBody, Pointer<IAnnotatedNode> elseBody)
@@ -266,7 +314,7 @@ const ISymbol* IfExpression::GetSymbol() const {
     return GetType();
 }
 
-const ITypeSymbol* IfExpression::GetType() const {
+const AbstractType* IfExpression::GetType() const {
     if (*myIfBody->GetType() == *myElseBody->GetType()) {
         return myIfBody->GetType();
     }
@@ -274,14 +322,20 @@ const ITypeSymbol* IfExpression::GetType() const {
     return UnitTypedNode::GetType();
 }
 
+void IfExpression::RunVisitor(INodeVisitor& visitor) const {
+    IVisitable::RunVisitor(visitor);
+    visitor.EnterNode(*this);
+    visitor.ExitNode(*this);
+}
+
 std::string IfExpression::GetName() const {
     return "If Expr";
 }
 
-void IfExpression::AcceptVisitor(INodeVisitor& visitor, int depth) const {
-    visitor.VisitNode(*myExpression, depth);
-    visitor.VisitNode(*myIfBody, depth);
-    visitor.VisitNode(*myElseBody, depth);
+void IfExpression::AcceptVisitor(INodeVisitor& visitor) const {
+    myExpression->RunVisitor(visitor);
+    myIfBody->RunVisitor(visitor);
+    myElseBody->RunVisitor(visitor);
 }
 
 BlockNode::BlockNode(const Lexeme& lexeme, const UnitTypeSymbol* type) : AbstractNode(lexeme), myReturn(type) {}
@@ -299,20 +353,26 @@ const ISymbol* BlockNode::GetSymbol() const {
     return myReturn;
 }
 
-const ITypeSymbol* BlockNode::GetType() const {
+const AbstractType* BlockNode::GetType() const {
     return myReturn;
 }
 
-void BlockNode::SetSymbol(const ITypeSymbol* returnSym) {
+void BlockNode::SetSymbol(const AbstractType* returnSym) {
     myReturn = returnSym;
+}
+
+void BlockNode::RunVisitor(INodeVisitor& visitor) const {
+    IVisitable::RunVisitor(visitor);
+    visitor.EnterNode(*this);
+    visitor.ExitNode(*this);
 }
 
 std::string BlockNode::GetName() const {
     return "Block";
 }
 
-void BlockNode::AcceptVisitor(INodeVisitor& visitor, int depth) const {
+void BlockNode::AcceptVisitor(INodeVisitor& visitor) const {
     for (auto& statement : myStatements) {
-        visitor.VisitNode(*statement, depth);
+        statement->RunVisitor(visitor);
     }
 }

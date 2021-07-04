@@ -1,6 +1,6 @@
 #include "SymbolTable.h"
 
-#include "BuiltInTypes.h"
+#include "FundamentalType.h"
 #include "ClassSymbol.h"
 #include "FunctionSymbol.h"
 #include "../INodeVisitor.h"
@@ -20,13 +20,13 @@ SymbolTable::SymbolTable(SymbolTable* parent) : myParentTable(parent) {
         boolSym->Init();
         doubleSym->Init();
 
-        std::vector<const ITypeSymbol*> stringParams { stringSym };
+        std::vector<const AbstractType*> stringParams { stringSym };
         Add(std::make_unique<FunctionSymbol>("println", myUnitSymbol.get(), stringParams, std::make_unique<SymbolTable>(this), nullptr));
-        std::vector<const ITypeSymbol*> intParams{ intSym };
+        std::vector<const AbstractType*> intParams{ intSym };
         Add(std::make_unique<FunctionSymbol>("println", myUnitSymbol.get(), intParams, std::make_unique<SymbolTable>(this), nullptr));
-        std::vector<const ITypeSymbol*> doubleParams{ doubleSym };
+        std::vector<const AbstractType*> doubleParams{ doubleSym };
         Add(std::make_unique<FunctionSymbol>("println", myUnitSymbol.get(), doubleParams, std::make_unique<SymbolTable>(this), nullptr));
-        Add(std::make_unique<FunctionSymbol>("println", myUnitSymbol.get(), std::vector<const ITypeSymbol*>(), std::make_unique<SymbolTable>(this), nullptr));
+        Add(std::make_unique<FunctionSymbol>("println", myUnitSymbol.get(), std::vector<const AbstractType*>(), std::make_unique<SymbolTable>(this), nullptr));
     }
 }
 
@@ -50,10 +50,10 @@ std::vector<const ISymbol*> SymbolTable::GetSymbols(const std::string& name) con
     return res;
 }
 
-const ITypeSymbol* SymbolTable::GetType(const std::string& name) const {
+const AbstractType* SymbolTable::GetType(const std::string& name) const {
     std::vector<const ISymbol*> res = GetSymbols(name);
     for (auto it : res) {
-        auto typeSym = dynamic_cast<const ITypeSymbol*>(it);
+        auto typeSym = dynamic_cast<const AbstractType*>(it);
         if (typeSym != nullptr) {
             return typeSym;
         }
@@ -74,7 +74,7 @@ const ISymbol* SymbolTable::GetVariable(const std::string& name) const {
     return GetUnresolvedSymbol();
 }
 
-const ITypeSymbol* SymbolTable::GetClass(const std::string& name) const {
+const AbstractType* SymbolTable::GetClass(const std::string& name) const {
     std::vector<const ISymbol*> res = GetSymbols(name);
     for (auto it : res) {
         auto classSym = dynamic_cast<const ClassSymbol*>(it);
@@ -99,7 +99,7 @@ std::vector<const FunctionSymbol*> SymbolTable::GetFunctions(const std::string& 
     return funcs;
 }
 
-const ISymbol* SymbolTable::GetFunction(const std::string& name, const std::vector<const ITypeSymbol*>& params) const {
+const ISymbol* SymbolTable::GetFunction(const std::string& name, const std::vector<const AbstractType*>& params) const {
     std::vector<const FunctionSymbol*> funcs = GetFunctions(name);
     for (auto it : funcs) {
         if (it->GetParametersCount() == params.size()) {
@@ -165,14 +165,14 @@ std::string SymbolTable::ToString() const {
     return "SymbolTable";
 }
 
-void SymbolTable::AcceptVisitor(INodeVisitor& visitor, int depth) const {
+void SymbolTable::AcceptVisitor(INodeVisitor& visitor) const {
     for (auto& it : mySymbols) {
         for (auto& sym : it.second) {
-            visitor.VisitNode(*sym, depth);
+            sym->RunVisitor(visitor);
         }
     }
     for (auto& subTable : myBlockTables) {
-        visitor.VisitNode(*subTable, depth);
+        subTable->RunVisitor(visitor);
     }
 }
 

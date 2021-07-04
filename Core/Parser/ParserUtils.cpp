@@ -47,7 +47,7 @@ bool ParserUtils::IsPostfixUnaryExpression(const IAnnotatedNode* expression) {
     return dynamic_cast<const AbstractUnaryPostfixNode*>(expression) || dynamic_cast<const IdentifierNode*>(expression);
 }
 
-const ISymbol* ParserUtils::GetArrayBuilder(const ITypeSymbol* innerType, std::vector<const ITypeSymbol*> argsTypes, SymbolTable* symTable) {
+const ISymbol* ParserUtils::GetArrayBuilder(const AbstractType* innerType, std::vector<const AbstractType*> argsTypes, SymbolTable* symTable) {
     const ArraySymbol* arr = GetGenericArray(innerType, symTable);
 
     for (auto arg : argsTypes) {
@@ -62,7 +62,7 @@ const ISymbol* ParserUtils::GetArrayBuilder(const ITypeSymbol* innerType, std::v
     return symTable->GetFunction("arrayOf", argsTypes);
 }
 
-const ArraySymbol* ParserUtils::GetGenericArray(const ITypeSymbol* innerType, SymbolTable* symTable) {
+const ArraySymbol* ParserUtils::GetGenericArray(const AbstractType* innerType, SymbolTable* symTable) {
     Pointer<ArraySymbol> arrayType = std::make_unique<ArraySymbol>(symTable, innerType);
     std::string arrayTypeName = arrayType->GetName();
     symTable->Add(std::move(arrayType));

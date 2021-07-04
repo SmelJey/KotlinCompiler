@@ -86,7 +86,7 @@ Pointer<ClassDeclaration> Parser::ParseClass() {
         AddSemanticsError(classDecl->GetIdentifier().GetLexeme(), "Conflicting declarations: " + classDecl->GetIdentifierName());
     } else {
         Pointer<FunctionSymbol> constructor = std::make_unique<FunctionSymbol>(classDecl->GetIdentifierName(),
-            dynamic_cast<const ClassSymbol*>(sym), std::vector<const ITypeSymbol*>(), std::make_unique<SymbolTable>(myTable), classDecl.get());
+            dynamic_cast<const ClassSymbol*>(sym), std::vector<const AbstractType*>(), std::make_unique<SymbolTable>(myTable), classDecl.get());
         myTable->Add(std::move(constructor));
     }
 
@@ -96,7 +96,7 @@ Pointer<ClassDeclaration> Parser::ParseClass() {
 
 // 'fun' simpleIdentifier functionValueParameters (':' type)? functionBody
 Pointer<FunctionDeclaration> Parser::ParseFunction() {
-    const ITypeSymbol* lastReturn = myReturn;
+    const AbstractType* lastReturn = myReturn;
     myReturn = nullptr;
 
     Pointer<IdentifierNode> identifier = ParseIdentifier("Function declaration must have a name");
@@ -122,7 +122,7 @@ Pointer<FunctionDeclaration> Parser::ParseFunction() {
     Pointer<FunctionDeclaration> functionDecl = std::make_unique<FunctionDeclaration>(std::move(identifier), myRootTable->GetUnitSymbol(), std::move(paramsNode), std::move(body));
     functionDecl->SetReturn(std::move(returnNode));
 
-    std::vector<const ITypeSymbol*> paramsTypes;
+    std::vector<const AbstractType*> paramsTypes;
     for (auto& it : functionDecl->GetParameters().GetParameters()) {
         paramsTypes.push_back(it->GetTypeNode().GetType());
     }
@@ -475,9 +475,9 @@ Pointer<IAnnotatedNode> Parser::ParseLeftAssociative(size_t priority) {
         myLexer.NextLexeme();
         Pointer<IAnnotatedNode> rightOperand = ParseLeftAssociative(priority + 1);
 
-        const ITypeSymbol* leftType = leftOperand->GetType();
-        const ITypeSymbol* rightType = rightOperand->GetType();
-        Pointer<ITypeSymbol> resultType = std::make_unique<UnresolvedSymbol>(myRootTable);
+        const AbstractType* leftType = leftOperand->GetType();
+        const AbstractType* rightType = rightOperand->GetType();
+        Pointer<AbstractType> resultType = std::make_unique<UnresolvedSymbol>(myRootTable);
 
         if (leftType != nullptr && rightType != nullptr) {
             resultType = IsApplicable(operation.GetType(), leftType, rightType);
@@ -503,7 +503,7 @@ Pointer<IAnnotatedNode> Parser::ParsePrefix() {
 
     if (AcceptLexeme({ LexemeType::OpSub, LexemeType::OpAdd, LexemeType::OpInc, LexemeType::OpDec, LexemeType::OpExclMark })) {
         Pointer<IAnnotatedNode> prefix = ParsePrefix();
-        Pointer<ITypeSymbol> resultType = IsApplicable(curLexeme.GetType(), prefix->GetType());
+        Pointer<AbstractType> resultType = IsApplicable(curLexeme.GetType(), prefix->GetType());
         if ((curLexeme.GetType() == LexemeType::OpInc || curLexeme.GetType() == LexemeType::OpDec) && !prefix->IsAssignable()) {
             AddSemanticsError(curLexeme, "Val cannot be reassigned");
         }
@@ -523,7 +523,7 @@ Pointer<IAnnotatedNode> Parser::ParsePostfix() {
     while (ParserUtils::PostfixOperations.count(curLexeme.GetType()) || curLexeme.GetType() == LexemeType::OpLess && dynamic_cast<IdentifierNode*>(operand.get()) != nullptr) {
         // Postfix operation
         if (AcceptLexeme(LexemeType::OpInc) || AcceptLexeme(LexemeType::OpDec)) {
-            Pointer<ITypeSymbol> resultType = IsApplicable(curLexeme.GetType(), operand->GetType());
+            Pointer<AbstractType> resultType = IsApplicable(curLexeme.GetType(), operand->GetType());
             if (!operand->IsAssignable()) {
                 AddSemanticsError(curLexeme, "Val cannot be reassigned");
             }
@@ -541,7 +541,7 @@ Pointer<IAnnotatedNode> Parser::ParsePostfix() {
             }
 
             Pointer<CallArgumentsNode> args = ParseArguments(LexemeType::RParen);
-            const ITypeSymbol* resType = myRootTable->GetUnresolvedSymbol();
+            const AbstractType* resType = myRootTable->GetUnresolvedSymbol();
 
             IdentifierNode* identifier = dynamic_cast<IdentifierNode*>(operand.get());
             MemberAccessNode* memberAccess = dynamic_cast<MemberAccessNode*>(operand.get());
@@ -551,7 +551,7 @@ Pointer<IAnnotatedNode> Parser::ParsePostfix() {
             }
 
             if (identifier != nullptr) {
-                std::vector<const ITypeSymbol*> argsTypes = args->GetTypes();
+                std::vector<const AbstractType*> argsTypes = args->GetTypes();
                 identifier->TryResolveFunc(argsTypes);
 
                 if (typeArgs != nullptr && typeArgs->GetArguments().size() == 1 && identifier->GetLexeme().GetText() == "arrayOf") {
@@ -578,14 +578,14 @@ Pointer<IAnnotatedNode> Parser::ParsePostfix() {
         // Index call
         } else if (AcceptLexeme(LexemeType::LSquare)) {
             Pointer<CallArgumentsNode> args = ParseArguments(LexemeType::RSquare);
-            const ITypeSymbol* resType = myRootTable->GetUnresolvedSymbol();
+            const AbstractType* resType = myRootTable->GetUnresolvedSymbol();
 
             if (args->GetArguments().size() != 1) {
                 AddParsingError(curLexeme, "Expecting an index");
             } else {
                 auto arrSym = dynamic_cast<const ArraySymbol*>(operand->GetType());
                 if (arrSym != nullptr) {
-                    std::vector<const ITypeSymbol*> argsTypes = args->GetTypes();
+                    std::vector<const AbstractType*> argsTypes = args->GetTypes();
 
                     if (CheckType<IntegerSymbol>(argsTypes[0], curLexeme)) {
                         resType = arrSym->GetType();
@@ -783,14 +783,14 @@ Pointer<EmptyStatement> Parser::CreateEmptyStatement(const Lexeme& lexeme) {
     return std::make_unique<EmptyStatement>(lexeme, myRootTable->GetUnitSymbol());
 }
 
-Pointer<ITypeSymbol> Parser::IsApplicable(LexemeType operation, const ITypeSymbol* left, const ITypeSymbol* right) {
-    Pointer<ITypeSymbol> res = left->IsApplicable(operation, right);
+Pointer<AbstractType> Parser::IsApplicable(LexemeType operation, const AbstractType* left, const AbstractType* right) {
+    Pointer<AbstractType> res = left->IsApplicable(operation, right);
     CheckUnresolvedType(res.get(), "Operation is not applicable to types " + left->GetName() + " and " + right->GetName(), myLexer.GetLexeme());
     return res;
 }
 
-Pointer<ITypeSymbol> Parser::IsApplicable(LexemeType operation, const ITypeSymbol* left) {
-    Pointer<ITypeSymbol> res = left->IsApplicable(operation);
+Pointer<AbstractType> Parser::IsApplicable(LexemeType operation, const AbstractType* left) {
+    Pointer<AbstractType> res = left->IsApplicable(operation);
     CheckUnresolvedType(res.get(), "Operation is not applicable to type " + left->GetName(), myLexer.GetLexeme());
     return res;
 }

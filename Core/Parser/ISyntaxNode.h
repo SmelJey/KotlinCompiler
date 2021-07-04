@@ -27,6 +27,6 @@ private:
 class IAnnotatedNode : public virtual ISyntaxNode {
 public:
     virtual const ISymbol* GetSymbol() const = 0;
-    virtual const ITypeSymbol* GetType() const;
+    virtual const AbstractType* GetType() const;
     virtual bool IsAssignable() const;
 };

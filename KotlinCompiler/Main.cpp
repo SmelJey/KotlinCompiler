@@ -9,8 +9,9 @@
 #include <boost/program_options/parsers.hpp>
 #include <boost/program_options/variables_map.hpp>
 
+#include "PrintVisitors.h"
+
 #include "Parser/Parser.h"
-#include "Parser/INodeVisitor.h"
 #include "Parser/ParserError.h"
 
 namespace prog_opt = boost::program_options;

@@ -68,13 +68,13 @@ private:
     void ConsumeSemicolons();
 
     Pointer<EmptyStatement> CreateEmptyStatement(const Lexeme& lexeme);
-    Pointer<ITypeSymbol> IsApplicable(LexemeType operation, const ITypeSymbol* left, const ITypeSymbol* right);
-    Pointer<ITypeSymbol> IsApplicable(LexemeType operation, const ITypeSymbol* left);
+    Pointer<AbstractType> IsApplicable(LexemeType operation, const AbstractType* left, const AbstractType* right);
+    Pointer<AbstractType> IsApplicable(LexemeType operation, const AbstractType* left);
 
     const ISymbol* CheckUnresolvedType(const ISymbol* symbol, const std::string& error, const Lexeme& lexeme);
 
     template<typename T>
-    bool CheckType(const ITypeSymbol* symbol, const Lexeme& lexeme) {
+    bool CheckType(const AbstractType* symbol, const Lexeme& lexeme) {
         if (*symbol == T(myRootTable)) {
             return true;
         }
@@ -97,7 +97,7 @@ private:
         return node;
     }
 
-    template<typename T, typename U = ITypeSymbol>
+    template<typename T, typename U = AbstractType>
     Pointer<T> CreateLexemeNode(const Lexeme& lexeme, const U* type) {
         Pointer<T> node = std::make_unique<T>(lexeme, type);
         if (lexeme.IsError()) {
@@ -106,7 +106,7 @@ private:
         return node;
     }
 
-    Pointer<IdentifierNode> CreateLexemeNode(const Lexeme& lexeme, const ITypeSymbol* type, const std::vector<const ISymbol*>& candidates) {
+    Pointer<IdentifierNode> CreateLexemeNode(const Lexeme& lexeme, const AbstractType* type, const std::vector<const ISymbol*>& candidates) {
         Pointer<IdentifierNode> node = std::make_unique<IdentifierNode>(lexeme, type, candidates);
         if (lexeme.IsError()) {
             AddParsingError(lexeme, lexeme.GetValue<std::string>());
@@ -121,5 +121,5 @@ private:
     std::vector<ParserError> mySemanticsErrors;
     bool wasError = false;
 
-    const ITypeSymbol* myReturn = nullptr;
+    const AbstractType* myReturn = nullptr;
 };

@@ -4,8 +4,10 @@
 IVisitable::~IVisitable() = default;
 
 void IVisitable::RunVisitor(INodeVisitor & visitor) const {
-    visitor.VisitNode(*this, 0);
+    visitor.EnterNode(*this);
+    visitor.ExitNode(*this);
 }
 
-void IVisitable::AcceptVisitor(INodeVisitor & visitor, int depth) const {}
+void IVisitable::AcceptVisitor(INodeVisitor & visitor) const {
+}
 

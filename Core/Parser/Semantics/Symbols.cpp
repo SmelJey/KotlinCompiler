@@ -35,42 +35,42 @@ bool operator<(const Pointer<ISymbol>& lhs, const ISymbol& rhs) {
     return *lhs < rhs;
 }
 
-ITypeSymbol::ITypeSymbol(const std::string& name, SymbolTable* parentTable)
+AbstractType::AbstractType(const std::string& name, SymbolTable* parentTable)
     : myParentTable(parentTable), myName(name), myTable(std::make_unique<SymbolTable>(parentTable)) {}
 
-ITypeSymbol::ITypeSymbol(const std::string& name, Pointer<SymbolTable> symTable)
+AbstractType::AbstractType(const std::string& name, Pointer<SymbolTable> symTable)
     : myParentTable(symTable->GetParent()), myName(name), myTable(std::move(symTable))  {}
 
-bool ITypeSymbol::IsAssignable(LexemeType assignOperation, const ITypeSymbol* rightOperand) const {
+bool AbstractType::IsAssignable(LexemeType assignOperation, const AbstractType* rightOperand) const {
     return assignOperation == LexemeType::OpAssign && *this == *rightOperand;
 }
 
-SymbolTable* ITypeSymbol::GetTable() const {
+SymbolTable* AbstractType::GetTable() const {
     return myTable.get();
 }
 
-std::string ITypeSymbol::GetName() const {
+std::string AbstractType::GetName() const {
     return myName;
 }
 
-void ITypeSymbol::AcceptVisitor(INodeVisitor& visitor, int depth) const {
+void AbstractType::AcceptVisitor(INodeVisitor& visitor) const {
     if (!myTable->IsEmpty()) {
-        visitor.VisitNode(*myTable, depth);
+        myTable->RunVisitor(visitor);
     }
 }
 
-SymbolTable* ITypeSymbol::GetParentTable() const {
+SymbolTable* AbstractType::GetParentTable() const {
     return myParentTable;
 }
 
-VariableSymbol::VariableSymbol(const std::string& name, const ITypeSymbol* type, bool isMutable)
+VariableSymbol::VariableSymbol(const std::string& name, const AbstractType* type, bool isMutable)
     : myName(name), myType(type), myMutability(isMutable) {}
 
 std::string VariableSymbol::GetName() const {
     return myName;
 }
 
-const ITypeSymbol* VariableSymbol::GetType() const {
+const AbstractType* VariableSymbol::GetType() const {
     return myType;
 }
 

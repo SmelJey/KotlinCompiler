@@ -5,6 +5,7 @@ class EmptyStatement : public UnitTypedNode {
 public:
     EmptyStatement(const Lexeme& lexeme, const UnitTypeSymbol* type);
 
+    void RunVisitor(INodeVisitor& visitor) const override;
 protected:
     std::string GetName() const override;
 };
@@ -18,9 +19,10 @@ public:
     const IAnnotatedNode& GetAssignable() const;
     const IAnnotatedNode& GetExpression() const;
 
+    void RunVisitor(INodeVisitor& visitor) const override;
 protected:
     std::string GetName() const override;
-    void AcceptVisitor(INodeVisitor& visitor, int depth) const override;
+    void AcceptVisitor(INodeVisitor& visitor) const override;
 
 private:
     Pointer<IAnnotatedNode> myAssignable;
@@ -35,7 +37,7 @@ public:
     const ISyntaxNode& GetBody() const;
 
 protected:
-    void AcceptVisitor(INodeVisitor& visitor, int depth) const override;
+    void AcceptVisitor(INodeVisitor& visitor) const override;
 
 private:
     Pointer<IAnnotatedNode> myExpression;
@@ -46,6 +48,7 @@ class WhileNode : public LoopNode {
 public:
     WhileNode(const Lexeme& lexeme, Pointer<IAnnotatedNode> expression, Pointer<ISyntaxNode> body, const UnitTypeSymbol* type);
 
+    void RunVisitor(INodeVisitor& visitor) const override;
 protected:
     std::string GetName() const override;
 };
@@ -54,6 +57,7 @@ class DoWhileNode : public LoopNode {
 public:
     DoWhileNode(const Lexeme& lexeme, Pointer<IAnnotatedNode> expression, Pointer<ISyntaxNode> body, const UnitTypeSymbol* type);
 
+    void RunVisitor(INodeVisitor& visitor) const override;
 protected:
     std::string GetName() const override;
 };
@@ -64,9 +68,10 @@ public:
 
     const VariableNode& GetVariable() const;
 
+    void RunVisitor(INodeVisitor& visitor) const override;
 protected:
     std::string GetName() const override;
-    void AcceptVisitor(INodeVisitor& visitor, int depth) const override;
+    void AcceptVisitor(INodeVisitor& visitor) const override;
 
 private:
     Pointer<VariableNode> myVariable;

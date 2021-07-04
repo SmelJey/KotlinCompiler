@@ -9,17 +9,17 @@ class AbstractDeclaration;
 
 class FunctionSymbol : public ISymbol {
 public:
-    FunctionSymbol(const std::string& name, const ITypeSymbol* returnType, const std::vector<const ITypeSymbol*>& params,
+    FunctionSymbol(const std::string& name, const AbstractType* returnType, const std::vector<const AbstractType*>& params,
         Pointer<SymbolTable> table, const AbstractDeclaration* decl);
 
     std::string GetName() const override;
 
-    const ITypeSymbol* GetReturnType() const;
+    const AbstractType* GetReturnType() const;
 
     int GetParametersCount() const;
 
-    const ITypeSymbol& GetParameter(int idx) const;
-    bool CheckArgument(const ITypeSymbol& type, int idx);
+    const AbstractType& GetParameter(int idx) const;
+    bool CheckArgument(const AbstractType& type, int idx);
 
     const AbstractDeclaration* GetDeclaration() const;
 
@@ -28,12 +28,12 @@ public:
     std::string ToString() const override;
 
 protected:
-    void AcceptVisitor(INodeVisitor& visitor, int depth) const override;
+    void AcceptVisitor(INodeVisitor& visitor) const override;
 
 private:
     std::string myName;
-    const ITypeSymbol* myReturnType;
-    std::vector<const ITypeSymbol*> myParameters;
+    const AbstractType* myReturnType;
+    std::vector<const AbstractType*> myParameters;
     Pointer<SymbolTable> myTable;
     const AbstractDeclaration* myDeclaration;
 };

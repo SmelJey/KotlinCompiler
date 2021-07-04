@@ -26,21 +26,21 @@ bool operator<(const Pointer<ISymbol>& lhs, const Pointer<ISymbol>& rhs);
 bool operator<(const ISymbol& lhs, const Pointer<ISymbol>& rhs);
 bool operator<(const Pointer<ISymbol>& lhs, const ISymbol& rhs);
 
-class ITypeSymbol : public ISymbol {
+class AbstractType : public ISymbol {
 public:
-    ITypeSymbol(const std::string& name, SymbolTable* parentTable);
-    ITypeSymbol(const std::string& name, Pointer<SymbolTable> symTable);
+    AbstractType(const std::string& name, SymbolTable* parentTable);
+    AbstractType(const std::string& name, Pointer<SymbolTable> symTable);
 
-    virtual Pointer<ITypeSymbol> IsApplicable(LexemeType operation) const = 0;
-    virtual Pointer<ITypeSymbol> IsApplicable(LexemeType binaryOperation, const ITypeSymbol* rightOperand) const = 0;
-    virtual bool IsAssignable(LexemeType assignOperation, const ITypeSymbol* rightOperand) const;
+    virtual Pointer<AbstractType> IsApplicable(LexemeType operation) const = 0;
+    virtual Pointer<AbstractType> IsApplicable(LexemeType binaryOperation, const AbstractType* rightOperand) const = 0;
+    virtual bool IsAssignable(LexemeType assignOperation, const AbstractType* rightOperand) const;
 
     SymbolTable* GetTable() const;
 
     std::string GetName() const override;
 
 protected:
-    void AcceptVisitor(INodeVisitor& visitor, int depth) const override;
+    void AcceptVisitor(INodeVisitor& visitor) const override;
 
     SymbolTable* GetParentTable() const;
 
@@ -52,10 +52,10 @@ private:
 
 class VariableSymbol : public ISymbol {
 public:
-    VariableSymbol(const std::string& name, const ITypeSymbol* type, bool isMutable);
+    VariableSymbol(const std::string& name, const AbstractType* type, bool isMutable);
 
     std::string GetName() const override;
-    const ITypeSymbol* GetType() const;
+    const AbstractType* GetType() const;
 
     std::string ToString() const override;
 
@@ -63,6 +63,6 @@ public:
 
 private:
     std::string myName;
-    const ITypeSymbol* myType;
+    const AbstractType* myType;
     bool myMutability;
 };

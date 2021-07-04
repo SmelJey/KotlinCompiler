@@ -3,12 +3,12 @@
 #include "SymbolTable.h"
 
 
-class ClassSymbol : public ITypeSymbol {
+class ClassSymbol : public AbstractType {
 public:
     ClassSymbol(const std::string& name, Pointer<SymbolTable> table);
 
-    Pointer<ITypeSymbol> IsApplicable(LexemeType operation) const override;
-    Pointer<ITypeSymbol> IsApplicable(LexemeType binaryOperation, const ITypeSymbol* rightOperand) const override;
+    Pointer<AbstractType> IsApplicable(LexemeType operation) const override;
+    Pointer<AbstractType> IsApplicable(LexemeType binaryOperation, const AbstractType* rightOperand) const override;
 
     std::string ToString() const override;
 };

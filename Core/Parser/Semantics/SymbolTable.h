@@ -17,12 +17,12 @@ public:
     SymbolTable* GetParent() const;
     std::vector<const ISymbol*> GetSymbols(const std::string& name) const;
 
-    const ITypeSymbol* GetType(const std::string& name) const;
+    const AbstractType* GetType(const std::string& name) const;
     const ISymbol* GetVariable(const std::string& name) const;
-    const ITypeSymbol* GetClass(const std::string& name) const;
+    const AbstractType* GetClass(const std::string& name) const;
     std::vector<const FunctionSymbol*> GetFunctions(const std::string& name) const;
 
-    const ISymbol* GetFunction(const std::string& name, const std::vector<const ITypeSymbol*>& params) const;
+    const ISymbol* GetFunction(const std::string& name, const std::vector<const AbstractType*>& params) const;
 
     bool IsEmpty() const;
     bool Contains(const ISymbol& symbol) const;
@@ -37,7 +37,7 @@ public:
     std::string ToString() const override;
 
 protected:
-    void AcceptVisitor(INodeVisitor& visitor, int depth) const override;
+    void AcceptVisitor(INodeVisitor& visitor) const override;
 
 private:
     bool LocalContains(const ISymbol& symbol) const;

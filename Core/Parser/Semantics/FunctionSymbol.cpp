@@ -2,15 +2,15 @@
 
 #include "../INodeVisitor.h"
 
-FunctionSymbol::FunctionSymbol(const std::string& name, const ITypeSymbol* returnType,
-    const std::vector<const ITypeSymbol*>& params, Pointer<SymbolTable> table, const AbstractDeclaration* decl)
+FunctionSymbol::FunctionSymbol(const std::string& name, const AbstractType* returnType,
+    const std::vector<const AbstractType*>& params, Pointer<SymbolTable> table, const AbstractDeclaration* decl)
     : myName(name), myReturnType(returnType), myParameters(params), myTable(std::move(table)), myDeclaration(decl) {}
 
 std::string FunctionSymbol::GetName() const {
     return myName;
 }
 
-const ITypeSymbol* FunctionSymbol::GetReturnType() const {
+const AbstractType* FunctionSymbol::GetReturnType() const {
     return myReturnType;
 }
 
@@ -18,11 +18,11 @@ int FunctionSymbol::GetParametersCount() const {
     return myParameters.size();
 }
 
-const ITypeSymbol& FunctionSymbol::GetParameter(int idx) const {
+const AbstractType& FunctionSymbol::GetParameter(int idx) const {
     return *myParameters[idx];
 }
 
-bool FunctionSymbol::CheckArgument(const ITypeSymbol& type, int idx) {
+bool FunctionSymbol::CheckArgument(const AbstractType& type, int idx) {
     if (idx >= myParameters.size()) {
         return false;
     }
@@ -69,8 +69,8 @@ std::string FunctionSymbol::ToString() const {
     return res;
 }
 
-void FunctionSymbol::AcceptVisitor(INodeVisitor& visitor, int depth) const {
+void FunctionSymbol::AcceptVisitor(INodeVisitor& visitor) const {
     if (!myTable->IsEmpty()) {
-        visitor.VisitNode(*myTable, depth);
+        myTable->RunVisitor(visitor);
     }
 }

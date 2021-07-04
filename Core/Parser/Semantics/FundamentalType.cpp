@@ -1,35 +1,35 @@
-#include "BuiltInTypes.h"
+#include "FundamentalType.h"
 
 #include "FunctionSymbol.h"
 #include "SymbolTable.h"
 
 
-FundamentalType::FundamentalType(const std::string& name, SymbolTable* parentTable) : ITypeSymbol(name, parentTable) {}
+FundamentalType::FundamentalType(const std::string& name, SymbolTable* parentTable) : AbstractType(name, parentTable) {}
 
 void FundamentalType::Init() {}
 
-void FundamentalType::CreateCast(const std::string& castName, const ITypeSymbol* resultType) {
+void FundamentalType::CreateCast(const std::string& castName, const AbstractType* resultType) {
     GetTable()->Add(std::make_unique<FunctionSymbol>(
-        castName, resultType, std::vector<const ITypeSymbol*>(), std::make_unique<SymbolTable>(GetTable()), nullptr));
+        castName, resultType, std::vector<const AbstractType*>(), std::make_unique<SymbolTable>(GetTable()), nullptr));
 }
 
 UnresolvedSymbol::UnresolvedSymbol(SymbolTable* parentTable) : FundamentalType("Unresolved type", parentTable) {}
 
-Pointer<ITypeSymbol> UnresolvedSymbol::IsApplicable(LexemeType operation) const {
+Pointer<AbstractType> UnresolvedSymbol::IsApplicable(LexemeType operation) const {
     return std::make_unique<UnresolvedSymbol>(GetParentTable());
 }
 
-Pointer<ITypeSymbol> UnresolvedSymbol::IsApplicable(LexemeType binaryOperation, const ITypeSymbol* rightOperand) const {
+Pointer<AbstractType> UnresolvedSymbol::IsApplicable(LexemeType binaryOperation, const AbstractType* rightOperand) const {
     return std::make_unique<UnresolvedSymbol>(GetParentTable());
 }
 
 UnitTypeSymbol::UnitTypeSymbol(SymbolTable* parentTable) : FundamentalType("Unit", parentTable) {}
 
-Pointer<ITypeSymbol> UnitTypeSymbol::IsApplicable(LexemeType operation) const {
+Pointer<AbstractType> UnitTypeSymbol::IsApplicable(LexemeType operation) const {
     return std::make_unique<UnresolvedSymbol>(GetParentTable());
 }
 
-Pointer<ITypeSymbol> UnitTypeSymbol::IsApplicable(LexemeType binaryOperation, const ITypeSymbol* rightOperand) const {
+Pointer<AbstractType> UnitTypeSymbol::IsApplicable(LexemeType binaryOperation, const AbstractType* rightOperand) const {
     if (*rightOperand == *this) {
         if (LexerUtils::IsEqualityOperation(binaryOperation)) {
             return std::make_unique<BooleanSymbol>(GetParentTable());
@@ -49,7 +49,7 @@ void BooleanSymbol::Init() {
     CreateCast("toByte", GetParentTable()->GetType("Int"));
 }
 
-Pointer<ITypeSymbol> BooleanSymbol::IsApplicable(LexemeType operation) const {
+Pointer<AbstractType> BooleanSymbol::IsApplicable(LexemeType operation) const {
     if (operation == LexemeType::OpExclMark) {
         return std::make_unique<BooleanSymbol>(GetParentTable());
     }
@@ -58,7 +58,7 @@ Pointer<ITypeSymbol> BooleanSymbol::IsApplicable(LexemeType operation) const {
 }
 
 // TODO: Refactor
-Pointer<ITypeSymbol> BooleanSymbol::IsApplicable(LexemeType binaryOperation, const ITypeSymbol* rightOperand) const {
+Pointer<AbstractType> BooleanSymbol::IsApplicable(LexemeType binaryOperation, const AbstractType* rightOperand) const {
     if (*rightOperand == *this) {
         if (LexerUtils::IsBoolOperation(binaryOperation)) {
             return std::make_unique<BooleanSymbol>(GetParentTable());
@@ -88,14 +88,14 @@ void IntegerSymbol::Init() {
     CreateCast("toDouble", GetParentTable()->GetType("Double"));
 }
 
-Pointer<ITypeSymbol> IntegerSymbol::IsApplicable(LexemeType operation) const {
+Pointer<AbstractType> IntegerSymbol::IsApplicable(LexemeType operation) const {
     if (operation == LexemeType::OpAdd || operation == LexemeType::OpSub || operation == LexemeType::OpInc || operation == LexemeType::OpDec) {
         return std::make_unique<IntegerSymbol>(GetParentTable());
     }
     return std::make_unique<UnresolvedSymbol>(GetParentTable());
 }
 
-Pointer<ITypeSymbol> IntegerSymbol::IsApplicable(LexemeType binaryOperation, const ITypeSymbol* rightOperand) const {
+Pointer<AbstractType> IntegerSymbol::IsApplicable(LexemeType binaryOperation, const AbstractType* rightOperand) const {
     if (*this == *rightOperand) {
         if (LexerUtils::IsBoolOperation(binaryOperation)) {
             return std::make_unique<BooleanSymbol>(GetParentTable());
@@ -122,8 +122,8 @@ Pointer<ITypeSymbol> IntegerSymbol::IsApplicable(LexemeType binaryOperation, con
     return std::make_unique<UnresolvedSymbol>(GetParentTable());
 }
 
-bool IntegerSymbol::IsAssignable(LexemeType assignOperation, const ITypeSymbol* rightOperand) const {
-    bool res = ITypeSymbol::IsAssignable(assignOperation, rightOperand);
+bool IntegerSymbol::IsAssignable(LexemeType assignOperation, const AbstractType* rightOperand) const {
+    bool res = AbstractType::IsAssignable(assignOperation, rightOperand);
     if (!res) {
         res = LexerUtils::IsArithmAssignOperation(assignOperation) && *this == *rightOperand;
     }
@@ -137,14 +137,14 @@ void DoubleSymbol::Init() {
     CreateCast("toInt", GetParentTable()->GetType("Int"));
 }
 
-Pointer<ITypeSymbol> DoubleSymbol::IsApplicable(LexemeType operation) const {
+Pointer<AbstractType> DoubleSymbol::IsApplicable(LexemeType operation) const {
     if (operation == LexemeType::OpAdd || operation == LexemeType::OpSub || operation == LexemeType::OpInc || operation == LexemeType::OpDec) {
         return std::make_unique<IntegerSymbol>(GetParentTable());
     }
     return std::make_unique<UnresolvedSymbol>(GetParentTable());
 }
 
-Pointer<ITypeSymbol> DoubleSymbol::IsApplicable(LexemeType binaryOperation, const ITypeSymbol* rightOperand) const {
+Pointer<AbstractType> DoubleSymbol::IsApplicable(LexemeType binaryOperation, const AbstractType* rightOperand) const {
     if (*this == *rightOperand) {
         if (LexerUtils::IsBoolOperation(binaryOperation)) {
             return std::make_unique<BooleanSymbol>(GetParentTable());
@@ -174,7 +174,7 @@ Pointer<ITypeSymbol> DoubleSymbol::IsApplicable(LexemeType binaryOperation, cons
     return std::make_unique<UnresolvedSymbol>(GetParentTable());
 }
 
-bool DoubleSymbol::IsAssignable(LexemeType assignOperation, const ITypeSymbol* rightOperand) const {
+bool DoubleSymbol::IsAssignable(LexemeType assignOperation, const AbstractType* rightOperand) const {
     if (*this == *rightOperand) {
         return assignOperation == LexemeType::OpAssign || LexerUtils::IsArithmAssignOperation(assignOperation);
     }
@@ -184,11 +184,11 @@ bool DoubleSymbol::IsAssignable(LexemeType assignOperation, const ITypeSymbol* r
 
 StringSymbol::StringSymbol(SymbolTable* parentTable) : FundamentalType("String", parentTable) {}
 
-Pointer<ITypeSymbol> StringSymbol::IsApplicable(LexemeType operation) const {
+Pointer<AbstractType> StringSymbol::IsApplicable(LexemeType operation) const {
     return std::make_unique<UnresolvedSymbol>(GetParentTable());
 }
 
-Pointer<ITypeSymbol> StringSymbol::IsApplicable(LexemeType binaryOperation, const ITypeSymbol* rightOperand) const {
+Pointer<AbstractType> StringSymbol::IsApplicable(LexemeType binaryOperation, const AbstractType* rightOperand) const {
     if (*this == *rightOperand) {
         if (LexerUtils::IsEqualityOperation(binaryOperation)) {
             return std::make_unique<BooleanSymbol>(GetParentTable());
@@ -206,13 +206,13 @@ Pointer<ITypeSymbol> StringSymbol::IsApplicable(LexemeType binaryOperation, cons
     return std::make_unique<UnresolvedSymbol>(GetParentTable());
 }
 
-ArraySymbol::ArraySymbol(SymbolTable* parentTable, const ITypeSymbol* type) : FundamentalType("Array", parentTable), myType(type), mySize(0) {}
+ArraySymbol::ArraySymbol(SymbolTable* parentTable, const AbstractType* type) : FundamentalType("Array", parentTable), myType(type), mySize(0) {}
 
 std::string ArraySymbol::GetName() const {
-    return ITypeSymbol::GetName() + "<" + myType->GetName() + ">";
+    return AbstractType::GetName() + "<" + myType->GetName() + ">";
 }
 
-const ITypeSymbol* ArraySymbol::GetType() const {
+const AbstractType* ArraySymbol::GetType() const {
     return myType;
 }
 
@@ -224,11 +224,11 @@ void ArraySymbol::SetSize(int size) {
     mySize = size;
 }
 
-Pointer<ITypeSymbol> ArraySymbol::IsApplicable(LexemeType operation) const {
+Pointer<AbstractType> ArraySymbol::IsApplicable(LexemeType operation) const {
     return std::make_unique<UnresolvedSymbol>(GetParentTable());
 }
 
-Pointer<ITypeSymbol> ArraySymbol::IsApplicable(LexemeType binaryOperation, const ITypeSymbol* rightOperand) const {
+Pointer<AbstractType> ArraySymbol::IsApplicable(LexemeType binaryOperation, const AbstractType* rightOperand) const {
     if (*this == *rightOperand && LexerUtils::IsEqualityOperation(binaryOperation)) {
         return std::make_unique<BooleanSymbol>(GetParentTable());
     }
@@ -236,21 +236,21 @@ Pointer<ITypeSymbol> ArraySymbol::IsApplicable(LexemeType binaryOperation, const
     return std::make_unique<UnresolvedSymbol>(GetParentTable());
 }
 
-RangeSymbol::RangeSymbol(SymbolTable* parentTable, const ITypeSymbol& type) : FundamentalType("ClosedRange", parentTable), myType(type) {}
+RangeSymbol::RangeSymbol(SymbolTable* parentTable, const AbstractType& type) : FundamentalType("ClosedRange", parentTable), myType(type) {}
 
 std::string RangeSymbol::GetName() const {
-    return ITypeSymbol::GetName() + "<" + myType.GetName() + ">";
+    return AbstractType::GetName() + "<" + myType.GetName() + ">";
 }
 
-const ITypeSymbol& RangeSymbol::GetType() const {
+const AbstractType& RangeSymbol::GetType() const {
     return myType;
 }
 
-Pointer<ITypeSymbol> RangeSymbol::IsApplicable(LexemeType operation) const {
+Pointer<AbstractType> RangeSymbol::IsApplicable(LexemeType operation) const {
     return std::make_unique<UnresolvedSymbol>(GetParentTable());
 }
 
-Pointer<ITypeSymbol> RangeSymbol::IsApplicable(LexemeType binaryOperation, const ITypeSymbol* rightOperand) const {
+Pointer<AbstractType> RangeSymbol::IsApplicable(LexemeType binaryOperation, const AbstractType* rightOperand) const {
     if (*this == *rightOperand && LexerUtils::IsEqualityOperation(binaryOperation)) {
         return std::make_unique<BooleanSymbol>(GetParentTable());
     }

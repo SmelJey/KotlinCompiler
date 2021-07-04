@@ -31,12 +31,15 @@
     <Filter Include="Source Files\Parser\Semantics">
       <UniqueIdentifier>{bdcda25c-3992-41a3-9a9b-4bc78d4c39bb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Core">
+      <UniqueIdentifier>{da044553-2dc0-4615-af46-a26e51d5cc13}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Core">
+      <UniqueIdentifier>{ef19289f-bcd4-4781-b2c5-6e1e1373c433}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="InputBuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Lexer\Lexeme.h">
@@ -96,8 +99,14 @@
     <ClInclude Include="Parser\Semantics\SymbolsFrame.h">
       <Filter>Header Files\Parser\Semantics</Filter>
     </ClInclude>
-    <ClInclude Include="Parser\Semantics\BuiltInTypes.h">
+    <ClInclude Include="Parser\Semantics\FundamentalType.h">
       <Filter>Header Files\Parser\Semantics</Filter>
+    </ClInclude>
+    <ClInclude Include="InputBuffer.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="PrintVisitors.h">
+      <Filter>Header Files\Core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -158,8 +167,11 @@
     <ClCompile Include="Parser\Semantics\SymbolsFrame.cpp">
       <Filter>Source Files\Parser\Semantics</Filter>
     </ClCompile>
-    <ClCompile Include="Parser\Semantics\BuiltInTypes.cpp">
+    <ClCompile Include="Parser\Semantics\FundamentalType.cpp">
       <Filter>Source Files\Parser\Semantics</Filter>
+    </ClCompile>
+    <ClCompile Include="PrintVisitors.cpp">
+      <Filter>Source Files\Core</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

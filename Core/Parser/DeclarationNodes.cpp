@@ -21,7 +21,7 @@ void AbstractDeclaration::SetSymbol(const ISymbol* symbol) {
     myIdentifier->Resolve(symbol);
 }
 
-const ITypeSymbol* AbstractDeclaration::GetType() const {
+const AbstractType* AbstractDeclaration::GetType() const {
     return myUnitSym;
 }
 
@@ -29,8 +29,8 @@ Lexeme AbstractDeclaration::GetLexeme() const {
     return myIdentifier->GetLexeme();
 }
 
-void AbstractDeclaration::AcceptVisitor(INodeVisitor& visitor, int depth) const {
-    visitor.VisitNode(*myIdentifier, depth);
+void AbstractDeclaration::AcceptVisitor(INodeVisitor& visitor) const {
+    myIdentifier->RunVisitor(visitor);
 }
 
 DeclarationBlock::DeclarationBlock(const Lexeme& lexeme, std::vector<Pointer<AbstractDeclaration>> declarations)
@@ -44,13 +44,19 @@ void DeclarationBlock::AddDeclaration(Pointer<AbstractDeclaration> declaration) 
     myDeclarations.push_back(std::move(declaration));
 }
 
+void DeclarationBlock::RunVisitor(INodeVisitor& visitor) const {
+    IVisitable::RunVisitor(visitor);
+    visitor.EnterNode(*this);
+    visitor.ExitNode(*this);
+}
+
 std::string DeclarationBlock::GetName() const {
     return "Decl Block";
 }
 
-void DeclarationBlock::AcceptVisitor(INodeVisitor& visitor, int depth) const {
+void DeclarationBlock::AcceptVisitor(INodeVisitor& visitor) const {
     for (auto& declaration : myDeclarations) {
-        visitor.VisitNode(*declaration, depth);
+        declaration->RunVisitor(visitor);
     }
 }
 
@@ -68,15 +74,21 @@ bool ClassDeclaration::HasBody() const {
     return myClassBody != nullptr;
 }
 
+void ClassDeclaration::RunVisitor(INodeVisitor& visitor) const {
+    IVisitable::RunVisitor(visitor);
+    visitor.EnterNode(*this);
+    visitor.ExitNode(*this);
+}
+
 std::string ClassDeclaration::GetName() const {
     return "Class Decl";
 }
 
-void ClassDeclaration::AcceptVisitor(INodeVisitor& visitor, int depth) const {
-    AbstractDeclaration::AcceptVisitor(visitor, depth);
+void ClassDeclaration::AcceptVisitor(INodeVisitor& visitor) const {
+    AbstractDeclaration::AcceptVisitor(visitor);
 
     if (HasBody()) {
-        visitor.VisitNode(*myClassBody, depth);
+        myClassBody->RunVisitor(visitor);
     }
 }
 
@@ -99,7 +111,7 @@ bool ParameterNode::HasDefault() const {
     return myDefault != nullptr;
 }
 
-const ITypeSymbol* ParameterNode::GetType() const {
+const AbstractType* ParameterNode::GetType() const {
     auto varSym = dynamic_cast<const VariableSymbol*>(GetSymbol());
     if (varSym != nullptr) {
         return varSym->GetType();
@@ -108,16 +120,22 @@ const ITypeSymbol* ParameterNode::GetType() const {
     return dynamic_cast<const UnresolvedSymbol*>(GetSymbol());
 }
 
+void ParameterNode::RunVisitor(INodeVisitor& visitor) const {
+    IVisitable::RunVisitor(visitor);
+    visitor.EnterNode(*this);
+    visitor.ExitNode(*this);
+}
+
 std::string ParameterNode::GetName() const {
     return "Parameter";
 }
 
-void ParameterNode::AcceptVisitor(INodeVisitor& visitor, int depth) const {
-    AbstractDeclaration::AcceptVisitor(visitor, depth);
+void ParameterNode::AcceptVisitor(INodeVisitor& visitor) const {
+    AbstractDeclaration::AcceptVisitor(visitor);
 
-    visitor.VisitNode(*myType, depth);
+    myType->RunVisitor(visitor);
     if (HasDefault()) {
-        visitor.VisitNode(*myDefault, depth);
+        myDefault->RunVisitor(visitor);
     }
 }
 
@@ -135,15 +153,21 @@ bool VariableNode::HasTypeNode() const {
     return myType != nullptr;
 }
 
+void VariableNode::RunVisitor(INodeVisitor& visitor) const {
+    IVisitable::RunVisitor(visitor);
+    visitor.EnterNode(*this);
+    visitor.ExitNode(*this);
+}
+
 std::string VariableNode::GetName() const {
     return "Variable";
 }
 
-void VariableNode::AcceptVisitor(INodeVisitor& visitor, int depth) const {
-    AbstractDeclaration::AcceptVisitor(visitor, depth);
+void VariableNode::AcceptVisitor(INodeVisitor& visitor) const {
+    AbstractDeclaration::AcceptVisitor(visitor);
 
     if (HasTypeNode()) {
-        visitor.VisitNode(*myType, depth);
+        myType->RunVisitor(visitor);
     }
 }
 
@@ -157,13 +181,19 @@ void ParameterList::AddParameter(Pointer<ParameterNode> param) {
     myParameters.push_back(std::move(param));
 }
 
+void ParameterList::RunVisitor(INodeVisitor& visitor) const {
+    IVisitable::RunVisitor(visitor);
+    visitor.EnterNode(*this);
+    visitor.ExitNode(*this);
+}
+
 std::string ParameterList::GetName() const {
     return "Params";
 }
 
-void ParameterList::AcceptVisitor(INodeVisitor& visitor, int depth) const {
+void ParameterList::AcceptVisitor(INodeVisitor& visitor) const {
     for (auto& param : myParameters) {
-        visitor.VisitNode(*param, depth);
+        param->RunVisitor(visitor);
     }
 }
 
@@ -190,19 +220,25 @@ bool FunctionDeclaration::HasReturnNode() const {
     return myReturn != nullptr;
 }
 
+void FunctionDeclaration::RunVisitor(INodeVisitor& visitor) const {
+    IVisitable::RunVisitor(visitor);
+    visitor.EnterNode(*this);
+    visitor.ExitNode(*this);
+}
+
 std::string FunctionDeclaration::GetName() const {
     return "Fun Decl";
 }
 
-void FunctionDeclaration::AcceptVisitor(INodeVisitor& visitor, int depth) const {
-    AbstractDeclaration::AcceptVisitor(visitor, depth);
+void FunctionDeclaration::AcceptVisitor(INodeVisitor& visitor) const {
+    AbstractDeclaration::AcceptVisitor(visitor);
 
-    visitor.VisitNode(*myParams, depth);
+    myParams->RunVisitor(visitor);
     if (HasReturnNode()) {
-        visitor.VisitNode(*myReturn, depth);
+        myReturn->RunVisitor(visitor);
     }
-    
-    visitor.VisitNode(*myBody, depth);
+
+    myBody->RunVisitor(visitor);
 }
 
 PropertyDeclaration::PropertyDeclaration(Pointer<IdentifierNode> identifier, const UnitTypeSymbol* type, const Lexeme& keyword)
@@ -240,17 +276,23 @@ bool PropertyDeclaration::HasInitialization() const {
     return myInit != nullptr;
 }
 
+void PropertyDeclaration::RunVisitor(INodeVisitor& visitor) const {
+    IVisitable::RunVisitor(visitor);
+    visitor.EnterNode(*this);
+    visitor.ExitNode(*this);
+}
+
 std::string PropertyDeclaration::GetName() const {
     return "V" + GetKeyword().substr(1) + " Decl";
 }
 
-void PropertyDeclaration::AcceptVisitor(INodeVisitor& visitor, int depth) const {
-    AbstractDeclaration::AcceptVisitor(visitor, depth);
+void PropertyDeclaration::AcceptVisitor(INodeVisitor& visitor) const {
+    AbstractDeclaration::AcceptVisitor(visitor);
 
     if (HasTypeNode()) {
-        visitor.VisitNode(*myType, depth);
+        myType->RunVisitor(visitor);
     }
     if (HasInitialization()) {
-        visitor.VisitNode(*myInit, depth);
+        myInit->RunVisitor(visitor);
     }
 }
