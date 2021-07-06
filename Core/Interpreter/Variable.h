@@ -43,7 +43,9 @@ private:
     std::any myValue;
 };
 
-class Integer : public IVariable {
+class ValueType : public IVariable {};
+
+class Integer : public ValueType {
 public:
     explicit Integer(int value);
 
@@ -58,7 +60,7 @@ public:
     Pointer<IVariable> ApplyOperation(LexemeType operation) const override;
 };
 
-class Double : public IVariable {
+class Double : public ValueType {
 public:
     explicit Double(double value);
 
@@ -73,7 +75,7 @@ public:
     Pointer<IVariable> ApplyOperation(LexemeType operation) const override;
 };
 
-class Boolean : public IVariable {
+class Boolean : public ValueType {
 public:
     explicit Boolean(bool value);
 
@@ -87,7 +89,7 @@ public:
     Pointer<IVariable> ApplyOperation(LexemeType operation) const override;
 };
 
-class String : public IVariable {
+class String : public ValueType {
 public:
     explicit String(const std::string& value);
 
@@ -98,6 +100,34 @@ public:
     Pointer<IVariable> ApplyOperation(LexemeType operation, const Array* rhs) const override;
 };
 
+class Reference : public IVariable {
+public:
+    explicit Reference(IVariable* src);
+
+    template<typename T>
+    T* Dereference() const {
+        return dynamic_cast<T*>(GetValue<IVariable*>());
+    }
+
+    Pointer<IVariable> Clone() const override;
+
+    Pointer<IVariable> ApplyOperation(LexemeType operation, const IVariable* lhs) const override;
+
+    Pointer<IVariable> ApplyOperation(LexemeType operation, const Integer* rhs) const override;
+    Pointer<IVariable> ApplyOperation(LexemeType operation, const Double* rhs) const override;
+    Pointer<IVariable> ApplyOperation(LexemeType operation, const Boolean* rhs) const override;
+    Pointer<IVariable> ApplyOperation(LexemeType operation, const String* rhs) const override;
+    Pointer<IVariable> ApplyOperation(LexemeType operation, const Array* rhs) const override;
+    Pointer<IVariable> ApplyOperation(LexemeType operation, const Range* rhs) const override;
+    Pointer<IVariable> ApplyOperation(LexemeType operation, const Class* rhs) const override;
+
+    Pointer<IVariable> ApplyOperation(LexemeType operation) const override;
+
+protected:
+    Pointer<Boolean> CheckStrictEquality(LexemeType operation, const IVariable* lhs) const;
+
+};
+
 class StructArray : public IVariable {
 public:
     explicit StructArray(const std::vector<const IVariable*>& src);
@@ -106,7 +136,7 @@ public:
     Pointer<IVariable> ApplyOperation(LexemeType operation, const IVariable* lhs) const override;
 
     std::vector<const IVariable*> Get() const;
-    const IVariable* Get(int idx) const;
+    Pointer<Reference> Get(int idx) const;
     int Size() const;
 
     bool In(const IVariable* val) const;
@@ -115,14 +145,16 @@ private:
     std::vector<Pointer<IVariable>> myVariables;
 };
 
-class Array : public IVariable {
+class Array : public Reference {
 public:
-    explicit Array(const StructArray* arr);
+    explicit Array(StructArray* arr);
 
     Pointer<IVariable> Clone() const override;
 
     Pointer<IVariable> ApplyOperation(LexemeType operation, const IVariable* lhs) const override;
-    Pointer<IVariable> ApplyOperation(LexemeType operation, const Array* rhs) const override;
+
+    Pointer<Reference> Get(int idx) const;
+    int Size() const;
 };
 
 class StructRange : public IVariable {
@@ -145,9 +177,9 @@ private:
 bool operator==(const StructRange& lhs, const StructRange& rhs);
 bool operator!=(const StructRange& lhs, const StructRange& rhs);
 
-class Range : public IVariable {
+class Range : public Reference {
 public:
-    explicit Range(const StructRange* range);
+    explicit Range(StructRange* range);
 
     Pointer<IVariable> Clone() const override;
 
@@ -156,7 +188,7 @@ public:
 };
 
 // TODO: make classes
-class Class : public IVariable {
+class Class : public Reference {
 public:
     Class();
 

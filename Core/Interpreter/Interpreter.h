@@ -14,7 +14,7 @@ public:
 
     void RunMain();
 
-    const IVariable* LoadOnHeap(Pointer<IVariable> variable);
+    IVariable* LoadOnHeap(Pointer<IVariable> variable);
     void LoadOnStack(Pointer<IVariable> variable);
     Pointer<IVariable> PopFromStack();
 
@@ -25,7 +25,7 @@ public:
     void EnterNode(const CallSuffixNode& node) override;
     void EnterNode(const UnaryPrefixOperationNode& node) override;
     //void EnterNode(const UnaryPostfixOperationNode& node) override;
-    //void EnterNode(const IndexSuffixNode& node) override;
+    void EnterNode(const IndexSuffixNode& node) override;
 
     void EnterNode(const BinOperationNode& node) override;
     void EnterNode(const IntegerNode& node) override;

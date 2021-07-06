@@ -105,10 +105,10 @@ Pointer<IVariable> Integer::ApplyOperation(LexemeType operation, const Double* r
 
 Pointer<IVariable> Integer::ApplyOperation(LexemeType operation, const Array* rhs) const {
     if (operation == LexemeType::OpIn) {
-        return std::make_unique<Boolean>(rhs->GetValue<const StructArray*>()->In(this));
+        return std::make_unique<Boolean>(rhs->Dereference<StructArray>()->In(this));
     }
     if (operation == LexemeType::OpNotIn) {
-        return std::make_unique<Boolean>(!rhs->GetValue<const StructArray*>()->In(this));
+        return std::make_unique<Boolean>(!rhs->Dereference<StructArray>()->In(this));
     }
 
     return IVariable::ApplyOperation(operation, rhs);
@@ -116,10 +116,10 @@ Pointer<IVariable> Integer::ApplyOperation(LexemeType operation, const Array* rh
 
 Pointer<IVariable> Integer::ApplyOperation(LexemeType operation, const Range* rhs) const {
     if (operation == LexemeType::OpIn) {
-        return std::make_unique<Boolean>(rhs->GetValue<const StructRange*>()->In(this));
+        return std::make_unique<Boolean>(rhs->Dereference<StructRange>()->In(this));
     }
     if (operation == LexemeType::OpNotIn) {
-        return std::make_unique<Boolean>(!rhs->GetValue<const StructRange*>()->In(this));
+        return std::make_unique<Boolean>(!rhs->Dereference<StructRange>()->In(this));
     }
 
     return IVariable::ApplyOperation(operation, rhs);
@@ -212,10 +212,10 @@ Pointer<IVariable> Double::ApplyOperation(LexemeType operation, const Double* rh
 
 Pointer<IVariable> Double::ApplyOperation(LexemeType operation, const Array* rhs) const {
     if (operation == LexemeType::OpIn) {
-        return std::make_unique<Boolean>(rhs->GetValue<const StructArray*>()->In(this));
+        return std::make_unique<Boolean>(rhs->Dereference<StructArray>()->In(this));
     }
     if (operation == LexemeType::OpNotIn) {
-        return std::make_unique<Boolean>(!rhs->GetValue<const StructArray*>()->In(this));
+        return std::make_unique<Boolean>(!rhs->Dereference<StructArray>()->In(this));
     }
 
     return IVariable::ApplyOperation(operation, rhs);
@@ -223,10 +223,10 @@ Pointer<IVariable> Double::ApplyOperation(LexemeType operation, const Array* rhs
 
 Pointer<IVariable> Double::ApplyOperation(LexemeType operation, const Range* rhs) const {
     if (operation == LexemeType::OpIn) {
-        return std::make_unique<Boolean>(rhs->GetValue<const StructRange*>()->In(this));
+        return std::make_unique<Boolean>(rhs->Dereference<StructRange>()->In(this));
     }
     if (operation == LexemeType::OpNotIn) {
-        return std::make_unique<Boolean>(!rhs->GetValue<const StructRange*>()->In(this));
+        return std::make_unique<Boolean>(!rhs->Dereference<StructRange>()->In(this));
     }
 
     return IVariable::ApplyOperation(operation, rhs);
@@ -284,10 +284,10 @@ Pointer<IVariable> Boolean::ApplyOperation(LexemeType operation, const Boolean* 
 
 Pointer<IVariable> Boolean::ApplyOperation(LexemeType operation, const Range* rhs) const {
     if (operation == LexemeType::OpIn) {
-        return std::make_unique<Boolean>(rhs->GetValue<const StructRange*>()->In(this));
+        return std::make_unique<Boolean>(rhs->Dereference<StructRange>()->In(this));
     }
     if (operation == LexemeType::OpNotIn) {
-        return std::make_unique<Boolean>(!rhs->GetValue<const StructRange*>()->In(this));
+        return std::make_unique<Boolean>(!rhs->Dereference<StructRange>()->In(this));
     }
 
     return IVariable::ApplyOperation(operation, rhs);
@@ -295,10 +295,10 @@ Pointer<IVariable> Boolean::ApplyOperation(LexemeType operation, const Range* rh
 
 Pointer<IVariable> Boolean::ApplyOperation(LexemeType operation, const Array* rhs) const {
     if (operation == LexemeType::OpIn) {
-        return std::make_unique<Boolean>(rhs->GetValue<const StructArray*>()->In(this));
+        return std::make_unique<Boolean>(rhs->Dereference<StructArray>()->In(this));
     }
     if (operation == LexemeType::OpNotIn) {
-        return std::make_unique<Boolean>(!rhs->GetValue<const StructArray*>()->In(this));
+        return std::make_unique<Boolean>(!rhs->Dereference<StructArray>()->In(this));
     }
 
     return IVariable::ApplyOperation(operation, rhs);
@@ -341,13 +341,80 @@ Pointer<IVariable> String::ApplyOperation(LexemeType operation, const String* rh
 
 Pointer<IVariable> String::ApplyOperation(LexemeType operation, const Array* rhs) const {
     if (operation == LexemeType::OpIn) {
-        return std::make_unique<Boolean>(rhs->GetValue<const StructArray*>()->In(this));
+        return std::make_unique<Boolean>(rhs->Dereference<StructArray>()->In(this));
     }
     if (operation == LexemeType::OpNotIn) {
-        return std::make_unique<Boolean>(!rhs->GetValue<const StructArray*>()->In(this));
+        return std::make_unique<Boolean>(!rhs->Dereference<StructArray>()->In(this));
     }
 
     return IVariable::ApplyOperation(operation, rhs);
+}
+
+Reference::Reference(IVariable* src) {
+    SetValue<IVariable*>(src);
+}
+
+Pointer<IVariable> Reference::Clone() const {
+    return std::make_unique<Reference>(GetValue<IVariable*>());
+}
+
+Pointer<Boolean> Reference::CheckStrictEquality(LexemeType operation, const IVariable* lhs) const {
+    if (operation == LexemeType::OpStrictEq || operation == LexemeType::OpEqual) {
+        return std::make_unique<Boolean>(this == lhs);
+    }
+    if (operation == LexemeType::OpStrictIneq || operation == LexemeType::OpInequal) {
+        return std::make_unique<Boolean>(this != lhs);
+    }
+}
+
+Pointer<IVariable> Reference::ApplyOperation(LexemeType operation, const IVariable* lhs) const {
+    if (dynamic_cast<ValueType*>(GetValue<IVariable*>())) {
+        return GetValue<IVariable*>()->ApplyOperation(operation, lhs);
+    }
+
+    if (operation == LexemeType::OpStrictEq || operation == LexemeType::OpStrictIneq) {
+        return CheckStrictEquality(operation, lhs);
+    }
+
+    return lhs->ApplyOperation(operation, this);
+}
+
+Pointer<IVariable> Reference::ApplyOperation(LexemeType operation, const Integer* rhs) const {
+    return GetValue<IVariable*>()->ApplyOperation(operation, rhs);
+}
+Pointer<IVariable> Reference::ApplyOperation(LexemeType operation, const Double* rhs) const {
+    return GetValue<IVariable*>()->ApplyOperation(operation, rhs);
+}
+Pointer<IVariable> Reference::ApplyOperation(LexemeType operation, const Boolean* rhs) const {
+    return GetValue<IVariable*>()->ApplyOperation(operation, rhs);
+}
+Pointer<IVariable> Reference::ApplyOperation(LexemeType operation, const String* rhs) const {
+    return GetValue<IVariable*>()->ApplyOperation(operation, rhs);
+}
+Pointer<IVariable> Reference::ApplyOperation(LexemeType operation, const Array* rhs) const {
+    return GetValue<IVariable*>()->ApplyOperation(operation, rhs);
+}
+Pointer<IVariable> Reference::ApplyOperation(LexemeType operation, const Range* rhs) const {
+    return GetValue<IVariable*>()->ApplyOperation(operation, rhs);
+}
+Pointer<IVariable> Reference::ApplyOperation(LexemeType operation, const Class* rhs) const {
+    return GetValue<IVariable*>()->ApplyOperation(operation, rhs);
+}
+
+Pointer<IVariable> Reference::ApplyOperation(LexemeType operation) const {
+    if (operation == LexemeType::OpInc || operation == LexemeType::OpDec) {
+        IVariable* val = GetValue<IVariable*>();
+        if (dynamic_cast<Integer*>(val)) {
+            val->SetValue(val->GetValue<int>() + (operation == LexemeType::OpInc ? 1 : -1));
+            return val->Clone();
+        }
+        if (dynamic_cast<Double*>(val)) {
+            val->SetValue(val->GetValue<double>() + (operation == LexemeType::OpInc ? 1 : -1));
+            return val->Clone();
+        }
+    }
+
+    return GetValue<IVariable*>()->ApplyOperation(operation);
 }
 
 StructArray::StructArray(const std::vector<const IVariable*>& src) {
@@ -373,8 +440,8 @@ std::vector<const IVariable*> StructArray::Get() const {
     return res;
 }
 
-const IVariable* StructArray::Get(int idx) const {
-    return myVariables[idx].get();
+Pointer<Reference> StructArray::Get(int idx) const {
+    return std::make_unique<Reference>(myVariables[idx].get());
 }
 
 int StructArray::Size() const {
@@ -393,29 +460,27 @@ bool StructArray::In(const IVariable* val) const {
     return false;
 }
 
-Array::Array(const StructArray* elements) {
-    SetValue(elements);
+Array::Array(StructArray* elements) : Reference(elements) {
+    //SetValue(elements);
 }
 
 Pointer<IVariable> Array::Clone() const {
-    return std::make_unique<Array>(GetValue<const StructArray*>());
+    return std::make_unique<Array>(Dereference<StructArray>());
 }
 
 Pointer<IVariable> Array::ApplyOperation(LexemeType operation, const IVariable* lhs) const {
+    if (LexerUtils::IsEqualityOperation(operation)) {
+        return CheckStrictEquality(operation, lhs);
+    }
     return lhs->ApplyOperation(operation, this);
 }
 
-Pointer<IVariable> Array::ApplyOperation(LexemeType operation, const Array* rhs) const {
-    switch (operation) {
-        case LexemeType::OpEqual:
-        case LexemeType::OpStrictEq:
-            return std::make_unique<Boolean>(GetValue<const StructArray*>() == rhs->GetValue<const StructArray*>());
-        case LexemeType::OpInequal:
-        case LexemeType::OpStrictIneq:
-            return std::make_unique<Boolean>(GetValue<const StructArray*>() != rhs->GetValue<const StructArray*>());
-    }
+Pointer<Reference> Array::Get(int idx) const {
+    return Dereference<StructArray>()->Get(idx);
+}
 
-    return IVariable::ApplyOperation(operation, rhs);
+int Array::Size() const {
+    return Dereference<StructArray>()->Size();
 }
 
 StructRange::StructRange(const IVariable* left, const IVariable* right) {
@@ -454,28 +519,27 @@ bool operator!=(const StructRange& lhs, const StructRange& rhs) {
     return !(lhs == rhs);
 }
 
-Range::Range(const StructRange* range) {
-    SetValue(range);
+Range::Range(StructRange* range) : Reference(range) {
+    //SetValue(range);
 }
 
 Pointer<IVariable> Range::Clone() const {
-    return std::make_unique<Range>(GetValue<const StructRange*>());
+    return std::make_unique<Range>(Dereference<StructRange>());
 }
 
 Pointer<IVariable> Range::ApplyOperation(LexemeType operation, const IVariable* lhs) const {
+    if (operation == LexemeType::OpStrictEq || operation == LexemeType::OpStrictIneq) {
+        return CheckStrictEquality(operation, lhs);
+    }
     return lhs->ApplyOperation(operation, this);
 }
 
 Pointer<IVariable> Range::ApplyOperation(LexemeType operation, const Range* rhs) const {
     switch (operation) {
         case LexemeType::OpEqual:
-            return std::make_unique<Boolean>(*GetValue<const StructRange*>() == *rhs->GetValue<const StructRange*>());
-        case LexemeType::OpStrictEq:
-            return std::make_unique<Boolean>(GetValue<const StructRange*>() == rhs->GetValue<const StructRange*>());
+            return std::make_unique<Boolean>(*Dereference<StructRange>() == *rhs->Dereference<StructRange>());
         case LexemeType::OpInequal:
-            return std::make_unique<Boolean>(*GetValue<const StructRange*>() != *rhs->GetValue<const StructRange*>());
-        case LexemeType::OpStrictIneq:
-            return std::make_unique<Boolean>(GetValue<const StructRange*>() != rhs->GetValue<const StructRange*>());
+            return std::make_unique<Boolean>(*Dereference<StructRange>() != *rhs->Dereference<StructRange>());
     }
 
     return IVariable::ApplyOperation(operation, rhs);

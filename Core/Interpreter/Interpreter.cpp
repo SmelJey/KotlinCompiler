@@ -16,14 +16,14 @@ void Interpreter::RunMain() {
     dynamic_cast<const FunctionDeclaration*>(myMain->GetDeclaration())->GetBody().RunVisitor(*this);
 }
 
-const IVariable* Interpreter::LoadOnHeap(Pointer<IVariable> variable) {
+IVariable* Interpreter::LoadOnHeap(Pointer<IVariable> variable) {
     myHeap.push_back(std::move(variable));
     return myHeap.rbegin()->get();
 }
 
 void Interpreter::LoadOnStack(Pointer<IVariable> variable) {
-    if (dynamic_cast<const StructRange*>(variable.get())) {
-        auto rangeStruct = dynamic_cast<const StructRange*>(LoadOnHeap(std::move(variable)));
+    if (dynamic_cast<StructRange*>(variable.get())) {
+        auto rangeStruct = dynamic_cast<StructRange*>(LoadOnHeap(std::move(variable)));
         LoadOnStack(std::make_unique<Range>(rangeStruct));
         return;
     }
@@ -60,7 +60,9 @@ void Interpreter::EnterNode(const CallSuffixNode& node) {
         //std::cout << "Call to built-in function " << funcSym->GetName() << std::endl;
 
         if (funcSym->GetName() == "println") {
-            Pointer<IVariable> arg = myStack.top().Pop();
+            Pointer<IVariable> refArg = PopFromStack();
+            const IVariable* arg = InterpreterUtil::TryDereference(refArg.get());
+
             if (dynamic_cast<const IntegerSymbol*>(funcSym->GetParameter(0))) {
                 std::cout << arg->GetValue<int>() << std::endl;
             } else if (dynamic_cast<const DoubleSymbol*>(funcSym->GetParameter(0))) {
@@ -76,7 +78,7 @@ void Interpreter::EnterNode(const CallSuffixNode& node) {
                 params.push_back(LoadOnHeap(PopFromStack()));
             }
             std::reverse(params.begin(), params.end());
-            const StructArray* arrRef = dynamic_cast<const StructArray*>(LoadOnHeap(std::make_unique<StructArray>(params)));
+            StructArray* arrRef = dynamic_cast<StructArray*>(LoadOnHeap(std::make_unique<StructArray>(params)));
             LoadOnStack(std::make_unique<Array>(arrRef));
         }
 
@@ -89,6 +91,18 @@ void Interpreter::EnterNode(const CallSuffixNode& node) {
 void Interpreter::EnterNode(const UnaryPrefixOperationNode& node) {
     node.GetOperand().RunVisitor(*this);
     LoadOnStack(PopFromStack()->ApplyOperation(node.GetLexeme().GetType()));
+}
+
+void Interpreter::EnterNode(const IndexSuffixNode& node) {
+    for (auto& it : node.GetArguments().GetArguments()) {
+        it->RunVisitor(*this);
+    }
+
+    node.GetExpression()->RunVisitor(*this);
+    Pointer<IVariable> arr = PopFromStack();
+    Pointer<IVariable> idxRef = PopFromStack();
+    const IVariable* idx = InterpreterUtil::TryDereference(idxRef.get());
+    LoadOnStack(dynamic_cast<Array*>(arr.get())->Get(idx->GetValue<int>()));
 }
 
 void Interpreter::EnterNode(const BinOperationNode& node) {
