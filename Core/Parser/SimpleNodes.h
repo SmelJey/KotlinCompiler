@@ -95,7 +95,7 @@ public:
 
     void RunVisitor(INodeVisitor& visitor) const override;
 protected:
-    void AcceptVisitor(INodeVisitor& visitor) const override;
+    void PropagateVisitor(INodeVisitor& visitor) const override;
 
     std::string GetName() const override;
 private:
@@ -135,7 +135,7 @@ public:
 
 protected:
     std::string GetName() const override;
-    void AcceptVisitor(INodeVisitor& visitor) const override;
+    void PropagateVisitor(INodeVisitor& visitor) const override;
 
 private:
     Pointer<IAnnotatedNode> myExpression;

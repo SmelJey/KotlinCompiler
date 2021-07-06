@@ -97,7 +97,7 @@ Pointer<AbstractType> IntegerSymbol::IsApplicable(LexemeType operation) const {
 
 Pointer<AbstractType> IntegerSymbol::IsApplicable(LexemeType binaryOperation, const AbstractType* rightOperand) const {
     if (*this == *rightOperand) {
-        if (LexerUtils::IsBoolOperation(binaryOperation)) {
+        if (LexerUtils::IsComparisonOperation(binaryOperation)) {
             return std::make_unique<BooleanSymbol>(GetParentTable());
         }
         if (LexerUtils::IsArithmeticOperation(binaryOperation)) {
@@ -146,7 +146,7 @@ Pointer<AbstractType> DoubleSymbol::IsApplicable(LexemeType operation) const {
 
 Pointer<AbstractType> DoubleSymbol::IsApplicable(LexemeType binaryOperation, const AbstractType* rightOperand) const {
     if (*this == *rightOperand) {
-        if (LexerUtils::IsBoolOperation(binaryOperation)) {
+        if (LexerUtils::IsComparisonOperation(binaryOperation)) {
             return std::make_unique<BooleanSymbol>(GetParentTable());
         }
         if (LexerUtils::IsArithmeticOperation(binaryOperation)) {

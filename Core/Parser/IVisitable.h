@@ -13,5 +13,5 @@ public:
     virtual void RunVisitor(INodeVisitor& visitor) const;
 
 protected:
-    virtual void AcceptVisitor(INodeVisitor& visitor) const;
+    virtual void PropagateVisitor(INodeVisitor& visitor) const;
 };

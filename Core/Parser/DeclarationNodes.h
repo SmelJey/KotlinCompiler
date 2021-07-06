@@ -17,7 +17,7 @@ public:
     Lexeme GetLexeme() const override;
 
 protected:
-    void AcceptVisitor(INodeVisitor& visitor) const override;
+    void PropagateVisitor(INodeVisitor& visitor) const override;
 
     const ISymbol* mySymbol = nullptr;
     const UnitTypeSymbol* myUnitSym;
@@ -37,7 +37,7 @@ public:
     void RunVisitor(INodeVisitor& visitor) const override;
 protected:
     std::string GetName() const override;
-    void AcceptVisitor(INodeVisitor& visitor) const override;
+    void PropagateVisitor(INodeVisitor& visitor) const override;
 
 private:
     std::vector<Pointer<AbstractDeclaration>> myDeclarations;
@@ -54,7 +54,7 @@ public:
     void RunVisitor(INodeVisitor& visitor) const override;
 protected:
     std::string GetName() const override;
-    void AcceptVisitor(INodeVisitor& visitor) const override;
+    void PropagateVisitor(INodeVisitor& visitor) const override;
 
 private:
     Pointer<DeclarationBlock> myClassBody;
@@ -76,7 +76,7 @@ public:
 
 protected:
     std::string GetName() const override;
-    void AcceptVisitor(INodeVisitor& visitor) const override;
+    void PropagateVisitor(INodeVisitor& visitor) const override;
 
 private:
     Pointer<IAnnotatedNode> myType;
@@ -94,7 +94,7 @@ public:
     void RunVisitor(INodeVisitor& visitor) const override;
 protected:
     std::string GetName() const override;
-    void AcceptVisitor(INodeVisitor & visitor) const override;
+    void PropagateVisitor(INodeVisitor & visitor) const override;
 
 private:
     Pointer<IAnnotatedNode> myType;
@@ -110,7 +110,7 @@ public:
     void RunVisitor(INodeVisitor& visitor) const override;
 protected:
     std::string GetName() const override;
-    void AcceptVisitor(INodeVisitor& visitor) const override;
+    void PropagateVisitor(INodeVisitor& visitor) const override;
 
 private:
     std::vector<Pointer<ParameterNode>> myParameters;
@@ -132,7 +132,7 @@ public:
 protected:
     std::string GetName() const override;
 
-    void AcceptVisitor(INodeVisitor& visitor) const override;
+    void PropagateVisitor(INodeVisitor& visitor) const override;
 
 private:
     Pointer<ParameterList> myParams;
@@ -158,7 +158,7 @@ public:
     void RunVisitor(INodeVisitor& visitor) const override;
 protected:
     std::string GetName() const override;
-    void AcceptVisitor(INodeVisitor& visitor) const override;
+    void PropagateVisitor(INodeVisitor& visitor) const override;
 
 private:
     Pointer<IAnnotatedNode> myType;

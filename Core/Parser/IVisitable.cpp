@@ -8,6 +8,6 @@ void IVisitable::RunVisitor(INodeVisitor & visitor) const {
     visitor.ExitNode(*this);
 }
 
-void IVisitable::AcceptVisitor(INodeVisitor & visitor) const {
+void IVisitable::PropagateVisitor(INodeVisitor & visitor) const {
 }
 

@@ -53,7 +53,7 @@ std::string AbstractType::GetName() const {
     return myName;
 }
 
-void AbstractType::AcceptVisitor(INodeVisitor& visitor) const {
+void AbstractType::PropagateVisitor(INodeVisitor& visitor) const {
     if (!myTable->IsEmpty()) {
         myTable->RunVisitor(visitor);
     }

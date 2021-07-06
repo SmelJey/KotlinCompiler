@@ -43,6 +43,7 @@ public:
     static bool IsArithmAssignOperation(LexemeType type);
 
     static bool IsEqualityOperation(LexemeType type);
+    static bool IsComparisonOperation(LexemeType type);
     static bool IsBoolOperation(LexemeType type);
     static bool IsArithmeticOperation(LexemeType type);
 };

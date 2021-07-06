@@ -69,7 +69,7 @@ std::string FunctionSymbol::ToString() const {
     return res;
 }
 
-void FunctionSymbol::AcceptVisitor(INodeVisitor& visitor) const {
+void FunctionSymbol::PropagateVisitor(INodeVisitor& visitor) const {
     if (!myTable->IsEmpty()) {
         myTable->RunVisitor(visitor);
     }

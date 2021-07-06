@@ -10,6 +10,7 @@
 #include <boost/program_options/variables_map.hpp>
 
 #include "PrintVisitors.h"
+#include "Interpreter/Interpreter.h"
 
 #include "Parser/Parser.h"
 #include "Parser/ParserError.h"
@@ -75,7 +76,7 @@ int main(int argc, char** argv) {
     Lexer lexer(configuration.GetPaths()[0]);
     SymbolTable symTable;
     Parser parser(lexer, &symTable);
-    Pointer<AbstractNode> syntaxTree = parser.Parse();
+    Pointer<DeclarationBlock> syntaxTree = parser.Parse();
 
     if (configuration.GetParserDebug()) {
         std::cout << std::endl;
@@ -99,6 +100,8 @@ int main(int argc, char** argv) {
         for (auto& str : visitor.GetStringData()) {
             std::cout << str << std::endl;
         }
+
+        std::cout << std::endl;
     }
 
     for (auto& error : parser.GetParsingErrors()) {
@@ -109,6 +112,13 @@ int main(int argc, char** argv) {
             std::cout << error << std::endl;
         }
     }
+
+    if (!parser.GetParsingErrors().empty() || !parser.GetSemanticsErrors().empty()) {
+        return 0;
+    }
+
+    Interpreter interpreter(syntaxTree.get(), &symTable);
+    interpreter.RunMain();
 
     return 0;
 }

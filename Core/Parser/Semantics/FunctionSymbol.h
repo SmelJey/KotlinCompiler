@@ -28,7 +28,7 @@ public:
     std::string ToString() const override;
 
 protected:
-    void AcceptVisitor(INodeVisitor& visitor) const override;
+    void PropagateVisitor(INodeVisitor& visitor) const override;
 
 private:
     std::string myName;

@@ -166,8 +166,12 @@ bool LexerUtils::IsEqualityOperation(LexemeType type) {
     return type == LexemeType::OpEqual || type == LexemeType::OpInequal || type == LexemeType::OpStrictEq || type == LexemeType::OpStrictIneq;
 }
 
+bool LexerUtils::IsComparisonOperation(LexemeType type) {
+    return type >= LexemeType::OpLess && type <= LexemeType::OpStrictEq;
+}
+
 bool LexerUtils::IsBoolOperation(LexemeType type) {
-    return type >= LexemeType::OpLess && type <= LexemeType::OpStrictEq || type == LexemeType::OpAnd || type == LexemeType::OpOr;
+    return IsComparisonOperation(type) || type == LexemeType::OpAnd || type == LexemeType::OpOr;
 }
 
 bool LexerUtils::IsArithmeticOperation(LexemeType type) {

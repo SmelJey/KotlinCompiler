@@ -22,7 +22,7 @@ public:
 protected:
     std::string GetName() const override;
 
-    void AcceptVisitor(INodeVisitor& visitor) const override;
+    void PropagateVisitor(INodeVisitor& visitor) const override;
 private:
     Pointer<IAnnotatedNode> myLeftOperand;
     Pointer<IAnnotatedNode> myRightOperand;
@@ -40,7 +40,7 @@ public:
     const AbstractType* GetType() const override;
 
 protected:
-    void AcceptVisitor(INodeVisitor& visitor) const override;
+    void PropagateVisitor(INodeVisitor& visitor) const override;
 
 private:
     Pointer<IAnnotatedNode> myOperand;
@@ -82,7 +82,7 @@ public:
     void RunVisitor(INodeVisitor& visitor) const override;
 protected:
     std::string GetName() const override;
-    void AcceptVisitor(INodeVisitor& visitor) const override;
+    void PropagateVisitor(INodeVisitor& visitor) const override;
 
 private:
     std::vector<Pointer<IAnnotatedNode>> myArguments;
@@ -100,7 +100,7 @@ public:
     void RunVisitor(INodeVisitor& visitor) const override;
 protected:
     std::string GetName() const override;
-    void AcceptVisitor(INodeVisitor& visitor) const override;
+    void PropagateVisitor(INodeVisitor& visitor) const override;
 
 private:
     std::vector<Pointer<TypeNode>> myArguments;
@@ -117,7 +117,7 @@ public:
     const ISymbol* GetSymbol() const override;
     const AbstractType* GetType() const override;
 protected:
-    void AcceptVisitor(INodeVisitor& visitor) const override;
+    void PropagateVisitor(INodeVisitor& visitor) const override;
 
 private:
     Pointer<IAnnotatedNode> myExpression;
@@ -147,7 +147,7 @@ public:
 
     void RunVisitor(INodeVisitor& visitor) const override;
 protected:
-    void AcceptVisitor(INodeVisitor& visitor) const override;
+    void PropagateVisitor(INodeVisitor& visitor) const override;
 
     std::string GetName() const override;
 
@@ -172,7 +172,7 @@ public:
 
 protected:
     std::string GetName() const override;
-    void AcceptVisitor(INodeVisitor& visitor) const override;
+    void PropagateVisitor(INodeVisitor& visitor) const override;
 
 private:
     Pointer<IAnnotatedNode> myExpression;
@@ -194,7 +194,7 @@ public:
     void RunVisitor(INodeVisitor& visitor) const override;
 protected:
     std::string GetName() const override;
-    void AcceptVisitor(INodeVisitor& visitor) const override;
+    void PropagateVisitor(INodeVisitor& visitor) const override;
 
 private:
     Pointer<IAnnotatedNode> myExpression;
@@ -216,7 +216,7 @@ public:
     void RunVisitor(INodeVisitor& visitor) const override;
 protected:
     std::string GetName() const override;
-    void AcceptVisitor(INodeVisitor& visitor) const override;
+    void PropagateVisitor(INodeVisitor& visitor) const override;
 
 private:
     std::vector<Pointer<IAnnotatedNode>> myStatements;

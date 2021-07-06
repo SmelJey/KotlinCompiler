@@ -107,8 +107,8 @@ bool IdentifierNode::IsAssignable() const {
 }
 
 void IdentifierNode::RunVisitor(INodeVisitor& visitor) const {
-    IVisitable::RunVisitor(visitor);
     visitor.EnterNode(*this);
+    IVisitable::RunVisitor(visitor);
     visitor.ExitNode(*this);
 }
 
@@ -119,8 +119,8 @@ std::string IdentifierNode::GetName() const {
 IntegerNode::IntegerNode(const Lexeme& lexeme, const ISymbol* symbol) : AbstractTypedNode(lexeme, symbol) {}
 
 void IntegerNode::RunVisitor(INodeVisitor& visitor) const {
-    IVisitable::RunVisitor(visitor);
     visitor.EnterNode(*this);
+    IVisitable::RunVisitor(visitor);
     visitor.ExitNode(*this);
 }
 
@@ -131,8 +131,8 @@ std::string IntegerNode::GetName() const {
 DoubleNode::DoubleNode(const Lexeme& lexeme, const ISymbol* symbol) : AbstractTypedNode(lexeme, symbol) {}
 
 void DoubleNode::RunVisitor(INodeVisitor& visitor) const {
-    IVisitable::RunVisitor(visitor);
     visitor.EnterNode(*this);
+    IVisitable::RunVisitor(visitor);
     visitor.ExitNode(*this);
 }
 
@@ -143,8 +143,8 @@ std::string DoubleNode::GetName() const {
 BooleanNode::BooleanNode(const Lexeme& lexeme, const ISymbol* symbol) : AbstractTypedNode(lexeme, symbol) {}
 
 void BooleanNode::RunVisitor(INodeVisitor& visitor) const {
-    IVisitable::RunVisitor(visitor);
     visitor.EnterNode(*this);
+    IVisitable::RunVisitor(visitor);
     visitor.ExitNode(*this);
 }
 
@@ -155,8 +155,8 @@ std::string BooleanNode::GetName() const {
 StringNode::StringNode(const Lexeme& lexeme, const ISymbol* symbol) : AbstractTypedNode(lexeme, symbol) {}
 
 void StringNode::RunVisitor(INodeVisitor& visitor) const {
-    IVisitable::RunVisitor(visitor);
     visitor.EnterNode(*this);
+    IVisitable::RunVisitor(visitor);
     visitor.ExitNode(*this);
 }
 
@@ -180,13 +180,13 @@ bool TypeNode::HasTypeArgs() const {
 }
 
 void TypeNode::RunVisitor(INodeVisitor& visitor) const {
-    IVisitable::RunVisitor(visitor);
     visitor.EnterNode(*this);
+    IVisitable::RunVisitor(visitor);
     visitor.ExitNode(*this);
 }
 
-void TypeNode::AcceptVisitor(INodeVisitor& visitor) const {
-    AbstractTypedNode::AcceptVisitor(visitor);
+void TypeNode::PropagateVisitor(INodeVisitor& visitor) const {
+    AbstractTypedNode::PropagateVisitor(visitor);
     if (HasTypeArgs()) {
         myTypeArgs->RunVisitor(visitor);
     }
@@ -199,8 +199,8 @@ std::string TypeNode::GetName() const {
 BreakNode::BreakNode(const Lexeme& lexeme, const UnitTypeSymbol* type) : UnitTypedNode(lexeme, type) {}
 
 void BreakNode::RunVisitor(INodeVisitor& visitor) const {
-    IVisitable::RunVisitor(visitor);
     visitor.EnterNode(*this);
+    IVisitable::RunVisitor(visitor);
     visitor.ExitNode(*this);
 }
 
@@ -211,8 +211,8 @@ std::string BreakNode::GetName() const {
 ContinueNode::ContinueNode(const Lexeme& lexeme, const UnitTypeSymbol* type) : UnitTypedNode(lexeme, type) {}
 
 void ContinueNode::RunVisitor(INodeVisitor& visitor) const {
-    IVisitable::RunVisitor(visitor);
     visitor.EnterNode(*this);
+    IVisitable::RunVisitor(visitor);
     visitor.ExitNode(*this);
 }
 
@@ -247,8 +247,8 @@ const AbstractType* ReturnNode::GetType() const {
 }
 
 void ReturnNode::RunVisitor(INodeVisitor& visitor) const {
-    IVisitable::RunVisitor(visitor);
     visitor.EnterNode(*this);
+    IVisitable::RunVisitor(visitor);
     visitor.ExitNode(*this);
 }
 
@@ -256,7 +256,7 @@ std::string ReturnNode::GetName() const {
     return "Return";
 }
 
-void ReturnNode::AcceptVisitor(INodeVisitor& visitor) const {
+void ReturnNode::PropagateVisitor(INodeVisitor& visitor) const {
     if (HasExpression()) {
         myExpression->RunVisitor(visitor);
     }

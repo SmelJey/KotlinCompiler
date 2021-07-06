@@ -1,9 +1,5 @@
 #pragma once
 
-#include <string>
-#include <stack>
-#include <vector>
-
 class PropertyDeclaration;
 class FunctionDeclaration;
 class ParameterList;

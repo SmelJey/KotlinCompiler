@@ -4,7 +4,7 @@
 
 INodeVisitor::~INodeVisitor() = default;
 void INodeVisitor::EnterNode(const IVisitable& node) {
-    node.AcceptVisitor(*this);
+    node.PropagateVisitor(*this);
 }
 
 void INodeVisitor::EnterNode(const IdentifierNode& node) {}

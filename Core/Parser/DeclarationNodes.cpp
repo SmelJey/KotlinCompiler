@@ -29,7 +29,7 @@ Lexeme AbstractDeclaration::GetLexeme() const {
     return myIdentifier->GetLexeme();
 }
 
-void AbstractDeclaration::AcceptVisitor(INodeVisitor& visitor) const {
+void AbstractDeclaration::PropagateVisitor(INodeVisitor& visitor) const {
     myIdentifier->RunVisitor(visitor);
 }
 
@@ -45,8 +45,8 @@ void DeclarationBlock::AddDeclaration(Pointer<AbstractDeclaration> declaration) 
 }
 
 void DeclarationBlock::RunVisitor(INodeVisitor& visitor) const {
-    IVisitable::RunVisitor(visitor);
     visitor.EnterNode(*this);
+    IVisitable::RunVisitor(visitor);
     visitor.ExitNode(*this);
 }
 
@@ -54,7 +54,7 @@ std::string DeclarationBlock::GetName() const {
     return "Decl Block";
 }
 
-void DeclarationBlock::AcceptVisitor(INodeVisitor& visitor) const {
+void DeclarationBlock::PropagateVisitor(INodeVisitor& visitor) const {
     for (auto& declaration : myDeclarations) {
         declaration->RunVisitor(visitor);
     }
@@ -75,8 +75,8 @@ bool ClassDeclaration::HasBody() const {
 }
 
 void ClassDeclaration::RunVisitor(INodeVisitor& visitor) const {
-    IVisitable::RunVisitor(visitor);
     visitor.EnterNode(*this);
+    IVisitable::RunVisitor(visitor);
     visitor.ExitNode(*this);
 }
 
@@ -84,8 +84,8 @@ std::string ClassDeclaration::GetName() const {
     return "Class Decl";
 }
 
-void ClassDeclaration::AcceptVisitor(INodeVisitor& visitor) const {
-    AbstractDeclaration::AcceptVisitor(visitor);
+void ClassDeclaration::PropagateVisitor(INodeVisitor& visitor) const {
+    AbstractDeclaration::PropagateVisitor(visitor);
 
     if (HasBody()) {
         myClassBody->RunVisitor(visitor);
@@ -121,8 +121,8 @@ const AbstractType* ParameterNode::GetType() const {
 }
 
 void ParameterNode::RunVisitor(INodeVisitor& visitor) const {
-    IVisitable::RunVisitor(visitor);
     visitor.EnterNode(*this);
+    IVisitable::RunVisitor(visitor);
     visitor.ExitNode(*this);
 }
 
@@ -130,8 +130,8 @@ std::string ParameterNode::GetName() const {
     return "Parameter";
 }
 
-void ParameterNode::AcceptVisitor(INodeVisitor& visitor) const {
-    AbstractDeclaration::AcceptVisitor(visitor);
+void ParameterNode::PropagateVisitor(INodeVisitor& visitor) const {
+    AbstractDeclaration::PropagateVisitor(visitor);
 
     myType->RunVisitor(visitor);
     if (HasDefault()) {
@@ -154,8 +154,8 @@ bool VariableNode::HasTypeNode() const {
 }
 
 void VariableNode::RunVisitor(INodeVisitor& visitor) const {
-    IVisitable::RunVisitor(visitor);
     visitor.EnterNode(*this);
+    IVisitable::RunVisitor(visitor);
     visitor.ExitNode(*this);
 }
 
@@ -163,8 +163,8 @@ std::string VariableNode::GetName() const {
     return "Variable";
 }
 
-void VariableNode::AcceptVisitor(INodeVisitor& visitor) const {
-    AbstractDeclaration::AcceptVisitor(visitor);
+void VariableNode::PropagateVisitor(INodeVisitor& visitor) const {
+    AbstractDeclaration::PropagateVisitor(visitor);
 
     if (HasTypeNode()) {
         myType->RunVisitor(visitor);
@@ -182,8 +182,8 @@ void ParameterList::AddParameter(Pointer<ParameterNode> param) {
 }
 
 void ParameterList::RunVisitor(INodeVisitor& visitor) const {
-    IVisitable::RunVisitor(visitor);
     visitor.EnterNode(*this);
+    IVisitable::RunVisitor(visitor);
     visitor.ExitNode(*this);
 }
 
@@ -191,7 +191,7 @@ std::string ParameterList::GetName() const {
     return "Params";
 }
 
-void ParameterList::AcceptVisitor(INodeVisitor& visitor) const {
+void ParameterList::PropagateVisitor(INodeVisitor& visitor) const {
     for (auto& param : myParameters) {
         param->RunVisitor(visitor);
     }
@@ -221,8 +221,8 @@ bool FunctionDeclaration::HasReturnNode() const {
 }
 
 void FunctionDeclaration::RunVisitor(INodeVisitor& visitor) const {
-    IVisitable::RunVisitor(visitor);
     visitor.EnterNode(*this);
+    IVisitable::RunVisitor(visitor);
     visitor.ExitNode(*this);
 }
 
@@ -230,8 +230,8 @@ std::string FunctionDeclaration::GetName() const {
     return "Fun Decl";
 }
 
-void FunctionDeclaration::AcceptVisitor(INodeVisitor& visitor) const {
-    AbstractDeclaration::AcceptVisitor(visitor);
+void FunctionDeclaration::PropagateVisitor(INodeVisitor& visitor) const {
+    AbstractDeclaration::PropagateVisitor(visitor);
 
     myParams->RunVisitor(visitor);
     if (HasReturnNode()) {
@@ -277,8 +277,8 @@ bool PropertyDeclaration::HasInitialization() const {
 }
 
 void PropertyDeclaration::RunVisitor(INodeVisitor& visitor) const {
-    IVisitable::RunVisitor(visitor);
     visitor.EnterNode(*this);
+    IVisitable::RunVisitor(visitor);
     visitor.ExitNode(*this);
 }
 
@@ -286,8 +286,8 @@ std::string PropertyDeclaration::GetName() const {
     return "V" + GetKeyword().substr(1) + " Decl";
 }
 
-void PropertyDeclaration::AcceptVisitor(INodeVisitor& visitor) const {
-    AbstractDeclaration::AcceptVisitor(visitor);
+void PropertyDeclaration::PropagateVisitor(INodeVisitor& visitor) const {
+    AbstractDeclaration::PropagateVisitor(visitor);
 
     if (HasTypeNode()) {
         myType->RunVisitor(visitor);

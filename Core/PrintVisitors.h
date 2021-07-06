@@ -1,4 +1,8 @@
 #pragma once
+#include <string>
+#include <stack>
+#include <vector>
+
 #include "Parser/INodeVisitor.h"
 
 class ToStringVisitor : public INodeVisitor {

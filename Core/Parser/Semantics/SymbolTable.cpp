@@ -165,7 +165,7 @@ std::string SymbolTable::ToString() const {
     return "SymbolTable";
 }
 
-void SymbolTable::AcceptVisitor(INodeVisitor& visitor) const {
+void SymbolTable::PropagateVisitor(INodeVisitor& visitor) const {
     for (auto& it : mySymbols) {
         for (auto& sym : it.second) {
             sym->RunVisitor(visitor);

@@ -6,8 +6,8 @@ EmptyStatement::EmptyStatement(const Lexeme& lexeme, const UnitTypeSymbol* type)
     : UnitTypedNode(lexeme.CopyEmptyOfType(LexemeType::Ignored), type) {}
 
 void EmptyStatement::RunVisitor(INodeVisitor& visitor) const {
-    IVisitable::RunVisitor(visitor);
     visitor.EnterNode(*this);
+    IVisitable::RunVisitor(visitor);
     visitor.ExitNode(*this);
 }
 
@@ -31,8 +31,8 @@ const IAnnotatedNode& Assignment::GetExpression() const {
 }
 
 void Assignment::RunVisitor(INodeVisitor& visitor) const {
-    IVisitable::RunVisitor(visitor);
     visitor.EnterNode(*this);
+    IVisitable::RunVisitor(visitor);
     visitor.ExitNode(*this);
 }
 
@@ -40,7 +40,7 @@ std::string Assignment::GetName() const {
     return "Assignment :: " + GetOperation();
 }
 
-void Assignment::AcceptVisitor(INodeVisitor& visitor) const {
+void Assignment::PropagateVisitor(INodeVisitor& visitor) const {
     myAssignable->RunVisitor(visitor);
     myExpression->RunVisitor(visitor);
 }
@@ -56,7 +56,7 @@ const ISyntaxNode& LoopNode::GetBody() const {
     return *myBody;
 }
 
-void LoopNode::AcceptVisitor(INodeVisitor& visitor) const {
+void LoopNode::PropagateVisitor(INodeVisitor& visitor) const {
     myExpression->RunVisitor(visitor);
     myBody->RunVisitor(visitor);
 }
@@ -65,8 +65,8 @@ WhileNode::WhileNode(const Lexeme& lexeme, Pointer<IAnnotatedNode> expression, P
     : LoopNode(lexeme, std::move(expression), std::move(body), type) {}
 
 void WhileNode::RunVisitor(INodeVisitor& visitor) const {
-    IVisitable::RunVisitor(visitor);
     visitor.EnterNode(*this);
+    IVisitable::RunVisitor(visitor);
     visitor.ExitNode(*this);
 }
 
@@ -78,8 +78,8 @@ DoWhileNode::DoWhileNode(const Lexeme& lexeme, Pointer<IAnnotatedNode> expressio
     : LoopNode(lexeme, std::move(expression), std::move(body), type) {}
 
 void DoWhileNode::RunVisitor(INodeVisitor& visitor) const {
-    IVisitable::RunVisitor(visitor);
     visitor.EnterNode(*this);
+    IVisitable::RunVisitor(visitor);
     visitor.ExitNode(*this);
 }
 
@@ -95,8 +95,8 @@ const VariableNode& ForNode::GetVariable() const {
 }
 
 void ForNode::RunVisitor(INodeVisitor& visitor) const {
-    IVisitable::RunVisitor(visitor);
     visitor.EnterNode(*this);
+    IVisitable::RunVisitor(visitor);
     visitor.ExitNode(*this);
 }
 
@@ -104,7 +104,7 @@ std::string ForNode::GetName() const {
     return "For";
 }
 
-void ForNode::AcceptVisitor(INodeVisitor& visitor) const {
+void ForNode::PropagateVisitor(INodeVisitor& visitor) const {
     myVariable->RunVisitor(visitor);
-    LoopNode::AcceptVisitor(visitor);
+    LoopNode::PropagateVisitor(visitor);
 }

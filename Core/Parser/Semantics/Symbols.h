@@ -40,7 +40,7 @@ public:
     std::string GetName() const override;
 
 protected:
-    void AcceptVisitor(INodeVisitor& visitor) const override;
+    void PropagateVisitor(INodeVisitor& visitor) const override;
 
     SymbolTable* GetParentTable() const;
 

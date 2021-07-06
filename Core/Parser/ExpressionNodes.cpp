@@ -30,8 +30,8 @@ const AbstractType* BinOperationNode::GetType() const {
 }
 
 void BinOperationNode::RunVisitor(INodeVisitor& visitor) const {
-    IVisitable::RunVisitor(visitor);
     visitor.EnterNode(*this);
+    IVisitable::RunVisitor(visitor);
     visitor.ExitNode(*this);
 }
 
@@ -39,7 +39,7 @@ std::string BinOperationNode::GetName() const {
     return "Bin op :: " + GetOperation();
 }
 
-void BinOperationNode::AcceptVisitor(INodeVisitor& visitor) const {
+void BinOperationNode::PropagateVisitor(INodeVisitor& visitor) const {
     GetLeftOperand().RunVisitor(visitor);
     GetRightOperand().RunVisitor(visitor);
 }
@@ -63,7 +63,7 @@ const AbstractType* AbstractUnaryOperationNode::GetType() const {
     return myType;
 }
 
-void AbstractUnaryOperationNode::AcceptVisitor(INodeVisitor& visitor) const {
+void AbstractUnaryOperationNode::PropagateVisitor(INodeVisitor& visitor) const {
     myOperand->RunVisitor(visitor);
 }
 
@@ -71,8 +71,8 @@ UnaryPrefixOperationNode::UnaryPrefixOperationNode(const Lexeme& operation, Poin
     : AbstractUnaryOperationNode(operation, std::move(operand), type) {}
 
 void UnaryPrefixOperationNode::RunVisitor(INodeVisitor& visitor) const {
-    IVisitable::RunVisitor(visitor);
     visitor.EnterNode(*this);
+    IVisitable::RunVisitor(visitor);
     visitor.ExitNode(*this);
 }
 
@@ -84,8 +84,8 @@ UnaryPostfixOperationNode::UnaryPostfixOperationNode(const Lexeme& operation, Po
     : AbstractUnaryOperationNode(operation, std::move(operand), type) {}
 
 void UnaryPostfixOperationNode::RunVisitor(INodeVisitor& visitor) const {
-    IVisitable::RunVisitor(visitor);
     visitor.EnterNode(*this);
+    IVisitable::RunVisitor(visitor);
     visitor.ExitNode(*this);
 }
 
@@ -115,8 +115,8 @@ const std::vector<const AbstractType*> CallArgumentsNode::GetTypes() const {
 }
 
 void CallArgumentsNode::RunVisitor(INodeVisitor& visitor) const {
-    IVisitable::RunVisitor(visitor);
     visitor.EnterNode(*this);
+    IVisitable::RunVisitor(visitor);
     visitor.ExitNode(*this);
 }
 
@@ -124,7 +124,7 @@ std::string CallArgumentsNode::GetName() const {
     return "Args";
 }
 
-void CallArgumentsNode::AcceptVisitor(INodeVisitor& visitor) const {
+void CallArgumentsNode::PropagateVisitor(INodeVisitor& visitor) const {
     for (auto& arg : myArguments) {
         arg->RunVisitor(visitor);
     }
@@ -150,8 +150,8 @@ const std::vector<const AbstractType*> TypeArgumentsNode::GetTypes() const {
 }
 
 void TypeArgumentsNode::RunVisitor(INodeVisitor& visitor) const {
-    IVisitable::RunVisitor(visitor);
     visitor.EnterNode(*this);
+    IVisitable::RunVisitor(visitor);
     visitor.ExitNode(*this);
 }
 
@@ -159,7 +159,7 @@ std::string TypeArgumentsNode::GetName() const {
     return "TypeArgs";
 }
 
-void TypeArgumentsNode::AcceptVisitor(INodeVisitor& visitor) const {
+void TypeArgumentsNode::PropagateVisitor(INodeVisitor& visitor) const {
     for (auto& arg : myArguments) {
         arg->RunVisitor(visitor);
     }
@@ -185,7 +185,7 @@ const AbstractType* AbstractPostfixCallNode::GetType() const {
     return myType;
 }
 
-void AbstractPostfixCallNode::AcceptVisitor(INodeVisitor& visitor) const {
+void AbstractPostfixCallNode::PropagateVisitor(INodeVisitor& visitor) const {
     myExpression->RunVisitor(visitor);
     myArgumentsNode->RunVisitor(visitor);
 }
@@ -198,8 +198,8 @@ bool IndexSuffixNode::IsAssignable() const {
 }
 
 void IndexSuffixNode::RunVisitor(INodeVisitor& visitor) const {
-    IVisitable::RunVisitor(visitor);
     visitor.EnterNode(*this);
+    IVisitable::RunVisitor(visitor);
     visitor.ExitNode(*this);
 }
 
@@ -223,13 +223,13 @@ bool CallSuffixNode::HasTypeArguments() const {
 }
 
 void CallSuffixNode::RunVisitor(INodeVisitor& visitor) const {
-    IVisitable::RunVisitor(visitor);
     visitor.EnterNode(*this);
+    IVisitable::RunVisitor(visitor);
     visitor.ExitNode(*this);
 }
 
-void CallSuffixNode::AcceptVisitor(INodeVisitor& visitor) const {
-    AbstractPostfixCallNode::AcceptVisitor(visitor);
+void CallSuffixNode::PropagateVisitor(INodeVisitor& visitor) const {
+    AbstractPostfixCallNode::PropagateVisitor(visitor);
     if (HasTypeArguments()) {
         myTypeArguments->RunVisitor(visitor);
     }
@@ -281,8 +281,8 @@ bool MemberAccessNode::IsAssignable() const {
 }
 
 void MemberAccessNode::RunVisitor(INodeVisitor& visitor) const {
-    IVisitable::RunVisitor(visitor);
     visitor.EnterNode(*this);
+    IVisitable::RunVisitor(visitor);
     visitor.ExitNode(*this);
 }
 
@@ -290,7 +290,7 @@ std::string MemberAccessNode::GetName() const {
     return "MemberAccess :: " + GetOperation();
 }
 
-void MemberAccessNode::AcceptVisitor(INodeVisitor& visitor) const {
+void MemberAccessNode::PropagateVisitor(INodeVisitor& visitor) const {
     myExpression->RunVisitor(visitor);
     myMemberNode->RunVisitor(visitor);
 }
@@ -323,8 +323,8 @@ const AbstractType* IfExpression::GetType() const {
 }
 
 void IfExpression::RunVisitor(INodeVisitor& visitor) const {
-    IVisitable::RunVisitor(visitor);
     visitor.EnterNode(*this);
+    IVisitable::RunVisitor(visitor);
     visitor.ExitNode(*this);
 }
 
@@ -332,7 +332,7 @@ std::string IfExpression::GetName() const {
     return "If Expr";
 }
 
-void IfExpression::AcceptVisitor(INodeVisitor& visitor) const {
+void IfExpression::PropagateVisitor(INodeVisitor& visitor) const {
     myExpression->RunVisitor(visitor);
     myIfBody->RunVisitor(visitor);
     myElseBody->RunVisitor(visitor);
@@ -362,8 +362,8 @@ void BlockNode::SetSymbol(const AbstractType* returnSym) {
 }
 
 void BlockNode::RunVisitor(INodeVisitor& visitor) const {
-    IVisitable::RunVisitor(visitor);
     visitor.EnterNode(*this);
+    IVisitable::RunVisitor(visitor);
     visitor.ExitNode(*this);
 }
 
@@ -371,7 +371,7 @@ std::string BlockNode::GetName() const {
     return "Block";
 }
 
-void BlockNode::AcceptVisitor(INodeVisitor& visitor) const {
+void BlockNode::PropagateVisitor(INodeVisitor& visitor) const {
     for (auto& statement : myStatements) {
         statement->RunVisitor(visitor);
     }
