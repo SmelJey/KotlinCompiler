@@ -14,6 +14,10 @@ public:
 
     void RunMain();
 
+    const IVariable* LoadOnHeap(Pointer<IVariable> variable);
+    void LoadOnStack(Pointer<IVariable> variable);
+    Pointer<IVariable> PopFromStack();
+
     void EnterNode(const IVisitable& node) override;
     void EnterNode(const FunctionDeclaration& node) override;
     void EnterNode(const BlockNode& node) override;
@@ -34,4 +38,5 @@ private:
 
     std::stack<StackFrame> myStack;
     //std::vector<>
+    std::vector<Pointer<IVariable>> myHeap;
 };

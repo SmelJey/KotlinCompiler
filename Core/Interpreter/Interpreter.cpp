@@ -16,6 +16,25 @@ void Interpreter::RunMain() {
     dynamic_cast<const FunctionDeclaration*>(myMain->GetDeclaration())->GetBody().RunVisitor(*this);
 }
 
+const IVariable* Interpreter::LoadOnHeap(Pointer<IVariable> variable) {
+    myHeap.push_back(std::move(variable));
+    return myHeap.rbegin()->get();
+}
+
+void Interpreter::LoadOnStack(Pointer<IVariable> variable) {
+    if (dynamic_cast<const StructRange*>(variable.get())) {
+        auto rangeStruct = dynamic_cast<const StructRange*>(LoadOnHeap(std::move(variable)));
+        LoadOnStack(std::make_unique<Range>(rangeStruct));
+        return;
+    }
+
+    myStack.top().Load(std::move(variable));
+}
+
+Pointer<IVariable> Interpreter::PopFromStack() {
+    return myStack.top().Pop();
+}
+
 void Interpreter::EnterNode(const IVisitable& node) {}
 
 void Interpreter::EnterNode(const FunctionDeclaration& node) {
@@ -51,7 +70,15 @@ void Interpreter::EnterNode(const CallSuffixNode& node) {
             } else if (dynamic_cast<const BooleanSymbol*>(funcSym->GetParameter(0))) {
                 std::cout << (arg->GetValue<bool>() ? "true" : "false") << std::endl;
             }
-        } 
+        } else if (funcSym->GetName() == "arrayOf") {
+            std::vector<const IVariable*> params;
+            for (int i = 0; i < funcSym->GetParametersCount(); i++) {
+                params.push_back(LoadOnHeap(PopFromStack()));
+            }
+            std::reverse(params.begin(), params.end());
+            const StructArray* arrRef = dynamic_cast<const StructArray*>(LoadOnHeap(std::make_unique<StructArray>(params)));
+            LoadOnStack(std::make_unique<Array>(arrRef));
+        }
 
         return;
     }
@@ -64,24 +91,24 @@ void Interpreter::EnterNode(const BinOperationNode& node) {
     node.GetRightOperand().RunVisitor(*this);
 
 
-    Pointer<IVariable> rhs = myStack.top().Pop();
-    Pointer<IVariable> lhs = myStack.top().Pop();
-    myStack.top().Load(rhs->ApplyOperation(node.GetLexeme().GetType(), lhs.get()));
+    Pointer<IVariable> rhs = PopFromStack();
+    Pointer<IVariable> lhs = PopFromStack();
+    LoadOnStack(rhs->ApplyOperation(node.GetLexeme().GetType(), lhs.get()));
 }
 
 void Interpreter::EnterNode(const IntegerNode& node) {
-    myStack.top().Load(std::make_unique<Integer>(node.GetLexeme().GetValue<uint64_t>()));
+    LoadOnStack(std::make_unique<Integer>(node.GetLexeme().GetValue<uint64_t>()));
 }
 
 void Interpreter::EnterNode(const DoubleNode& node) {
-    myStack.top().Load(std::make_unique<Double>(node.GetLexeme().GetValue<double>()));
+    LoadOnStack(std::make_unique<Double>(node.GetLexeme().GetValue<double>()));
 }
 
 void Interpreter::EnterNode(const BooleanNode& node) {
-    myStack.top().Load(std::make_unique<Boolean>(node.GetLexeme().GetValue<std::string>() == "true"));
+    LoadOnStack(std::make_unique<Boolean>(node.GetLexeme().GetValue<std::string>() == "true"));
 }
 
 void Interpreter::EnterNode(const StringNode& node) {
-    myStack.top().Load(std::make_unique<String>(node.GetLexeme().GetValue<std::string>()));
+    LoadOnStack(std::make_unique<String>(node.GetLexeme().GetValue<std::string>()));
 }
 

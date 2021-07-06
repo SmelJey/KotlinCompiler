@@ -250,8 +250,7 @@ Pointer<IVariable> Boolean::ApplyOperation(LexemeType operation, const Boolean* 
         case LexemeType::OpGreaterOrEq:
             return std::make_unique<Boolean>(GetValue<bool>() >= rhs->GetValue<bool>());
         case LexemeType::OpDDot:
-            // TODO: make it work
-            throw;
+            return std::make_unique<StructRange>(this, rhs);
     }
 
     return IVariable::ApplyOperation(operation, rhs);
@@ -351,7 +350,7 @@ int StructArray::Size() const {
 bool StructArray::In(const IVariable* val) const {
     for (int i = 0; i < Size(); i++) {
         try {
-            if (val->ApplyOperation(LexemeType::OpStrictEq, val)) {
+            if (val->ApplyOperation(LexemeType::OpStrictEq, myVariables[i].get())->GetValue<bool>()) {
                 return true;
             }
         } catch (std::invalid_argument) {}
