@@ -23,6 +23,9 @@ public:
     void EnterNode(const BlockNode& node) override;
 
     void EnterNode(const CallSuffixNode& node) override;
+    void EnterNode(const UnaryPrefixOperationNode& node) override;
+    //void EnterNode(const UnaryPostfixOperationNode& node) override;
+    //void EnterNode(const IndexSuffixNode& node) override;
 
     void EnterNode(const BinOperationNode& node) override;
     void EnterNode(const IntegerNode& node) override;

@@ -28,6 +28,10 @@ Pointer<IVariable> IVariable::ApplyOperation(LexemeType operation, const Class* 
     throw std::invalid_argument("Invalid operation");
 }
 
+Pointer<IVariable> IVariable::ApplyOperation(LexemeType operation) const {
+    throw std::invalid_argument("Invalid operation");
+}
+
 Integer::Integer(int value) {
     SetValue(value);
 }
@@ -119,6 +123,17 @@ Pointer<IVariable> Integer::ApplyOperation(LexemeType operation, const Range* rh
     }
 
     return IVariable::ApplyOperation(operation, rhs);
+}
+
+Pointer<IVariable> Integer::ApplyOperation(LexemeType operation) const {
+    if (operation == LexemeType::OpAdd) {
+        return std::make_unique<Integer>(GetValue<int>());
+    }
+    if (operation == LexemeType::OpSub) {
+        return std::make_unique<Integer>(-GetValue<int>());
+    }
+
+    return IVariable::ApplyOperation(operation);
 }
 
 
@@ -217,6 +232,17 @@ Pointer<IVariable> Double::ApplyOperation(LexemeType operation, const Range* rhs
     return IVariable::ApplyOperation(operation, rhs);
 }
 
+Pointer<IVariable> Double::ApplyOperation(LexemeType operation) const {
+    if (operation == LexemeType::OpAdd) {
+        return std::make_unique<Double>(GetValue<double>());
+    }
+    if (operation == LexemeType::OpSub) {
+        return std::make_unique<Double>(-GetValue<double>());
+    }
+
+    return IVariable::ApplyOperation(operation);
+}
+
 Boolean::Boolean(bool value) {
     SetValue(value);
 }
@@ -276,6 +302,14 @@ Pointer<IVariable> Boolean::ApplyOperation(LexemeType operation, const Array* rh
     }
 
     return IVariable::ApplyOperation(operation, rhs);
+}
+
+Pointer<IVariable> Boolean::ApplyOperation(LexemeType operation) const {
+    if (operation == LexemeType::OpExclMark) {
+        return std::make_unique<Boolean>(!GetValue<bool>());
+    }
+
+    return IVariable::ApplyOperation(operation);
 }
 
 String::String(const std::string& value) {

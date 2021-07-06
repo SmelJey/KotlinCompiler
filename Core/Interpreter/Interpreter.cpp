@@ -86,6 +86,11 @@ void Interpreter::EnterNode(const CallSuffixNode& node) {
     funcSym->GetDeclaration()->RunVisitor(*this);
 }
 
+void Interpreter::EnterNode(const UnaryPrefixOperationNode& node) {
+    node.GetOperand().RunVisitor(*this);
+    LoadOnStack(PopFromStack()->ApplyOperation(node.GetLexeme().GetType()));
+}
+
 void Interpreter::EnterNode(const BinOperationNode& node) {
     node.GetLeftOperand().RunVisitor(*this);
     node.GetRightOperand().RunVisitor(*this);

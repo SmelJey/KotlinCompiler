@@ -37,6 +37,8 @@ public:
     virtual Pointer<IVariable> ApplyOperation(LexemeType operation, const Range* rhs) const;
     virtual Pointer<IVariable> ApplyOperation(LexemeType operation, const Class* rhs) const;
 
+    virtual Pointer<IVariable> ApplyOperation(LexemeType operation) const;
+
 private:
     std::any myValue;
 };
@@ -52,6 +54,8 @@ public:
     Pointer<IVariable> ApplyOperation(LexemeType operation, const Double* rhs) const override;
     Pointer<IVariable> ApplyOperation(LexemeType operation, const Array* rhs) const override;
     Pointer<IVariable> ApplyOperation(LexemeType operation, const Range* rhs) const override;
+
+    Pointer<IVariable> ApplyOperation(LexemeType operation) const override;
 };
 
 class Double : public IVariable {
@@ -65,6 +69,8 @@ public:
     Pointer<IVariable> ApplyOperation(LexemeType operation, const Double* rhs) const override;
     Pointer<IVariable> ApplyOperation(LexemeType operation, const Array* rhs) const override;
     Pointer<IVariable> ApplyOperation(LexemeType operation, const Range* rhs) const override;
+
+    Pointer<IVariable> ApplyOperation(LexemeType operation) const override;
 };
 
 class Boolean : public IVariable {
@@ -77,6 +83,8 @@ public:
     Pointer<IVariable> ApplyOperation(LexemeType operation, const Boolean* rhs) const override;
     Pointer<IVariable> ApplyOperation(LexemeType operation, const Range* rhs) const override;
     Pointer<IVariable> ApplyOperation(LexemeType operation, const Array* rhs) const override;
+
+    Pointer<IVariable> ApplyOperation(LexemeType operation) const override;
 };
 
 class String : public IVariable {
