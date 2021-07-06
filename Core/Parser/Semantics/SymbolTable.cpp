@@ -106,7 +106,7 @@ const ISymbol* SymbolTable::GetFunction(const std::string& name, const std::vect
             bool isResolved = true;
 
             for (int i = 0; i < params.size(); i++) {
-                if (*params[i] != it->GetParameter(i)) {
+                if (*params[i] != *it->GetParameter(i)) {
                     isResolved = false;
                     break;
                 }

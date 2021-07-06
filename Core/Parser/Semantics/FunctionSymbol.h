@@ -18,7 +18,7 @@ public:
 
     int GetParametersCount() const;
 
-    const AbstractType& GetParameter(int idx) const;
+    const AbstractType* GetParameter(int idx) const;
     bool CheckArgument(const AbstractType& type, int idx);
 
     const AbstractDeclaration* GetDeclaration() const;

@@ -62,7 +62,7 @@ bool IdentifierNode::TryResolveFunc(const std::vector<const AbstractType*>& argu
         if (funcSym != nullptr && funcSym->GetParametersCount() == arguments.size()) {
             bool isResolved = true;
             for (int i = 0; isResolved && i < arguments.size(); i++) {
-                isResolved = funcSym->GetParameter(i) == *arguments[i];
+                isResolved = *funcSym->GetParameter(i) == *arguments[i];
             }
 
             if (isResolved) {

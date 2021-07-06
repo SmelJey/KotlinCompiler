@@ -18,8 +18,8 @@ int FunctionSymbol::GetParametersCount() const {
     return myParameters.size();
 }
 
-const AbstractType& FunctionSymbol::GetParameter(int idx) const {
-    return *myParameters[idx];
+const AbstractType* FunctionSymbol::GetParameter(int idx) const {
+    return myParameters[idx];
 }
 
 bool FunctionSymbol::CheckArgument(const AbstractType& type, int idx) {
@@ -41,7 +41,7 @@ bool FunctionSymbol::operator<(const ISymbol& rhs) const {
 
         if (GetParametersCount() == rhsFunc.GetParametersCount()) {
             for (int i = 0; i < myParameters.size(); i++) {
-                if (*myParameters[i] < rhsFunc.GetParameter(i)) {
+                if (*myParameters[i] < *rhsFunc.GetParameter(i)) {
                     return true;
                 }
             }
