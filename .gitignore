@@ -351,6 +351,7 @@ MigrationBackup/
 
 # IOTest files
 *.last
+*.exe
 
 # Cpp coverage:
 .opencppcov

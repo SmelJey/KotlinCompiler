@@ -45,9 +45,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="pch.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Lexer\Lexeme.h">
       <Filter>Header Files\Lexer</Filter>
     </ClInclude>
@@ -131,9 +128,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="pch.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Lexer\Lexeme.cpp">
       <Filter>Source Files\Lexer</Filter>
     </ClCompile>
