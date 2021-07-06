@@ -78,7 +78,7 @@ void Interpreter::EnterNode(const DoubleNode& node) {
 }
 
 void Interpreter::EnterNode(const BooleanNode& node) {
-    myStack.top().Load(std::make_unique<Boolean>(node.GetLexeme().GetValue<bool>()));
+    myStack.top().Load(std::make_unique<Boolean>(node.GetLexeme().GetValue<std::string>() == "true"));
 }
 
 void Interpreter::EnterNode(const StringNode& node) {

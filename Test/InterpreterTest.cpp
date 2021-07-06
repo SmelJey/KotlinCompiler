@@ -21,7 +21,9 @@ void InterpreterTest::Run(const std::string& fileName) {
     std::string fullpath = fileName;
     std::string outputExe = fullpath + ".exe";
 
-    std::string output = RunFromShell("kotlinc -o " + WrapString(outputExe) + " " + WrapString(fullpath));
+    if (!std::filesystem::is_regular_file(outputExe)) {
+        std::string output = RunFromShell("kotlinc -o " + WrapString(outputExe) + " " + WrapString(fullpath));
+    }
 
     std::string goldRes = RunFromShell(std::filesystem::absolute(outputExe).generic_string());
     std::string res = RunFromShell(std::filesystem::absolute(InterpreterPath).generic_string() + " " + WrapString(fullpath));
