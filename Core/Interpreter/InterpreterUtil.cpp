@@ -7,10 +7,18 @@ const FunctionSymbol* InterpreterUtil::FindMainEntry(const SymbolTable* symbolTa
 
 const IVariable* InterpreterUtil::TryDereference(const IVariable* var) {
     auto ref = dynamic_cast<const Reference*>(var);
-    if (ref != nullptr) {
+    if (ref != nullptr && dynamic_cast<ValueType*>(ref->GetValue<IVariable*>())) {
         return ref->GetValue<IVariable*>();
     }
 
     return var;
+}
+
+Pointer<Reference> InterpreterUtil::CreateReference(IVariable* var) {
+    auto ref = dynamic_cast<Reference*>(var);
+    if (ref != nullptr) {
+        return ref->CloneRef();
+    }
+    return std::make_unique<Reference>(var);
 }
 

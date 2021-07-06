@@ -109,6 +109,7 @@ public:
         return dynamic_cast<T*>(GetValue<IVariable*>());
     }
 
+    virtual Pointer<Reference> CloneRef() const;
     Pointer<IVariable> Clone() const override;
 
     Pointer<IVariable> ApplyOperation(LexemeType operation, const IVariable* lhs) const override;
@@ -149,7 +150,7 @@ class Array : public Reference {
 public:
     explicit Array(StructArray* arr);
 
-    Pointer<IVariable> Clone() const override;
+    Pointer<Reference> CloneRef() const override;
 
     Pointer<IVariable> ApplyOperation(LexemeType operation, const IVariable* lhs) const override;
 
@@ -181,7 +182,7 @@ class Range : public Reference {
 public:
     explicit Range(StructRange* range);
 
-    Pointer<IVariable> Clone() const override;
+    Pointer<Reference> CloneRef() const override;
 
     Pointer<IVariable> ApplyOperation(LexemeType operation, const IVariable* lhs) const override;
     Pointer<IVariable> ApplyOperation(LexemeType operation, const Range* rhs) const override;

@@ -354,16 +354,23 @@ Reference::Reference(IVariable* src) {
     SetValue<IVariable*>(src);
 }
 
-Pointer<IVariable> Reference::Clone() const {
+Pointer<Reference> Reference::CloneRef() const {
     return std::make_unique<Reference>(GetValue<IVariable*>());
 }
 
+Pointer<IVariable> Reference::Clone() const {
+    return CloneRef();
+}
+
 Pointer<Boolean> Reference::CheckStrictEquality(LexemeType operation, const IVariable* lhs) const {
+    auto rhsRef = this->GetValue<IVariable*>();
+    auto lhsRef = lhs->GetValue<IVariable*>();
+
     if (operation == LexemeType::OpStrictEq || operation == LexemeType::OpEqual) {
-        return std::make_unique<Boolean>(this == lhs);
+        return std::make_unique<Boolean>(rhsRef == lhsRef);
     }
     if (operation == LexemeType::OpStrictIneq || operation == LexemeType::OpInequal) {
-        return std::make_unique<Boolean>(this != lhs);
+        return std::make_unique<Boolean>(rhsRef != lhsRef);
     }
 }
 
@@ -464,7 +471,7 @@ Array::Array(StructArray* elements) : Reference(elements) {
     //SetValue(elements);
 }
 
-Pointer<IVariable> Array::Clone() const {
+Pointer<Reference> Array::CloneRef() const {
     return std::make_unique<Array>(Dereference<StructArray>());
 }
 
@@ -523,7 +530,7 @@ Range::Range(StructRange* range) : Reference(range) {
     //SetValue(range);
 }
 
-Pointer<IVariable> Range::Clone() const {
+Pointer<Reference> Range::CloneRef() const {
     return std::make_unique<Range>(Dereference<StructRange>());
 }
 

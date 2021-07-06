@@ -1,11 +1,12 @@
 #include "Interpreter.h"
 
+#include <iomanip>
 #include <iostream>
 
 #include "InterpreterUtil.h"
 #include "../Parser/DeclarationNodes.h"
 #include "../Parser/ExpressionNodes.h"
-#include "../Parser/StatementNodes.h"
+
 
 Interpreter::Interpreter(const DeclarationBlock* syntaxTree, const SymbolTable* symbolTable)
     : myTree(syntaxTree), myTable(symbolTable), myMain(InterpreterUtil::FindMainEntry(symbolTable)) {}
@@ -66,7 +67,12 @@ void Interpreter::EnterNode(const CallSuffixNode& node) {
             if (dynamic_cast<const IntegerSymbol*>(funcSym->GetParameter(0))) {
                 std::cout << arg->GetValue<int>() << std::endl;
             } else if (dynamic_cast<const DoubleSymbol*>(funcSym->GetParameter(0))) {
-                std::cout << arg->GetValue<double>() << std::endl;
+                double integral;
+                if (std::modf(arg->GetValue<double>(), &integral) == 0) {
+                    std::cout << std::fixed << std::setprecision(1) << arg->GetValue<double>() << std::endl;
+                } else {
+                    std::cout << arg->GetValue<double>() << std::endl;
+                }
             } else if (dynamic_cast<const StringSymbol*>(funcSym->GetParameter(0))) {
                 std::cout << arg->GetValue<std::string>() << std::endl;
             } else if (dynamic_cast<const BooleanSymbol*>(funcSym->GetParameter(0))) {
@@ -91,6 +97,13 @@ void Interpreter::EnterNode(const CallSuffixNode& node) {
 void Interpreter::EnterNode(const UnaryPrefixOperationNode& node) {
     node.GetOperand().RunVisitor(*this);
     LoadOnStack(PopFromStack()->ApplyOperation(node.GetLexeme().GetType()));
+}
+
+void Interpreter::EnterNode(const UnaryPostfixOperationNode& node) {
+    node.GetOperand().RunVisitor(*this);
+    auto var = PopFromStack();
+    LoadOnStack(InterpreterUtil::TryDereference(var.get())->Clone());
+    var->ApplyOperation(node.GetLexeme().GetType());
 }
 
 void Interpreter::EnterNode(const IndexSuffixNode& node) {
@@ -129,5 +142,16 @@ void Interpreter::EnterNode(const BooleanNode& node) {
 
 void Interpreter::EnterNode(const StringNode& node) {
     LoadOnStack(std::make_unique<String>(node.GetLexeme().GetValue<std::string>()));
+}
+
+void Interpreter::EnterNode(const IdentifierNode& node) {
+    LoadOnStack(myStack.top().GetVariable(node.GetIdentifier()));
+}
+
+void Interpreter::EnterNode(const PropertyDeclaration& node) {
+    node.GetInitialization().RunVisitor(*this);
+    Pointer<IVariable> initRes = PopFromStack();
+    Pointer<IVariable> var = InterpreterUtil::TryDereference(initRes.get())->Clone();
+    myStack.top().AddVariable(node.GetIdentifierName(), std::move(var));
 }
 

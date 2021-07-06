@@ -24,7 +24,7 @@ public:
 
     void EnterNode(const CallSuffixNode& node) override;
     void EnterNode(const UnaryPrefixOperationNode& node) override;
-    //void EnterNode(const UnaryPostfixOperationNode& node) override;
+    void EnterNode(const UnaryPostfixOperationNode& node) override;
     void EnterNode(const IndexSuffixNode& node) override;
 
     void EnterNode(const BinOperationNode& node) override;
@@ -32,6 +32,9 @@ public:
     void EnterNode(const DoubleNode& node) override;
     void EnterNode(const BooleanNode& node) override;
     void EnterNode(const StringNode& node) override;
+    void EnterNode(const IdentifierNode& node) override;
+
+    void EnterNode(const PropertyDeclaration& node) override;
 
 private:
     const DeclarationBlock* myTree;

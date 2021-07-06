@@ -1,11 +1,12 @@
 #include "StackFrame.h"
+#include "InterpreterUtil.h"
 
 void StackFrame::AddVariable(const std::string& name, Pointer<IVariable> variable) {
     myLocals[name] = std::move(variable);
 }
 
-const IVariable* StackFrame::GetVariable(const std::string& name) const {
-    return myLocals.at(name).get();
+Pointer<Reference> StackFrame::GetVariable(const std::string& name) const {
+    return InterpreterUtil::CreateReference(myLocals.at(name).get());
 }
 
 void StackFrame::Load(Pointer<IVariable> val) {
