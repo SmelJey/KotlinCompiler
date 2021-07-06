@@ -22,6 +22,10 @@ public:
 
     void EnterNode(const BinOperationNode& node) override;
     void EnterNode(const IntegerNode& node) override;
+    void EnterNode(const DoubleNode& node) override;
+    void EnterNode(const BooleanNode& node) override;
+    void EnterNode(const StringNode& node) override;
+
 private:
     const DeclarationBlock* myTree;
     const SymbolTable* myTable;

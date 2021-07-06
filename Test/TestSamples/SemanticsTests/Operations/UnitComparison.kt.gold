@@ -35,6 +35,7 @@
 @@ |-Fun println(String) -> Unit
 @@ |-Fun println(Int) -> Unit
 @@ |-Fun println(Double) -> Unit
+@@ |-Fun println(Boolean) -> Unit
 @@ |-Fun println() -> Unit
 @@ |-Fun test() -> Boolean
 @@ |-Fun test1() -> Unit

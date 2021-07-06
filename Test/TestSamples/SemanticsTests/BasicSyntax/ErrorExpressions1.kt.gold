@@ -31,6 +31,7 @@
 @@ |-Fun println(String) -> Unit
 @@ |-Fun println(Int) -> Unit
 @@ |-Fun println(Double) -> Unit
+@@ |-Fun println(Boolean) -> Unit
 @@ |-Fun println() -> Unit
 @@ Error 3:2 :: Unexpected lexeme
 @@ Error 2:4 :: Val cannot be reassigned

@@ -105,6 +105,7 @@
 @@ |-Fun println(String) -> Unit
 @@ |-Fun println(Int) -> Unit
 @@ |-Fun println(Double) -> Unit
+@@ |-Fun println(Boolean) -> Unit
 @@ |-Fun println() -> Unit
 @@ |-Fun sqrDist(Double, Double, Double, Double) -> Double
 @@   |-SymbolTable

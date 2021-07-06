@@ -26,6 +26,8 @@ SymbolTable::SymbolTable(SymbolTable* parent) : myParentTable(parent) {
         Add(std::make_unique<FunctionSymbol>("println", myUnitSymbol.get(), intParams, std::make_unique<SymbolTable>(this), nullptr));
         std::vector<const AbstractType*> doubleParams{ doubleSym };
         Add(std::make_unique<FunctionSymbol>("println", myUnitSymbol.get(), doubleParams, std::make_unique<SymbolTable>(this), nullptr));
+        std::vector<const AbstractType*> boolParams{ boolSym };
+        Add(std::make_unique<FunctionSymbol>("println", myUnitSymbol.get(), boolParams, std::make_unique<SymbolTable>(this), nullptr));
         Add(std::make_unique<FunctionSymbol>("println", myUnitSymbol.get(), std::vector<const AbstractType*>(), std::make_unique<SymbolTable>(this), nullptr));
     }
 }

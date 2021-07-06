@@ -1,0 +1,48 @@
+@@ Decl Block
+@@ |-Fun Decl                                                  :: main
+@@   |-Identifier :: main                                      :: main
+@@   |-Params
+@@   |-Bin op :: &&                                            :: Boolean
+@@     |-Bin op :: ||                                          :: Boolean
+@@     | |-Bin op :: ==                                        :: Boolean
+@@     | | |-Bin op :: +                                       :: Int
+@@     | | | |-Integer :: 2                                    :: Int
+@@     | | | |-Integer :: 3                                    :: Int
+@@     | | |-Bin op :: +                                       :: Int
+@@     | |   |-Integer :: 4                                    :: Int
+@@     | |   |-Integer :: 5                                    :: Int
+@@     | |-Bin op :: >                                         :: Boolean
+@@     |   |-Bin op :: /                                       :: Double
+@@     |   | |-Real :: 1.200000                                :: Double
+@@     |   | |-Real :: 3.000000                                :: Double
+@@     |   |-Real :: 0.500000                                  :: Double
+@@     |-Bin op :: &&                                          :: Boolean
+@@       |-Bin op :: !=                                        :: Boolean
+@@       | |-Real :: 5.600000                                  :: Double
+@@       | |-Real :: 2.500000                                  :: Double
+@@       |-Bin op :: >                                         :: Boolean
+@@         |-Bin op :: /                                       :: Double
+@@         | |-Real :: 1.000000                                :: Double
+@@         | |-Integer :: 0                                    :: Int
+@@         |-Integer :: 2                                      :: Int
+@@ ====
+@@ SymbolTable
+@@ |-Boolean
+@@ | |-SymbolTable
+@@ |   |-Fun toByte() -> Int
+@@ |   |-Fun toString() -> String
+@@ |-Double
+@@ | |-SymbolTable
+@@ |   |-Fun toInt() -> Int
+@@ |   |-Fun toString() -> String
+@@ |-Int
+@@ | |-SymbolTable
+@@ |   |-Fun toDouble() -> Double
+@@ |   |-Fun toString() -> String
+@@ |-String
+@@ |-Fun main() -> Boolean
+@@ |-Fun println(String) -> Unit
+@@ |-Fun println(Int) -> Unit
+@@ |-Fun println(Double) -> Unit
+@@ |-Fun println(Boolean) -> Unit
+@@ |-Fun println() -> Unit

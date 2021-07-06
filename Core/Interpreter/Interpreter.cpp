@@ -19,7 +19,7 @@ void Interpreter::RunMain() {
 void Interpreter::EnterNode(const IVisitable& node) {}
 
 void Interpreter::EnterNode(const FunctionDeclaration& node) {
-    std::cout << "Entered function " << node.GetIdentifierName() << std::endl;
+    //std::cout << "Entered function " << node.GetIdentifierName() << std::endl;
 
     myStack.push(StackFrame());
     node.GetBody().RunVisitor(*this);
@@ -38,7 +38,7 @@ void Interpreter::EnterNode(const CallSuffixNode& node) {
 
     const FunctionSymbol* funcSym = dynamic_cast<const FunctionSymbol*>(node.GetExpression()->GetSymbol());
     if (funcSym->GetDeclaration() == nullptr) {
-        std::cout << "Call to built-in function " << funcSym->GetName() << std::endl;
+        //std::cout << "Call to built-in function " << funcSym->GetName() << std::endl;
 
         if (funcSym->GetName() == "println") {
             Pointer<IVariable> arg = myStack.top().Pop();
@@ -49,7 +49,7 @@ void Interpreter::EnterNode(const CallSuffixNode& node) {
             } else if (dynamic_cast<const StringSymbol*>(funcSym->GetParameter(0))) {
                 std::cout << arg->GetValue<std::string>() << std::endl;
             } else if (dynamic_cast<const BooleanSymbol*>(funcSym->GetParameter(0))) {
-                std::cout << arg->GetValue<bool>() << std::endl;
+                std::cout << (arg->GetValue<bool>() ? "true" : "false") << std::endl;
             }
         } 
 
@@ -71,5 +71,17 @@ void Interpreter::EnterNode(const BinOperationNode& node) {
 
 void Interpreter::EnterNode(const IntegerNode& node) {
     myStack.top().Load(std::make_unique<Integer>(node.GetLexeme().GetValue<uint64_t>()));
+}
+
+void Interpreter::EnterNode(const DoubleNode& node) {
+    myStack.top().Load(std::make_unique<Double>(node.GetLexeme().GetValue<double>()));
+}
+
+void Interpreter::EnterNode(const BooleanNode& node) {
+    myStack.top().Load(std::make_unique<Boolean>(node.GetLexeme().GetValue<bool>()));
+}
+
+void Interpreter::EnterNode(const StringNode& node) {
+    myStack.top().Load(std::make_unique<String>(node.GetLexeme().GetValue<std::string>()));
 }
 

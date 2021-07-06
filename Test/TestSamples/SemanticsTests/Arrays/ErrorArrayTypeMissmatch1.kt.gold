@@ -40,5 +40,6 @@
 @@ |-Fun println(String) -> Unit
 @@ |-Fun println(Int) -> Unit
 @@ |-Fun println(Double) -> Unit
+@@ |-Fun println(Boolean) -> Unit
 @@ |-Fun println() -> Unit
 @@ Error 3:1 :: Array<Int> does not conform to the expected type Array<Double>

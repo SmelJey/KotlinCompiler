@@ -35,5 +35,6 @@
 @@ |-Fun println(String) -> Unit
 @@ |-Fun println(Int) -> Unit
 @@ |-Fun println(Double) -> Unit
+@@ |-Fun println(Boolean) -> Unit
 @@ |-Fun println() -> Unit
 @@ Error 2:30 :: Arguments do not conform to the expected type Int

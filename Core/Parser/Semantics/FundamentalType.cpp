@@ -108,8 +108,13 @@ Pointer<AbstractType> IntegerSymbol::IsApplicable(LexemeType binaryOperation, co
         }
     }
 
-    if (dynamic_cast<const DoubleSymbol*>(rightOperand) != nullptr && LexerUtils::IsArithmeticOperation(binaryOperation)) {
-        return std::make_unique<DoubleSymbol>(GetParentTable());
+    if (dynamic_cast<const DoubleSymbol*>(rightOperand) != nullptr) {
+        if (LexerUtils::IsArithmeticOperation(binaryOperation)) {
+            return std::make_unique<DoubleSymbol>(GetParentTable());
+        }
+        if (LexerUtils::IsComparisonOperation(binaryOperation) && !LexerUtils::IsEqualityOperation(binaryOperation)) {
+            return std::make_unique<BooleanSymbol>(GetParentTable());
+        }
     }
 
     auto range = dynamic_cast<const RangeSymbol*>(rightOperand);
@@ -160,8 +165,13 @@ Pointer<AbstractType> DoubleSymbol::IsApplicable(LexemeType binaryOperation, con
         }
     }
 
-    if (dynamic_cast<const IntegerSymbol*>(rightOperand) != nullptr && LexerUtils::IsArithmeticOperation(binaryOperation)) {
-        return std::make_unique<DoubleSymbol>(GetParentTable());
+    if (dynamic_cast<const IntegerSymbol*>(rightOperand) != nullptr) {
+        if (LexerUtils::IsArithmeticOperation(binaryOperation)) {
+            return std::make_unique<DoubleSymbol>(GetParentTable());
+        }
+        if (LexerUtils::IsComparisonOperation(binaryOperation) && !LexerUtils::IsEqualityOperation(binaryOperation)) {
+            return std::make_unique<BooleanSymbol>(GetParentTable());
+        }
     }
 
     auto range = dynamic_cast<const RangeSymbol*>(rightOperand);

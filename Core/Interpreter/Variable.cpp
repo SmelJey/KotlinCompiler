@@ -86,6 +86,14 @@ Pointer<IVariable> Integer::ApplyOperation(LexemeType operation, const Double* r
             // TODO: make it work
             throw;
             //return std::make_unique<Double>(GetValue<int>() % rhs->GetValue<double>());
+        case LexemeType::OpLess:
+            return std::make_unique<Boolean>(GetValue<int>() < rhs->GetValue<double>());
+        case LexemeType::OpLessOrEq:
+            return std::make_unique<Boolean>(GetValue<int>() <= rhs->GetValue<double>());
+        case LexemeType::OpGreater:
+            return std::make_unique<Boolean>(GetValue<int>() > rhs->GetValue<double>());
+        case LexemeType::OpGreaterOrEq:
+            return std::make_unique<Boolean>(GetValue<int>() >= rhs->GetValue<double>());
     }
 
     return IVariable::ApplyOperation(operation, rhs);
@@ -140,6 +148,14 @@ Pointer<IVariable> Double::ApplyOperation(LexemeType operation, const Integer* r
             // TODO: make it work
             throw;
             //return std::make_unique<Double>(GetValue<double>() % rhs->GetValue<int>());
+        case LexemeType::OpLess:
+            return std::make_unique<Boolean>(GetValue<double>() < rhs->GetValue<int>());
+        case LexemeType::OpLessOrEq:
+            return std::make_unique<Boolean>(GetValue<double>() <= rhs->GetValue<int>());
+        case LexemeType::OpGreater:
+            return std::make_unique<Boolean>(GetValue<double>() > rhs->GetValue<int>());
+        case LexemeType::OpGreaterOrEq:
+            return std::make_unique<Boolean>(GetValue<double>() >= rhs->GetValue<int>());
     }
 
     return IVariable::ApplyOperation(operation, rhs);
@@ -160,18 +176,18 @@ Pointer<IVariable> Double::ApplyOperation(LexemeType operation, const Double* rh
             throw;
         case LexemeType::OpEqual:
         case LexemeType::OpStrictEq:
-            return std::make_unique<Double>(GetValue<double>() == rhs->GetValue<double>());
+            return std::make_unique<Boolean>(GetValue<double>() == rhs->GetValue<double>());
         case LexemeType::OpInequal:
         case LexemeType::OpStrictIneq:
-            return std::make_unique<Double>(GetValue<double>() != rhs->GetValue<double>());
+            return std::make_unique<Boolean>(GetValue<double>() != rhs->GetValue<double>());
         case LexemeType::OpLess:
-            return std::make_unique<Double>(GetValue<double>() < rhs->GetValue<double>());
+            return std::make_unique<Boolean>(GetValue<double>() < rhs->GetValue<double>());
         case LexemeType::OpLessOrEq:
-            return std::make_unique<Double>(GetValue<double>() <= rhs->GetValue<double>());
+            return std::make_unique<Boolean>(GetValue<double>() <= rhs->GetValue<double>());
         case LexemeType::OpGreater:
-            return std::make_unique<Double>(GetValue<double>() > rhs->GetValue<double>());
+            return std::make_unique<Boolean>(GetValue<double>() > rhs->GetValue<double>());
         case LexemeType::OpGreaterOrEq:
-            return std::make_unique<Double>(GetValue<double>() >= rhs->GetValue<double>());
+            return std::make_unique<Boolean>(GetValue<double>() >= rhs->GetValue<double>());
         case LexemeType::OpDDot:
             return std::make_unique<StructRange>(this, rhs);
     }
