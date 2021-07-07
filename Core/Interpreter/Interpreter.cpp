@@ -164,10 +164,26 @@ void Interpreter::EnterNode(const Assignment& node) {
     Pointer<IVariable> exprRes = PopFromStack();
     Pointer<IVariable> assignable = PopFromStack();
 
-    Pointer<IVariable> var = InterpreterUtil::TryDereference(exprRes.get())->Clone();
-    //myStack.top().SetVariable(node.GetIdentifierName(), std::move(var));
-    //assignable.get() = *InterpreterUtil::TryDereference(exprRes.get());
-    *assignable->GetValue<IVariable*>() = *var;
-    //derefA->
+    *assignable->GetValue<IVariable*>() = *InterpreterUtil::TryDereference(exprRes.get())->Clone();
+}
+
+void Interpreter::EnterNode(const IfExpression& node) {
+    myStack.push(myStack.top().Clone());
+
+    node.GetExpression()->RunVisitor(*this);
+
+    Pointer<IVariable> exprRes = PopFromStack();
+    if (InterpreterUtil::TryDereference(exprRes.get())->GetValue<bool>()) {
+        node.GetIfBody()->RunVisitor(*this);
+    } else {
+        node.GetElseBody()->RunVisitor(*this);
+    }
+
+    StackFrame lastFrame = std::move(myStack.top());
+    myStack.pop();
+    if (!lastFrame.Empty()) {
+        LoadOnStack(lastFrame.Pop());
+    }
+
 }
 

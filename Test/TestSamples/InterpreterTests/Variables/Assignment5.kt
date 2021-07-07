@@ -16,5 +16,6 @@ fun main() {
 	
 	d[1] = 10
 	println(d === a[2])
-	println(a[2][1])
+	println(--a[2][1])
+	println(a[2][1]--)
 }
