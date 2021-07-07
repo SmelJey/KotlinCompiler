@@ -26,7 +26,7 @@
 @@ |-Fun main() -> Unit
 @@ | |-SymbolTable
 @@ |   |-SymbolTable
-@@ |     |-Val i : Int
+@@ |     |-Val i : Unresolved type
 @@ |     |-SymbolTable
 @@ |-Fun println(String) -> Unit
 @@ |-Fun println(Int) -> Unit
