@@ -6,6 +6,7 @@
 #include "InterpreterUtil.h"
 #include "../Parser/DeclarationNodes.h"
 #include "../Parser/ExpressionNodes.h"
+#include "../Parser/StatementNodes.h"
 
 
 Interpreter::Interpreter(const DeclarationBlock* syntaxTree, const SymbolTable* symbolTable)
@@ -112,10 +113,11 @@ void Interpreter::EnterNode(const IndexSuffixNode& node) {
     }
 
     node.GetExpression()->RunVisitor(*this);
-    Pointer<IVariable> arr = PopFromStack();
+    Pointer<IVariable> arrRef = PopFromStack();
     Pointer<IVariable> idxRef = PopFromStack();
-    const IVariable* idx = InterpreterUtil::TryDereference(idxRef.get());
-    LoadOnStack(dynamic_cast<Array*>(arr.get())->Get(idx->GetValue<int>()));
+    IVariable* arr = InterpreterUtil::TryDereference(arrRef.get());
+    IVariable* idx = InterpreterUtil::TryDereference(idxRef.get());
+    LoadOnStack(dynamic_cast<Array*>(arr)->Get(idx->GetValue<int>()));
 }
 
 void Interpreter::EnterNode(const BinOperationNode& node) {
@@ -125,7 +127,7 @@ void Interpreter::EnterNode(const BinOperationNode& node) {
 
     Pointer<IVariable> rhs = PopFromStack();
     Pointer<IVariable> lhs = PopFromStack();
-    LoadOnStack(rhs->ApplyOperation(node.GetLexeme().GetType(), lhs.get()));
+    LoadOnStack(InterpreterUtil::TryDereference(rhs.get())->ApplyOperation(node.GetLexeme().GetType(), InterpreterUtil::TryDereference(lhs.get())));
 }
 
 void Interpreter::EnterNode(const IntegerNode& node) {
@@ -152,6 +154,20 @@ void Interpreter::EnterNode(const PropertyDeclaration& node) {
     node.GetInitialization().RunVisitor(*this);
     Pointer<IVariable> initRes = PopFromStack();
     Pointer<IVariable> var = InterpreterUtil::TryDereference(initRes.get())->Clone();
-    myStack.top().AddVariable(node.GetIdentifierName(), std::move(var));
+    myStack.top().SetVariable(node.GetIdentifierName(), std::move(var));
+}
+
+void Interpreter::EnterNode(const Assignment& node) {
+    node.GetAssignable().RunVisitor(*this);
+    node.GetExpression().RunVisitor(*this);
+
+    Pointer<IVariable> exprRes = PopFromStack();
+    Pointer<IVariable> assignable = PopFromStack();
+
+    Pointer<IVariable> var = InterpreterUtil::TryDereference(exprRes.get())->Clone();
+    //myStack.top().SetVariable(node.GetIdentifierName(), std::move(var));
+    //assignable.get() = *InterpreterUtil::TryDereference(exprRes.get());
+    *assignable->GetValue<IVariable*>() = *var;
+    //derefA->
 }
 

@@ -9,7 +9,7 @@ class InterpreterUtil {
 public:
     static const FunctionSymbol* FindMainEntry(const SymbolTable* symbolTable);
 
-    static const IVariable* TryDereference(const IVariable* var);
+    static IVariable* TryDereference(IVariable* var);
 
     static Pointer<Reference> CreateReference(IVariable* var);
 };

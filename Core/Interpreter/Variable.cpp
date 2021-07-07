@@ -375,15 +375,15 @@ Pointer<Boolean> Reference::CheckStrictEquality(LexemeType operation, const IVar
 }
 
 Pointer<IVariable> Reference::ApplyOperation(LexemeType operation, const IVariable* lhs) const {
-    if (dynamic_cast<ValueType*>(GetValue<IVariable*>())) {
-        return GetValue<IVariable*>()->ApplyOperation(operation, lhs);
-    }
+    //if (dynamic_cast<ValueType*>(GetValue<IVariable*>())) {
+    //    return GetValue<IVariable*>()->ApplyOperation(operation, lhs);
+    //}
 
     if (operation == LexemeType::OpStrictEq || operation == LexemeType::OpStrictIneq) {
         return CheckStrictEquality(operation, lhs);
     }
-
-    return lhs->ApplyOperation(operation, this);
+    return GetValue<IVariable*>()->ApplyOperation(operation, lhs);
+    //return lhs->ApplyOperation(operation, this);
 }
 
 Pointer<IVariable> Reference::ApplyOperation(LexemeType operation, const Integer* rhs) const {

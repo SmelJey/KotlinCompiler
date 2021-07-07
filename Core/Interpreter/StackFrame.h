@@ -7,7 +7,7 @@
 
 class StackFrame {
 public:
-    void AddVariable(const std::string& name, Pointer<IVariable> variable);
+    void SetVariable(const std::string& name, Pointer<IVariable> variable);
     Pointer<Reference> GetVariable(const std::string& name) const;
 
     void Load(Pointer<IVariable> val);

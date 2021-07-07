@@ -5,9 +5,9 @@ const FunctionSymbol* InterpreterUtil::FindMainEntry(const SymbolTable* symbolTa
     return dynamic_cast<const FunctionSymbol*>(symbolTable->GetFunction("main", std::vector<const AbstractType*>()));
 }
 
-const IVariable* InterpreterUtil::TryDereference(const IVariable* var) {
+IVariable* InterpreterUtil::TryDereference(IVariable* var) {
     auto ref = dynamic_cast<const Reference*>(var);
-    if (ref != nullptr && dynamic_cast<ValueType*>(ref->GetValue<IVariable*>())) {
+    if (ref != nullptr && !dynamic_cast<const Array*>(ref) && !dynamic_cast<const Range*>(ref)) {
         return ref->GetValue<IVariable*>();
     }
 
@@ -15,10 +15,10 @@ const IVariable* InterpreterUtil::TryDereference(const IVariable* var) {
 }
 
 Pointer<Reference> InterpreterUtil::CreateReference(IVariable* var) {
-    auto ref = dynamic_cast<Reference*>(var);
+    /*auto ref = dynamic_cast<Reference*>(var);
     if (ref != nullptr) {
         return ref->CloneRef();
-    }
+    }*/
     return std::make_unique<Reference>(var);
 }
 

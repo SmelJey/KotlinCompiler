@@ -1,7 +1,7 @@
 #include "StackFrame.h"
 #include "InterpreterUtil.h"
 
-void StackFrame::AddVariable(const std::string& name, Pointer<IVariable> variable) {
+void StackFrame::SetVariable(const std::string& name, Pointer<IVariable> variable) {
     myLocals[name] = std::move(variable);
 }
 
