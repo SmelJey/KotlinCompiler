@@ -261,7 +261,7 @@ Pointer<IAnnotatedNode> Parser::ParseStatement() {
         Pointer<ReturnNode> returnNode = CreateLexemeNode<ReturnNode, UnitTypeSymbol>(curLexeme, myRootTable->GetUnitSymbol());
         Lexeme nextLexeme = myLexer.GetLexeme();
         if (nextLexeme.GetRow() == curLexeme.GetRow() && nextLexeme.GetType() != LexemeType::RCurl
-            && nextLexeme.GetType() != LexemeType::EndOfFile) {
+            && nextLexeme.GetType() != LexemeType::EndOfFile && nextLexeme.GetType() != LexemeType::OpSemicolon) {
             returnNode->SetExpression(ParseExpression());
         } else {
             returnNode->SetExpression(CreateEmptyStatement(myLexer.GetLexeme()));

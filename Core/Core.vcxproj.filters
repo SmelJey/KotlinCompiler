@@ -126,6 +126,12 @@
     <ClInclude Include="Interpreter\Variable.h">
       <Filter>Header Files\Interpreter</Filter>
     </ClInclude>
+    <ClInclude Include="Interpreter\StackGuard.h">
+      <Filter>Header Files\Interpreter</Filter>
+    </ClInclude>
+    <ClInclude Include="Interpreter\JumpException.h">
+      <Filter>Header Files\Interpreter</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Lexer\Lexeme.cpp">
@@ -201,6 +207,12 @@
       <Filter>Source Files\Interpreter</Filter>
     </ClCompile>
     <ClCompile Include="Interpreter\Variable.cpp">
+      <Filter>Source Files\Interpreter</Filter>
+    </ClCompile>
+    <ClCompile Include="Interpreter\StackGuard.cpp">
+      <Filter>Source Files\Interpreter</Filter>
+    </ClCompile>
+    <ClCompile Include="Interpreter\JumpException.cpp">
       <Filter>Source Files\Interpreter</Filter>
     </ClCompile>
   </ItemGroup>

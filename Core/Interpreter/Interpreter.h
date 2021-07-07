@@ -39,6 +39,10 @@ public:
     void EnterNode(const PropertyDeclaration& node) override;
     void EnterNode(const Assignment& node) override;
 
+    void EnterNode(const ContinueNode& node) override;
+    void EnterNode(const BreakNode& node) override;
+    void EnterNode(const ReturnNode& node) override;
+
     void EnterNode(const IfExpression& node) override;
     void EnterNode(const WhileNode& node) override;
     void EnterNode(const DoWhileNode& node) override;
@@ -53,4 +57,7 @@ private:
     std::stack<StackFrame> myStack;
     //std::vector<>
     std::vector<Pointer<IVariable>> myHeap;
+    std::map<const ISymbol*, StackFrame> myVisibilityMap;
+
+    Pointer<IVariable> myReturn;
 };

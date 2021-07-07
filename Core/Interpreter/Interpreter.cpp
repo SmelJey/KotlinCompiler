@@ -4,6 +4,8 @@
 #include <iostream>
 
 #include "InterpreterUtil.h"
+#include "JumpException.h"
+#include "StackGuard.h"
 #include "../Parser/DeclarationNodes.h"
 #include "../Parser/ExpressionNodes.h"
 #include "../Parser/StatementNodes.h"
@@ -17,7 +19,11 @@ void Interpreter::RunMain() {
     myTree->RunVisitor(*this);
 
     myStack.push(myStack.top().Clone());
-    dynamic_cast<const FunctionDeclaration*>(myMain->GetDeclaration())->GetBody().RunVisitor(*this);
+    try {
+        dynamic_cast<const FunctionDeclaration*>(myMain->GetDeclaration())->GetBody().RunVisitor(*this);
+    } catch (const ReturnException&) {
+        
+    }
 }
 
 IVariable* Interpreter::LoadOnHeap(Pointer<IVariable> variable) {
@@ -42,19 +48,14 @@ Pointer<IVariable> Interpreter::PopFromStack() {
 void Interpreter::EnterNode(const DeclarationBlock& node) {
     myStack.push(StackFrame());
     for (auto& it : node.GetDeclarations()) {
-        if (dynamic_cast<const PropertyDeclaration*>(it.get())) {
-            it->RunVisitor(*this);
-        }
+        it->RunVisitor(*this);
     }
 }
 
 void Interpreter::EnterNode(const IVisitable& node) {}
 
 void Interpreter::EnterNode(const FunctionDeclaration& node) {
-    //std::cout << "Entered function " << node.GetIdentifierName() << std::endl;
-
-    myStack.push(StackFrame());
-    node.GetBody().RunVisitor(*this);
+    myVisibilityMap.emplace(node.GetSymbol(), myStack.top().Clone());
 }
 
 void Interpreter::EnterNode(const BlockNode& node) {
@@ -69,44 +70,62 @@ void Interpreter::EnterNode(const CallSuffixNode& node) {
     }
 
     const FunctionSymbol* funcSym = dynamic_cast<const FunctionSymbol*>(node.GetExpression()->GetSymbol());
+    std::vector<Pointer<IVariable>> refParams;
+    std::vector<IVariable*> params;
+    for (int i = 0; i < funcSym->GetParametersCount(); i++) {
+        refParams.push_back(PopFromStack());
+        params.push_back(InterpreterUtil::TryDereference(refParams[i].get()));
+    }
+    std::reverse(params.begin(), params.end());
+
     if (funcSym->GetDeclaration() == nullptr) {
-        //std::cout << "Call to built-in function " << funcSym->GetName() << std::endl;
 
         if (funcSym->GetName() == "println") {
-            Pointer<IVariable> refArg = PopFromStack();
-            const IVariable* arg = InterpreterUtil::TryDereference(refArg.get());
-
             if (dynamic_cast<const IntegerSymbol*>(funcSym->GetParameter(0))) {
-                std::cout << arg->GetValue<int>() << std::endl;
+                std::cout << params[0]->GetValue<int>() << std::endl;
             } else if (dynamic_cast<const DoubleSymbol*>(funcSym->GetParameter(0))) {
                 double integral;
-                if (std::modf(arg->GetValue<double>(), &integral) == 0) {
-                    std::cout << std::fixed << std::setprecision(1) << arg->GetValue<double>() << std::endl;
+                if (std::modf(params[0]->GetValue<double>(), &integral) == 0) {
+                    std::cout << std::fixed << std::setprecision(1) << params[0]->GetValue<double>() << std::endl;
                 } else {
-                    std::cout << arg->GetValue<double>() << std::endl;
+                    std::cout << params[0]->GetValue<double>() << std::endl;
                 }
             } else if (dynamic_cast<const StringSymbol*>(funcSym->GetParameter(0))) {
-                std::cout << arg->GetValue<std::string>() << std::endl;
+                std::cout << params[0]->GetValue<std::string>() << std::endl;
             } else if (dynamic_cast<const BooleanSymbol*>(funcSym->GetParameter(0))) {
-                std::cout << (arg->GetValue<bool>() ? "true" : "false") << std::endl;
+                std::cout << (params[0]->GetValue<bool>() ? "true" : "false") << std::endl;
             }
         } else if (funcSym->GetName() == "arrayOf") {
-            std::vector<const IVariable*> params;
+            std::vector<const IVariable*> argsRefs;
             for (int i = 0; i < funcSym->GetParametersCount(); i++) {
-                params.push_back(LoadOnHeap(PopFromStack()));
+                argsRefs.push_back(LoadOnHeap(params[i]->Clone()));
             }
-            std::reverse(params.begin(), params.end());
-            StructArray* arrRef = dynamic_cast<StructArray*>(LoadOnHeap(std::make_unique<StructArray>(params)));
+
+            StructArray* arrRef = dynamic_cast<StructArray*>(LoadOnHeap(std::make_unique<StructArray>(argsRefs)));
             LoadOnStack(std::make_unique<Array>(arrRef));
         }
 
         return;
     }
 
-    StackFrame newFrame;
-    // TODO: pass globals
+    StackGuard guard(myStack, myVisibilityMap[funcSym], true);
+    auto funcDecl = dynamic_cast<const FunctionDeclaration*>(funcSym->GetDeclaration());
 
-    funcSym->GetDeclaration()->RunVisitor(*this);
+    if (funcDecl != nullptr) {
+        for (int i = 0; i < params.size(); i++) {
+            myStack.top().AddGlobal(funcDecl->GetParameters().GetParameters()[i]->GetIdentifierName(), params[i]);
+        }
+
+        try {
+            funcDecl->GetBody().RunVisitor(*this);
+        } catch (const ReturnException&) {
+            if (myReturn != nullptr) {
+                LoadOnStack(std::move(myReturn));
+            }
+
+            myReturn = nullptr;
+        }
+    }
 }
 
 void Interpreter::EnterNode(const UnaryPrefixOperationNode& node) {
@@ -137,7 +156,6 @@ void Interpreter::EnterNode(const IndexSuffixNode& node) {
 void Interpreter::EnterNode(const BinOperationNode& node) {
     node.GetLeftOperand().RunVisitor(*this);
     node.GetRightOperand().RunVisitor(*this);
-
 
     Pointer<IVariable> rhs = PopFromStack();
     Pointer<IVariable> lhs = PopFromStack();
@@ -199,8 +217,25 @@ void Interpreter::EnterNode(const Assignment& node) {
     *assignable->GetValue<IVariable*>() = *InterpreterUtil::TryDereference(exprRes.get())->Clone();
 }
 
+void Interpreter::EnterNode(const ContinueNode& node) {
+    throw ContinueException();
+}
+
+void Interpreter::EnterNode(const BreakNode& node) {
+    throw BreakException();
+}
+
+void Interpreter::EnterNode(const ReturnNode& node) {
+    if (node.HasExpression() && dynamic_cast<const EmptyStatement*>(node.GetExpression()) == nullptr) {
+        node.GetExpression()->RunVisitor(*this);
+        myReturn = PopFromStack();
+    }
+
+    throw ReturnException();
+}
+
 void Interpreter::EnterNode(const IfExpression& node) {
-    myStack.push(myStack.top().Clone());
+    StackGuard guard(myStack, myStack.top(), true);
 
     node.GetExpression()->RunVisitor(*this);
 
@@ -210,13 +245,6 @@ void Interpreter::EnterNode(const IfExpression& node) {
     } else {
         node.GetElseBody()->RunVisitor(*this);
     }
-
-    StackFrame lastFrame = std::move(myStack.top());
-    myStack.pop();
-    if (!lastFrame.Empty()) {
-        LoadOnStack(lastFrame.Pop());
-    }
-
 }
 
 void Interpreter::EnterNode(const WhileNode& node) {
@@ -224,11 +252,15 @@ void Interpreter::EnterNode(const WhileNode& node) {
 
     Pointer<IVariable> exprRes = PopFromStack();
     while (InterpreterUtil::TryDereference(exprRes.get())->GetValue<bool>()) {
-        myStack.push(myStack.top().Clone());
-
-        node.GetBody().RunVisitor(*this);
-
-        myStack.pop();
+        {
+            StackGuard guard(myStack, myStack.top(), false);
+            try {
+                node.GetBody().RunVisitor(*this);
+            } catch (const ContinueException&) {
+            } catch (const BreakException&) {
+                break;
+            }
+        }
 
         node.GetExpression().RunVisitor(*this);
         exprRes = PopFromStack();
@@ -237,14 +269,18 @@ void Interpreter::EnterNode(const WhileNode& node) {
 
 void Interpreter::EnterNode(const DoWhileNode& node) {
     Pointer<IVariable> exprRes = nullptr;
-    do {
-        myStack.push(myStack.top().Clone());
-        node.GetBody().RunVisitor(*this);
+    do {  
+        StackGuard guard(myStack, myStack.top(), false);
+        try {
+            node.GetBody().RunVisitor(*this);
+        } catch (const ContinueException&) {
+        } catch (const BreakException&) {
+            break;
+        }
 
         node.GetExpression().RunVisitor(*this);
         exprRes = PopFromStack();
-
-        myStack.pop();
+        
     } while (InterpreterUtil::TryDereference(exprRes.get())->GetValue<bool>());
 }
 
@@ -262,13 +298,15 @@ void Interpreter::EnterNode(const ForNode& node) {
         Pointer<IVariable> iteratorRef = iterable->GetIterator(i);
         IVariable* iterator = InterpreterUtil::TryDereference(iteratorRef.get());
 
-        myStack.push(myStack.top().Clone());
+        StackGuard guard(myStack, myStack.top(), false);
         myStack.top().AddGlobal(node.GetVariable().GetIdentifierName(), iterator);
 
-        node.GetBody().RunVisitor(*this);
-
-        myStack.pop();
-
+        try {
+            node.GetBody().RunVisitor(*this);
+        } catch (const ContinueException&) {
+        } catch (const BreakException&) {
+            break;
+        }
     }
 }
 

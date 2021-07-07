@@ -160,7 +160,9 @@
     <ClInclude Include="Interpreter\Interpreter.h" />
     <ClInclude Include="Interpreter\InterpreterError.h" />
     <ClInclude Include="Interpreter\InterpreterUtil.h" />
+    <ClInclude Include="Interpreter\JumpException.h" />
     <ClInclude Include="Interpreter\StackFrame.h" />
+    <ClInclude Include="Interpreter\StackGuard.h" />
     <ClInclude Include="Interpreter\Variable.h" />
     <ClInclude Include="Lexer\Lexer.h" />
     <ClInclude Include="Lexer\Lexeme.h" />
@@ -188,7 +190,9 @@
     <ClCompile Include="Interpreter\Interpreter.cpp" />
     <ClCompile Include="Interpreter\InterpreterError.cpp" />
     <ClCompile Include="Interpreter\InterpreterUtil.cpp" />
+    <ClCompile Include="Interpreter\JumpException.cpp" />
     <ClCompile Include="Interpreter\StackFrame.cpp" />
+    <ClCompile Include="Interpreter\StackGuard.cpp" />
     <ClCompile Include="Interpreter\Variable.cpp" />
     <ClCompile Include="Lexer\Lexeme.cpp" />
     <ClCompile Include="Lexer\Lexer.cpp" />

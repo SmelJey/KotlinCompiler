@@ -14,7 +14,7 @@ const std::vector<std::unordered_set<LexemeType>> ParserUtils::OperationsPriorit
     {},
     { LexemeType::OpDDot },
     { LexemeType::OpAdd, LexemeType::OpSub },
-    { LexemeType::OpMult, LexemeType::OpDiv },
+    { LexemeType::OpMult, LexemeType::OpDiv, LexemeType::OpMod },
 };
 
 const std::unordered_set<LexemeType> ParserUtils::PostfixOperations {
