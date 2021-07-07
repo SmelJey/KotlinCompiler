@@ -22,6 +22,8 @@ public:
 
     void EnterNode(const IVisitable& node) override;
     void EnterNode(const FunctionDeclaration& node) override;
+    void EnterNode(const ClassDeclaration& node) override;
+
     void EnterNode(const BlockNode& node) override;
 
     void EnterNode(const CallSuffixNode& node) override;

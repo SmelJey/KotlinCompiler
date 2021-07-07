@@ -3,6 +3,7 @@
 #include <iomanip>
 #include <iostream>
 
+#include "Class.h"
 #include "InterpreterUtil.h"
 #include "JumpException.h"
 #include "StackGuard.h"
@@ -16,6 +17,7 @@ Interpreter::Interpreter(const DeclarationBlock* syntaxTree, const SymbolTable* 
 
 void Interpreter::RunMain() {
     // TODO: Check if no main function
+    myStack.push(StackFrame());
     myTree->RunVisitor(*this);
 
     myStack.push(myStack.top().Clone());
@@ -46,7 +48,6 @@ Pointer<IVariable> Interpreter::PopFromStack() {
 }
 
 void Interpreter::EnterNode(const DeclarationBlock& node) {
-    myStack.push(StackFrame());
     for (auto& it : node.GetDeclarations()) {
         it->RunVisitor(*this);
     }
@@ -55,6 +56,10 @@ void Interpreter::EnterNode(const DeclarationBlock& node) {
 void Interpreter::EnterNode(const IVisitable& node) {}
 
 void Interpreter::EnterNode(const FunctionDeclaration& node) {
+    myVisibilityMap.emplace(node.GetSymbol(), myStack.top().Clone());
+}
+
+void Interpreter::EnterNode(const ClassDeclaration& node) {
     myVisibilityMap.emplace(node.GetSymbol(), myStack.top().Clone());
 }
 
@@ -79,7 +84,6 @@ void Interpreter::EnterNode(const CallSuffixNode& node) {
     std::reverse(params.begin(), params.end());
 
     if (funcSym->GetDeclaration() == nullptr) {
-
         if (funcSym->GetName() == "println") {
             if (dynamic_cast<const IntegerSymbol*>(funcSym->GetParameter(0))) {
                 std::cout << params[0]->GetValue<int>() << std::endl;
@@ -108,10 +112,12 @@ void Interpreter::EnterNode(const CallSuffixNode& node) {
         return;
     }
 
-    StackGuard guard(myStack, myVisibilityMap[funcSym], true);
+    
     auto funcDecl = dynamic_cast<const FunctionDeclaration*>(funcSym->GetDeclaration());
 
     if (funcDecl != nullptr) {
+        StackGuard guard(myStack, myVisibilityMap[funcSym], true);
+
         for (int i = 0; i < params.size(); i++) {
             myStack.top().AddGlobal(funcDecl->GetParameters().GetParameters()[i]->GetIdentifierName(), params[i]);
         }
@@ -125,6 +131,17 @@ void Interpreter::EnterNode(const CallSuffixNode& node) {
 
             myReturn = nullptr;
         }
+    } else {
+        auto classDecl = dynamic_cast<const ClassDeclaration*>(funcSym->GetDeclaration());
+        myStack.push(myVisibilityMap[classDecl->GetSymbol()].Clone());
+
+        if (classDecl->HasBody()) {
+            classDecl->GetBody().RunVisitor(*this);
+        }
+
+        Struct* classData = dynamic_cast<Struct*>(LoadOnHeap(std::make_unique<Struct>(std::move(myStack.top()))));
+        myStack.pop();
+        LoadOnStack(std::make_unique<Class>(classData));
     }
 }
 

@@ -461,7 +461,7 @@ bool StructArray::In(const IVariable* val) const {
             if (val->ApplyOperation(LexemeType::OpStrictEq, myVariables[i].get())->GetValue<bool>()) {
                 return true;
             }
-        } catch (std::invalid_argument) {}
+        } catch (const std::invalid_argument&) {}
     }
 
     return false;
@@ -572,4 +572,3 @@ int Range::Size() const {
     }
     return res->GetValue<int>() + 1;
 }
-

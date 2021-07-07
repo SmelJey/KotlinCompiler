@@ -132,6 +132,9 @@
     <ClInclude Include="Interpreter\JumpException.h">
       <Filter>Header Files\Interpreter</Filter>
     </ClInclude>
+    <ClInclude Include="Interpreter\Class.h">
+      <Filter>Header Files\Interpreter</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Lexer\Lexeme.cpp">
@@ -213,6 +216,9 @@
       <Filter>Source Files\Interpreter</Filter>
     </ClCompile>
     <ClCompile Include="Interpreter\JumpException.cpp">
+      <Filter>Source Files\Interpreter</Filter>
+    </ClCompile>
+    <ClCompile Include="Interpreter\Class.cpp">
       <Filter>Source Files\Interpreter</Filter>
     </ClCompile>
   </ItemGroup>

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <any>
+
 #include "../Parser/ParserUtils.h"
 
 class Range;
@@ -200,13 +201,4 @@ public:
 
     Pointer<IVariable> GetIterator(int idx) const override;
     int Size() const override;
-};
-
-// TODO: make classes
-class Class : public Reference {
-public:
-    Class();
-
-    Pointer<IVariable> ApplyOperation(LexemeType operation, const IVariable* lhs) const override;
-    Pointer<IVariable> ApplyOperation(LexemeType operation, const Class* rhs) const override;
 };

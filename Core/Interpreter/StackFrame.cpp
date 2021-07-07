@@ -1,5 +1,6 @@
 #include "StackFrame.h"
 #include "InterpreterUtil.h"
+#include "Variable.h"
 
 StackFrame StackFrame::Clone() const {
     StackFrame newFrame;

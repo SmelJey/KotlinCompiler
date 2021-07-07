@@ -24,3 +24,7 @@ TEST_CASE("Interpreter Jumps", "[Interpreter]") {
 TEST_CASE("Interpreter Functions", "[Interpreter]") {
     InterpreterTest::RunTests("Functions/");
 }
+
+TEST_CASE("Interpreter Classes", "[Interpreter]") {
+    InterpreterTest::RunTests("Classes/");
+}
