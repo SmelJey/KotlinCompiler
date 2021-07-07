@@ -324,16 +324,15 @@ Pointer<ForNode> Parser::ParseForLoop(const Lexeme& lexeme) {
     Pointer<ISyntaxNode> body;
 
     const IterableSymbol* iterable = dynamic_cast<const IterableSymbol*>(expr->GetType());
-    const AbstractType* underlyingType = (iterable == nullptr ? myRootTable->GetUnresolvedSymbol() : iterable->GetType());
+    if (iterable == nullptr) {
+        AddSemanticsError(expr->GetLexeme(), "Array or range expected in for loop");
+    }
 
+    const AbstractType* underlyingType = (iterable == nullptr ? myRootTable->GetUnresolvedSymbol() : iterable->GetType());
     variable->SetSymbol(myTable->Add(std::make_unique<VariableSymbol>(variable->GetIdentifierName(), underlyingType, false)));
 
     {
         SymbolsFrame tableFrame(&myTable);
-
-        if (expr->GetType()->GetName().rfind("Array<", 0) != 0 && expr->GetType()->GetName().rfind("ClosedRange<", 0) != 0) {
-            AddSemanticsError(expr->GetLexeme(), "Array or range expected in for loop");
-        }
 
         RequireLexeme(LexemeType::RParen, "Expecting ')'");
         body = ParseControlStructureBody();

@@ -14,7 +14,9 @@ Interpreter::Interpreter(const DeclarationBlock* syntaxTree, const SymbolTable* 
 
 void Interpreter::RunMain() {
     // TODO: Check if no main function
-    myStack.push(StackFrame());
+    myTree->RunVisitor(*this);
+
+    myStack.push(myStack.top().Clone());
     dynamic_cast<const FunctionDeclaration*>(myMain->GetDeclaration())->GetBody().RunVisitor(*this);
 }
 
@@ -35,6 +37,15 @@ void Interpreter::LoadOnStack(Pointer<IVariable> variable) {
 
 Pointer<IVariable> Interpreter::PopFromStack() {
     return myStack.top().Pop();
+}
+
+void Interpreter::EnterNode(const DeclarationBlock& node) {
+    myStack.push(StackFrame());
+    for (auto& it : node.GetDeclarations()) {
+        if (dynamic_cast<const PropertyDeclaration*>(it.get())) {
+            it->RunVisitor(*this);
+        }
+    }
 }
 
 void Interpreter::EnterNode(const IVisitable& node) {}
@@ -91,6 +102,9 @@ void Interpreter::EnterNode(const CallSuffixNode& node) {
 
         return;
     }
+
+    StackFrame newFrame;
+    // TODO: pass globals
 
     funcSym->GetDeclaration()->RunVisitor(*this);
 }

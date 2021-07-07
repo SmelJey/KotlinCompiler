@@ -18,6 +18,8 @@ public:
     void LoadOnStack(Pointer<IVariable> variable);
     Pointer<IVariable> PopFromStack();
 
+    void EnterNode(const DeclarationBlock& node) override;
+
     void EnterNode(const IVisitable& node) override;
     void EnterNode(const FunctionDeclaration& node) override;
     void EnterNode(const BlockNode& node) override;
