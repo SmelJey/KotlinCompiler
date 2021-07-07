@@ -39,7 +39,9 @@
 @@ |   |-SymbolTable
 @@ |     |-Val c : Int
 @@ |     |-SymbolTable
-@@ |       |-Val d : Int
+@@ |       |-SymbolTable
+@@ |         |-Val d : Int
+@@ |         |-SymbolTable
 @@ |-Fun println(String) -> Unit
 @@ |-Fun println(Int) -> Unit
 @@ |-Fun println(Double) -> Unit

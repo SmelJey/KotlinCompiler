@@ -100,7 +100,9 @@
 @@ |   |-SymbolTable
 @@ |     |-Val i : Int
 @@ |     |-SymbolTable
-@@ |       |-Val j : Int
+@@ |       |-SymbolTable
+@@ |         |-Val j : Int
+@@ |         |-SymbolTable
 @@ |-Val n : Int
 @@ |-Fun println(String) -> Unit
 @@ |-Fun println(Int) -> Unit

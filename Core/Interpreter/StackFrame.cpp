@@ -14,6 +14,10 @@ void StackFrame::SetVariable(const std::string& name, Pointer<IVariable> variabl
     myLocals[name] = std::move(variable);
 }
 
+void StackFrame::AddGlobal(const std::string& name, IVariable* variable) {
+    myGlobals[name] = variable;
+}
+
 Pointer<Reference> StackFrame::GetVariable(const std::string& name) const {
     if (myLocals.count(name)) {
         return InterpreterUtil::CreateReference(myLocals.at(name).get());

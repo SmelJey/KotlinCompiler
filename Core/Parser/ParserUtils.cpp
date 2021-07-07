@@ -69,3 +69,13 @@ const ArraySymbol* ParserUtils::GetGenericArray(const AbstractType* innerType, S
     return dynamic_cast<const ArraySymbol*>(symTable->GetType(arrayTypeName));
 }
 
+bool ParserUtils::IsGenericIdentifier(const IAnnotatedNode* node) {
+    auto identifier = dynamic_cast<const IdentifierNode*>(node);
+    if (identifier == nullptr) {
+        return false;
+    }
+
+    std::string identifierName = identifier->GetIdentifier();
+    return (identifierName == "Array" || identifierName == "arrayOf" || identifierName == "ClosedRange");
+}
+

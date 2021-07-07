@@ -467,9 +467,9 @@ bool StructArray::In(const IVariable* val) const {
     return false;
 }
 
-Array::Array(StructArray* elements) : Reference(elements) {
-    //SetValue(elements);
-}
+IterableRef::IterableRef(IVariable* src) : Reference(src) {}
+
+Array::Array(StructArray* elements) : IterableRef(elements) {}
 
 Pointer<Reference> Array::CloneRef() const {
     return std::make_unique<Array>(Dereference<StructArray>());
@@ -482,7 +482,7 @@ Pointer<IVariable> Array::ApplyOperation(LexemeType operation, const IVariable* 
     return lhs->ApplyOperation(operation, this);
 }
 
-Pointer<Reference> Array::Get(int idx) const {
+Pointer<IVariable> Array::GetIterator(int idx) const {
     return Dereference<StructArray>()->Get(idx);
 }
 
@@ -526,7 +526,7 @@ bool operator!=(const StructRange& lhs, const StructRange& rhs) {
     return !(lhs == rhs);
 }
 
-Range::Range(StructRange* range) : Reference(range) {
+Range::Range(StructRange* range) : IterableRef(range) {
     //SetValue(range);
 }
 
@@ -550,5 +550,26 @@ Pointer<IVariable> Range::ApplyOperation(LexemeType operation, const Range* rhs)
     }
 
     return IVariable::ApplyOperation(operation, rhs);
+}
+
+const IVariable* Range::GetLeft() const {
+    return Dereference<StructRange>()->GetLeft();
+}
+
+const IVariable* Range::GetRight() const {
+    return Dereference<StructRange>()->GetRight();
+}
+
+Pointer<IVariable> Range::GetIterator(int idx) const {
+    Integer offset(idx);
+    return GetLeft()->ApplyOperation(LexemeType::OpAdd, &offset);
+}
+
+int Range::Size() const {
+    Pointer<IVariable> res = GetLeft()->ApplyOperation(LexemeType::OpSub, GetRight());
+    if (dynamic_cast<Double*>(res.get())) {
+        return res->GetValue<double>() + 1;
+    }
+    return res->GetValue<int>() + 1;
 }
 

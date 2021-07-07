@@ -34,9 +34,6 @@ Pointer<AbstractType> UnitTypeSymbol::IsApplicable(LexemeType binaryOperation, c
         if (LexerUtils::IsEqualityOperation(binaryOperation)) {
             return std::make_unique<BooleanSymbol>(GetParentTable());
         }
-        if (binaryOperation == LexemeType::OpAssign) {
-            return std::make_unique<UnitTypeSymbol>(GetParentTable());
-        }
     }
 
     return std::make_unique<UnresolvedSymbol>(GetParentTable());
@@ -63,18 +60,11 @@ Pointer<AbstractType> BooleanSymbol::IsApplicable(LexemeType binaryOperation, co
         if (LexerUtils::IsBoolOperation(binaryOperation)) {
             return std::make_unique<BooleanSymbol>(GetParentTable());
         }
-        if (binaryOperation == LexemeType::OpDDot) {
-            return std::make_unique<RangeSymbol>(GetParentTable(), *this);
-        }
-        if (binaryOperation == LexemeType::OpAssign) {
-            return std::make_unique<BooleanSymbol>(GetParentTable());
-        }
     }
 
-    auto range = dynamic_cast<const RangeSymbol*>(rightOperand);
     auto arr = dynamic_cast<const ArraySymbol*>(rightOperand);
     if ((binaryOperation == LexemeType::OpIn || binaryOperation == LexemeType::OpNotIn)
-        && (range != nullptr && range->GetType() == *this || arr != nullptr)) {
+        && arr != nullptr) {
         return std::make_unique<BooleanSymbol>(GetParentTable());
     }
 
@@ -104,7 +94,7 @@ Pointer<AbstractType> IntegerSymbol::IsApplicable(LexemeType binaryOperation, co
             return std::make_unique<IntegerSymbol>(GetParentTable());
         }
         if (binaryOperation == LexemeType::OpDDot) {
-            return std::make_unique<RangeSymbol>(GetParentTable(), *this);
+            return std::make_unique<RangeSymbol>(GetParentTable(), this);
         }
     }
 
@@ -120,7 +110,7 @@ Pointer<AbstractType> IntegerSymbol::IsApplicable(LexemeType binaryOperation, co
     auto range = dynamic_cast<const RangeSymbol*>(rightOperand);
     auto arr = dynamic_cast<const ArraySymbol*>(rightOperand);
     if ((binaryOperation == LexemeType::OpIn || binaryOperation == LexemeType::OpNotIn)
-        && (range != nullptr && range->GetType() == *this || arr != nullptr)) {
+        && (range != nullptr && range->GetType() == this || arr != nullptr)) {
         return std::make_unique<BooleanSymbol>(GetParentTable());
     }
 
@@ -158,10 +148,7 @@ Pointer<AbstractType> DoubleSymbol::IsApplicable(LexemeType binaryOperation, con
             return std::make_unique<DoubleSymbol>(GetParentTable());
         }
         if (binaryOperation == LexemeType::OpDDot) {
-            return std::make_unique<RangeSymbol>(GetParentTable(), *this);
-        }
-        if (binaryOperation == LexemeType::OpAssign || LexerUtils::IsArithmAssignOperation(binaryOperation)) {
-            return std::make_unique<DoubleSymbol>(GetParentTable());
+            return std::make_unique<RangeSymbol>(GetParentTable(), this);
         }
     }
 
@@ -177,7 +164,7 @@ Pointer<AbstractType> DoubleSymbol::IsApplicable(LexemeType binaryOperation, con
     auto range = dynamic_cast<const RangeSymbol*>(rightOperand);
     auto arr = dynamic_cast<const ArraySymbol*>(rightOperand);
     if ((binaryOperation == LexemeType::OpIn || binaryOperation == LexemeType::OpNotIn)
-        && (range != nullptr && range->GetType() == *this || arr != nullptr)) {
+        && (range != nullptr && range->GetType() == this || arr != nullptr)) {
         return std::make_unique<BooleanSymbol>(GetParentTable());
     }
 
@@ -216,14 +203,20 @@ Pointer<AbstractType> StringSymbol::IsApplicable(LexemeType binaryOperation, con
     return std::make_unique<UnresolvedSymbol>(GetParentTable());
 }
 
-ArraySymbol::ArraySymbol(SymbolTable* parentTable, const AbstractType* type) : FundamentalType("Array", parentTable), myType(type), mySize(0) {}
-
-std::string ArraySymbol::GetName() const {
-    return AbstractType::GetName() + "<" + myType->GetName() + ">";
+bool StringSymbol::IsAssignable(LexemeType assignOperation, const AbstractType* rightOperand) const {
+    return (assignOperation == LexemeType::OpAssign || assignOperation == LexemeType::OpPlusAssign) && *this == *rightOperand;
 }
 
-const AbstractType* ArraySymbol::GetType() const {
+IterableSymbol::IterableSymbol(const std::string& name, SymbolTable* parentTable, const AbstractType* type) : FundamentalType(name, parentTable), myType(type) {}
+
+const AbstractType* IterableSymbol::GetType() const {
     return myType;
+}
+
+ArraySymbol::ArraySymbol(SymbolTable* parentTable, const AbstractType* type) : IterableSymbol("Array", parentTable, type), mySize(0) {}
+
+std::string ArraySymbol::GetName() const {
+    return AbstractType::GetName() + "<" + GetType()->GetName() + ">";
 }
 
 int ArraySymbol::GetSize() const {
@@ -246,14 +239,10 @@ Pointer<AbstractType> ArraySymbol::IsApplicable(LexemeType binaryOperation, cons
     return std::make_unique<UnresolvedSymbol>(GetParentTable());
 }
 
-RangeSymbol::RangeSymbol(SymbolTable* parentTable, const AbstractType& type) : FundamentalType("ClosedRange", parentTable), myType(type) {}
+RangeSymbol::RangeSymbol(SymbolTable* parentTable, const AbstractType* type) : IterableSymbol("ClosedRange", parentTable, type) {}
 
 std::string RangeSymbol::GetName() const {
-    return AbstractType::GetName() + "<" + myType.GetName() + ">";
-}
-
-const AbstractType& RangeSymbol::GetType() const {
-    return myType;
+    return AbstractType::GetName() + "<" + GetType()->GetName() + ">";
 }
 
 Pointer<AbstractType> RangeSymbol::IsApplicable(LexemeType operation) const {

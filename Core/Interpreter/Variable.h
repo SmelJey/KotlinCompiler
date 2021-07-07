@@ -146,16 +146,24 @@ private:
     std::vector<Pointer<IVariable>> myVariables;
 };
 
-class Array : public Reference {
+class IterableRef : public Reference {
+public:
+    explicit IterableRef(IVariable* src);
+
+    virtual int Size() const = 0;
+    virtual Pointer<IVariable> GetIterator(int idx) const = 0;
+};
+
+class Array : public IterableRef {
 public:
     explicit Array(StructArray* arr);
-
+    
     Pointer<Reference> CloneRef() const override;
 
     Pointer<IVariable> ApplyOperation(LexemeType operation, const IVariable* lhs) const override;
 
-    Pointer<Reference> Get(int idx) const;
-    int Size() const;
+    Pointer<IVariable> GetIterator(int idx) const override;
+    int Size() const override;
 };
 
 class StructRange : public IVariable {
@@ -178,7 +186,7 @@ private:
 bool operator==(const StructRange& lhs, const StructRange& rhs);
 bool operator!=(const StructRange& lhs, const StructRange& rhs);
 
-class Range : public Reference {
+class Range : public IterableRef {
 public:
     explicit Range(StructRange* range);
 
@@ -186,6 +194,12 @@ public:
 
     Pointer<IVariable> ApplyOperation(LexemeType operation, const IVariable* lhs) const override;
     Pointer<IVariable> ApplyOperation(LexemeType operation, const Range* rhs) const override;
+
+    const IVariable* GetLeft() const;
+    const IVariable* GetRight() const;
+
+    Pointer<IVariable> GetIterator(int idx) const override;
+    int Size() const override;
 };
 
 // TODO: make classes

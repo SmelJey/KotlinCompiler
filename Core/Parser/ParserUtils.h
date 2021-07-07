@@ -20,4 +20,6 @@ public:
 
     static const ISymbol* GetArrayBuilder(const AbstractType* innerType, std::vector<const AbstractType*> argsTypes, SymbolTable* symTable);
     static const ArraySymbol* GetGenericArray(const AbstractType* innerType, SymbolTable* symTable);
+
+    static bool IsGenericIdentifier(const IAnnotatedNode* node);
 };

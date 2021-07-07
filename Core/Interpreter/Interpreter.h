@@ -36,7 +36,11 @@ public:
 
     void EnterNode(const PropertyDeclaration& node) override;
     void EnterNode(const Assignment& node) override;
+
     void EnterNode(const IfExpression& node) override;
+    void EnterNode(const WhileNode& node) override;
+    void EnterNode(const DoWhileNode& node) override;
+    void EnterNode(const ForNode& node) override;
 
 private:
     const DeclarationBlock* myTree;

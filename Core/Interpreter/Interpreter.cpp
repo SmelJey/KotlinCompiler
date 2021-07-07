@@ -117,7 +117,7 @@ void Interpreter::EnterNode(const IndexSuffixNode& node) {
     Pointer<IVariable> idxRef = PopFromStack();
     IVariable* arr = InterpreterUtil::TryDereference(arrRef.get());
     IVariable* idx = InterpreterUtil::TryDereference(idxRef.get());
-    LoadOnStack(dynamic_cast<Array*>(arr)->Get(idx->GetValue<int>()));
+    LoadOnStack(dynamic_cast<Array*>(arr)->GetIterator(idx->GetValue<int>()));
 }
 
 void Interpreter::EnterNode(const BinOperationNode& node) {
@@ -164,6 +164,24 @@ void Interpreter::EnterNode(const Assignment& node) {
     Pointer<IVariable> exprRes = PopFromStack();
     Pointer<IVariable> assignable = PopFromStack();
 
+    switch (node.GetLexeme().GetType()) {
+        case LexemeType::OpPlusAssign:
+            exprRes = InterpreterUtil::TryDereference(exprRes.get())->ApplyOperation(LexemeType::OpAdd, InterpreterUtil::TryDereference(assignable.get()));
+            break;
+        case LexemeType::OpMinusAssign:
+            exprRes = InterpreterUtil::TryDereference(exprRes.get())->ApplyOperation(LexemeType::OpSub, InterpreterUtil::TryDereference(assignable.get()));
+            break;
+        case LexemeType::OpMultAssign:
+            exprRes = InterpreterUtil::TryDereference(exprRes.get())->ApplyOperation(LexemeType::OpMult, InterpreterUtil::TryDereference(assignable.get()));
+            break;
+        case LexemeType::OpDivAssign:
+            exprRes = InterpreterUtil::TryDereference(exprRes.get())->ApplyOperation(LexemeType::OpDiv, InterpreterUtil::TryDereference(assignable.get()));
+            break;
+        case LexemeType::OpModAssign:
+            exprRes = InterpreterUtil::TryDereference(exprRes.get())->ApplyOperation(LexemeType::OpMod, InterpreterUtil::TryDereference(assignable.get()));
+            break;
+    }
+
     *assignable->GetValue<IVariable*>() = *InterpreterUtil::TryDereference(exprRes.get())->Clone();
 }
 
@@ -185,5 +203,58 @@ void Interpreter::EnterNode(const IfExpression& node) {
         LoadOnStack(lastFrame.Pop());
     }
 
+}
+
+void Interpreter::EnterNode(const WhileNode& node) {
+    node.GetExpression().RunVisitor(*this);
+
+    Pointer<IVariable> exprRes = PopFromStack();
+    while (InterpreterUtil::TryDereference(exprRes.get())->GetValue<bool>()) {
+        myStack.push(myStack.top().Clone());
+
+        node.GetBody().RunVisitor(*this);
+
+        myStack.pop();
+
+        node.GetExpression().RunVisitor(*this);
+        exprRes = PopFromStack();
+    }
+}
+
+void Interpreter::EnterNode(const DoWhileNode& node) {
+    Pointer<IVariable> exprRes = nullptr;
+    do {
+        myStack.push(myStack.top().Clone());
+        node.GetBody().RunVisitor(*this);
+
+        node.GetExpression().RunVisitor(*this);
+        exprRes = PopFromStack();
+
+        myStack.pop();
+    } while (InterpreterUtil::TryDereference(exprRes.get())->GetValue<bool>());
+}
+
+void Interpreter::EnterNode(const ForNode& node) {
+    node.GetExpression().RunVisitor(*this);
+    Pointer<IVariable> iterablePtr = PopFromStack();
+    
+    auto iterable = dynamic_cast<IterableRef*>(InterpreterUtil::TryDereference(iterablePtr.get()));
+    int iterableSize = iterable->Size();
+    if (iterableSize <= 0) {
+        return;
+    }
+
+    for (int i = 0; i < iterableSize; i++) {
+        Pointer<IVariable> iteratorRef = iterable->GetIterator(i);
+        IVariable* iterator = InterpreterUtil::TryDereference(iteratorRef.get());
+
+        myStack.push(myStack.top().Clone());
+        myStack.top().AddGlobal(node.GetVariable().GetIdentifierName(), iterator);
+
+        node.GetBody().RunVisitor(*this);
+
+        myStack.pop();
+
+    }
 }
 

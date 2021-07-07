@@ -204,7 +204,7 @@ Pointer<TypeNode> Parser::ParseType() {
 
     Lexeme curLexeme = myLexer.GetLexeme();
     if (!RequireLexeme(LexemeType::Identifier, "Type expected")) {
-        return std::make_unique<TypeNode>(curLexeme.CopyEmpty(), myRootTable->GetUnresolvedSymbol());
+        return std::make_unique<TypeNode>(curLexeme.CopyEmptyOfType(LexemeType::Identifier), myRootTable->GetUnresolvedSymbol());
     }
 
     std::string typeName = curLexeme.GetValue<std::string>();
@@ -314,20 +314,30 @@ Pointer<IAnnotatedNode> Parser::ParseControlStructureBody(bool acceptSemicolons 
 
 // 'for' '(' (variableDeclaration | multiVariableDeclaration) 'in' expression ')' controlStructureBody?
 Pointer<ForNode> Parser::ParseForLoop(const Lexeme& lexeme) {
-    SymbolsFrame tableFrame(&myTable);
+    SymbolsFrame forFrame(&myTable);
 
     RequireLexeme(LexemeType::LParen, "Expecting '(' to open a loop range");
     Pointer<VariableNode> variable = ParseVariable();
 
     RequireLexeme(LexemeType::OpIn, "Expecting 'in'");
     Pointer<IAnnotatedNode> expr = ParseExpression();
+    Pointer<ISyntaxNode> body;
 
-    if (expr->GetType()->GetName().rfind("Array<", 0) != 0 && expr->GetType()->GetName().rfind("ClosedRange<", 0) != 0) {
-        AddSemanticsError(expr->GetLexeme(), "Array or range expected in for loop");
+    const IterableSymbol* iterable = dynamic_cast<const IterableSymbol*>(expr->GetType());
+    const AbstractType* underlyingType = (iterable == nullptr ? myRootTable->GetUnresolvedSymbol() : iterable->GetType());
+
+    variable->SetSymbol(myTable->Add(std::make_unique<VariableSymbol>(variable->GetIdentifierName(), underlyingType, false)));
+
+    {
+        SymbolsFrame tableFrame(&myTable);
+
+        if (expr->GetType()->GetName().rfind("Array<", 0) != 0 && expr->GetType()->GetName().rfind("ClosedRange<", 0) != 0) {
+            AddSemanticsError(expr->GetLexeme(), "Array or range expected in for loop");
+        }
+
+        RequireLexeme(LexemeType::RParen, "Expecting ')'");
+        body = ParseControlStructureBody();
     }
-
-    RequireLexeme(LexemeType::RParen, "Expecting ')'");
-    Pointer<ISyntaxNode> body = ParseControlStructureBody();
 
     return std::make_unique<ForNode>(lexeme, std::move(expr), std::move(body), std::move(variable), myRootTable->GetUnitSymbol());
 }
@@ -435,7 +445,6 @@ Pointer<VariableNode> Parser::ParseVariable() {
         }
     }
 
-    variable->SetSymbol(myTable->Add(std::make_unique<VariableSymbol>(variable->GetIdentifierName(), myTable->GetType("Int"), false)));
     return variable;
 }
 
@@ -520,7 +529,7 @@ Pointer<IAnnotatedNode> Parser::ParsePostfix() {
     Pointer<IAnnotatedNode> operand = ParsePrimary();
     Lexeme curLexeme = myLexer.GetLexeme();
 
-    while (ParserUtils::PostfixOperations.count(curLexeme.GetType()) || curLexeme.GetType() == LexemeType::OpLess && dynamic_cast<IdentifierNode*>(operand.get()) != nullptr) {
+    while (ParserUtils::PostfixOperations.count(curLexeme.GetType()) || curLexeme.GetType() == LexemeType::OpLess && ParserUtils::IsGenericIdentifier(operand.get())) {
         // Postfix operation
         if (AcceptLexeme(LexemeType::OpInc) || AcceptLexeme(LexemeType::OpDec)) {
             Pointer<AbstractType> resultType = IsApplicable(curLexeme.GetType(), operand->GetType());

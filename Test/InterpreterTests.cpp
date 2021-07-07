@@ -12,3 +12,7 @@ TEST_CASE("Interpreter Variables", "[Interpreter]") {
 TEST_CASE("Interpreter If Expressions", "[Interpreter]") {
     InterpreterTest::RunTests("IfExpr/");
 }
+
+TEST_CASE("Interpreter Loops", "[Interpreter]") {
+    InterpreterTest::RunTests("Loops/");
+}

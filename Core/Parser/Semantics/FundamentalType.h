@@ -65,15 +65,25 @@ public:
 
     Pointer<AbstractType> IsApplicable(LexemeType operation) const override;
     Pointer<AbstractType> IsApplicable(LexemeType binaryOperation, const AbstractType* rightOperand) const override;
+
+    bool IsAssignable(LexemeType assignOperation, const AbstractType* rightOperand) const override;
 };
 
-class ArraySymbol : public FundamentalType {
+class IterableSymbol : public FundamentalType {
+public:
+    IterableSymbol(const std::string& name, SymbolTable* parentTable, const AbstractType* type);
+
+    const AbstractType* GetType() const;
+
+private:
+    const AbstractType* myType;
+};
+
+class ArraySymbol : public IterableSymbol {
 public:
     ArraySymbol(SymbolTable* parentTable, const AbstractType* type);
 
     std::string GetName() const override;
-
-    const AbstractType* GetType() const;
 
     int GetSize() const;
     void SetSize(int size);
@@ -82,20 +92,15 @@ public:
     Pointer<AbstractType> IsApplicable(LexemeType binaryOperation, const AbstractType* rightOperand) const override;
 
 private:
-    const AbstractType* myType;
     int mySize;
 };
 
-class RangeSymbol : public FundamentalType {
+class RangeSymbol : public IterableSymbol {
 public:
-    RangeSymbol(SymbolTable* parentTable, const AbstractType& type);
+    RangeSymbol(SymbolTable* parentTable, const AbstractType* type);
 
     std::string GetName() const override;
-    const AbstractType& GetType() const;
 
     Pointer<AbstractType> IsApplicable(LexemeType operation) const override;
     Pointer<AbstractType> IsApplicable(LexemeType binaryOperation, const AbstractType* rightOperand) const override;
-
-private:
-    const AbstractType& myType;
 };

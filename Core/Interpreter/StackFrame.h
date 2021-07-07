@@ -10,6 +10,7 @@ public:
     StackFrame Clone() const;
 
     void SetVariable(const std::string& name, Pointer<IVariable> variable);
+    void AddGlobal(const std::string& name, IVariable* variable);
     Pointer<Reference> GetVariable(const std::string& name) const;
 
     void Load(Pointer<IVariable> val);
