@@ -1,1 +1,1 @@
-fun test() = 123 in 5..10 && 35 !in 1..100
+fun test() : Boolean = 123 in 5..10 && 35 !in 1..100

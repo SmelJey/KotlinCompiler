@@ -28,4 +28,4 @@
 @@ |-Fun println(Double) -> Unit
 @@ |-Fun println(Boolean) -> Unit
 @@ |-Fun println() -> Unit
-@@ Error 2:16 :: Conflicting declarations: a
+@@ Error 2:5 :: Conflicting declarations: a

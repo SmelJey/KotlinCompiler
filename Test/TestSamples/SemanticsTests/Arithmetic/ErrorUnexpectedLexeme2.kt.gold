@@ -2,6 +2,7 @@
 @@ |-Fun Decl                                                  :: test
 @@   |-Identifier :: test                                      :: test
 @@   |-Params
+@@   |-Type :: Int                                             :: Int
 @@   |-Bin op :: +                                             :: Unresolved type
 @@     |-Integer :: 2                                          :: Int
 @@     |-Identifier ::                                         :: Unresolved type
@@ -25,5 +26,5 @@
 @@ |-Fun println(Double) -> Unit
 @@ |-Fun println(Boolean) -> Unit
 @@ |-Fun println() -> Unit
-@@ |-Fun test() -> Unresolved type
-@@ Error 1:18 :: Unexpected lexeme
+@@ |-Fun test() -> Int
+@@ Error 1:24 :: Unexpected lexeme

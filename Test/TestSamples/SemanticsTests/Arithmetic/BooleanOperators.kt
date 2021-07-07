@@ -1,1 +1,1 @@
-fun test() = true || false && 5 == 3 || (!(5 + 3 != 7))
+fun test() : Boolean = true || false && 5 == 3 || (!(5 + 3 != 7))

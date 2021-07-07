@@ -2,6 +2,7 @@
 @@ |-Fun Decl                                                  :: main
 @@   |-Identifier :: main                                      :: main
 @@   |-Params
+@@   |-Type :: Int                                             :: Int
 @@   |-Block                                                   :: Int
 @@     |-Return                                                :: Int
 @@       |-Bin op :: +                                         :: Int

@@ -9,8 +9,8 @@ class AbstractDeclaration;
 
 class FunctionSymbol : public ISymbol {
 public:
-    FunctionSymbol(const std::string& name, const AbstractType* returnType, const std::vector<const AbstractType*>& params,
-        Pointer<SymbolTable> table, const AbstractDeclaration* decl);
+    FunctionSymbol(const std::string& name, const AbstractType* returnType, const std::vector<const AbstractType*>& params, Pointer<SymbolTable> table, const AbstractDeclaration* decl);
+    FunctionSymbol(const std::string& name, const AbstractType* returnType, const std::vector<const AbstractType*>& params, const AbstractDeclaration* decl);
 
     std::string GetName() const override;
 
@@ -22,6 +22,8 @@ public:
     bool CheckArgument(const AbstractType& type, int idx);
 
     const AbstractDeclaration* GetDeclaration() const;
+
+    void SetTable(Pointer<SymbolTable> table);
 
     bool operator<(const ISymbol& rhs) const override;
 

@@ -138,7 +138,7 @@ bool SymbolTable::Contains(const ISymbol& symbol) const {
     return false;
 }
 
-const ISymbol* SymbolTable::Add(Pointer<ISymbol> symbol) {
+ISymbol* SymbolTable::Add(Pointer<ISymbol> symbol) {
     if (LocalContains(*symbol)) {
         return GetUnresolvedSymbol();
     }
@@ -149,7 +149,7 @@ void SymbolTable::Add(Pointer<SymbolTable> table) {
     myBlockTables.push_back(std::move(table));
 }
 
-const UnresolvedSymbol* SymbolTable::GetUnresolvedSymbol() const {
+UnresolvedSymbol* SymbolTable::GetUnresolvedSymbol() const {
     if (myParentTable != nullptr) {
         return myParentTable->GetUnresolvedSymbol();
     }

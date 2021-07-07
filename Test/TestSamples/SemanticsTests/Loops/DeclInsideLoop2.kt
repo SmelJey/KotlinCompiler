@@ -1,6 +1,6 @@
 fun main() {
 	while (true) {
-		fun test() = 1
+		fun test() : Int = 1
 		println(test())
 	}
 }

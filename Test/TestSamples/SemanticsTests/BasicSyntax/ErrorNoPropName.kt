@@ -1,3 +1,3 @@
 val
 
-fun test() = 5
+fun test() : Int = 5

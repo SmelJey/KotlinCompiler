@@ -1,1 +1,1 @@
-fun test() = (2 + 3) + 4
+fun test() : Int = (2 + 3) + 4

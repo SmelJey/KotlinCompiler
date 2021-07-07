@@ -2,6 +2,7 @@
 @@ |-Fun Decl                                                  :: test
 @@ | |-Identifier :: test                                      :: test
 @@ | |-Params
+@@ | |-Type :: Int                                             :: Int
 @@ | |-Integer :: 1                                            :: Int
 @@ |-Fun Decl                                                  :: test2
 @@ | |-Identifier :: test2                                     :: test2
@@ -9,6 +10,7 @@
 @@ | | |-Parameter                                             :: a
 @@ | |   |-Identifier :: a                                     :: a
 @@ | |   |-Type :: Int                                         :: Int
+@@ | |-Type :: Int                                             :: Int
 @@ | |-Identifier :: a                                         :: a
 @@ |-Fun Decl                                                  :: main
 @@   |-Identifier :: main                                      :: main

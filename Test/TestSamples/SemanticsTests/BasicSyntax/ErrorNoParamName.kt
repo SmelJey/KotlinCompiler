@@ -1,1 +1,1 @@
-fun test(: Int) =2 + 3
+fun test(: Int) : Int =2 + 3

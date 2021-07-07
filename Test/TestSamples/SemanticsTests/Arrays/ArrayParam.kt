@@ -1,4 +1,4 @@
-fun test(a : Array<Int>) {
+fun test(a : Array<Int>) : Int {
     return a[0];
 }
 

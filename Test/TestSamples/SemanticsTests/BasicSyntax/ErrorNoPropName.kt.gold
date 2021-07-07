@@ -5,6 +5,7 @@
 @@ |-Fun Decl                                                  :: test
 @@   |-Identifier :: test                                      :: test
 @@   |-Params
+@@   |-Type :: Int                                             :: Int
 @@   |-Integer :: 5                                            :: Int
 @@ ====
 @@ SymbolTable

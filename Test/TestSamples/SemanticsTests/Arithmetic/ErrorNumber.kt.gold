@@ -2,6 +2,7 @@
 @@ |-Fun Decl                                                  :: test
 @@   |-Identifier :: test                                      :: test
 @@   |-Params
+@@   |-Type :: Int                                             :: Int
 @@   |-Bin op :: +                                             :: Int
 @@     |-Integer :: 2                                          :: Int
 @@     |-Integer :: 0                                          :: Int
@@ -26,4 +27,4 @@
 @@ |-Fun println(Boolean) -> Unit
 @@ |-Fun println() -> Unit
 @@ |-Fun test() -> Int
-@@ Error 1:18 :: Illegal suffix
+@@ Error 1:24 :: Illegal suffix

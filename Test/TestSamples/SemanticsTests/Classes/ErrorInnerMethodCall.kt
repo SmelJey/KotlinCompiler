@@ -1,5 +1,5 @@
 class A{
-	fun test() = 1
+	fun test() : Int = 1
 }
 
 fun main() {

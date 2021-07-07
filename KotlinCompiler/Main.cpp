@@ -107,11 +107,11 @@ int main(int argc, char** argv) {
     for (auto& error : parser.GetParsingErrors()) {
         std::cout << error << std::endl;
     }
-    if (configuration.GetSemanticsDebug()) {
-        for (auto& error : parser.GetSemanticsErrors()) {
-            std::cout << error << std::endl;
-        }
+
+    for (auto& error : parser.GetSemanticsErrors()) {
+        std::cout << error << std::endl;
     }
+    
 
     if (!parser.GetParsingErrors().empty() || !parser.GetSemanticsErrors().empty()) {
         return 0;

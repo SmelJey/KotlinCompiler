@@ -2,6 +2,7 @@
 @@ |-Fun Decl                                                  :: test
 @@   |-Identifier :: test                                      :: test
 @@   |-Params
+@@   |-Type :: Int                                             :: Int
 @@   |-Bin op :: +                                             :: Int
 @@     |-Integer :: 2                                          :: Int
 @@     |-Bin op :: +                                           :: Int
@@ -28,4 +29,4 @@
 @@ |-Fun println(Boolean) -> Unit
 @@ |-Fun println() -> Unit
 @@ |-Fun test() -> Int
-@@ Error 1:25 :: Expecting ')'
+@@ Error 1:31 :: Expecting ')'

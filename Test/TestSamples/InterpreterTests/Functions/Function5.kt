@@ -1,6 +1,6 @@
 val a = 5
 
-fun test(x : Int) = x * a
+fun test(x : Int) : Int = x * a
 
 fun main() {
 	val arr = arrayOf<Int>(1, 2, 3)

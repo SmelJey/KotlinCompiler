@@ -19,6 +19,7 @@
 @@   | |-Parameter                                             :: b
 @@   |   |-Identifier :: b                                     :: b
 @@   |   |-Type :: String                                      :: String
+@@   |-Type :: Int                                             :: Int
 @@   |-Identifier :: a                                         :: a
 @@ ====
 @@ SymbolTable

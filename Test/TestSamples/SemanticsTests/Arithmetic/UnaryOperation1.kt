@@ -1,1 +1,1 @@
-fun test() = -4
+fun test() : Int = -4

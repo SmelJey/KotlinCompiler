@@ -3,7 +3,7 @@ fun test4() : Int {
 }
 
 fun main() {
-	fun test1() = 5
+	fun test1() : Int = 5
 	fun test3() : Int {
 		fun test2() : Int = 3
 		

@@ -26,10 +26,10 @@ public:
 
     bool IsEmpty() const;
     bool Contains(const ISymbol& symbol) const;
-    const ISymbol* Add(Pointer<ISymbol> symbol);
+    ISymbol* Add(Pointer<ISymbol> symbol);
     void Add(Pointer<SymbolTable> table);
 
-    const UnresolvedSymbol* GetUnresolvedSymbol() const;
+    UnresolvedSymbol* GetUnresolvedSymbol() const;
     const UnitTypeSymbol* GetUnitSymbol() const;
 
     friend class INodeVisitor;

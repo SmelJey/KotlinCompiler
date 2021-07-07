@@ -1,1 +1,1 @@
-fun test() = 2 + 3p
+fun test() : Int = 2 + 3p

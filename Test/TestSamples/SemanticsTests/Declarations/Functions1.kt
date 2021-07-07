@@ -1,6 +1,6 @@
-fun test1() = 5
+fun test1() : Int = 5
 fun test2() : Int = 3
-fun test3() {
+fun test3() : Int {
 	return 5
 }
 fun test4() : Int {

@@ -2,6 +2,7 @@
 @@ |-Fun Decl                                                  :: test
 @@   |-Identifier :: test                                      :: test
 @@   |-Params
+@@   |-Type :: Boolean                                         :: Boolean
 @@   |-Bin op :: >                                             :: Unresolved type
 @@     |-String :: a                                           :: String
 @@     |-String :: b                                           :: String
@@ -25,5 +26,5 @@
 @@ |-Fun println(Double) -> Unit
 @@ |-Fun println(Boolean) -> Unit
 @@ |-Fun println() -> Unit
-@@ |-Fun test() -> Unresolved type
-@@ Error 1:23 :: Operation is not applicable to types String and String
+@@ |-Fun test() -> Boolean
+@@ Error 1:33 :: Operation is not applicable to types String and String

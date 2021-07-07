@@ -7,6 +7,7 @@
 @@ | |   |-Type :: Array                                       :: Array<Int>
 @@ | |     |-TypeArgs
 @@ | |       |-Type :: Int                                     :: Int
+@@ | |-Type :: Int                                             :: Int
 @@ | |-Block                                                   :: Int
 @@ |   |-Return                                                :: Int
 @@ |     |-IndexSuffix                                         :: Int

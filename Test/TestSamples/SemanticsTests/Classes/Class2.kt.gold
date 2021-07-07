@@ -8,6 +8,7 @@
 @@     |-Fun Decl                                              :: test
 @@       |-Identifier :: test                                  :: test
 @@       |-Params
+@@       |-Type :: Int                                         :: Int
 @@       |-Integer :: 2                                        :: Int
 @@ ====
 @@ SymbolTable

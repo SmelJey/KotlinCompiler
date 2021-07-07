@@ -13,6 +13,7 @@
 @@     |-Fun Decl                                              :: test1
 @@     | |-Identifier :: test1                                 :: test1
 @@     | |-Params
+@@     | |-Type :: Int                                         :: Int
 @@     | |-Integer :: 5                                        :: Int
 @@     |-Fun Decl                                              :: test3
 @@     | |-Identifier :: test3                                 :: test3

@@ -118,11 +118,12 @@ private:
 
 class FunctionDeclaration : public AbstractDeclaration {
 public:
-    FunctionDeclaration(Pointer<IdentifierNode> identifier, const UnitTypeSymbol* type, Pointer<ParameterList> parameters, Pointer<IAnnotatedNode> body);
+    FunctionDeclaration(Pointer<IdentifierNode> identifier, const UnitTypeSymbol* type, Pointer<ParameterList> parameters);
 
     const ParameterList& GetParameters() const;
 
     const IAnnotatedNode& GetBody() const;
+    void SetBody(Pointer<IAnnotatedNode> body);
 
     const IAnnotatedNode& GetReturn() const;
     void SetReturn(Pointer<IAnnotatedNode> returnNode);

@@ -3,8 +3,11 @@
 #include "../INodeVisitor.h"
 
 FunctionSymbol::FunctionSymbol(const std::string& name, const AbstractType* returnType,
-    const std::vector<const AbstractType*>& params, Pointer<SymbolTable> table, const AbstractDeclaration* decl)
+                               const std::vector<const AbstractType*>& params, Pointer<SymbolTable> table, const AbstractDeclaration* decl)
     : myName(name), myReturnType(returnType), myParameters(params), myTable(std::move(table)), myDeclaration(decl) {}
+
+FunctionSymbol::FunctionSymbol(const std::string& name, const AbstractType* returnType,
+                               const std::vector<const AbstractType*>& params, const AbstractDeclaration* decl) : FunctionSymbol(name, returnType, params, nullptr, decl) {}
 
 std::string FunctionSymbol::GetName() const {
     return myName;
@@ -32,6 +35,10 @@ bool FunctionSymbol::CheckArgument(const AbstractType& type, int idx) {
 
 const AbstractDeclaration* FunctionSymbol::GetDeclaration() const {
     return myDeclaration;
+}
+
+void FunctionSymbol::SetTable(Pointer<SymbolTable> table) {
+    myTable = std::move(table);
 }
 
 bool FunctionSymbol::operator<(const ISymbol& rhs) const {

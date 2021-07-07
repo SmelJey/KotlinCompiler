@@ -1,1 +1,1 @@
-fun test() = "a" > "b"
+fun test() : Boolean = "a" > "b"

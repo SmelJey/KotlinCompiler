@@ -86,7 +86,7 @@ Pointer<ClassDeclaration> Parser::ParseClass() {
         AddSemanticsError(classDecl->GetIdentifier().GetLexeme(), "Conflicting declarations: " + classDecl->GetIdentifierName());
     } else {
         Pointer<FunctionSymbol> constructor = std::make_unique<FunctionSymbol>(classDecl->GetIdentifierName(),
-            dynamic_cast<const ClassSymbol*>(sym), std::vector<const AbstractType*>(), std::make_unique<SymbolTable>(myTable), classDecl.get());
+                                                                               dynamic_cast<const ClassSymbol*>(sym), std::vector<const AbstractType*>(), std::make_unique<SymbolTable>(myTable), classDecl.get());
         myTable->Add(std::move(constructor));
     }
 
@@ -96,30 +96,19 @@ Pointer<ClassDeclaration> Parser::ParseClass() {
 
 // 'fun' simpleIdentifier functionValueParameters (':' type)? functionBody
 Pointer<FunctionDeclaration> Parser::ParseFunction() {
-    const AbstractType* lastReturn = myReturn;
-    myReturn = nullptr;
-
     Pointer<IdentifierNode> identifier = ParseIdentifier("Function declaration must have a name");
     SymbolsFrame tableFrame(&myTable);
 
     Pointer<ParameterList> paramsNode = ParseParameters();
     Pointer<TypeNode> returnNode;
-    
+
+    myReturn = myRootTable->GetUnitSymbol();
     if (AcceptLexeme(LexemeType::OpColon)) {
         returnNode = ParseType();
         myReturn = returnNode->GetType();
     }
 
-    Pointer<IAnnotatedNode> body;
-
-    if (AcceptLexeme(LexemeType::OpAssign)) {
-        body = ParseExpression();
-        myReturn = body->GetType();
-    } else {
-        body = ParseBlock();
-    }
-
-    Pointer<FunctionDeclaration> functionDecl = std::make_unique<FunctionDeclaration>(std::move(identifier), myRootTable->GetUnitSymbol(), std::move(paramsNode), std::move(body));
+    Pointer<FunctionDeclaration> functionDecl = std::make_unique<FunctionDeclaration>(std::move(identifier), myRootTable->GetUnitSymbol(), std::move(paramsNode));
     functionDecl->SetReturn(std::move(returnNode));
 
     std::vector<const AbstractType*> paramsTypes;
@@ -127,18 +116,28 @@ Pointer<FunctionDeclaration> Parser::ParseFunction() {
         paramsTypes.push_back(it->GetTypeNode().GetType());
     }
 
-    if (myReturn == nullptr) {
-        myReturn = myRootTable->GetUnitSymbol();
+    Pointer<FunctionSymbol> funcSym = std::make_unique<FunctionSymbol>(functionDecl->GetIdentifierName(), myReturn,
+                                                                       paramsTypes, functionDecl.get());
+
+    ISymbol* sym = myTable->GetParent()->Add(std::move(funcSym));
+    CheckUnresolvedType(sym, "Conflicting function overloads: " + functionDecl->GetIdentifierName(), functionDecl->GetIdentifier().GetLexeme());
+    functionDecl->SetSymbol(sym);
+
+    if (AcceptLexeme(LexemeType::OpAssign)) {
+        functionDecl->SetBody(ParseExpression());
+        if (*functionDecl->GetBody().GetType() != *myReturn) {
+            AddSemanticsError(functionDecl->GetBody().GetLexeme(), functionDecl->GetBody().GetType()->GetName() + " does not conform to the expected type " + myReturn->GetName());
+        }
+    } else {
+        functionDecl->SetBody(ParseBlock());
     }
 
-    Pointer<FunctionSymbol> funcSym = std::make_unique<FunctionSymbol>(functionDecl->GetIdentifierName(), myReturn,
-        paramsTypes, tableFrame.Dispose(), functionDecl.get());
+    if (dynamic_cast<FunctionSymbol*>(sym)) {
+        dynamic_cast<FunctionSymbol*>(sym)->SetTable(tableFrame.Dispose());
+    } else {
+        tableFrame.Dispose();
+    }
 
-    myReturn = lastReturn;
-
-    const ISymbol* sym = myTable->Add(std::move(funcSym));
-    CheckUnresolvedType(sym, "Conflicting function overloads: " + functionDecl->GetIdentifierName(), myLexer.GetLexeme());
-    functionDecl->SetSymbol(sym);
     return functionDecl;
 }
 
@@ -428,7 +427,7 @@ Pointer<PropertyDeclaration> Parser::ParseProperty(const Lexeme& keyword) {
         myTable->GetType(propertyDecl->GetInitialization().GetType()->GetName()), propertyDecl->IsMutable());
 
     const ISymbol* sym = myTable->Add(std::move(propertySym));
-    CheckUnresolvedType(sym, "Conflicting declarations: " + propertyDecl->GetIdentifierName(), myLexer.GetLexeme());
+    CheckUnresolvedType(sym, "Conflicting declarations: " + propertyDecl->GetIdentifierName(), propertyDecl->GetIdentifier().GetLexeme());
 
     propertyDecl->SetSymbol(sym);
     return propertyDecl;
@@ -623,9 +622,6 @@ Pointer<MemberAccessNode> Parser::ParseMemberAccess(const Lexeme& operationLexem
         }
         auto classSym = dynamic_cast<const ClassSymbol*>(operand->GetType());
         std::vector<const ISymbol*> candidates = operand->GetType()->GetTable()->GetSymbols(curLexeme.GetValue<std::string>());
-        /*if (classSym != nullptr) {
-            candidates = classSym->GetTable()->GetSymbols(curLexeme.GetValue<std::string>());
-        }*/
 
         Pointer<IdentifierNode> memberIdentifier = CreateLexemeNode(curLexeme, myRootTable->GetUnresolvedSymbol(), candidates);
         memberIdentifier->TryResolveVariable();

@@ -11,6 +11,7 @@
 @@ |-Fun Decl                                                  :: test
 @@   |-Identifier :: test                                      :: test
 @@   |-Params
+@@   |-Type :: Int                                             :: Int
 @@   |-Bin op :: -                                             :: Int
 @@     |-Bin op :: +                                           :: Int
 @@     | |-Identifier :: x                                     :: x

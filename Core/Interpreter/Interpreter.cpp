@@ -228,7 +228,7 @@ void Interpreter::EnterNode(const BreakNode& node) {
 void Interpreter::EnterNode(const ReturnNode& node) {
     if (node.HasExpression() && dynamic_cast<const EmptyStatement*>(node.GetExpression()) == nullptr) {
         node.GetExpression()->RunVisitor(*this);
-        myReturn = PopFromStack();
+        myReturn = InterpreterUtil::TryDereference(PopFromStack().get())->Clone();
     }
 
     throw ReturnException();

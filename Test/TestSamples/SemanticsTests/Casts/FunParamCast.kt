@@ -1,4 +1,4 @@
-fun test(a : Int, b : String) = a
+fun test(a : Int, b : String) : Int = a
 
 fun main() {
 	val a = 1.2

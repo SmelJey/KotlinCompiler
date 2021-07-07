@@ -197,8 +197,8 @@ void ParameterList::PropagateVisitor(INodeVisitor& visitor) const {
     }
 }
 
-FunctionDeclaration::FunctionDeclaration(Pointer<IdentifierNode> identifier, const UnitTypeSymbol* type, Pointer<ParameterList> parameters, Pointer<IAnnotatedNode> body)
-    : AbstractDeclaration(std::move(identifier), type), myParams(std::move(parameters)), myBody(std::move(body)) {}
+FunctionDeclaration::FunctionDeclaration(Pointer<IdentifierNode> identifier, const UnitTypeSymbol* type, Pointer<ParameterList> parameters)
+    : AbstractDeclaration(std::move(identifier), type), myParams(std::move(parameters)) {}
 
 const ParameterList& FunctionDeclaration::GetParameters() const {
     return *myParams;
@@ -206,6 +206,10 @@ const ParameterList& FunctionDeclaration::GetParameters() const {
 
 const IAnnotatedNode& FunctionDeclaration::GetBody() const {
     return *myBody;
+}
+
+void FunctionDeclaration::SetBody(Pointer<IAnnotatedNode> body) {
+    myBody = std::move(body);
 }
 
 const IAnnotatedNode& FunctionDeclaration::GetReturn() const {

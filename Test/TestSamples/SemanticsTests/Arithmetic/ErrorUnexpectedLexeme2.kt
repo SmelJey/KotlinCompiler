@@ -1,1 +1,1 @@
-fun test() = 2 + class
+fun test() : Int = 2 + class

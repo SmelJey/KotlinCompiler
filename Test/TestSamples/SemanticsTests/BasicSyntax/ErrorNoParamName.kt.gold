@@ -5,6 +5,7 @@
 @@   | |-Parameter                                             :: 
 @@   |   |-Identifier ::                                       :: 
 @@   |   |-Type :: Int                                         :: Int
+@@   |-Type :: Int                                             :: Int
 @@   |-Bin op :: +                                             :: Int
 @@     |-Integer :: 2                                          :: Int
 @@     |-Integer :: 3                                          :: Int

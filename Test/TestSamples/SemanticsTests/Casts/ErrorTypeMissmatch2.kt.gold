@@ -5,6 +5,7 @@
 @@ | | |-Parameter                                             :: a
 @@ | |   |-Identifier :: a                                     :: a
 @@ | |   |-Type :: Double                                      :: Double
+@@ | |-Type :: Double                                          :: Double
 @@ | |-Identifier :: a                                         :: a
 @@ |-Fun Decl                                                  :: main
 @@   |-Identifier :: main                                      :: main

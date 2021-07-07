@@ -1,4 +1,4 @@
-fun sqr(x : Int) = x * x
+fun sqr(x : Int) : Int = x * x
 
 fun main() {
 	val arr = arrayOf<Int>(1, 2, 3)
