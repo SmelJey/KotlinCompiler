@@ -7,6 +7,7 @@ public:
     explicit Struct(StackFrame frame);
 
     Pointer<Reference> GetVariable(const std::string& name);
+    bool Contains(const std::string& name) const;
     StackFrame GetLocalSpace();
 
     Pointer<IVariable> Clone() const override;
@@ -21,6 +22,7 @@ public:
     explicit Class(Struct* data);
 
     Pointer<Reference> GetVariable(const std::string& name);
+    bool Contains(const std::string& name) const;
     StackFrame GetLocalSpace();
 
     Pointer<Reference> CloneRef() const override;

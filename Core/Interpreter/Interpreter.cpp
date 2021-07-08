@@ -70,6 +70,12 @@ void Interpreter::EnterNode(const BlockNode& node) {
 }
 
 void Interpreter::EnterNode(const CallSuffixNode& node) {
+    Pointer<IVariable> exprRes;
+    if (!dynamic_cast<const IdentifierNode*>(node.GetExpression())) {
+        node.GetExpression()->RunVisitor(*this);
+        exprRes = PopFromStack();
+    }
+
     for (auto& it : node.GetArguments().GetArguments()) {
         it->RunVisitor(*this);
     }
@@ -85,38 +91,24 @@ void Interpreter::EnterNode(const CallSuffixNode& node) {
 
     if (funcSym->GetDeclaration() == nullptr) {
         if (funcSym->GetName() == "println") {
-            if (dynamic_cast<const IntegerSymbol*>(funcSym->GetParameter(0))) {
-                std::cout << params[0]->GetValue<int>() << std::endl;
-            } else if (dynamic_cast<const DoubleSymbol*>(funcSym->GetParameter(0))) {
-                double integral;
-                if (std::modf(params[0]->GetValue<double>(), &integral) == 0) {
-                    std::cout << std::fixed << std::setprecision(1) << params[0]->GetValue<double>() << std::endl;
-                } else {
-                    std::cout << params[0]->GetValue<double>() << std::endl;
-                }
-            } else if (dynamic_cast<const StringSymbol*>(funcSym->GetParameter(0))) {
-                std::cout << params[0]->GetValue<std::string>() << std::endl;
-            } else if (dynamic_cast<const BooleanSymbol*>(funcSym->GetParameter(0))) {
-                std::cout << (params[0]->GetValue<bool>() ? "true" : "false") << std::endl;
-            }
+            Println(funcSym, params);
         } else if (funcSym->GetName() == "arrayOf") {
-            std::vector<const IVariable*> argsRefs;
-            for (int i = 0; i < funcSym->GetParametersCount(); i++) {
-                argsRefs.push_back(LoadOnHeap(params[i]->Clone()));
-            }
-
-            StructArray* arrRef = dynamic_cast<StructArray*>(LoadOnHeap(std::make_unique<StructArray>(argsRefs)));
-            LoadOnStack(std::make_unique<Array>(arrRef));
+            ArrayOf(funcSym, params);
+        } else {
+            Cast(funcSym, exprRes.get());
         }
 
         return;
     }
 
-    
     auto funcDecl = dynamic_cast<const FunctionDeclaration*>(funcSym->GetDeclaration());
 
     if (funcDecl != nullptr) {
-        StackGuard guard(myStack, myVisibilityMap[funcSym], true);
+        StackFrame frame = myVisibilityMap[funcSym].Clone();
+        if (exprRes != nullptr) {
+            frame = dynamic_cast<Class*>(InterpreterUtil::TryDereference(exprRes.get()))->GetLocalSpace();
+        }
+        StackGuard guard(myStack, frame, true);
 
         for (int i = 0; i < params.size(); i++) {
             myStack.top().AddGlobal(funcDecl->GetParameters().GetParameters()[i]->GetIdentifierName(), params[i]);
@@ -330,9 +322,56 @@ void Interpreter::EnterNode(const ForNode& node) {
 void Interpreter::EnterNode(const MemberAccessNode& node) {
     node.GetExpression()->RunVisitor(*this);
     auto lhs = PopFromStack();
-    {
-        StackGuard guard(myStack, dynamic_cast<Class*>(InterpreterUtil::TryDereference(lhs.get()))->GetLocalSpace(), true);
-        node.GetMember()->RunVisitor(*this);
+    auto classVar = dynamic_cast<Class*>(InterpreterUtil::TryDereference(lhs.get()));
+
+    if (classVar == nullptr || !classVar->Contains(node.GetMember()->GetIdentifier())) {
+        LoadOnStack(std::move(lhs));
+        return;
     }
+
+    StackGuard guard(myStack, classVar->GetLocalSpace(), true);
+    node.GetMember()->RunVisitor(*this);
+}
+
+void Interpreter::Println(const FunctionSymbol* sym, const std::vector<IVariable*>& params) {
+    if (dynamic_cast<const IntegerSymbol*>(sym->GetParameter(0))) {
+        std::cout << params[0]->GetValue<int>() << std::endl;
+    } else if (dynamic_cast<const DoubleSymbol*>(sym->GetParameter(0))) {
+        double integral;
+        if (std::modf(params[0]->GetValue<double>(), &integral) == 0) {
+            std::cout << std::fixed << std::setprecision(1) << params[0]->GetValue<double>() << std::endl;
+        } else {
+            std::cout << params[0]->GetValue<double>() << std::endl;
+        }
+        std::cout.unsetf(std::ios_base::fixed);
+        std::cout << std::setprecision(16);
+    } else if (dynamic_cast<const StringSymbol*>(sym->GetParameter(0))) {
+        std::cout << params[0]->GetValue<std::string>() << std::endl;
+    } else if (dynamic_cast<const BooleanSymbol*>(sym->GetParameter(0))) {
+        std::cout << (params[0]->GetValue<bool>() ? "true" : "false") << std::endl;
+    }
+}
+
+void Interpreter::ArrayOf(const FunctionSymbol* sym, const std::vector<IVariable*>& params) {
+    std::vector<IVariable*> argsRefs;
+    for (int i = 0; i < sym->GetParametersCount(); i++) {
+        argsRefs.push_back(LoadOnHeap(params[i]->Clone()));
+    }
+
+    StructArray* arrRef = dynamic_cast<StructArray*>(LoadOnHeap(std::make_unique<StructArray>(argsRefs)));
+    LoadOnStack(std::make_unique<Array>(arrRef));
+}
+
+void Interpreter::Cast(const FunctionSymbol* sym, IVariable* var) {
+    auto valType = dynamic_cast<ValueType*>(InterpreterUtil::TryDereference(var));
+    Pointer<IVariable> res;
+    if (sym->GetName() == "toInt") {
+        res = valType->Cast(Integer(0));
+    } else if (sym->GetName() == "toString") {
+        res = valType->Cast(String(""));
+    } else if (sym->GetName() == "toDouble") {
+        res = valType->Cast(Double(0));
+    }
+    LoadOnStack(std::move(res));
 }
 

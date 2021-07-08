@@ -1,5 +1,8 @@
 #include "Variable.h"
 
+#include <iomanip>
+#include <sstream>
+
 Pointer<IVariable> IVariable::ApplyOperation(LexemeType operation, const Integer* rhs) const {
     throw std::invalid_argument("Invalid operation");
 }
@@ -32,12 +35,40 @@ Pointer<IVariable> IVariable::ApplyOperation(LexemeType operation) const {
     throw std::invalid_argument("Invalid operation");
 }
 
+Pointer<IVariable> ValueType::CastFrom(const Integer* val) const {
+    throw std::invalid_argument("Invalid operation");
+}
+
+Pointer<IVariable> ValueType::CastFrom(const Double* val) const {
+    throw std::invalid_argument("Invalid operation");
+}
+
+Pointer<IVariable> ValueType::CastFrom(const String* val) const {
+    throw std::invalid_argument("Invalid operation");
+}
+
+Pointer<IVariable> ValueType::CastFrom(const Boolean* val) const {
+    throw std::invalid_argument("Invalid operation");
+}
+
 Integer::Integer(int value) {
     SetValue(value);
 }
 
 Pointer<IVariable> Integer::Clone() const {
     return std::make_unique<Integer>(GetValue<int>());
+}
+
+Pointer<IVariable> Integer::Cast(const ValueType& resType) const {
+    return resType.CastFrom(this);
+}
+
+Pointer<IVariable> Integer::CastFrom(const Double* val) const {
+    return std::make_unique<Integer>(val->GetValue<double>());
+}
+
+Pointer<IVariable> Integer::CastFrom(const Boolean* val) const {
+    return std::make_unique<Integer>(val->GetValue<bool>());
 }
 
 Pointer<IVariable> Integer::ApplyOperation(LexemeType operation, const IVariable* lhs) const {
@@ -143,6 +174,14 @@ Double::Double(double value) {
 
 Pointer<IVariable> Double::Clone() const {
     return std::make_unique<Double>(GetValue<double>());
+}
+
+Pointer<IVariable> Double::Cast(const ValueType& resType) const {
+    return resType.CastFrom(this);
+}
+
+Pointer<IVariable> Double::CastFrom(const Integer* val) const {
+    return std::make_unique<Double>(val->GetValue<int>());
 }
 
 Pointer<IVariable> Double::ApplyOperation(LexemeType operation, const IVariable* lhs) const {
@@ -251,6 +290,10 @@ Pointer<IVariable> Boolean::Clone() const {
     return std::make_unique<Boolean>(GetValue<bool>());
 }
 
+Pointer<IVariable> Boolean::Cast(const ValueType& resType) const {
+    return resType.CastFrom(this);
+}
+
 Pointer<IVariable> Boolean::ApplyOperation(LexemeType operation, const IVariable* lhs) const {
     return lhs->ApplyOperation(operation, this);
 }
@@ -316,6 +359,29 @@ String::String(const std::string& value) {
     SetValue(value);
 }
 
+Pointer<IVariable> String::Cast(const ValueType& resType) const {
+    return resType.CastFrom(this);
+}
+
+Pointer<IVariable> String::CastFrom(const Boolean* val) const {
+    return std::make_unique<String>(val->GetValue<bool>() ? "true" : "false");
+}
+
+Pointer<IVariable> String::CastFrom(const Double* val) const {
+    std::stringstream ss;
+    double integral;
+    if (std::modf(val->GetValue<double>(), &integral) == 0) {
+        ss << std::fixed << std::setprecision(1) << val->GetValue<double>();
+    } else {
+        ss << val->GetValue<double>();
+    }
+    return std::make_unique<String>(ss.str());
+}
+
+Pointer<IVariable> String::CastFrom(const Integer* val) const {
+    return std::make_unique<String>(std::to_string(val->GetValue<int>()));
+}
+
 Pointer<IVariable> String::Clone() const {
     return std::make_unique<String>(GetValue<std::string>());
 }
@@ -375,15 +441,10 @@ Pointer<Boolean> Reference::CheckStrictEquality(LexemeType operation, const IVar
 }
 
 Pointer<IVariable> Reference::ApplyOperation(LexemeType operation, const IVariable* lhs) const {
-    //if (dynamic_cast<ValueType*>(GetValue<IVariable*>())) {
-    //    return GetValue<IVariable*>()->ApplyOperation(operation, lhs);
-    //}
-
     if (operation == LexemeType::OpStrictEq || operation == LexemeType::OpStrictIneq) {
         return CheckStrictEquality(operation, lhs);
     }
     return GetValue<IVariable*>()->ApplyOperation(operation, lhs);
-    //return lhs->ApplyOperation(operation, this);
 }
 
 Pointer<IVariable> Reference::ApplyOperation(LexemeType operation, const Integer* rhs) const {
@@ -424,7 +485,7 @@ Pointer<IVariable> Reference::ApplyOperation(LexemeType operation) const {
     return GetValue<IVariable*>()->ApplyOperation(operation);
 }
 
-StructArray::StructArray(const std::vector<const IVariable*>& src) {
+StructArray::StructArray(const std::vector<IVariable*>& src) {
     for (auto it : src) {
         myVariables.push_back(it->Clone());
     }

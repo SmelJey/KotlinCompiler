@@ -52,6 +52,10 @@ public:
 
     void EnterNode(const MemberAccessNode& node) override;
 
+    void Println(const FunctionSymbol* sym, const std::vector<IVariable*>& params);
+    void ArrayOf(const FunctionSymbol* sym, const std::vector<IVariable*>& params);
+    void Cast(const FunctionSymbol* sym, IVariable* var);
+
 private:
     const DeclarationBlock* myTree;
     const SymbolTable* myTable;

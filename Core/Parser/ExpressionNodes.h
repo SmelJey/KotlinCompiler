@@ -157,12 +157,12 @@ private:
 
 class MemberAccessNode : public AbstractUnaryPostfixNode {
 public:
-    MemberAccessNode(const Lexeme& lexeme, Pointer<IAnnotatedNode> expression, Pointer<IAnnotatedNode> member);
+    MemberAccessNode(const Lexeme& lexeme, Pointer<IAnnotatedNode> expression, Pointer<IdentifierNode> member);
 
     std::string GetOperation() const;
 
     const IAnnotatedNode* GetExpression() const;
-    IAnnotatedNode* GetMember() const;
+    IdentifierNode* GetMember() const;
 
     const ISymbol* GetSymbol() const override;
     const AbstractType* GetType() const override;
@@ -176,7 +176,7 @@ protected:
 
 private:
     Pointer<IAnnotatedNode> myExpression;
-    Pointer<IAnnotatedNode> myMemberNode;
+    Pointer<IdentifierNode> myMemberNode;
 };
 
 class IfExpression : public UnitTypedNode {

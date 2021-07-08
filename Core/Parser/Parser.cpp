@@ -621,7 +621,7 @@ Pointer<IAnnotatedNode> Parser::ParsePostfix() {
 }
 
 Pointer<MemberAccessNode> Parser::ParseMemberAccess(const Lexeme& operationLexeme, Pointer<IAnnotatedNode> operand) {
-    Pointer<IAnnotatedNode> member = CreateEmptyIdentifier(operationLexeme);
+    Pointer<IdentifierNode> member = CreateEmptyIdentifier(operationLexeme);
     Lexeme curLexeme = myLexer.GetLexeme();
 
     if (RequireLexeme(LexemeType::Identifier, "Name expected")) {

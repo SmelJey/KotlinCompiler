@@ -27,6 +27,10 @@ Pointer<Reference> StackFrame::GetVariable(const std::string& name) const {
     return InterpreterUtil::CreateReference(myGlobals.at(name));
 }
 
+bool StackFrame::Contains(const std::string& name) const {
+    return myLocals.count(name) + myGlobals.count(name) > 0;
+}
+
 void StackFrame::Load(Pointer<IVariable> val) {
     myExecutionStack.push(std::move(val));
 }

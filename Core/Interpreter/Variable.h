@@ -44,13 +44,24 @@ private:
     std::any myValue;
 };
 
-class ValueType : public IVariable {};
+class ValueType : public IVariable {
+public:
+    virtual Pointer<IVariable> Cast(const ValueType& resType) const = 0;
+    virtual Pointer<IVariable> CastFrom(const Integer* val) const;
+    virtual Pointer<IVariable> CastFrom(const Double* val) const;
+    virtual Pointer<IVariable> CastFrom(const String* val) const;
+    virtual Pointer<IVariable> CastFrom(const Boolean* val) const;
+};
 
 class Integer : public ValueType {
 public:
     explicit Integer(int value);
 
     Pointer<IVariable> Clone() const override;
+
+    Pointer<IVariable> Cast(const ValueType& resType) const override;
+    Pointer<IVariable> CastFrom(const Double* val) const override;
+    Pointer<IVariable> CastFrom(const Boolean* val) const override;
 
     Pointer<IVariable> ApplyOperation(LexemeType operation, const IVariable* lhs) const override;
     Pointer<IVariable> ApplyOperation(LexemeType operation, const Integer* rhs) const override;
@@ -67,6 +78,9 @@ public:
 
     Pointer<IVariable> Clone() const override;
 
+    Pointer<IVariable> Cast(const ValueType& resType) const override;
+    Pointer<IVariable> CastFrom(const Integer* val) const override;
+
     Pointer<IVariable> ApplyOperation(LexemeType operation, const IVariable* lhs) const override;
     Pointer<IVariable> ApplyOperation(LexemeType operation, const Integer* rhs) const override;
     Pointer<IVariable> ApplyOperation(LexemeType operation, const Double* rhs) const override;
@@ -82,6 +96,8 @@ public:
 
     Pointer<IVariable> Clone() const override;
 
+    Pointer<IVariable> Cast(const ValueType& resType) const override;
+
     Pointer<IVariable> ApplyOperation(LexemeType operation, const IVariable* lhs) const override;
     Pointer<IVariable> ApplyOperation(LexemeType operation, const Boolean* rhs) const override;
     Pointer<IVariable> ApplyOperation(LexemeType operation, const Range* rhs) const override;
@@ -93,6 +109,11 @@ public:
 class String : public ValueType {
 public:
     explicit String(const std::string& value);
+
+    Pointer<IVariable> Cast(const ValueType& resType) const override;
+    Pointer<IVariable> CastFrom(const Boolean* val) const override;
+    Pointer<IVariable> CastFrom(const Double* val) const override;
+    Pointer<IVariable> CastFrom(const Integer* val) const override;
 
     Pointer<IVariable> Clone() const override;
 
@@ -132,7 +153,7 @@ protected:
 
 class StructArray : public IVariable {
 public:
-    explicit StructArray(const std::vector<const IVariable*>& src);
+    explicit StructArray(const std::vector<IVariable*>& src);
 
     Pointer<IVariable> Clone() const override;
     Pointer<IVariable> ApplyOperation(LexemeType operation, const IVariable* lhs) const override;

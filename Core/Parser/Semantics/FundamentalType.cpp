@@ -43,7 +43,6 @@ BooleanSymbol::BooleanSymbol(SymbolTable* parentTable) : FundamentalType("Boolea
 
 void BooleanSymbol::Init() {
     CreateCast("toString", GetParentTable()->GetType("String"));
-    CreateCast("toByte", GetParentTable()->GetType("Int"));
 }
 
 Pointer<AbstractType> BooleanSymbol::IsApplicable(LexemeType operation) const {
@@ -134,7 +133,7 @@ void DoubleSymbol::Init() {
 
 Pointer<AbstractType> DoubleSymbol::IsApplicable(LexemeType operation) const {
     if (operation == LexemeType::OpAdd || operation == LexemeType::OpSub || operation == LexemeType::OpInc || operation == LexemeType::OpDec) {
-        return std::make_unique<IntegerSymbol>(GetParentTable());
+        return std::make_unique<DoubleSymbol>(GetParentTable());
     }
     return std::make_unique<UnresolvedSymbol>(GetParentTable());
 }

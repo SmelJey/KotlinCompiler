@@ -48,7 +48,6 @@
 @@ |-Array<Int>
 @@ |-Boolean
 @@ | |-SymbolTable
-@@ |   |-Fun toByte() -> Int
 @@ |   |-Fun toString() -> String
 @@ |-Double
 @@ | |-SymbolTable

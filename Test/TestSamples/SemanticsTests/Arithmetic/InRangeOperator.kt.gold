@@ -18,7 +18,6 @@
 @@ SymbolTable
 @@ |-Boolean
 @@ | |-SymbolTable
-@@ |   |-Fun toByte() -> Int
 @@ |   |-Fun toString() -> String
 @@ |-ClosedRange<Int>
 @@ |-Double

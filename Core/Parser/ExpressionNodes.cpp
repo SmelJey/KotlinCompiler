@@ -239,7 +239,7 @@ std::string CallSuffixNode::GetName() const {
     return "CallSuffix";
 }
 
-MemberAccessNode::MemberAccessNode(const Lexeme& lexeme, Pointer<IAnnotatedNode> expression, Pointer<IAnnotatedNode> member)
+MemberAccessNode::MemberAccessNode(const Lexeme& lexeme, Pointer<IAnnotatedNode> expression, Pointer<IdentifierNode> member)
     : AbstractUnaryPostfixNode(lexeme), myExpression(std::move(expression)), myMemberNode(std::move(member)) {}
 
 std::string MemberAccessNode::GetOperation() const {
@@ -250,7 +250,7 @@ const IAnnotatedNode* MemberAccessNode::GetExpression() const {
     return myExpression.get();
 }
 
-IAnnotatedNode* MemberAccessNode::GetMember() const {
+IdentifierNode* MemberAccessNode::GetMember() const {
     return myMemberNode.get();
 }
 
