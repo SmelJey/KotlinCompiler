@@ -50,6 +50,8 @@ public:
     void EnterNode(const DoWhileNode& node) override;
     void EnterNode(const ForNode& node) override;
 
+    void EnterNode(const MemberAccessNode& node) override;
+
 private:
     const DeclarationBlock* myTree;
     const SymbolTable* myTable;

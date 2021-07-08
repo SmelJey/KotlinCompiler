@@ -1,5 +1,7 @@
 #pragma once
 
+#include <stack>
+
 #include "DeclarationNodes.h"
 #include "ExpressionNodes.h"
 #include "ISyntaxNode.h"
@@ -121,5 +123,5 @@ private:
     std::vector<ParserError> mySemanticsErrors;
     bool wasError = false;
 
-    const AbstractType* myReturn = nullptr;
+    std::stack<const AbstractType*> myReturns;
 };

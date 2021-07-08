@@ -102,10 +102,12 @@ Pointer<FunctionDeclaration> Parser::ParseFunction() {
     Pointer<ParameterList> paramsNode = ParseParameters();
     Pointer<TypeNode> returnNode;
 
-    myReturn = myRootTable->GetUnitSymbol();
+    const AbstractType* returnType = myRootTable->GetUnitSymbol();
+    myReturns.push(nullptr);
     if (AcceptLexeme(LexemeType::OpColon)) {
         returnNode = ParseType();
-        myReturn = returnNode->GetType();
+        returnType = returnNode->GetType();
+        myReturns.top() = returnNode->GetType();
     }
 
     Pointer<FunctionDeclaration> functionDecl = std::make_unique<FunctionDeclaration>(std::move(identifier), myRootTable->GetUnitSymbol(), std::move(paramsNode));
@@ -116,7 +118,7 @@ Pointer<FunctionDeclaration> Parser::ParseFunction() {
         paramsTypes.push_back(it->GetTypeNode().GetType());
     }
 
-    Pointer<FunctionSymbol> funcSym = std::make_unique<FunctionSymbol>(functionDecl->GetIdentifierName(), myReturn,
+    Pointer<FunctionSymbol> funcSym = std::make_unique<FunctionSymbol>(functionDecl->GetIdentifierName(), returnType,
                                                                        paramsTypes, functionDecl.get());
 
     ISymbol* sym = myTable->GetParent()->Add(std::move(funcSym));
@@ -125,11 +127,17 @@ Pointer<FunctionDeclaration> Parser::ParseFunction() {
 
     if (AcceptLexeme(LexemeType::OpAssign)) {
         functionDecl->SetBody(ParseExpression());
-        if (*functionDecl->GetBody().GetType() != *myReturn) {
-            AddSemanticsError(functionDecl->GetBody().GetLexeme(), functionDecl->GetBody().GetType()->GetName() + " does not conform to the expected type " + myReturn->GetName());
-        }
+        myReturns.top() = functionDecl->GetBody().GetType();
     } else {
         functionDecl->SetBody(ParseBlock());
+    }
+
+    if (myReturns.top() == nullptr) {
+        myReturns.top() = myRootTable->GetUnitSymbol();
+    }
+
+    if (*myReturns.top() != *returnType) {
+        AddSemanticsError(functionDecl->GetBody().GetLexeme(), myReturns.top()->GetName() + " does not conform to the expected type " + returnType->GetName());
     }
 
     if (dynamic_cast<FunctionSymbol*>(sym)) {
@@ -138,6 +146,7 @@ Pointer<FunctionDeclaration> Parser::ParseFunction() {
         tableFrame.Dispose();
     }
 
+    myReturns.pop();
     return functionDecl;
 }
 
@@ -266,11 +275,11 @@ Pointer<IAnnotatedNode> Parser::ParseStatement() {
             returnNode->SetExpression(CreateEmptyStatement(myLexer.GetLexeme()));
         }
 
-        if (myReturn != nullptr && *myReturn != *returnNode->GetType()) {
+        if (myReturns.top() != nullptr && *myReturns.top() != *returnNode->GetType()) {
             AddSemanticsError(returnNode->GetLexeme(),
-                returnNode->GetType()->GetName() + " does not conform to the expected type " + myReturn->GetName());
+                returnNode->GetType()->GetName() + " does not conform to the expected type " + myReturns.top()->GetName());
         } else {
-            myReturn = returnNode->GetType();
+            myReturns.top() = returnNode->GetType();
         }
         
         return returnNode;

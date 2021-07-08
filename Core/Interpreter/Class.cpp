@@ -8,6 +8,10 @@ Pointer<Reference> Struct::GetVariable(const std::string& name) {
     return GetVariable(name);
 }
 
+StackFrame Struct::GetLocalSpace() {
+    return myFrame.Clone();
+}
+
 Pointer<IVariable> Struct::Clone() const {
     // TODO: fix
     throw;
@@ -21,6 +25,10 @@ Class::Class(Struct* data) : Reference(data) {}
 
 Pointer<Reference> Class::GetVariable(const std::string& name) {
     return Dereference<Struct>()->GetVariable(name);
+}
+
+StackFrame Class::GetLocalSpace() {
+    return Dereference<Struct>()->GetLocalSpace();
 }
 
 Pointer<Reference> Class::CloneRef() const {

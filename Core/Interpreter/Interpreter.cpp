@@ -327,3 +327,12 @@ void Interpreter::EnterNode(const ForNode& node) {
     }
 }
 
+void Interpreter::EnterNode(const MemberAccessNode& node) {
+    node.GetExpression()->RunVisitor(*this);
+    auto lhs = PopFromStack();
+    {
+        StackGuard guard(myStack, dynamic_cast<Class*>(InterpreterUtil::TryDereference(lhs.get()))->GetLocalSpace(), true);
+        node.GetMember()->RunVisitor(*this);
+    }
+}
+
