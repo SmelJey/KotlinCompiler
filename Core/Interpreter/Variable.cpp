@@ -82,7 +82,6 @@ Pointer<IVariable> Integer::ApplyOperation(LexemeType operation, const Integer* 
             return std::make_unique<Integer>(GetValue<int>() - rhs->GetValue<int>());
         case LexemeType::OpMult:
             return std::make_unique<Integer>(GetValue<int>() * rhs->GetValue<int>());
-            // TODO: check for zero division
         case LexemeType::OpDiv:
             return std::make_unique<Integer>(GetValue<int>() / rhs->GetValue<int>());
         case LexemeType::OpMod:
@@ -118,9 +117,7 @@ Pointer<IVariable> Integer::ApplyOperation(LexemeType operation, const Double* r
         case LexemeType::OpDiv:
             return std::make_unique<Double>(GetValue<int>() / rhs->GetValue<double>());
         case LexemeType::OpMod:
-            // TODO: make it work
-            throw;
-            //return std::make_unique<Double>(GetValue<int>() % rhs->GetValue<double>());
+            return std::make_unique<Double>(std::fmod(GetValue<int>(), rhs->GetValue<double>()));
         case LexemeType::OpLess:
             return std::make_unique<Boolean>(GetValue<int>() < rhs->GetValue<double>());
         case LexemeType::OpLessOrEq:
@@ -488,8 +485,7 @@ StructArray::StructArray(const std::vector<IVariable*>& src) {
 }
 
 Pointer<IVariable> StructArray::Clone() const {
-    // TODO: fix it
-    throw;
+    throw std::invalid_argument("Unsupported operation");
 }
 
 Pointer<IVariable> StructArray::ApplyOperation(LexemeType operation, const IVariable* lhs) const {
@@ -553,8 +549,7 @@ StructRange::StructRange(const IVariable* left, const IVariable* right) {
 }
 
 Pointer<IVariable> StructRange::Clone() const {
-    // TODO: fix it
-    throw;
+    throw std::invalid_argument("Unsupported operation");
 }
 
 Pointer<IVariable> StructRange::ApplyOperation(LexemeType operation, const IVariable* lhs) const {

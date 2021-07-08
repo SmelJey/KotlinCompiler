@@ -17,8 +17,7 @@ StackFrame Struct::GetLocalSpace() {
 }
 
 Pointer<IVariable> Struct::Clone() const {
-    // TODO: fix
-    throw;
+    throw std::invalid_argument("Unsupported operation");
 }
 
 Pointer<IVariable> Struct::ApplyOperation(LexemeType operation, const IVariable* lhs) const {

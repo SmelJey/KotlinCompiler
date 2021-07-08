@@ -577,7 +577,7 @@ Pointer<IAnnotatedNode> Parser::ParsePostfix() {
             MemberAccessNode* memberAccess = dynamic_cast<MemberAccessNode*>(operand.get());
 
             if (memberAccess != nullptr) {
-                identifier = dynamic_cast<IdentifierNode*>(memberAccess->GetMember());
+                identifier = memberAccess->GetMember();
             }
 
             if (identifier != nullptr) {
@@ -643,7 +643,6 @@ Pointer<MemberAccessNode> Parser::ParseMemberAccess(const Lexeme& operationLexem
         if (identifier != nullptr) {
             identifier->TryResolveVariable();
         }
-        auto classSym = dynamic_cast<const ClassSymbol*>(operand->GetType());
         std::vector<const ISymbol*> candidates = operand->GetType()->GetTable()->GetSymbols(curLexeme.GetValue<std::string>());
 
         Pointer<IdentifierNode> memberIdentifier = CreateLexemeNode(curLexeme, myRootTable->GetUnresolvedSymbol(), candidates);
@@ -720,16 +719,13 @@ Pointer<IAnnotatedNode> Parser::ParsePrimary() {
 
     myLexer.NextLexeme();
     if (LexerUtils::IsIntegerType(curLexeme.GetType())) {
-        Pointer<IntegerNode> node = CreateLexemeNode<IntegerNode>(curLexeme, myTable->GetType(IntegerSymbol(myRootTable).GetName()));
-        return node;
+        return CreateLexemeNode<IntegerNode>(curLexeme, myTable->GetType(IntegerSymbol(myRootTable).GetName()));;
     }
     if (LexerUtils::IsRealType(curLexeme.GetType())) {
-        Pointer<DoubleNode> node = CreateLexemeNode<DoubleNode>(curLexeme, myTable->GetType(DoubleSymbol(myRootTable).GetName()));
-        return node;
+        return CreateLexemeNode<DoubleNode>(curLexeme, myTable->GetType(DoubleSymbol(myRootTable).GetName()));;
     }
     if (curLexeme.GetType() == LexemeType::String || curLexeme.GetType() == LexemeType::RawString) {
-        Pointer<StringNode> node = CreateLexemeNode<StringNode>(curLexeme, myTable->GetType(StringSymbol(myRootTable).GetName()));
-        return node;
+        return CreateLexemeNode<StringNode>(curLexeme, myTable->GetType(StringSymbol(myRootTable).GetName()));;
     }
 
     AddParsingError(curLexeme, "Unexpected lexeme");

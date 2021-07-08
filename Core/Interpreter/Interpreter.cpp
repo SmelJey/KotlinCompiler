@@ -27,9 +27,7 @@ void Interpreter::RunMain() {
     myStack.push(myStack.top().Clone());
     try {
         dynamic_cast<const FunctionDeclaration*>(myMain->GetDeclaration())->GetBody().RunVisitor(*this);
-    } catch (const ReturnException&) {
-        
-    }
+    } catch (const ReturnException&) {}
 }
 
 IVariable* Interpreter::LoadOnHeap(Pointer<IVariable> variable) {
@@ -106,28 +104,7 @@ void Interpreter::EnterNode(const CallSuffixNode& node) {
     }
 
     auto funcDecl = dynamic_cast<const FunctionDeclaration*>(funcSym->GetDeclaration());
-
-    if (funcDecl != nullptr) {
-        StackFrame frame = myVisibilityMap[funcSym].Clone();
-        if (exprRes != nullptr) {
-            frame = dynamic_cast<Class*>(InterpreterUtil::TryDereference(exprRes.get()))->GetLocalSpace();
-        }
-        StackGuard guard(myStack, frame, true);
-
-        for (int i = 0; i < params.size(); i++) {
-            myStack.top().AddGlobal(funcDecl->GetParameters().GetParameters()[i]->GetIdentifierName(), params[i]);
-        }
-
-        try {
-            funcDecl->GetBody().RunVisitor(*this);
-        } catch (const ReturnException&) {
-            if (myReturn != nullptr) {
-                LoadOnStack(std::move(myReturn));
-            }
-
-            myReturn = nullptr;
-        }
-    } else {
+    if (funcDecl == nullptr) {
         auto classDecl = dynamic_cast<const ClassDeclaration*>(funcSym->GetDeclaration());
         myStack.push(myVisibilityMap[classDecl->GetSymbol()].Clone());
 
@@ -138,6 +115,27 @@ void Interpreter::EnterNode(const CallSuffixNode& node) {
         Struct* classData = dynamic_cast<Struct*>(LoadOnHeap(std::make_unique<Struct>(std::move(myStack.top()))));
         myStack.pop();
         LoadOnStack(std::make_unique<Class>(classData));
+        return;
+    }
+
+    StackFrame frame = myVisibilityMap[funcSym].Clone();
+    if (exprRes != nullptr) {
+        frame = dynamic_cast<Class*>(InterpreterUtil::TryDereference(exprRes.get()))->GetLocalSpace();
+    }
+    StackGuard guard(myStack, frame, true);
+
+    for (uint32_t i = 0; i < params.size(); i++) {
+        myStack.top().AddGlobal(funcDecl->GetParameters().GetParameters()[i]->GetIdentifierName(), params[i]);
+    }
+
+    try {
+        funcDecl->GetBody().RunVisitor(*this);
+    } catch (const ReturnException&) {
+        if (myReturn != nullptr) {
+            LoadOnStack(std::move(myReturn));
+        }
+
+        myReturn = nullptr;
     }
 }
 
@@ -170,9 +168,11 @@ void Interpreter::EnterNode(const BinOperationNode& node) {
     node.GetLeftOperand().RunVisitor(*this);
     node.GetRightOperand().RunVisitor(*this);
 
-    Pointer<IVariable> rhs = PopFromStack();
-    Pointer<IVariable> lhs = PopFromStack();
-    LoadOnStack(InterpreterUtil::TryDereference(rhs.get())->ApplyOperation(node.GetLexeme().GetType(), InterpreterUtil::TryDereference(lhs.get())));
+    Pointer<IVariable> rhsRef = PopFromStack();
+    Pointer<IVariable> lhsRef = PopFromStack();
+    IVariable* rhs = InterpreterUtil::TryDereference(rhsRef.get());
+    IVariable* lhs = InterpreterUtil::TryDereference(lhsRef.get());
+    LoadOnStack(rhs->ApplyOperation(node.GetLexeme().GetType(), lhs));
 }
 
 void Interpreter::EnterNode(const IntegerNode& node) {
@@ -211,19 +211,24 @@ void Interpreter::EnterNode(const Assignment& node) {
 
     switch (node.GetLexeme().GetType()) {
         case LexemeType::OpPlusAssign:
-            exprRes = InterpreterUtil::TryDereference(exprRes.get())->ApplyOperation(LexemeType::OpAdd, InterpreterUtil::TryDereference(assignable.get()));
+            exprRes = InterpreterUtil::TryDereference(exprRes.get())->ApplyOperation(
+                LexemeType::OpAdd, InterpreterUtil::TryDereference(assignable.get()));
             break;
         case LexemeType::OpMinusAssign:
-            exprRes = InterpreterUtil::TryDereference(exprRes.get())->ApplyOperation(LexemeType::OpSub, InterpreterUtil::TryDereference(assignable.get()));
+            exprRes = InterpreterUtil::TryDereference(exprRes.get())->ApplyOperation(
+                LexemeType::OpSub, InterpreterUtil::TryDereference(assignable.get()));
             break;
         case LexemeType::OpMultAssign:
-            exprRes = InterpreterUtil::TryDereference(exprRes.get())->ApplyOperation(LexemeType::OpMult, InterpreterUtil::TryDereference(assignable.get()));
+            exprRes = InterpreterUtil::TryDereference(exprRes.get())->ApplyOperation(
+                LexemeType::OpMult, InterpreterUtil::TryDereference(assignable.get()));
             break;
         case LexemeType::OpDivAssign:
-            exprRes = InterpreterUtil::TryDereference(exprRes.get())->ApplyOperation(LexemeType::OpDiv, InterpreterUtil::TryDereference(assignable.get()));
+            exprRes = InterpreterUtil::TryDereference(exprRes.get())->ApplyOperation(
+                LexemeType::OpDiv, InterpreterUtil::TryDereference(assignable.get()));
             break;
         case LexemeType::OpModAssign:
-            exprRes = InterpreterUtil::TryDereference(exprRes.get())->ApplyOperation(LexemeType::OpMod, InterpreterUtil::TryDereference(assignable.get()));
+            exprRes = InterpreterUtil::TryDereference(exprRes.get())->ApplyOperation(
+                LexemeType::OpMod, InterpreterUtil::TryDereference(assignable.get()));
             break;
     }
 
@@ -303,9 +308,6 @@ void Interpreter::EnterNode(const ForNode& node) {
     
     auto iterable = dynamic_cast<IterableRef*>(InterpreterUtil::TryDereference(iterablePtr.get()));
     int iterableSize = iterable->Size();
-    if (iterableSize <= 0) {
-        return;
-    }
 
     for (int i = 0; i < iterableSize; i++) {
         Pointer<IVariable> iteratorRef = iterable->GetIterator(i);
@@ -338,12 +340,13 @@ void Interpreter::EnterNode(const MemberAccessNode& node) {
 }
 
 void Interpreter::Println(const FunctionSymbol* sym, const std::vector<IVariable*>& params) {
+    std::cout.unsetf(std::ios_base::fixed);
+    std::cout << std::setprecision(16);
+
     if (dynamic_cast<const IntegerSymbol*>(sym->GetParameter(0))) {
         std::cout << params[0]->GetValue<int>() << std::endl;
     } else if (dynamic_cast<const DoubleSymbol*>(sym->GetParameter(0))) {
         double integral;
-        std::cout.unsetf(std::ios_base::fixed);
-        std::cout << std::setprecision(16);
         if (std::modf(params[0]->GetValue<double>(), &integral) == 0) {
             std::cout << std::fixed << std::setprecision(1) << params[0]->GetValue<double>() << std::endl;
         } else {

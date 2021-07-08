@@ -41,8 +41,8 @@ Configuration ParseCommandLineArgs(int argc, char** argv) {
     ConfigurationBuilder builder;
 
     if (optionsMap.count(FILES_KEY) == 0) {
-        // TODO: make custom exception
-        throw "No files to compile";
+        std::cout << "No files to compile" << std::endl;
+        return builder.Build();
     }
 
     builder.AddPaths(optionsMap[FILES_KEY].as<std::vector<std::string>>());
@@ -61,6 +61,9 @@ Configuration ParseCommandLineArgs(int argc, char** argv) {
 
 int main(int argc, char** argv) {
     const Configuration configuration = ParseCommandLineArgs(argc, argv);
+    if (configuration.GetPaths().empty()) {
+        return 0;
+    }
 
     std::ifstream ifs(configuration.GetPaths()[0]);
 
@@ -119,6 +122,5 @@ int main(int argc, char** argv) {
 
     Interpreter interpreter(syntaxTree.get(), &symTable);
     interpreter.RunMain();
-
     return 0;
 }

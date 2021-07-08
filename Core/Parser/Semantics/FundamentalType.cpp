@@ -53,7 +53,6 @@ Pointer<AbstractType> BooleanSymbol::IsApplicable(LexemeType operation) const {
     return std::make_unique<UnresolvedSymbol>(GetParentTable());
 }
 
-// TODO: Refactor
 Pointer<AbstractType> BooleanSymbol::IsApplicable(LexemeType binaryOperation, const AbstractType* rightOperand) const {
     if (*rightOperand == *this) {
         if (LexerUtils::IsBoolOperation(binaryOperation)) {
