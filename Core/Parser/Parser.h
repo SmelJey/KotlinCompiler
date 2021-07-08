@@ -124,4 +124,5 @@ private:
     bool wasError = false;
 
     std::stack<const AbstractType*> myReturns;
+    int inLoop = 0;
 };

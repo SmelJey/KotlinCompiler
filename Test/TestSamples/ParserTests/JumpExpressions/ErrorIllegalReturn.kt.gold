@@ -1,0 +1,17 @@
+@@ Decl Block
+@@ |-Class Decl
+@@   |-Identifier :: A
+@@   |-Decl Block
+@@     |-Val Decl
+@@       |-Identifier :: a
+@@       |-If Expr
+@@         |-Bin op :: >
+@@         | |-Integer :: 3
+@@         | |-Integer :: 2
+@@         |-Block
+@@         | |-Return
+@@         | | |-Empty Statement
+@@         | |-Integer :: 3
+@@         |-Block
+@@           |-Integer :: 2
+@@ Error 2:23 :: 'return' is not allowed here

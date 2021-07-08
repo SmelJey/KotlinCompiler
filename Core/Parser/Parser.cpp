@@ -260,9 +260,15 @@ Pointer<IAnnotatedNode> Parser::ParseStatement() {
         return ParseIfExpression(curLexeme);
     }
     if (AcceptLexeme(LexemeType::Keyword, "break")) {
+        if (inLoop == 0) {
+            AddParsingError(curLexeme, "'break' and 'continue' are only allowed inside loop");
+        }
         return CreateLexemeNode<BreakNode, UnitTypeSymbol>(curLexeme, myRootTable->GetUnitSymbol());
     }
     if (AcceptLexeme(LexemeType::Keyword, "continue")) {
+        if (inLoop == 0) {
+            AddParsingError(curLexeme, "'break' and 'continue' are only allowed inside loop");
+        }
         return CreateLexemeNode<ContinueNode, UnitTypeSymbol>(curLexeme, myRootTable->GetUnitSymbol());
     }
     if (AcceptLexeme(LexemeType::Keyword, "return")) {
@@ -275,7 +281,9 @@ Pointer<IAnnotatedNode> Parser::ParseStatement() {
             returnNode->SetExpression(CreateEmptyStatement(myLexer.GetLexeme()));
         }
 
-        if (myReturns.top() != nullptr && *myReturns.top() != *returnNode->GetType()) {
+        if (myReturns.empty()) {
+            AddParsingError(returnNode->GetLexeme(), "'return' is not allowed here");
+        } else if (myReturns.top() != nullptr && *myReturns.top() != *returnNode->GetType()) {
             AddSemanticsError(returnNode->GetLexeme(),
                 returnNode->GetType()->GetName() + " does not conform to the expected type " + myReturns.top()->GetName());
         } else {
@@ -322,6 +330,7 @@ Pointer<IAnnotatedNode> Parser::ParseControlStructureBody(bool acceptSemicolons 
 
 // 'for' '(' (variableDeclaration | multiVariableDeclaration) 'in' expression ')' controlStructureBody?
 Pointer<ForNode> Parser::ParseForLoop(const Lexeme& lexeme) {
+    inLoop++;
     SymbolsFrame forFrame(&myTable);
 
     RequireLexeme(LexemeType::LParen, "Expecting '(' to open a loop range");
@@ -346,11 +355,13 @@ Pointer<ForNode> Parser::ParseForLoop(const Lexeme& lexeme) {
         body = ParseControlStructureBody();
     }
 
+    inLoop--;
     return std::make_unique<ForNode>(lexeme, std::move(expr), std::move(body), std::move(variable), myRootTable->GetUnitSymbol());
 }
 
 // 'while' '(' expression ')' (controlStructureBody | ';')
 Pointer<WhileNode> Parser::ParseWhileLoop(const Lexeme& lexeme) {
+    inLoop++;
     SymbolsFrame tableFrame(&myTable);
 
     RequireLexeme(LexemeType::LParen, "Expecting '('");
@@ -359,11 +370,13 @@ Pointer<WhileNode> Parser::ParseWhileLoop(const Lexeme& lexeme) {
     RequireLexeme(LexemeType::RParen, "Expecting ')'");
     Pointer<ISyntaxNode> body = ParseControlStructureBody(true);
 
+    inLoop--;
     return std::make_unique<WhileNode>(lexeme, std::move(expr), std::move(body), myRootTable->GetUnitSymbol());
 }
 
 // 'do' controlStructureBody 'while' '(' expression ')'
 Pointer<DoWhileNode> Parser::ParseDoWhileLoop(const Lexeme& lexeme) {
+    inLoop++;
     SymbolsFrame tableFrame(&myTable);
 
     Pointer<ISyntaxNode> body = ParseControlStructureBody();
@@ -374,6 +387,7 @@ Pointer<DoWhileNode> Parser::ParseDoWhileLoop(const Lexeme& lexeme) {
     CheckType<BooleanSymbol>(expr->GetType(), expr->GetLexeme());
     RequireLexeme(LexemeType::RParen, "Expecting ')'");
 
+    inLoop--;
     return std::make_unique<DoWhileNode>(lexeme, std::move(expr), std::move(body), myRootTable->GetUnitSymbol());
 }
 

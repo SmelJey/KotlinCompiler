@@ -1,0 +1,7 @@
+@@ Decl Block
+@@ |-Fun Decl
+@@   |-Identifier :: main
+@@   |-Params
+@@   |-Block
+@@     |-Break
+@@ Error 2:2 :: 'break' and 'continue' are only allowed inside loop
