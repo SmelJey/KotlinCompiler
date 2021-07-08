@@ -1,0 +1,57 @@
+@@ Decl Block
+@@ |-Fun Decl                                                  :: test
+@@ | |-Identifier :: test                                      :: test
+@@ | |-Params
+@@ | |-Block                                                   :: Unit
+@@ |-Fun Decl                                                  :: test
+@@ | |-Identifier :: test                                      :: test
+@@ | |-Params
+@@ | | |-Parameter                                             :: a
+@@ | |   |-Identifier :: a                                     :: a
+@@ | |   |-Type :: Array                                       :: Array<Int>
+@@ | |     |-TypeArgs
+@@ | |       |-Type :: Int                                     :: Int
+@@ | |-Block                                                   :: Unit
+@@ |-Fun Decl                                                  :: test
+@@   |-Identifier :: test                                      :: test
+@@   |-Params
+@@   | |-Parameter                                             :: a
+@@   | | |-Identifier :: a                                     :: a
+@@   | | |-Type :: Array                                       :: Array<Int>
+@@   | |   |-TypeArgs
+@@   | |     |-Type :: Int                                     :: Int
+@@   | |-Parameter                                             :: b
+@@   |   |-Identifier :: b                                     :: b
+@@   |   |-Type :: String                                      :: String
+@@   |-Type :: Array                                           :: Array<Int>
+@@   | |-TypeArgs
+@@   |   |-Type :: Int                                         :: Int
+@@   |-Identifier :: a                                         :: a
+@@ ====
+@@ SymbolTable
+@@ |-Array<Int>
+@@ |-Boolean
+@@ | |-SymbolTable
+@@ |   |-Fun toString() -> String
+@@ |-Double
+@@ | |-SymbolTable
+@@ |   |-Fun toInt() -> Int
+@@ |   |-Fun toString() -> String
+@@ |-Int
+@@ | |-SymbolTable
+@@ |   |-Fun toDouble() -> Double
+@@ |   |-Fun toString() -> String
+@@ |-String
+@@ |-Fun println(String) -> Unit
+@@ |-Fun println(Int) -> Unit
+@@ |-Fun println(Double) -> Unit
+@@ |-Fun println(Boolean) -> Unit
+@@ |-Fun println() -> Unit
+@@ |-Fun test() -> Unit
+@@ |-Fun test(Array<Int>) -> Unit
+@@ | |-SymbolTable
+@@ |   |-Val a : Array<Int>
+@@ |-Fun test(Array<Int>, String) -> Array<Int>
+@@   |-SymbolTable
+@@     |-Val a : Array<Int>
+@@     |-Val b : String

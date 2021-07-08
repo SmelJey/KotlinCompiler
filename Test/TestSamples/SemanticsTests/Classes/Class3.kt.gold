@@ -1,0 +1,48 @@
+@@ Decl Block
+@@ |-Class Decl                                                :: A
+@@   |-Identifier :: A                                         :: A
+@@   |-Decl Block
+@@     |-Val Decl                                              :: a
+@@     | |-Identifier :: a                                     :: a
+@@     | |-Type :: Array                                       :: Array<Int>
+@@     | | |-TypeArgs
+@@     | |   |-Type :: Int                                     :: Int
+@@     | |-CallSuffix                                          :: Array<Int>
+@@     |   |-Identifier :: arrayOf                             :: arrayOf
+@@     |   |-Args
+@@     |   | |-Integer :: 1                                    :: Int
+@@     |   | |-Integer :: 2                                    :: Int
+@@     |   | |-Integer :: 3                                    :: Int
+@@     |   |-TypeArgs
+@@     |     |-Type :: Int                                     :: Int
+@@     |-Fun Decl                                              :: test
+@@       |-Identifier :: test                                  :: test
+@@       |-Params
+@@       |-Type :: Int                                         :: Int
+@@       |-Integer :: 2                                        :: Int
+@@ ====
+@@ SymbolTable
+@@ |-Class A
+@@ | |-SymbolTable
+@@ |   |-Val a : Array<Int>
+@@ |   |-Fun test() -> Int
+@@ |-Fun A() -> A
+@@ |-Array<Int>
+@@ |-Boolean
+@@ | |-SymbolTable
+@@ |   |-Fun toString() -> String
+@@ |-Double
+@@ | |-SymbolTable
+@@ |   |-Fun toInt() -> Int
+@@ |   |-Fun toString() -> String
+@@ |-Int
+@@ | |-SymbolTable
+@@ |   |-Fun toDouble() -> Double
+@@ |   |-Fun toString() -> String
+@@ |-String
+@@ |-Fun arrayOf(Int, Int, Int) -> Array<Int>
+@@ |-Fun println(String) -> Unit
+@@ |-Fun println(Int) -> Unit
+@@ |-Fun println(Double) -> Unit
+@@ |-Fun println(Boolean) -> Unit
+@@ |-Fun println() -> Unit
