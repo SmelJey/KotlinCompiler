@@ -32,3 +32,7 @@ TEST_CASE("Interpreter Classes", "[Interpreter]") {
 TEST_CASE("Interpreter Casts", "[Interpreter]") {
     InterpreterTest::RunTests("Casts/");
 }
+
+TEST_CASE("Interpreter Complex tests", "[Interpreter]") {
+    InterpreterTest::RunTests("Complex/");
+}

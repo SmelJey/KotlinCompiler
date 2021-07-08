@@ -1,0 +1,16 @@
+@@ Decl Block
+@@ |-Fun Decl
+@@   |-Identifier :: main
+@@   |-Params
+@@   |-Block
+@@     |-DoWhile
+@@       |-Identifier :: 
+@@       |-While
+@@         |-Boolean :: false
+@@         |-Identifier :: 
+@@ Error 4:1 :: Unexpected lexeme
+@@ Error 4:2 :: Expecting 'while' followed by a post-condition
+@@ Error 4:2 :: Expecting '('
+@@ Error 4:2 :: Unexpected lexeme
+@@ Error 4:2 :: Expecting ')'
+@@ Error 4:2 :: Expecting '}'

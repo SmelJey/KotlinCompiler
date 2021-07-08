@@ -338,13 +338,13 @@ void Interpreter::Println(const FunctionSymbol* sym, const std::vector<IVariable
         std::cout << params[0]->GetValue<int>() << std::endl;
     } else if (dynamic_cast<const DoubleSymbol*>(sym->GetParameter(0))) {
         double integral;
+        std::cout.unsetf(std::ios_base::fixed);
+        std::cout << std::setprecision(16);
         if (std::modf(params[0]->GetValue<double>(), &integral) == 0) {
             std::cout << std::fixed << std::setprecision(1) << params[0]->GetValue<double>() << std::endl;
         } else {
             std::cout << params[0]->GetValue<double>() << std::endl;
         }
-        std::cout.unsetf(std::ios_base::fixed);
-        std::cout << std::setprecision(16);
     } else if (dynamic_cast<const StringSymbol*>(sym->GetParameter(0))) {
         std::cout << params[0]->GetValue<std::string>() << std::endl;
     } else if (dynamic_cast<const BooleanSymbol*>(sym->GetParameter(0))) {
