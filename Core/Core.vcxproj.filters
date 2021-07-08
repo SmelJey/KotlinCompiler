@@ -117,9 +117,6 @@
     <ClInclude Include="Interpreter\InterpreterUtil.h">
       <Filter>Header Files\Interpreter</Filter>
     </ClInclude>
-    <ClInclude Include="Interpreter\InterpreterError.h">
-      <Filter>Header Files\Interpreter</Filter>
-    </ClInclude>
     <ClInclude Include="Interpreter\StackFrame.h">
       <Filter>Header Files\Interpreter</Filter>
     </ClInclude>
@@ -129,7 +126,7 @@
     <ClInclude Include="Interpreter\StackGuard.h">
       <Filter>Header Files\Interpreter</Filter>
     </ClInclude>
-    <ClInclude Include="Interpreter\JumpException.h">
+    <ClInclude Include="Interpreter\InterpreterExceptions.h">
       <Filter>Header Files\Interpreter</Filter>
     </ClInclude>
     <ClInclude Include="Interpreter\Class.h">
@@ -201,9 +198,6 @@
       <Filter>Source Files\Interpreter</Filter>
     </ClCompile>
     <ClCompile Include="Interpreter\InterpreterUtil.cpp">
-      <Filter>Source Files\Interpreter</Filter>
-    </ClCompile>
-    <ClCompile Include="Interpreter\InterpreterError.cpp">
       <Filter>Source Files\Interpreter</Filter>
     </ClCompile>
     <ClCompile Include="Interpreter\StackFrame.cpp">

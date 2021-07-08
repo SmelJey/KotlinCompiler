@@ -5,7 +5,7 @@
 
 #include "Class.h"
 #include "InterpreterUtil.h"
-#include "JumpException.h"
+#include "InterpreterExceptions.h"
 #include "StackGuard.h"
 #include "../Parser/DeclarationNodes.h"
 #include "../Parser/ExpressionNodes.h"
@@ -16,7 +16,11 @@ Interpreter::Interpreter(const DeclarationBlock* syntaxTree, const SymbolTable* 
     : myTree(syntaxTree), myTable(symbolTable), myMain(InterpreterUtil::FindMainEntry(symbolTable)) {}
 
 void Interpreter::RunMain() {
-    // TODO: Check if no main function
+    if (myMain == nullptr) {
+        std::cout << "No main method found in project" << std::endl;
+        return;
+    }
+
     myStack.push(StackFrame());
     myTree->RunVisitor(*this);
 

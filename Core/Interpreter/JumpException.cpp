@@ -1,4 +1,4 @@
-#include "JumpException.h"
+#include "InterpreterExceptions.h"
 
 JumpException::JumpException(const char* message) : std::exception(message) {}
 

@@ -159,9 +159,8 @@
     <ClInclude Include="InputBuffer.h" />
     <ClInclude Include="Interpreter\Class.h" />
     <ClInclude Include="Interpreter\Interpreter.h" />
-    <ClInclude Include="Interpreter\InterpreterError.h" />
     <ClInclude Include="Interpreter\InterpreterUtil.h" />
-    <ClInclude Include="Interpreter\JumpException.h" />
+    <ClInclude Include="Interpreter\InterpreterExceptions.h" />
     <ClInclude Include="Interpreter\StackFrame.h" />
     <ClInclude Include="Interpreter\StackGuard.h" />
     <ClInclude Include="Interpreter\Variable.h" />
@@ -190,7 +189,6 @@
   <ItemGroup>
     <ClCompile Include="Interpreter\Class.cpp" />
     <ClCompile Include="Interpreter\Interpreter.cpp" />
-    <ClCompile Include="Interpreter\InterpreterError.cpp" />
     <ClCompile Include="Interpreter\InterpreterUtil.cpp" />
     <ClCompile Include="Interpreter\JumpException.cpp" />
     <ClCompile Include="Interpreter\StackFrame.cpp" />
