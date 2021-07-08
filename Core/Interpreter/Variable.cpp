@@ -199,9 +199,7 @@ Pointer<IVariable> Double::ApplyOperation(LexemeType operation, const Integer* r
         case LexemeType::OpDiv:
             return std::make_unique<Double>(GetValue<double>() / rhs->GetValue<int>());
         case LexemeType::OpMod:
-            // TODO: make it work
-            throw;
-            //return std::make_unique<Double>(GetValue<double>() % rhs->GetValue<int>());
+            return std::make_unique<Double>(std::fmod(GetValue<double>(), rhs->GetValue<int>()));
         case LexemeType::OpLess:
             return std::make_unique<Boolean>(GetValue<double>() < rhs->GetValue<int>());
         case LexemeType::OpLessOrEq:
@@ -225,9 +223,7 @@ Pointer<IVariable> Double::ApplyOperation(LexemeType operation, const Double* rh
         case LexemeType::OpDiv:
             return std::make_unique<Double>(GetValue<double>() / rhs->GetValue<double>());
         case LexemeType::OpMod:
-            // TODO: make it work
-            //return std::make_unique<Double>(GetValue<double>() % rhs->GetValue<double>());
-            throw;
+            return std::make_unique<Double>(std::fmod(GetValue<double>(), rhs->GetValue<double>()));
         case LexemeType::OpEqual:
         case LexemeType::OpStrictEq:
             return std::make_unique<Boolean>(GetValue<double>() == rhs->GetValue<double>());

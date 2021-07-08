@@ -63,9 +63,8 @@ private:
     const FunctionSymbol* myMain;
 
     std::stack<StackFrame> myStack;
-    //std::vector<>
+
     std::vector<Pointer<IVariable>> myHeap;
     std::map<const ISymbol*, StackFrame> myVisibilityMap;
-
     Pointer<IVariable> myReturn;
 };
