@@ -21,5 +21,8 @@ You can check grammar [on a special page](GRAMMAR.md)
 	<li> Jump expressions are now statements. </li>
 </ul>
 
+## Tests:
+Tests are implemented with Catch2. For interpreter tests download official Kotlin compiler (tested with native version) and build Compiler on Release configuration first. Only then launch tests.
+
 ## Author
 Yuriy Mikhalev - 3rd year student of Applied Mathematics and Informatics (Far Eastern Federal University, Б8118-01.03.02систпро)
