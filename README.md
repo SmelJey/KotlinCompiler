@@ -41,7 +41,7 @@ Next flags are supported:
 </ul>
 
 ## Tests:
-Tests are implemented with [Catch2](https://github.com/catchorg/Catch2). In order to launch interpreter tests, install [the official Kotlin compiler](https://kotlinlang.org/docs/command-line.html#compile-a-library) (tested with native version) and build Compiler on Release configuration first. Then you are ready to go.
+Tests are implemented with [Catch2](https://github.com/catchorg/Catch2). In order to launch interpreter tests, install [the official Kotlin compiler](https://kotlinlang.org/docs/command-line.html#compile-a-library) (tested with native version) and build Compiler on Release configuration. Then you are ready to go.
 
 ## Author
-Yuriy Mikhalev - 3rd year student of Applied Mathematics and Informatics (Far Eastern Federal University, Б8118-01.03.02систпро)
+Yuriy Mikhalev - 3rd year student of Applied Mathematics and Informatics (Far Eastern Federal University)
