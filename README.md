@@ -15,7 +15,10 @@ You can check grammar [on a special page](GRAMMAR.md)
 <ul>
 	<li> Every entity should be declared before the first usage; </li>
 	<li> Function return type should be explicit, if it is not 'Unit'; </li>
-	<li> No 'this' keyword; </li>
+	<li> No 'this' keyword, no visibility / abstract modifiers, no constructors and init block, no nested classes; </li>
+	<li> No lambdas, object literals; </li>
+	<li> No Boolean ranges (yes they are exist) and progressions (i.e. 'step' and 'downTo' keyword are not supported) </li>
+	<li> Jump expressions are now statements. </li>
 </ul>
 
 ## Author
